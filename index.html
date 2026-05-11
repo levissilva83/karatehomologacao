@@ -4670,18 +4670,18 @@
         .stu-ct-lib-btn.on { background:rgba(201,162,58,0.08); border-color:#C9A23A; color:#C9A23A; }
         /* Grid de CTs liberados — cards ricos */
         .stu-cts-lib-grid { display:flex; flex-direction:column; gap:8px; }
-        .stu-ct-lib-card { display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1.5px solid var(--border); background:var(--bg-elevated); cursor:pointer; transition:all 0.18s; user-select:none; }
+        .stu-ct-lib-card { display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1.5px solid rgba(26,22,18,0.10); background:#EDE9DF; cursor:pointer; transition:all 0.18s; user-select:none; }
         .stu-ct-lib-card:active { transform:scale(0.98); }
         .stu-ct-lib-card.on { border-color:#C9A23A; background:rgba(201,162,58,0.05); }
-        .stu-ct-lib-card-check { width:22px; height:22px; border-radius:6px; border:1.5px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; transition:all 0.18s; }
+        .stu-ct-lib-card-check { width:22px; height:22px; border-radius:6px; border:1.5px solid rgba(26,22,18,0.15); background:transparent; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; transition:all 0.18s; }
         .stu-ct-lib-card.on .stu-ct-lib-card-check { border-color:#C9A23A; background:#C9A23A; color:#000; }
         .stu-ct-lib-card-body { flex:1; min-width:0; }
-        .stu-ct-lib-card-name { font-size:13px; font-weight:700; color:var(--text-1); margin-bottom:2px; }
+        .stu-ct-lib-card-name { font-size:13px; font-weight:700; color:#1A1614; margin-bottom:2px; }
         .stu-ct-lib-card.on .stu-ct-lib-card-name { color:#C9A23A; }
-        .stu-ct-lib-card-days { font-size:10px; color:var(--text-3); }
-        .stu-ct-lib-card-days .day-pill { display:inline-block; padding:1px 5px; border-radius:4px; background:var(--bg-card); margin-right:3px; font-weight:600; }
+        .stu-ct-lib-card-days { font-size:10px; color:#7A6A5A; }
+        .stu-ct-lib-card-days .day-pill { display:inline-block; padding:1px 5px; border-radius:4px; background:#F4F1EA; margin-right:3px; font-weight:600; }
         .stu-ct-lib-card-days .day-pill.hoje { background:rgba(201,162,58,0.12); color:var(--accent); }
-        .stu-ct-lib-card-status { font-size:10px; color:var(--text-3); flex-shrink:0; text-align:right; }
+        .stu-ct-lib-card-status { font-size:10px; color:#7A6A5A; flex-shrink:0; text-align:right; }
         .stu-ct-lib-card.on .stu-ct-lib-card-status { color:#C9A23A; }
         /* CT liberado no Perfil do aluno */
         .perfil-ct-lib-btn { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border); background:var(--bg-elevated); color:var(--text-1); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
@@ -5029,18 +5029,18 @@
             max-width: 460px;
             margin: 0 auto;
             min-height: 100vh;
-            background: var(--bg);
+            background: #F4F1EA;
             padding: 0;
         }
         .stu-modal-header {
             position: sticky;
             top: 0;
             z-index: 10;
-            background: rgba(10,10,15,0.97);
+            background: #1A1614;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: env(safe-area-inset-top, 8px) 12px 0 12px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .stu-modal-toprow {
             display: flex;
@@ -5049,8 +5049,8 @@
             padding: 10px 0 10px 0;
         }
         .stu-modal-back {
-            background: rgba(255,255,255,0.06); border: none;
-            color: var(--text-1); font-size: 16px; font-weight: 600;
+            background: rgba(255,255,255,0.10); border: none;
+            color: #FFFFFF; font-size: 16px; font-weight: 600;
             cursor: pointer; padding: 8px 14px;
             border-radius: 10px;
             display: flex; align-items: center; gap: 6px;
@@ -5062,7 +5062,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 15px;
             font-weight: 700;
-            color: var(--text-1);
+            color: #FFFFFF;
             text-align: center;
             position: absolute; left: 50%; transform: translateX(-50%);
             pointer-events: none;
@@ -5082,7 +5082,8 @@
         .stu-modal-save:active { opacity: 0.7; }
         .stu-modal-save:disabled { opacity: 0.4; }
 
-        .stu-modal-body { padding: 16px; }
+        .stu-modal-body { padding: 16px; color: #1A1614; }
+        /* stu-modal: cores definidas diretamente nas regras abaixo */
 
         /* Student hero in modal */
         .stu-hero {
@@ -5100,30 +5101,31 @@
             font-family: 'Inter', sans-serif;
         }
         .stu-hero-name {
-            font-family: 'Inter', sans-serif;
-            font-size: 18px; font-weight: 700; color: var(--text-1);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 18px; font-weight: 700; color: #1A1614;
         }
-        .stu-hero-email { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+        .stu-hero-email { font-size: 12px; color: #7A6A5A; margin-top: 2px; }
         .stu-hero-stats {
             display: flex; justify-content: center; gap: 16px; margin-top: 10px;
         }
         .stu-hero-stat { text-align: center; }
-        .stu-hero-stat-num { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: var(--gold); }
-        .stu-hero-stat-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); font-weight: 600; }
+        .stu-hero-stat-num { font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 800; color: #C8A84B; }
+        .stu-hero-stat-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: #8A7060; font-weight: 600; }
 
         /* Edit sections */
+        /* ── Editar Aluno — todas as cores absolutas para garantir legibilidade ── */
         .stu-section {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            background: #FFFFFF;
+            border: 1px solid rgba(26,22,18,0.10);
             border-radius: 14px;
             padding: 14px;
             margin-bottom: 12px;
         }
         .stu-section-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-2);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            color: #6B5D52;
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -5134,31 +5136,35 @@
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-3);
-            font-weight: 600;
+            color: #8A7060;
+            font-weight: 700;
             margin-bottom: 4px;
         }
         .stu-field input, .stu-field select, .stu-field textarea {
             width: 100%;
             box-sizing: border-box;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
+            background: #F8F5F0;
+            border: 1.5px solid rgba(26,22,18,0.14);
             border-radius: 8px;
             padding: 10px 12px;
-            color: var(--text-1);
+            color: #1A1614;
             font-size: 13px;
             font-family: inherit;
         }
+        .stu-field input::placeholder { color: #B0A090; }
         .stu-field textarea { resize: vertical; min-height: 60px; }
         .stu-field input:focus, .stu-field select:focus, .stu-field textarea:focus {
-            outline: none; border-color: var(--gold);
+            outline: none;
+            border-color: #C41E3A;
+            background: #FFFFFF;
         }
-        .stu-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stu-field-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .stu-field-row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
         .stu-toggle-row {
             display: flex; align-items: center; justify-content: space-between;
             padding: 10px 0;
+            color: #1A1614;
         }
         .stu-toggle-label { font-size: 13px; color: var(--text-2); font-weight: 600; }
         .stu-toggle {
@@ -5277,7 +5283,7 @@
         .stu-modal-msg.error { display: block; background: rgba(231,76,60,0.12); color: #EF4444; }
 
         .stu-danger-zone {
-            border-top: 1px solid rgba(231,76,60,0.2);
+            border-top: 1px solid rgba(196,30,58,0.15);
             padding-top: 16px;
             margin-top: 8px;
         }
@@ -9978,69 +9984,6 @@
                         <p>Saúde do sistema, configurações e perfil</p>
                     </div>
 
-                    <!-- ══════════════════════════════════════════════════════
-                         PAINEL ESTILO KARATÊ — seleção e gestão de faixas
-                         ═════════════════════════════════════════════════════ -->
-                    <div class="admin-section" id="estiloKarateSection" style="margin-bottom:20px;">
-                        <div class="admin-section-header">
-                            <div class="admin-section-title">🥋 Estilo de Karatê do Dojo</div>
-                            <button class="admin-refresh-btn" onclick="loadEstiloKarate()">↻</button>
-                        </div>
-                        <p style="font-size:11px;color:var(--adm-text-3);margin-bottom:12px;">
-                            Selecione o estilo praticado no seu dojo. Apenas as faixas desse estilo serão visíveis para os alunos.
-                        </p>
-                        <div style="margin-bottom:16px;">
-                            <label style="font-size:11px;font-weight:700;color:var(--adm-text-2);display:block;margin-bottom:6px;">ESTILO ATIVO</label>
-                            <select id="estiloKarateSelect" onchange="previewEstilo(this.value)" style="width:100%;padding:10px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;font-weight:600;">
-                                <option value="karate_shotokan">🥋 Shotokan (JKA/WKF)</option>
-                                <option value="karate_kyokushin">🥋 Kyokushin (IKO Matsui)</option>
-                                <option value="karate_goju_ryu">🥋 Goju-Ryu (IOGKF)</option>
-                                <option value="karate_wado_ryu">🥋 Wado-Ryu (WJKO)</option>
-                                <option value="karate_shito_ryu">🥋 Shito-Ryu (WSKF)</option>
-                                <option value="karate_shorin_ryu">🥋 Shorin-Ryu (Okinawa)</option>
-                                <option value="karate_shotokai">🥋 Shotokai (Egami)</option>
-                                <option value="karate_kenpo">🥋 Kenpo Karatê (WKKA)</option>
-                                <option value="karate_uechi_ryu">🥋 Uechi-Ryu (Okinawa)</option>
-                                <option value="karate_personalizado">⚙️ Estilo Personalizado</option>
-                            </select>
-                        </div>
-                        <div id="estiloFaixasPreview" style="margin-bottom:16px;font-size:12px;color:var(--adm-text-2);"></div>
-                        <button onclick="salvarEstiloKarate()" style="width:100%;padding:10px;background:var(--adm-primary);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:16px;">
-                            💾 Salvar Estilo do Dojo
-                        </button>
-                        <div style="border-top:1px solid var(--adm-border);padding-top:14px;">
-                            <div style="font-size:11px;font-weight:700;color:var(--adm-text-2);margin-bottom:10px;letter-spacing:.4px;">⚙️ GERENCIAR FAIXAS</div>
-                            <p style="font-size:10px;color:var(--adm-text-3);margin-bottom:10px;">Adicione, reordene ou remova faixas do estilo. Arraste para reordenar.</p>
-                            <div id="faixasAdminList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
-                            <div id="novaFaixaForm" style="background:var(--adm-bg-elevated);border-radius:8px;padding:12px;margin-bottom:10px;display:none;">
-                                <div style="font-size:11px;font-weight:700;color:var(--adm-text-1);margin-bottom:10px;">+ Nova Faixa</div>
-                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
-                                    <div><label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:3px;">ID (sem espaços)</label>
-                                    <input id="novaFaixaId" placeholder="ex: Laranja-Preta" style="width:100%;padding:7px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>
-                                    <div><label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:3px;">Emoji</label>
-                                    <input id="novaFaixaEmoji" placeholder="🟠" style="width:100%;padding:7px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>
-                                </div>
-                                <div style="margin-bottom:8px;"><label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:3px;">Label completo</label>
-                                <input id="novaFaixaLabel" placeholder="ex: Laranja c/ Ponta Preta (9° Kyu)" style="width:100%;padding:7px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>
-                                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
-                                    <div><label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:3px;">Cor</label>
-                                    <input id="novaFaixaCor" type="color" value="#fb8c00" style="width:100%;height:34px;padding:2px;background:var(--adm-bg-card);border:1px solid var(--adm-border);border-radius:6px;cursor:pointer;"></div>
-                                    <div><label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:3px;">Mín. meses</label>
-                                    <input id="novaFaixaMeses" type="number" value="3" min="0" style="width:100%;padding:7px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>
-                                    <div><label style="font-size:10px;color:var(--adm-text-3);display:block;margin-bottom:3px;">Max. graus</label>
-                                    <input id="novaFaixaGraus" type="number" value="4" min="0" max="9" style="width:100%;padding:7px;background:var(--adm-bg-card);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;"></div>
-                                </div>
-                                <div style="display:flex;gap:8px;">
-                                    <button onclick="salvarNovaFaixaAdmin()" style="flex:1;padding:8px;background:var(--adm-green);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">✅ Adicionar</button>
-                                    <button onclick="document.getElementById('novaFaixaForm').style.display='none'" style="padding:8px 14px;background:transparent;color:var(--adm-text-3);border:1px solid var(--adm-border);border-radius:6px;font-size:12px;cursor:pointer;">Cancelar</button>
-                                </div>
-                            </div>
-                            <button onclick="document.getElementById('novaFaixaForm').style.display=document.getElementById('novaFaixaForm').style.display==='none'?'block':'none'" style="width:100%;padding:9px;background:transparent;color:var(--adm-primary);border:1px dashed var(--adm-border-accent);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">
-                                + Adicionar Nova Faixa
-                            </button>
-                        </div>
-                        <div id="estiloKarateMsgAdmin" style="margin-top:10px;font-size:12px;"></div>
-                    </div>
 
                     <!-- ── Sub-tab navigation ── -->
                     <div class="sis-subtab-nav" id="sisStsNav">
@@ -10049,8 +9992,7 @@
                             <span class="sis-stab-icon">🔧</span>Sistema
                         </button>
                         <button class="sis-subtab-btn" id="sisBtnAssinante"
-                            onclick="sisSwitchTab('assinante')"
-                            style="display:none;">
+                            onclick="sisSwitchTab('assinante')">
                             <span class="sis-stab-icon">💳</span>Assinatura
                         </button>
                     </div>
@@ -10375,14 +10317,27 @@
                                 <div style="font-size:15px;font-weight:800;color:var(--adm-text-1);">➕ Nova Modalidade</div>
                                 <button onclick="closeNewModalidadeModal()" style="background:none;border:none;color:var(--adm-text-3);font-size:20px;cursor:pointer;">✕</button>
                             </div>
-                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:14px;line-height:1.6;">O sistema reconhecerá automaticamente o sistema de graduação com base no tipo escolhido.</div>
+                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:12px;line-height:1.6;">
+                                Crie sub-modalidades derivadas do estilo do seu dojo.<br>
+                                <strong style="color:var(--adm-primary);">O ID deve começar com o prefixo do seu estilo.</strong>
+                            </div>
+                            <!-- Prefixo obrigatório -->
+                            <div style="background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:8px;padding:10px 12px;margin-bottom:12px;">
+                                <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;">Prefixo obrigatório (estilo do dojo)</div>
+                                <div id="newModPrefixoLabel" style="font-size:13px;font-weight:800;color:var(--adm-primary);letter-spacing:.5px;">karate_shotokan_</div>
+                                <div style="font-size:10px;color:var(--adm-text-3);margin-top:4px;">Exemplos: <span id="newModExemplos" style="color:var(--adm-text-2);">karate_shotokan_kids, karate_shotokan_adulto</span></div>
+                            </div>
                             <div style="margin-bottom:10px;">
-                                <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">ID único (sem espaços)</label>
-                                <input type="text" id="newModId" placeholder="ex: karate_kyokushin" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Sufixo do ID <span style="color:var(--adm-text-3);">(o prefixo é adicionado automaticamente)</span></label>
+                                <div style="display:flex;align-items:center;gap:4px;">
+                                    <span id="newModPrefixoSpan" style="font-size:12px;font-weight:700;color:var(--adm-primary);white-space:nowrap;padding:9px 6px 9px 0;">karate_shotokan_</span>
+                                    <input type="text" id="newModSuffix" placeholder="kids" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9]/g,'')" style="flex:1;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                </div>
+                                <input type="hidden" id="newModId" value="">
                             </div>
                             <div style="margin-bottom:10px;">
                                 <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Nome exibido</label>
-                                <input type="text" id="newModNome" placeholder="ex: Kung Fu" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                <input type="text" id="newModNome" placeholder="ex: Shotokan Kids" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
                             </div>
                             <div style="display:flex;gap:8px;margin-bottom:10px;">
                                 <div style="flex:1;">
@@ -11193,18 +11148,13 @@
                     <!-- ══ MODALIDADES ══ -->
                     <div class="stu-field" id="stuModalidadesSection" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
                         <label style="display:flex;align-items:center;gap:6px;color:var(--text-1);font-weight:700;">
-                            🎯 Modalidades
+                            🥋 Estilo do Dojo
                         </label>
                         <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
-                            Marque as modalidades que este aluno pratica no CT. Cada modalidade terá seu próprio perfil de graduação e check-in.
+                            Modalidade praticada no CT — define o sistema de graduação e check-in do aluno.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-                        <div style="margin-top:12px;">
-                            <label style="font-size:11px;color:var(--text-3);font-weight:600;display:block;margin-bottom:5px;">⭐ Modalidade Principal (carregada no login)</label>
-                            <select id="stuModalidadePrincipal" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                                <option value="">— Selecione a principal —</option>
-                            </select>
-                        </div>
+
                     </div>
                 </div>
 
@@ -11528,7 +11478,7 @@
         var _ctmId = (function() {
             try { return localStorage.getItem('ctm_id') || 'matrix'; } catch(e) { return 'matrix'; }
         })();
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzq8titlPPO1Z8sUGCiKLTwO5GUMocojGD2fGMLTZbFmLu30Btm0PuGD_muPurmt0hC1w/exec'
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeOXdlRclAIQIcPwn4P7gKGXSyaeg_6azg_2GBmAxdGaFVHPMlkUpZqT33jE9zhU_68w/exec'
                          + '?ctm=' + _ctmId;
 
         // ── Verifica se o cliente existe no registry ──────────────
@@ -12737,6 +12687,12 @@
 
             var isSingle = userModalidades.length === 1;
 
+            // ── Auto-entrar se há só 1 modalidade no dojo ──
+            if (isSingle && userModalidades[0]) {
+                setTimeout(function() { enterModalidade(userModalidades[0]); }, 50);
+                return;
+            }
+
             // ── Atualiza textos do hero ──
             var nameEl   = document.getElementById('modHomeName');
             var subEl    = document.getElementById('modHomeSub');
@@ -12781,8 +12737,7 @@
                 // Delay escalonado para entrada animada
                 card.style.animationDelay = (idx * 0.08) + 's';
 
-                var badgePrincipal = isPrincipal
-                    ? '<span class="mod-home-card-badge-principal">⭐ Principal</span>' : '';
+                var badgePrincipal = ''; // sem badge com estilo único por dojo
 
                 var enterBtnHtml = isSingle
                     ? '<button class="mod-home-enter-btn" onclick="enterModalidade(\'' + modId + '\')">' +
@@ -13205,284 +13160,12 @@
          * Renderiza a seção de perfil principal na aba Perfil
          */
         function renderPerfilPrincipalSection() {
-            var section = document.getElementById('perfilSecModalidades');
-            var list = document.getElementById('perfilModalidadesList');
-            if (!section || !list) return;
-
-            if (userModalidades.length <= 1) {
-                section.style.display = 'none';
-                return;
-            }
-
-            section.style.display = 'block';
-            list.innerHTML = '';
-
-            userModalidades.forEach(function(modId) {
-                var mod = getModalidadeById(modId);
-                if (!mod) return;
-                var isPrincipal = modId === _modalidadePrincipal;
-                var row = document.createElement('div');
-                row.className = 'mod-principal-row' + (isPrincipal ? ' is-principal' : '');
-                row.innerHTML =
-                    '<span class="mod-pr-icon">' + mod.icon + '</span>' +
-                    '<div class="mod-pr-info">' +
-                        '<div class="mod-pr-name">' + mod.nome + '</div>' +
-                        '<div class="mod-pr-sub">' + (isPrincipal ? '⭐ Perfil principal — carregado no login' : 'Toque para definir como principal') + '</div>' +
-                    '</div>' +
-                    '<span class="mod-pr-star">⭐</span>';
-                if (!isPrincipal) {
-                    row.onclick = function() { setPerfilPrincipal(modId); };
-                }
-                list.appendChild(row);
-            });
+            // Com estilo único por dojo, não há seleção manual de modalidade principal
+            // O _dojoEstilo já define qual modalidade o aluno usa
+            var el = document.getElementById('perfilPrincipalSection');
+            if (el) el.style.display = 'none';
         }
 
-        /**
-         * Popula o grid de modalidades no modal do admin (stuModalidadesGrid)
-         * chamado ao abrir o modal de edição de aluno
-         */
-        // v4.9 — usa faixas/níveis do schema de cada modalidade; não mistura BJJ com Muay Thai
-        function renderStuModalidadesGrid(currentMods, principalMod, modalidadesGrad) {
-            var grid = document.getElementById('stuModalidadesGrid');
-            var principalSel = document.getElementById('stuModalidadePrincipal');
-            if (!grid) return;
-            grid.innerHTML = '';
-            if (principalSel) principalSel.innerHTML = '<option value="">— Selecione a principal —</option>';
-            var activeMods = (currentMods || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
-            var gradData   = modalidadesGrad || {};
-            MODALIDADES_CATALOG.forEach(function(mod) {
-                var isChecked  = activeMods.indexOf(mod.id) !== -1;
-                var modGrad    = gradData[mod.id] || {};
-                var nivelSalvo = modGrad.nivel || modGrad.faixa || ''; // v4.9: suporta 'nivel' e legado 'faixa'
-                var grauSalvo  = parseInt(modGrad.grau) || 0;
-
-                // Schema da modalidade via ModalidadeGuard
-                var schema    = ModalidadeGuard.getSchema(mod.id);
-                var hasFaixa  = schema && ModalidadeGuard.hasFaixa(mod.id);
-                var hasPrajied= schema && ModalidadeGuard.hasPrajied(mod.id);
-                var hasCorda  = schema && ModalidadeGuard.hasCorda(mod.id);
-                var hasGrad   = schema && ModalidadeGuard.hasGraduacao(mod.id);
-                var faixasArr = hasGrad ? ModalidadeGuard.getFaixas(mod.id) : [];
-                var maxGraus  = (schema && schema.graduacao.maxGrausPorFaixa != null) ? schema.graduacao.maxGrausPorFaixa : 4;
-                var labelNivel= ModalidadeGuard.getNomenclatura(mod.id, 'faixa') || 'Faixa';
-                var labelGrau = ModalidadeGuard.getNomenclatura(mod.id, 'grau')  || 'Grau';
-                var showGrau  = hasFaixa && !hasPrajied; // grau numérico só em faixa_cintura
-
-                // ── Preta/top faixa: graus especiais (somente adultos com faixa_cintura) ──
-                // _isKids calculado abaixo no bloco BJJ; aqui ainda é false (adulto por padrão)
-                var _isKids = false; // ← declarado antes de ser usado
-                if (hasFaixa && !hasPrajied && !hasCorda && !_isKids) {
-                    var faixasList  = ModalidadeGuard.getFaixas(mod.id) || [];
-                    var ultimaFaixa = faixasList.length > 0 ? faixasList[faixasList.length - 1] : null;
-                    if (ultimaFaixa && nivelSalvo === ultimaFaixa.id) {
-                        maxGraus = 6; // Faixa Preta: graus 1°–6°
-                    }
-                }
-                // ── Filtro por idade: usa data de nascimento do aluno para mostrar só Kids ou Adulto ──
-                if (hasGrad && faixasArr.length > 0) {
-                    // Busca nascimento: 1) campo do formulário 2) cache de alunos 3) currentUser
-                    var _nascInput = document.getElementById('stuNascimento');
-                    var _nascVal   = (_nascInput && _nascInput.value) ? _nascInput.value : '';
-                    if (!_nascVal && stuModalEmail && typeof adminStudentsCache !== 'undefined') {
-                        var _stuCached = adminStudentsCache.find(function(st){ return st.email === stuModalEmail; });
-                        if (_stuCached && _stuCached.nascimento) _nascVal = _stuCached.nascimento;
-                    }
-                    if (!_nascVal && typeof currentUser !== 'undefined' && currentUser && currentUser.nascimento) {
-                        _nascVal = currentUser.nascimento;
-                    }
-                    var _idade = _nascVal ? calcIdade(_nascVal) : null;
-
-                    // Para BJJ: forçar filtro por idade mesmo sem idadeMin/idadeMax nas faixas
-                    // Kids = labels contêm "(Kids)" ; Adulto = não contêm
-                    var _isKarateCompatMod = (mod.id === 'karate');
-                    if (_isKarateCompatMod && _idade !== null) {
-                        var _isKidsByAge = _idade < 16;
-                        faixasArr = faixasArr.filter(function(f) {
-                            var lbl = (f.label || f.id || '').toLowerCase();
-                            var isKidsFaixa = lbl.includes('kids') || lbl.includes('cinza') || lbl.includes('amarela-branca') ||
-                                              lbl.includes('laranja-branca') || lbl.includes('verde-branca') ||
-                                              lbl.includes('amarela-preta') || lbl.includes('laranja-preta') || lbl.includes('verde-preta') ||
-                                              ['Cinza-Branca','Cinza','Cinza-Preta','Amarela-Branca','Amarela-Preta',
-                                               'Laranja-Branca','Laranja','Laranja-Preta','Verde-Branca','Verde','Verde-Preta'].indexOf(f.id) !== -1;
-                            // Para alunos Kids só mostra Kids; para adultos só mostra Adulto
-                            return _isKidsByAge ? isKidsFaixa : !isKidsFaixa;
-                        });
-                        if (faixasArr.length === 0) {
-                            // fallback: usa getFaixasPorIdade
-                            faixasArr = ModalidadeGuard.getFaixasPorIdade(mod.id, _nascVal) || ModalidadeGuard.getFaixas(mod.id);
-                        }
-                        _isKids = _isKidsByAge;
-                        if (_isKids) { labelNivel = 'Faixa (Kids)'; showGrau = false; }
-                    }
-
-                    var _temFiltroIdade = faixasArr.some(function(f){ return (f.idadeMin > 0) || (f.idadeMax > 0); });
-                    if (_temFiltroIdade && _idade !== null) {
-                        var _ff = faixasArr.filter(function(f) {
-                            var minOk = !f.idadeMin || _idade >= f.idadeMin;
-                            var maxOk = !f.idadeMax || _idade <= f.idadeMax;
-                            return minOk && maxOk;
-                        });
-                        if (_ff.length > 0) {
-                            faixasArr = _ff;
-                            _isKids = faixasArr.every(function(f){ return f.idadeMax > 0 && f.idadeMax <= 15; });
-                            if (_isKids) {
-                                labelNivel = 'Faixa (Kids)';
-                                var _fkObj = faixasArr.find(function(f){ return f.id === nivelSalvo; }) || faixasArr[0];
-                                maxGraus = _fkObj ? (_fkObj.maxGrau || 0) : 0;
-                                showGrau = maxGraus > 0;
-                            }
-                        }
-                    }
-                }
-                // ──────────────────────────────────────────────────
-
-                var wrapper = document.createElement('div');
-                wrapper.style.cssText = 'width:100%;margin-bottom:6px;';
-                var label = document.createElement('label');
-                label.className = 'stu-mod-checkbox';
-                label.style.cssText = 'display:flex;align-items:center;gap:8px;cursor:pointer;padding:8px 10px;border-radius:8px;border:1px solid ' + (isChecked ? 'var(--accent)' : 'var(--border)') + ';background:var(--bg-elevated);transition:border-color 0.15s;';
-                var chk = document.createElement('input');
-                chk.type = 'checkbox'; chk.value = mod.id; chk.name = 'stuMod'; chk.checked = isChecked;
-                chk.style.cssText = 'width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;';
-                var span = document.createElement('span');
-                span.className = 'stu-mod-lbl'; span.textContent = mod.icon + ' ' + mod.nome;
-                span.style.cssText = 'font-size:13px;font-weight:600;flex:1;';
-                label.appendChild(chk); label.appendChild(span); wrapper.appendChild(label);
-
-                var gradBlock = document.createElement('div');
-                gradBlock.id = 'stuGradBlock_' + mod.id;
-                gradBlock.style.cssText = 'display:' + (isChecked ? 'flex' : 'none') + ';gap:8px;margin-top:2px;padding:8px 10px;background:rgba(255,255,255,0.03);border-radius:0 0 8px 8px;border:1px solid var(--border);border-top:none;';
-
-                if (faixasArr.length > 0) {
-                    if (hasPrajied) {
-                        // ── Muay Thai: Kruang Prajied — select único com os 11 graus ──
-                        var fw = document.createElement('div'); fw.style.cssText = 'flex:1;';
-                        var fl = document.createElement('label'); fl.style.cssText = 'font-size:10px;color:var(--text-3);display:block;margin-bottom:3px;'; fl.textContent = 'Graduação Muay Thai (Kruang Prajied)';
-                        var fs = document.createElement('select'); fs.id = 'stuFaixa_' + mod.id; fs.style.cssText = 'width:100%;padding:6px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:13px;';
-                        faixasArr.forEach(function(f, idx) {
-                            var o = document.createElement('option');
-                            o.value = f.id;
-                            var grauNum = (f.grau !== undefined && f.grau !== null) ? f.grau
-                                        : (parseInt(f.id) > 0 ? parseInt(f.id) : idx + 1);
-                            var labelClean = (f.label || '').replace(/\s*\(Grau\s*\d+\)\s*/i, '').trim();
-                            var nivelStr = f.nivel ? ' (' + f.nivel + ')' : '';
-                            // Avoid duplicate: nivelStr already includes labelClean in some schemas
-                            var displayStr = nivelStr && nivelStr !== labelClean && !nivelStr.includes(labelClean)
-                                ? 'Grau ' + grauNum + ' — ' + labelClean + ' ' + nivelStr
-                                : 'Grau ' + grauNum + ' — ' + labelClean;
-                            o.textContent = (f.emoji ? f.emoji + ' ' : '') + displayStr;
-                            var grauSalvoNum = parseInt(nivelSalvo) || grauSalvo;
-                            if (f.id === nivelSalvo || String(grauNum) === String(nivelSalvo) || grauNum === grauSalvoNum) o.selected = true;
-                            fs.appendChild(o);
-                        });
-                        fw.appendChild(fl); fw.appendChild(fs); gradBlock.appendChild(fw);
-                    } else if (hasCorda) {
-                        // ── Tipo corda: Sistema de Cordões ──
-                        var fw = document.createElement('div'); fw.style.cssText = 'flex:1;';
-                        var fl = document.createElement('label'); fl.style.cssText = 'font-size:10px;color:var(--text-3);display:block;margin-bottom:3px;'; fl.textContent = '🪢 Cordão';
-                        var fs = document.createElement('select'); fs.id = 'stuFaixa_' + mod.id; fs.style.cssText = 'width:100%;padding:6px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:13px;';
-                        faixasArr.forEach(function(f) {
-                            var o = document.createElement('option');
-                            o.value = f.id;
-                            o.textContent = (f.emoji ? f.emoji + ' ' : '') + f.cordao + ' (' + f.nivel + ')';
-                            if (f.id === nivelSalvo || f.cordao === nivelSalvo) o.selected = true;
-                            fs.appendChild(o);
-                        });
-                        fw.appendChild(fl); fw.appendChild(fs); gradBlock.appendChild(fw);
-                        // Nível auto-exibido (não editável) — atualiza ao mudar select
-                        var nivelDiv = document.createElement('div');
-                        nivelDiv.id = 'stuCordaNivel_' + mod.id;
-                        nivelDiv.style.cssText = 'margin-top:6px;font-size:11px;color:var(--text-3);font-style:italic;padding:4px 8px;background:rgba(22,163,74,0.08);border-radius:6px;border:1px solid rgba(22,163,74,0.15);';
-                        var _initialFaixa = faixasArr.find(function(f){ return f.id === nivelSalvo || f.cordao === nivelSalvo; }) || faixasArr[0];
-                        nivelDiv.textContent = '📋 Nível: ' + (_initialFaixa ? _initialFaixa.nivel : '—');
-                        gradBlock.appendChild(nivelDiv);
-                        fs.addEventListener('change', function() {
-                            var _sel = faixasArr.find(function(f){ return f.id === this.value; }.bind(this));
-                            var _nd  = document.getElementById('stuCordaNivel_' + mod.id);
-                            if (_nd) _nd.textContent = '📋 Nível: ' + (_sel ? _sel.nivel : '—');
-                        });
-                    } else {
-                        // ── Demais modalidades: nível/faixa + grau numérico ──
-                        var fw = document.createElement('div'); fw.style.cssText = 'flex:1;';
-                        var fl = document.createElement('label'); fl.style.cssText = 'font-size:10px;color:var(--text-3);display:block;margin-bottom:3px;'; fl.textContent = labelNivel;
-                        var fs = document.createElement('select'); fs.id = 'stuFaixa_' + mod.id; fs.style.cssText = 'width:100%;padding:6px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:12px;';
-                        faixasArr.forEach(function(f) {
-                            var o = document.createElement('option');
-                            o.value = f.id || f.label || f;
-                            o.textContent = (f.emoji ? f.emoji + ' ' : '') + (f.label || f);
-                            if (o.value === nivelSalvo || f.label === nivelSalvo) o.selected = true;
-                            fs.appendChild(o);
-                        });
-                        fw.appendChild(fl); fw.appendChild(fs); gradBlock.appendChild(fw);
-
-                        // Campo grau — somente para modalidades com faixa na cintura
-                        if (showGrau) {
-                            var gw = document.createElement('div'); gw.style.cssText = 'width:80px;flex-shrink:0;';
-                            var gl = document.createElement('label'); gl.style.cssText = 'font-size:10px;color:var(--text-3);display:block;margin-bottom:3px;'; gl.textContent = labelGrau;
-                            var gs = document.createElement('select'); gs.id = 'stuGrau_' + mod.id; gs.style.cssText = 'width:100%;padding:6px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:6px;font-size:12px;';
-                            for (var g = 0; g <= maxGraus; g++) { var go = document.createElement('option'); go.value = g; go.textContent = g + 'º'; if (g === grauSalvo) go.selected = true; gs.appendChild(go); }
-                            gw.appendChild(gl); gw.appendChild(gs); gradBlock.appendChild(gw);
-
-                            // ── Atualiza graus dinamicamente ao trocar a faixa ──────
-                            // Faixas intermediárias: 0°–4°  |  Faixa mais alta: 1°–6°
-                            // Kids BJJ: Branca = 0°–4°, demais faixas coloridas = sem grau
-                            (function(faixasSel, grauSel, faixasList2, modIdLocal) {
-                                function _updateGrauRange() {
-                                    var selId       = faixasSel.value;
-                                    var faixaObj    = faixasList2.find(function(f){ return f.id === selId; });
-                                    var ultimaFaixa = faixasList2.length > 0 ? faixasList2[faixasList2.length - 1] : null;
-                                    var isUltima    = ultimaFaixa && selId === ultimaFaixa.id;
-                                    // Kids: usa maxGrau da faixa; adults: última=6, demais=4
-                                    var novoMax, novoMin;
-                                    if (faixaObj && faixaObj.maxGrau !== undefined) {
-                                        // Vem da lista kids (tem maxGrau explícito)
-                                        novoMax = faixaObj.maxGrau;
-                                        novoMin = 0;
-                                    } else {
-                                        // Adults fallback
-                                        novoMax = isUltima ? 6 : 4;
-                                        novoMin = isUltima ? 1 : 0;
-                                    }
-                                    // Oculta select de grau se maxGrau = 0 (faixas coloridas kids)
-                                    var gWrap = grauSel ? grauSel.closest('div') : null;
-                                    if (novoMax === 0) {
-                                        if (gWrap) gWrap.style.display = 'none';
-                                        return;
-                                    }
-                                    if (gWrap) gWrap.style.display = '';
-                                    var valAtual = parseInt(grauSel.value) || 0;
-                                    grauSel.innerHTML = '';
-                                    for (var g2 = novoMin; g2 <= novoMax; g2++) {
-                                        var go2 = document.createElement('option');
-                                        go2.value = g2; go2.textContent = g2 + 'º';
-                                        if (g2 === valAtual) go2.selected = true;
-                                        grauSel.appendChild(go2);
-                                    }
-                                    if (valAtual < novoMin) grauSel.value = novoMin;
-                                }
-                                faixasSel.addEventListener('change', _updateGrauRange);
-                                // Trigger inicial para esconder grau quando faixa colorida já está selecionada
-                                _updateGrauRange();
-                            })(fs, gs, faixasArr, mod.id);
-                        }
-                    }
-                } else {
-                    var nd = document.createElement('div'); nd.style.cssText = 'font-size:11px;color:var(--text-3);font-style:italic;'; nd.textContent = 'Sem graduação formal'; gradBlock.appendChild(nd);
-                }
-
-                wrapper.appendChild(gradBlock);
-                chk.addEventListener('change', function() {
-                    var block = document.getElementById('stuGradBlock_' + this.value);
-                    if (block) block.style.display = this.checked ? 'flex' : 'none';
-                    label.style.borderColor = this.checked ? 'var(--accent)' : 'var(--border)';
-                    _updateStuModalidadePrincipalOptions();
-                });
-                grid.appendChild(wrapper);
-                if (principalSel && isChecked) {
-                    var opt = document.createElement('option'); opt.value = mod.id; opt.textContent = mod.icon + ' ' + mod.nome; opt.selected = mod.id === principalMod; principalSel.appendChild(opt);
-                }
-            });
-        }
 
         /**
          * Atualiza as opções do select de modalidade principal conforme checkboxes marcados
@@ -13869,9 +13552,33 @@
                     '</div>';
                 return;
             }
+            // Se há só 1 modalidade, selecionar automaticamente e mostrar como badge
+            if (mods.length === 1) {
+                var mod = mods[0];
+                var cor = mod.cor || '#C41E3A';
+                var corRGB = mod.corRGB || '196,30,58';
+                // Criar checkbox oculto pré-selecionado
+                var hiddenCb = document.createElement('input');
+                hiddenCb.type = 'checkbox';
+                hiddenCb.name = 'regMod';
+                hiddenCb.value = mod.id;
+                hiddenCb.checked = true;
+                hiddenCb.style.display = 'none';
+                grid.appendChild(hiddenCb);
+                // Badge visual
+                var badge = document.createElement('div');
+                badge.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(' + corRGB + ',0.08);border:1.5px solid rgba(' + corRGB + ',0.25);border-radius:10px;font-size:13px;font-weight:700;color:' + cor + ';';
+                badge.innerHTML = '<span style="font-size:20px;">' + (mod.icon || '🥋') + '</span>' +
+                    '<div><div style="font-size:13px;font-weight:800;">' + (mod.nome || mod.id) + '</div>' +
+                    '<div style="font-size:10px;font-weight:400;opacity:.7;margin-top:1px;">Estilo do dojo — selecionado automaticamente</div></div>' +
+                    '<span style="margin-left:auto;font-size:16px;">✅</span>';
+                grid.appendChild(badge);
+                return;
+            }
+
             mods.forEach(function(mod) {
-                var cor    = mod.cor    || '#C9A23A';
-                var corRGB = mod.corRGB || '201,162,58';
+                var cor    = mod.cor    || '#C41E3A';
+                var corRGB = mod.corRGB || '196,30,58';
                 var card   = document.createElement('label');
                 card.style.cssText = 'display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.18s;font-size:13px;font-weight:600;color:var(--text-2);';
                 card.innerHTML =
@@ -20402,7 +20109,6 @@
             if (tabName === 'adm-presenca') initPresencaList();
             if (tabName === 'adm-campeonato') initCampAdmin();
             if (tabName === 'adm-sistema') {
-                if (typeof loadEstiloKarate === 'function') loadEstiloKarate();
                 // Aplica locks baseados no plano ao abrir o painel de sistema
                 setTimeout(_aplicarLocksPlano, 300);
                 // Atualiza preview de logo no painel admin
@@ -20423,9 +20129,9 @@
                     await initPagamentosAdmin();
                     loadWellnessConfig();
                 })();
-                // Mostra sub-tab Assinatura SOMENTE para Admin (não professor)
+                // Assinatura sempre visível para admins
                 var btnAssinante = document.getElementById('sisBtnAssinante');
-                if (btnAssinante) btnAssinante.style.display = isAdmin() ? '' : 'none';
+                if (btnAssinante) btnAssinante.style.display = '';
                 // Sempre começa na aba Sistema, garante visibilidade correta
                 var pSis = document.getElementById('sis-panel-sistema');
                 var pAsn = document.getElementById('sis-panel-assinante');
@@ -30742,6 +30448,19 @@
         function openNewModalidadeModal() {
             var ov = document.getElementById('newModalidadeOverlay');
             if (!ov) return;
+            // Carregar prefixo do estilo do dojo
+            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            var prefEl   = document.getElementById('newModPrefixoLabel');
+            var prefSpan = document.getElementById('newModPrefixoSpan');
+            var exemEl   = document.getElementById('newModExemplos');
+            if (prefEl)   prefEl.textContent   = prefixo;
+            if (prefSpan) prefSpan.textContent  = prefixo;
+            if (exemEl)   exemEl.textContent    = prefixo + 'kids, ' + prefixo + 'adulto, ' + prefixo + 'feminino';
+            // Limpar sufixo
+            var sfx = document.getElementById('newModSuffix');
+            if (sfx) sfx.value = '';
+            var mid = document.getElementById('newModId');
+            if (mid) mid.value = '';
             ov.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             updateNewModPreview('faixa_cintura');
@@ -30754,18 +30473,23 @@
         }
 
         function cadastrarNovaModalidade() {
-            var id    = (document.getElementById('newModId')   || {}).value.trim();
+            var sufixo = ((document.getElementById('newModSuffix') || {}).value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            var id    = sufixo ? (prefixo + sufixo) : '';
+            // Atualizar hidden input
+            var midEl = document.getElementById('newModId');
+            if (midEl) midEl.value = id;
             var nome  = (document.getElementById('newModNome') || {}).value.trim();
-            var icon  = (document.getElementById('newModIcon') || {}).value.trim() || '🏅';
-            var cor   = (document.getElementById('newModCor')  || {}).value || '#8B5CF6';
+            var icon  = (document.getElementById('newModIcon') || {}).value.trim() || '🥋';
+            var cor   = (document.getElementById('newModCor')  || {}).value || '#C41E3A';
             var grad  = document.querySelector('input[name="newModGrad"]:checked');
             var tipo  = grad ? grad.value : 'faixa_cintura';
             var msg   = document.getElementById('newModMsg');
 
-            if (!id)   { if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe um ID único';}  return; }
-            if (!nome) { if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe o nome';}        return; }
+            if (!sufixo){ if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe o sufixo (ex: kids, adulto)';} return; }
+            if (!nome)   { if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe o nome da modalidade';} return; }
             if (MODALIDADES_CATALOG.find(function(m){return m.id===id;})) {
-                if(msg){msg.style.color='#f87171';msg.textContent='⚠️ ID já existe: '+id;} return;
+                if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Modalidade "'+id+'" já existe';} return;
             }
 
             // Hex → RGB
@@ -30876,7 +30600,7 @@
             setTimeout(function(){
                 closeNewModalidadeModal();
                 // Limpar campos
-                ['newModId','newModNome','newModIcon'].forEach(function(fid){ var el=document.getElementById(fid); if(el) el.value=''; });
+                ['newModSuffix','newModId','newModNome','newModIcon'].forEach(function(fid){ var el=document.getElementById(fid); if(el) el.value=''; });
                 // Rebuild grids
                 buildRegModalidadesGrid((document.getElementById('regCTValue')||{}).value||'');
                 if (typeof loadCTScheduleAdmin === 'function') loadCTScheduleAdmin();
@@ -31792,13 +31516,30 @@
                     if (mod) return { icon: mod.icon, nome: mod.nome, nivel: nivelLabel };
                     return { icon: '🌀', nome: mp || 'Sem modalidade', nivel: nivelLabel };
                 })();
-                html += '<div class="admin-student-belt">' + _modDisplay.icon + ' ' + _modDisplay.nome + (_modDisplay.nivel ? ' · ' + _modDisplay.nivel : '') + ' · 📍 ' + (s.ct || '-') + (isAdm ? ' · 🏫 ' + ((s.ctsProfessor || '').split(',').filter(function(x){ return x.trim(); }).length || '?') + ' CT(s)' : ' · 💪 ' + treinos);
-                if (!isAdm && diasAusente > 0) html += ' · 📅 ' + diasAusente + 'd ausente';
-                // Categoria etária para qualquer modalidade com sistema de categorias
-                var _mpCat = s.modalidadePrincipal || 'karate';
-                if (s.nascimento && CATEGORIAS_POR_MODALIDADE[_mpCat]) {
-                    var _catAdm = getCategoriaEtaria(s.nascimento, _mpCat);
-                    if (_catAdm) html += ' · ' + _catAdm.emoji + ' ' + _catAdm.label;
+                // ── Estilo do dojo (ex: Shotokan, Kyokushin) ─────────────────
+                var _estiloSchema = MODALIDADES_SCHEMA[_dojoEstilo] || MODALIDADES_SCHEMA['karate'];
+                var _estiloNome   = _estiloSchema ? _estiloSchema.nome : (_dojoEstilo || 'Karatê');
+
+                html += '<div class="admin-student-belt">';
+                // Linha 1: Modalidade + Estilo
+                html += '<span style="font-weight:700;">' + _modDisplay.icon + ' Karatê</span>';
+                html += '<span style="margin-left:6px;font-size:10px;background:rgba(196,30,58,0.10);color:#C41E3A;border:1px solid rgba(196,30,58,0.2);border-radius:4px;padding:1px 6px;font-weight:700;">' + escapeHtml(_estiloNome) + '</span>';
+                // Linha 2: Faixa + CT + treinos
+                if (_modDisplay.nivel || s.ct) {
+                    html += '<div style="font-size:10px;color:var(--adm-text-3);margin-top:2px;">';
+                    if (_modDisplay.nivel) html += '🥋 ' + escapeHtml(_modDisplay.nivel);
+                    if (_modDisplay.nivel && s.ct) html += ' · ';
+                    if (s.ct) html += '📍 ' + escapeHtml(s.ct);
+                    if (isAdm) html += ' · 🏫 ' + ((s.ctsProfessor || '').split(',').filter(function(x){ return x.trim(); }).length || '?') + ' CT(s)';
+                    else html += ' · 💪 ' + treinos;
+                    if (diasAusente > 0) html += ' · 📅 ' + diasAusente + 'd ausente';
+                    // Categoria etária
+                    var _mpCat = s.modalidadePrincipal || 'karate';
+                    if (s.nascimento && CATEGORIAS_POR_MODALIDADE[_mpCat]) {
+                        var _catAdm = getCategoriaEtaria(s.nascimento, _mpCat);
+                        if (_catAdm) html += ' · ' + _catAdm.emoji + ' ' + _catAdm.label;
+                    }
+                    html += '</div>';
                 }
                 html += '</div>';
                 html += alertaAusencia;
@@ -39898,18 +39639,18 @@ ml>
         .stu-ct-lib-btn.on { background:rgba(201,162,58,0.08); border-color:#C9A23A; color:#C9A23A; }
         /* Grid de CTs liberados — cards ricos */
         .stu-cts-lib-grid { display:flex; flex-direction:column; gap:8px; }
-        .stu-ct-lib-card { display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1.5px solid var(--border); background:var(--bg-elevated); cursor:pointer; transition:all 0.18s; user-select:none; }
+        .stu-ct-lib-card { display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1.5px solid rgba(26,22,18,0.10); background:#EDE9DF; cursor:pointer; transition:all 0.18s; user-select:none; }
         .stu-ct-lib-card:active { transform:scale(0.98); }
         .stu-ct-lib-card.on { border-color:#C9A23A; background:rgba(201,162,58,0.05); }
-        .stu-ct-lib-card-check { width:22px; height:22px; border-radius:6px; border:1.5px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; transition:all 0.18s; }
+        .stu-ct-lib-card-check { width:22px; height:22px; border-radius:6px; border:1.5px solid rgba(26,22,18,0.15); background:transparent; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; transition:all 0.18s; }
         .stu-ct-lib-card.on .stu-ct-lib-card-check { border-color:#C9A23A; background:#C9A23A; color:#000; }
         .stu-ct-lib-card-body { flex:1; min-width:0; }
-        .stu-ct-lib-card-name { font-size:13px; font-weight:700; color:var(--text-1); margin-bottom:2px; }
+        .stu-ct-lib-card-name { font-size:13px; font-weight:700; color:#1A1614; margin-bottom:2px; }
         .stu-ct-lib-card.on .stu-ct-lib-card-name { color:#C9A23A; }
-        .stu-ct-lib-card-days { font-size:10px; color:var(--text-3); }
-        .stu-ct-lib-card-days .day-pill { display:inline-block; padding:1px 5px; border-radius:4px; background:var(--bg-card); margin-right:3px; font-weight:600; }
+        .stu-ct-lib-card-days { font-size:10px; color:#7A6A5A; }
+        .stu-ct-lib-card-days .day-pill { display:inline-block; padding:1px 5px; border-radius:4px; background:#F4F1EA; margin-right:3px; font-weight:600; }
         .stu-ct-lib-card-days .day-pill.hoje { background:rgba(201,162,58,0.12); color:var(--accent); }
-        .stu-ct-lib-card-status { font-size:10px; color:var(--text-3); flex-shrink:0; text-align:right; }
+        .stu-ct-lib-card-status { font-size:10px; color:#7A6A5A; flex-shrink:0; text-align:right; }
         .stu-ct-lib-card.on .stu-ct-lib-card-status { color:#C9A23A; }
         /* CT liberado no Perfil do aluno */
         .perfil-ct-lib-btn { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border); background:var(--bg-elevated); color:var(--text-1); font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
@@ -40257,18 +39998,18 @@ ml>
             max-width: 460px;
             margin: 0 auto;
             min-height: 100vh;
-            background: var(--bg);
+            background: #F4F1EA;
             padding: 0;
         }
         .stu-modal-header {
             position: sticky;
             top: 0;
             z-index: 10;
-            background: rgba(10,10,15,0.97);
+            background: #1A1614;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: env(safe-area-inset-top, 8px) 12px 0 12px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .stu-modal-toprow {
             display: flex;
@@ -40277,8 +40018,8 @@ ml>
             padding: 10px 0 10px 0;
         }
         .stu-modal-back {
-            background: rgba(255,255,255,0.06); border: none;
-            color: var(--text-1); font-size: 16px; font-weight: 600;
+            background: rgba(255,255,255,0.10); border: none;
+            color: #FFFFFF; font-size: 16px; font-weight: 600;
             cursor: pointer; padding: 8px 14px;
             border-radius: 10px;
             display: flex; align-items: center; gap: 6px;
@@ -40290,7 +40031,7 @@ ml>
             font-family: 'Inter', sans-serif;
             font-size: 15px;
             font-weight: 700;
-            color: var(--text-1);
+            color: #FFFFFF;
             text-align: center;
             position: absolute; left: 50%; transform: translateX(-50%);
             pointer-events: none;
@@ -40310,7 +40051,7 @@ ml>
         .stu-modal-save:active { opacity: 0.7; }
         .stu-modal-save:disabled { opacity: 0.4; }
 
-        .stu-modal-body { padding: 16px; }
+        .stu-modal-body { padding: 16px; color: #1A1614; }
 
         /* Student hero in modal */
         .stu-hero {
@@ -40328,30 +40069,31 @@ ml>
             font-family: 'Inter', sans-serif;
         }
         .stu-hero-name {
-            font-family: 'Inter', sans-serif;
-            font-size: 18px; font-weight: 700; color: var(--text-1);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 18px; font-weight: 700; color: #1A1614;
         }
-        .stu-hero-email { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+        .stu-hero-email { font-size: 12px; color: #7A6A5A; margin-top: 2px; }
         .stu-hero-stats {
             display: flex; justify-content: center; gap: 16px; margin-top: 10px;
         }
         .stu-hero-stat { text-align: center; }
-        .stu-hero-stat-num { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: var(--gold); }
-        .stu-hero-stat-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); font-weight: 600; }
+        .stu-hero-stat-num { font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 800; color: #C8A84B; }
+        .stu-hero-stat-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: #8A7060; font-weight: 600; }
 
         /* Edit sections */
+        /* ── Editar Aluno — todas as cores absolutas para garantir legibilidade ── */
         .stu-section {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            background: #FFFFFF;
+            border: 1px solid rgba(26,22,18,0.10);
             border-radius: 14px;
             padding: 14px;
             margin-bottom: 12px;
         }
         .stu-section-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-2);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            color: #6B5D52;
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -40362,31 +40104,35 @@ ml>
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-3);
-            font-weight: 600;
+            color: #8A7060;
+            font-weight: 700;
             margin-bottom: 4px;
         }
         .stu-field input, .stu-field select, .stu-field textarea {
             width: 100%;
             box-sizing: border-box;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
+            background: #F8F5F0;
+            border: 1.5px solid rgba(26,22,18,0.14);
             border-radius: 8px;
             padding: 10px 12px;
-            color: var(--text-1);
+            color: #1A1614;
             font-size: 13px;
             font-family: inherit;
         }
+        .stu-field input::placeholder { color: #B0A090; }
         .stu-field textarea { resize: vertical; min-height: 60px; }
         .stu-field input:focus, .stu-field select:focus, .stu-field textarea:focus {
-            outline: none; border-color: var(--gold);
+            outline: none;
+            border-color: #C41E3A;
+            background: #FFFFFF;
         }
-        .stu-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stu-field-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .stu-field-row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
         .stu-toggle-row {
             display: flex; align-items: center; justify-content: space-between;
             padding: 10px 0;
+            color: #1A1614;
         }
         .stu-toggle-label { font-size: 13px; color: var(--text-2); font-weight: 600; }
         .stu-toggle {
@@ -40505,7 +40251,7 @@ ml>
         .stu-modal-msg.error { display: block; background: rgba(231,76,60,0.12); color: #EF4444; }
 
         .stu-danger-zone {
-            border-top: 1px solid rgba(231,76,60,0.2);
+            border-top: 1px solid rgba(196,30,58,0.15);
             padding-top: 16px;
             margin-top: 8px;
         }
@@ -45213,8 +44959,7 @@ ml>
                             <span class="sis-stab-icon">🔧</span>Sistema
                         </button>
                         <button class="sis-subtab-btn" id="sisBtnAssinante"
-                            onclick="sisSwitchTab('assinante')"
-                            style="display:none;">
+                            onclick="sisSwitchTab('assinante')">
                             <span class="sis-stab-icon">💳</span>Assinatura
                         </button>
                     </div>
@@ -45539,14 +45284,27 @@ ml>
                                 <div style="font-size:15px;font-weight:800;color:var(--adm-text-1);">➕ Nova Modalidade</div>
                                 <button onclick="closeNewModalidadeModal()" style="background:none;border:none;color:var(--adm-text-3);font-size:20px;cursor:pointer;">✕</button>
                             </div>
-                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:14px;line-height:1.6;">O sistema reconhecerá automaticamente o sistema de graduação com base no tipo escolhido.</div>
+                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:12px;line-height:1.6;">
+                                Crie sub-modalidades derivadas do estilo do seu dojo.<br>
+                                <strong style="color:var(--adm-primary);">O ID deve começar com o prefixo do seu estilo.</strong>
+                            </div>
+                            <!-- Prefixo obrigatório -->
+                            <div style="background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:8px;padding:10px 12px;margin-bottom:12px;">
+                                <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;">Prefixo obrigatório (estilo do dojo)</div>
+                                <div id="newModPrefixoLabel" style="font-size:13px;font-weight:800;color:var(--adm-primary);letter-spacing:.5px;">karate_shotokan_</div>
+                                <div style="font-size:10px;color:var(--adm-text-3);margin-top:4px;">Exemplos: <span id="newModExemplos" style="color:var(--adm-text-2);">karate_shotokan_kids, karate_shotokan_adulto</span></div>
+                            </div>
                             <div style="margin-bottom:10px;">
-                                <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">ID único (sem espaços)</label>
-                                <input type="text" id="newModId" placeholder="ex: karate_kyokushin" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Sufixo do ID <span style="color:var(--adm-text-3);">(o prefixo é adicionado automaticamente)</span></label>
+                                <div style="display:flex;align-items:center;gap:4px;">
+                                    <span id="newModPrefixoSpan" style="font-size:12px;font-weight:700;color:var(--adm-primary);white-space:nowrap;padding:9px 6px 9px 0;">karate_shotokan_</span>
+                                    <input type="text" id="newModSuffix" placeholder="kids" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9]/g,'')" style="flex:1;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                </div>
+                                <input type="hidden" id="newModId" value="">
                             </div>
                             <div style="margin-bottom:10px;">
                                 <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Nome exibido</label>
-                                <input type="text" id="newModNome" placeholder="ex: Kung Fu" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                                <input type="text" id="newModNome" placeholder="ex: Shotokan Kids" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
                             </div>
                             <div style="display:flex;gap:8px;margin-bottom:10px;">
                                 <div style="flex:1;">
@@ -46357,18 +46115,13 @@ ml>
                     <!-- ══ MODALIDADES ══ -->
                     <div class="stu-field" id="stuModalidadesSection" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
                         <label style="display:flex;align-items:center;gap:6px;color:var(--text-1);font-weight:700;">
-                            🎯 Modalidades
+                            🥋 Estilo do Dojo
                         </label>
                         <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
-                            Marque as modalidades que este aluno pratica no CT. Cada modalidade terá seu próprio perfil de graduação e check-in.
+                            Modalidade praticada no CT — define o sistema de graduação e check-in do aluno.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-                        <div style="margin-top:12px;">
-                            <label style="font-size:11px;color:var(--text-3);font-weight:600;display:block;margin-bottom:5px;">⭐ Modalidade Principal (carregada no login)</label>
-                            <select id="stuModalidadePrincipal" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                                <option value="">— Selecione a principal —</option>
-                            </select>
-                        </div>
+
                     </div>
                 </div>
 
@@ -47901,6 +47654,12 @@ ml>
 
             var isSingle = userModalidades.length === 1;
 
+            // ── Auto-entrar se há só 1 modalidade no dojo ──
+            if (isSingle && userModalidades[0]) {
+                setTimeout(function() { enterModalidade(userModalidades[0]); }, 50);
+                return;
+            }
+
             // ── Atualiza textos do hero ──
             var nameEl   = document.getElementById('modHomeName');
             var subEl    = document.getElementById('modHomeSub');
@@ -47945,8 +47704,7 @@ ml>
                 // Delay escalonado para entrada animada
                 card.style.animationDelay = (idx * 0.08) + 's';
 
-                var badgePrincipal = isPrincipal
-                    ? '<span class="mod-home-card-badge-principal">⭐ Principal</span>' : '';
+                var badgePrincipal = ''; // sem badge com estilo único por dojo
 
                 var enterBtnHtml = isSingle
                     ? '<button class="mod-home-enter-btn" onclick="enterModalidade(\'' + modId + '\')">' +
@@ -49033,9 +48791,33 @@ ml>
                     '</div>';
                 return;
             }
+            // Se há só 1 modalidade, selecionar automaticamente e mostrar como badge
+            if (mods.length === 1) {
+                var mod = mods[0];
+                var cor = mod.cor || '#C41E3A';
+                var corRGB = mod.corRGB || '196,30,58';
+                // Criar checkbox oculto pré-selecionado
+                var hiddenCb = document.createElement('input');
+                hiddenCb.type = 'checkbox';
+                hiddenCb.name = 'regMod';
+                hiddenCb.value = mod.id;
+                hiddenCb.checked = true;
+                hiddenCb.style.display = 'none';
+                grid.appendChild(hiddenCb);
+                // Badge visual
+                var badge = document.createElement('div');
+                badge.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(' + corRGB + ',0.08);border:1.5px solid rgba(' + corRGB + ',0.25);border-radius:10px;font-size:13px;font-weight:700;color:' + cor + ';';
+                badge.innerHTML = '<span style="font-size:20px;">' + (mod.icon || '🥋') + '</span>' +
+                    '<div><div style="font-size:13px;font-weight:800;">' + (mod.nome || mod.id) + '</div>' +
+                    '<div style="font-size:10px;font-weight:400;opacity:.7;margin-top:1px;">Estilo do dojo — selecionado automaticamente</div></div>' +
+                    '<span style="margin-left:auto;font-size:16px;">✅</span>';
+                grid.appendChild(badge);
+                return;
+            }
+
             mods.forEach(function(mod) {
-                var cor    = mod.cor    || '#C9A23A';
-                var corRGB = mod.corRGB || '201,162,58';
+                var cor    = mod.cor    || '#C41E3A';
+                var corRGB = mod.corRGB || '196,30,58';
                 var card   = document.createElement('label');
                 card.style.cssText = 'display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.18s;font-size:13px;font-weight:600;color:var(--text-2);';
                 card.innerHTML =
@@ -55503,9 +55285,9 @@ ml>
                     await initPagamentosAdmin();
                     loadWellnessConfig();
                 })();
-                // Mostra sub-tab Assinatura SOMENTE para Admin (não professor)
+                // Assinatura sempre visível para admins
                 var btnAssinante = document.getElementById('sisBtnAssinante');
-                if (btnAssinante) btnAssinante.style.display = isAdmin() ? '' : 'none';
+                if (btnAssinante) btnAssinante.style.display = '';
                 // Sempre começa na aba Sistema, garante visibilidade correta
                 var pSis = document.getElementById('sis-panel-sistema');
                 var pAsn = document.getElementById('sis-panel-assinante');
@@ -65822,6 +65604,19 @@ ml>
         function openNewModalidadeModal() {
             var ov = document.getElementById('newModalidadeOverlay');
             if (!ov) return;
+            // Carregar prefixo do estilo do dojo
+            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            var prefEl   = document.getElementById('newModPrefixoLabel');
+            var prefSpan = document.getElementById('newModPrefixoSpan');
+            var exemEl   = document.getElementById('newModExemplos');
+            if (prefEl)   prefEl.textContent   = prefixo;
+            if (prefSpan) prefSpan.textContent  = prefixo;
+            if (exemEl)   exemEl.textContent    = prefixo + 'kids, ' + prefixo + 'adulto, ' + prefixo + 'feminino';
+            // Limpar sufixo
+            var sfx = document.getElementById('newModSuffix');
+            if (sfx) sfx.value = '';
+            var mid = document.getElementById('newModId');
+            if (mid) mid.value = '';
             ov.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             updateNewModPreview('faixa_cintura');
@@ -65834,18 +65629,23 @@ ml>
         }
 
         function cadastrarNovaModalidade() {
-            var id    = (document.getElementById('newModId')   || {}).value.trim();
+            var sufixo = ((document.getElementById('newModSuffix') || {}).value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            var id    = sufixo ? (prefixo + sufixo) : '';
+            // Atualizar hidden input
+            var midEl = document.getElementById('newModId');
+            if (midEl) midEl.value = id;
             var nome  = (document.getElementById('newModNome') || {}).value.trim();
-            var icon  = (document.getElementById('newModIcon') || {}).value.trim() || '🏅';
-            var cor   = (document.getElementById('newModCor')  || {}).value || '#8B5CF6';
+            var icon  = (document.getElementById('newModIcon') || {}).value.trim() || '🥋';
+            var cor   = (document.getElementById('newModCor')  || {}).value || '#C41E3A';
             var grad  = document.querySelector('input[name="newModGrad"]:checked');
             var tipo  = grad ? grad.value : 'faixa_cintura';
             var msg   = document.getElementById('newModMsg');
 
-            if (!id)   { if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe um ID único';}  return; }
-            if (!nome) { if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe o nome';}        return; }
+            if (!sufixo){ if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe o sufixo (ex: kids, adulto)';} return; }
+            if (!nome)   { if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe o nome da modalidade';} return; }
             if (MODALIDADES_CATALOG.find(function(m){return m.id===id;})) {
-                if(msg){msg.style.color='#f87171';msg.textContent='⚠️ ID já existe: '+id;} return;
+                if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Modalidade "'+id+'" já existe';} return;
             }
 
             // Hex → RGB
@@ -65956,7 +65756,7 @@ ml>
             setTimeout(function(){
                 closeNewModalidadeModal();
                 // Limpar campos
-                ['newModId','newModNome','newModIcon'].forEach(function(fid){ var el=document.getElementById(fid); if(el) el.value=''; });
+                ['newModSuffix','newModId','newModNome','newModIcon'].forEach(function(fid){ var el=document.getElementById(fid); if(el) el.value=''; });
                 // Rebuild grids
                 buildRegModalidadesGrid((document.getElementById('regCTValue')||{}).value||'');
                 if (typeof loadCTScheduleAdmin === 'function') loadCTScheduleAdmin();
@@ -66872,13 +66672,30 @@ ml>
                     if (mod) return { icon: mod.icon, nome: mod.nome, nivel: nivelLabel };
                     return { icon: '🌀', nome: mp || 'Sem modalidade', nivel: nivelLabel };
                 })();
-                html += '<div class="admin-student-belt">' + _modDisplay.icon + ' ' + _modDisplay.nome + (_modDisplay.nivel ? ' · ' + _modDisplay.nivel : '') + ' · 📍 ' + (s.ct || '-') + (isAdm ? ' · 🏫 ' + ((s.ctsProfessor || '').split(',').filter(function(x){ return x.trim(); }).length || '?') + ' CT(s)' : ' · 💪 ' + treinos);
-                if (!isAdm && diasAusente > 0) html += ' · 📅 ' + diasAusente + 'd ausente';
-                // Categoria etária para qualquer modalidade com sistema de categorias
-                var _mpCat = s.modalidadePrincipal || 'karate';
-                if (s.nascimento && CATEGORIAS_POR_MODALIDADE[_mpCat]) {
-                    var _catAdm = getCategoriaEtaria(s.nascimento, _mpCat);
-                    if (_catAdm) html += ' · ' + _catAdm.emoji + ' ' + _catAdm.label;
+                // ── Estilo do dojo (ex: Shotokan, Kyokushin) ─────────────────
+                var _estiloSchema = MODALIDADES_SCHEMA[_dojoEstilo] || MODALIDADES_SCHEMA['karate'];
+                var _estiloNome   = _estiloSchema ? _estiloSchema.nome : (_dojoEstilo || 'Karatê');
+
+                html += '<div class="admin-student-belt">';
+                // Linha 1: Modalidade + Estilo
+                html += '<span style="font-weight:700;">' + _modDisplay.icon + ' Karatê</span>';
+                html += '<span style="margin-left:6px;font-size:10px;background:rgba(196,30,58,0.10);color:#C41E3A;border:1px solid rgba(196,30,58,0.2);border-radius:4px;padding:1px 6px;font-weight:700;">' + escapeHtml(_estiloNome) + '</span>';
+                // Linha 2: Faixa + CT + treinos
+                if (_modDisplay.nivel || s.ct) {
+                    html += '<div style="font-size:10px;color:var(--adm-text-3);margin-top:2px;">';
+                    if (_modDisplay.nivel) html += '🥋 ' + escapeHtml(_modDisplay.nivel);
+                    if (_modDisplay.nivel && s.ct) html += ' · ';
+                    if (s.ct) html += '📍 ' + escapeHtml(s.ct);
+                    if (isAdm) html += ' · 🏫 ' + ((s.ctsProfessor || '').split(',').filter(function(x){ return x.trim(); }).length || '?') + ' CT(s)';
+                    else html += ' · 💪 ' + treinos;
+                    if (diasAusente > 0) html += ' · 📅 ' + diasAusente + 'd ausente';
+                    // Categoria etária
+                    var _mpCat = s.modalidadePrincipal || 'karate';
+                    if (s.nascimento && CATEGORIAS_POR_MODALIDADE[_mpCat]) {
+                        var _catAdm = getCategoriaEtaria(s.nascimento, _mpCat);
+                        if (_catAdm) html += ' · ' + _catAdm.emoji + ' ' + _catAdm.label;
+                    }
+                    html += '</div>';
                 }
                 html += '</div>';
                 html += alertaAusencia;
