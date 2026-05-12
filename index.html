@@ -7576,7 +7576,7 @@
                     ts:        new Date().toISOString()
                 };
                 // Usa fetch silencioso — não afeta UX
-                fetch('https://script.google.com/macros/s/AKfycbzzxQj8QoTZwIQ0X7BFGAJ4L35iD6_l8eecKwYS7iKd1Z_aDl-R0Mj8dQPzKEHWLsBTyA/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbxeOXdlRclAIQIcPwn4P7gKGXSyaeg_6azg_2GBmAxdGaFVHPMlkUpZqT33jE9zhU_68w/exec', {
                     method: 'POST',
                     body: JSON.stringify(payload)
                 }).catch(function(){});
@@ -13669,8 +13669,16 @@
         function onRegCTFocus() {
             var input  = document.getElementById('regCTInput');
             var hidden = document.getElementById('regCTValue');
-            var items  = _getRegCTList(input.value);
-            _renderRegCTDropdown(items, hidden.value || '');
+            // Se allCTs ainda não carregou, tentar novamente
+            if (!allCTs || allCTs.length === 0) {
+                _loadCTsPublic().then(function() {
+                    var items = _getRegCTList(input.value);
+                    _renderRegCTDropdown(items, hidden ? hidden.value || '' : '');
+                });
+                return;
+            }
+            var items = _getRegCTList(input.value);
+            _renderRegCTDropdown(items, hidden ? hidden.value || '' : '');
         }
 
         function onRegCTKeydown(e) {
@@ -14361,12 +14369,36 @@
         }
 
         function showRegister() {
-            // Build modalities grid when register tab opens
-            setTimeout(function(){ var ct = (document.getElementById('regCTValue')||{}).value||''; buildRegModalidadesGrid(ct); }, 50);
             document.getElementById('loginTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'none';
             document.getElementById('registerTab').style.display = 'block';
-            loadCTs();
+            // Carregar CTs publicamente (sem token necessário)
+            _loadCTsPublic();
+        }
+
+        async function _loadCTsPublic() {
+            try {
+                if (allCTs && allCTs.length > 0) return; // já carregados
+                var url = SCRIPT_URL + '?action=getCTsList&_t=' + Date.now();
+                var res  = await fetch(url, { method: 'GET' });
+                var data = await res.json();
+                if (data && data.success && data.cts && data.cts.length > 0) {
+                    allCTs = data.cts;
+                    // Popular o autocomplete com todos os CTs
+                    var input = document.getElementById('regCTInput');
+                    if (input && input.value.length === 0) {
+                        _renderRegCTDropdown(allCTs, '');
+                    }
+                }
+            } catch(ePub) {
+                // Fallback: tenta via POST sem token
+                try {
+                    var res2  = await fetch(SCRIPT_URL, { method: 'POST',
+                        body: JSON.stringify({ action: 'getCTsList' }) });
+                    var data2 = await res2.json();
+                    if (data2 && data2.success && data2.cts) allCTs = data2.cts;
+                } catch(e2) { console.warn('[_loadCTsPublic]', e2); }
+            }
         }
 
         function showForgotPassword() {
@@ -25865,7 +25897,7 @@
                 // Fetch direto sem auth — getPlanos é público
                 var scriptUrl = typeof SCRIPT_URL !== 'undefined'
                     ? SCRIPT_URL.split('?')[0]
-                    : 'https://script.google.com/macros/s/AKfycbzzxQj8QoTZwIQ0X7BFGAJ4L35iD6_l8eecKwYS7iKd1Z_aDl-R0Mj8dQPzKEHWLsBTyA/exec';
+                    : 'https://script.google.com/macros/s/AKfycbxeOXdlRclAIQIcPwn4P7gKGXSyaeg_6azg_2GBmAxdGaFVHPMlkUpZqT33jE9zhU_68w/exec';
                 var raw = await fetch(scriptUrl, {
                     method: 'POST',
                     body: JSON.stringify({ action: 'getPlanos' })
@@ -42544,7 +42576,7 @@ ml>
                     ts:        new Date().toISOString()
                 };
                 // Usa fetch silencioso — não afeta UX
-                fetch('https://script.google.com/macros/s/AKfycbzzxQj8QoTZwIQ0X7BFGAJ4L35iD6_l8eecKwYS7iKd1Z_aDl-R0Mj8dQPzKEHWLsBTyA/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbxeOXdlRclAIQIcPwn4P7gKGXSyaeg_6azg_2GBmAxdGaFVHPMlkUpZqT33jE9zhU_68w/exec', {
                     method: 'POST',
                     body: JSON.stringify(payload)
                 }).catch(function(){});
@@ -46445,7 +46477,7 @@ ml>
         var _ctmId = (function() {
             try { return localStorage.getItem('ctm_id') || 'matrix'; } catch(e) { return 'matrix'; }
         })();
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWwOSEW2dw2EioooNWWd62VMDCmBl9A271jejNJTXeTfSt94_eyIttNJseDQvTW10u/exec'
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeOXdlRclAIQIcPwn4P7gKGXSyaeg_6azg_2GBmAxdGaFVHPMlkUpZqT33jE9zhU_68w/exec'
                          + '?ctm=' + _ctmId;
 
         // ── Verifica se o cliente existe no registry ──────────────
@@ -48908,8 +48940,16 @@ ml>
         function onRegCTFocus() {
             var input  = document.getElementById('regCTInput');
             var hidden = document.getElementById('regCTValue');
-            var items  = _getRegCTList(input.value);
-            _renderRegCTDropdown(items, hidden.value || '');
+            // Se allCTs ainda não carregou, tentar novamente
+            if (!allCTs || allCTs.length === 0) {
+                _loadCTsPublic().then(function() {
+                    var items = _getRegCTList(input.value);
+                    _renderRegCTDropdown(items, hidden ? hidden.value || '' : '');
+                });
+                return;
+            }
+            var items = _getRegCTList(input.value);
+            _renderRegCTDropdown(items, hidden ? hidden.value || '' : '');
         }
 
         function onRegCTKeydown(e) {
@@ -49517,12 +49557,36 @@ ml>
         }
 
         function showRegister() {
-            // Build modalities grid when register tab opens
-            setTimeout(function(){ var ct = (document.getElementById('regCTValue')||{}).value||''; buildRegModalidadesGrid(ct); }, 50);
             document.getElementById('loginTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'none';
             document.getElementById('registerTab').style.display = 'block';
-            loadCTs();
+            // Carregar CTs publicamente (sem token necessário)
+            _loadCTsPublic();
+        }
+
+        async function _loadCTsPublic() {
+            try {
+                if (allCTs && allCTs.length > 0) return; // já carregados
+                var url = SCRIPT_URL + '?action=getCTsList&_t=' + Date.now();
+                var res  = await fetch(url, { method: 'GET' });
+                var data = await res.json();
+                if (data && data.success && data.cts && data.cts.length > 0) {
+                    allCTs = data.cts;
+                    // Popular o autocomplete com todos os CTs
+                    var input = document.getElementById('regCTInput');
+                    if (input && input.value.length === 0) {
+                        _renderRegCTDropdown(allCTs, '');
+                    }
+                }
+            } catch(ePub) {
+                // Fallback: tenta via POST sem token
+                try {
+                    var res2  = await fetch(SCRIPT_URL, { method: 'POST',
+                        body: JSON.stringify({ action: 'getCTsList' }) });
+                    var data2 = await res2.json();
+                    if (data2 && data2.success && data2.cts) allCTs = data2.cts;
+                } catch(e2) { console.warn('[_loadCTsPublic]', e2); }
+            }
         }
 
         function showForgotPassword() {
@@ -61021,7 +61085,7 @@ ml>
                 // Fetch direto sem auth — getPlanos é público
                 var scriptUrl = typeof SCRIPT_URL !== 'undefined'
                     ? SCRIPT_URL.split('?')[0]
-                    : 'https://script.google.com/macros/s/AKfycbzzxQj8QoTZwIQ0X7BFGAJ4L35iD6_l8eecKwYS7iKd1Z_aDl-R0Mj8dQPzKEHWLsBTyA/exec';
+                    : 'https://script.google.com/macros/s/AKfycbxeOXdlRclAIQIcPwn4P7gKGXSyaeg_6azg_2GBmAxdGaFVHPMlkUpZqT33jE9zhU_68w/exec';
                 var raw = await fetch(scriptUrl, {
                     method: 'POST',
                     body: JSON.stringify({ action: 'getPlanos' })
