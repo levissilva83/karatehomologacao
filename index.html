@@ -14937,7 +14937,16 @@
 
             // Formato legado: {dia: valor}
             if (modFilter) return '';
-            return _extrairHorariosStr(hpd[dayKey] || hpd['_global'] || ctHorariosFallback || '');
+            // Tentar hpd[modId], depois _global, depois qualquer valor presente, depois fallback
+            var horStr = hpd[dayKey] || hpd['_global'] || '';
+            if (!horStr) {
+                // Se não achou pela chave do dia, pegar qualquer horário presente
+                var hpdVals = Object.values(hpd);
+                for (var hv = 0; hv < hpdVals.length; hv++) {
+                    if (typeof hpdVals[hv] === 'string' && hpdVals[hv]) { horStr = hpdVals[hv]; break; }
+                }
+            }
+            return _extrairHorariosStr(horStr || ctHorariosFallback || '');
         }
 
         /**
@@ -31036,14 +31045,28 @@
                 return typeof hpd[k] === 'object' && !Array.isArray(hpd[k]);
             });
             if (!_ctModsSelected[ctName] || _ctModsSelected[ctName].length === 0) {
+                // Iniciar com o estilo do dojo (não com todos os 10 estilos)
+                var dojoId   = _dojoEstilo || 'karate_shotokan';
                 var initMods = [];
+
+                // 1. Mods que já têm horários salvos no hpd
                 hpdModKeys.forEach(function(k) {
                     var found = catalog.find(function(m){ return m.id === k; });
                     if (found && !initMods.find(function(m){ return m.id === found.id; })) initMods.push(found);
                 });
-                catalog.forEach(function(mod) {
-                    if (!initMods.find(function(m){ return m.id === mod.id; })) initMods.push(mod);
-                });
+
+                // 2. Se nenhum hpd, usar o estilo do dojo
+                if (initMods.length === 0) {
+                    var dojoMod = catalog.find(function(m){ return m.id === dojoId; });
+                    if (dojoMod) {
+                        initMods.push(dojoMod);
+                    } else {
+                        // Fallback: usar schema diretamente
+                        var schema2 = MODALIDADES_SCHEMA && MODALIDADES_SCHEMA[dojoId];
+                        if (schema2) initMods.push({ id: dojoId, nome: schema2.nome||dojoId, icon:'🥋', cor: schema2.cor||'#C41E3A', corRGB: schema2.corRGB||'196,30,58', desc: schema2.descricao||'' });
+                    }
+                }
+
                 _ctModsSelected[ctName] = initMods.map(function(m){ return m.id; });
             }
             var ctMods = (_ctModsSelected[ctName] || []).map(function(id){
@@ -31325,10 +31348,13 @@
             var safeKey    = encodeURIComponent(ctName)+'_'+modId;
             var html = '<div class="ct-schedule-days" id="ctSchedDays_'+safeKey+'">';
 
+            // Se o CT tem dias de treino nos dias globais do schedule, ativar por padrão
+            // (retrocompatibilidade: se hpd veio da chave 'karate', usar como fallback)
+
             DAY_KEYS.forEach(function(dk, d) {
                 var active   = schedule[dk] === true;
                 var dayTimes = [];
-                // Read existing times from modHpd — support array or string
+                // Read existing times — modHpd pode ter veio de chave legada
                 var raw = modHpd ? modHpd[dk] : null;
                 if (Array.isArray(raw)) {
                     raw.forEach(function(s){ var t = (typeof s === 'object' ? s.inicio : s)||''; if(t) dayTimes.push(t.trim()); });
@@ -31615,9 +31641,17 @@
             // Lê os chips de tempo do DOM e serializa como {modId: {dia: "HH:MM,HH:MM"}}
             var result = {}; var DAY_KEYS = ['seg','ter','qua','qui','sex','sab','dom'];
             var ctModIds = _ctModsSelected[ctName] || [];
-            var mods = ctModIds.length > 0
-                ? ctModIds.map(function(id){ return (MODALIDADES_CATALOG||[]).find(function(m){return m.id===id;}); }).filter(Boolean)
-                : (MODALIDADES_CATALOG || []);
+            // Usar só o estilo do dojo se não há seleção explícita
+            var mods;
+            if (ctModIds.length > 0) {
+                mods = ctModIds.map(function(id){ return (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===id; }); }).filter(Boolean);
+            } else {
+                // Fallback: só o estilo ativo do dojo
+                var dojoId = _dojoEstilo || 'karate_shotokan';
+                var schema = MODALIDADES_SCHEMA && MODALIDADES_SCHEMA[dojoId];
+                var dojoMod = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id === dojoId; });
+                mods = dojoMod ? [dojoMod] : (schema ? [{ id: dojoId, nome: schema.nome||dojoId }] : [{ id: dojoId, nome: dojoId }]);
+            }
             mods.forEach(function(mod) {
                 var modData = {}; var safeKey = encodeURIComponent(ctName)+'_'+mod.id;
                 DAY_KEYS.forEach(function(dk) {
@@ -31637,7 +31671,7 @@
             var activeModId = _ctActiveModId[ctName];
             if (!activeModId) {
                 var ctModIds = _ctModsSelected[ctName] || [];
-                activeModId = ctModIds.length > 0 ? ctModIds[0] : (MODALIDADES_CATALOG && MODALIDADES_CATALOG[0] ? MODALIDADES_CATALOG[0].id : 'karate');
+                activeModId = ctModIds.length > 0 ? ctModIds[0] : (_dojoEstilo || 'karate_shotokan');
             }
             var safeKey = encodeURIComponent(ctName)+'_'+activeModId;
             var daysContainer = document.getElementById('ctSchedDays_'+safeKey);
@@ -50442,7 +50476,16 @@ ml>
 
             // Formato legado: {dia: valor}
             if (modFilter) return '';
-            return _extrairHorariosStr(hpd[dayKey] || hpd['_global'] || ctHorariosFallback || '');
+            // Tentar hpd[modId], depois _global, depois qualquer valor presente, depois fallback
+            var horStr = hpd[dayKey] || hpd['_global'] || '';
+            if (!horStr) {
+                // Se não achou pela chave do dia, pegar qualquer horário presente
+                var hpdVals = Object.values(hpd);
+                for (var hv = 0; hv < hpdVals.length; hv++) {
+                    if (typeof hpdVals[hv] === 'string' && hpdVals[hv]) { horStr = hpdVals[hv]; break; }
+                }
+            }
+            return _extrairHorariosStr(horStr || ctHorariosFallback || '');
         }
 
         /**
@@ -66251,14 +66294,28 @@ ml>
                 return typeof hpd[k] === 'object' && !Array.isArray(hpd[k]);
             });
             if (!_ctModsSelected[ctName] || _ctModsSelected[ctName].length === 0) {
+                // Iniciar com o estilo do dojo (não com todos os 10 estilos)
+                var dojoId   = _dojoEstilo || 'karate_shotokan';
                 var initMods = [];
+
+                // 1. Mods que já têm horários salvos no hpd
                 hpdModKeys.forEach(function(k) {
                     var found = catalog.find(function(m){ return m.id === k; });
                     if (found && !initMods.find(function(m){ return m.id === found.id; })) initMods.push(found);
                 });
-                catalog.forEach(function(mod) {
-                    if (!initMods.find(function(m){ return m.id === mod.id; })) initMods.push(mod);
-                });
+
+                // 2. Se nenhum hpd, usar o estilo do dojo
+                if (initMods.length === 0) {
+                    var dojoMod = catalog.find(function(m){ return m.id === dojoId; });
+                    if (dojoMod) {
+                        initMods.push(dojoMod);
+                    } else {
+                        // Fallback: usar schema diretamente
+                        var schema2 = MODALIDADES_SCHEMA && MODALIDADES_SCHEMA[dojoId];
+                        if (schema2) initMods.push({ id: dojoId, nome: schema2.nome||dojoId, icon:'🥋', cor: schema2.cor||'#C41E3A', corRGB: schema2.corRGB||'196,30,58', desc: schema2.descricao||'' });
+                    }
+                }
+
                 _ctModsSelected[ctName] = initMods.map(function(m){ return m.id; });
             }
             var ctMods = (_ctModsSelected[ctName] || []).map(function(id){
@@ -66540,10 +66597,13 @@ ml>
             var safeKey    = encodeURIComponent(ctName)+'_'+modId;
             var html = '<div class="ct-schedule-days" id="ctSchedDays_'+safeKey+'">';
 
+            // Se o CT tem dias de treino nos dias globais do schedule, ativar por padrão
+            // (retrocompatibilidade: se hpd veio da chave 'karate', usar como fallback)
+
             DAY_KEYS.forEach(function(dk, d) {
                 var active   = schedule[dk] === true;
                 var dayTimes = [];
-                // Read existing times from modHpd — support array or string
+                // Read existing times — modHpd pode ter veio de chave legada
                 var raw = modHpd ? modHpd[dk] : null;
                 if (Array.isArray(raw)) {
                     raw.forEach(function(s){ var t = (typeof s === 'object' ? s.inicio : s)||''; if(t) dayTimes.push(t.trim()); });
@@ -66830,9 +66890,17 @@ ml>
             // Lê os chips de tempo do DOM e serializa como {modId: {dia: "HH:MM,HH:MM"}}
             var result = {}; var DAY_KEYS = ['seg','ter','qua','qui','sex','sab','dom'];
             var ctModIds = _ctModsSelected[ctName] || [];
-            var mods = ctModIds.length > 0
-                ? ctModIds.map(function(id){ return (MODALIDADES_CATALOG||[]).find(function(m){return m.id===id;}); }).filter(Boolean)
-                : (MODALIDADES_CATALOG || []);
+            // Usar só o estilo do dojo se não há seleção explícita
+            var mods;
+            if (ctModIds.length > 0) {
+                mods = ctModIds.map(function(id){ return (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===id; }); }).filter(Boolean);
+            } else {
+                // Fallback: só o estilo ativo do dojo
+                var dojoId = _dojoEstilo || 'karate_shotokan';
+                var schema = MODALIDADES_SCHEMA && MODALIDADES_SCHEMA[dojoId];
+                var dojoMod = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id === dojoId; });
+                mods = dojoMod ? [dojoMod] : (schema ? [{ id: dojoId, nome: schema.nome||dojoId }] : [{ id: dojoId, nome: dojoId }]);
+            }
             mods.forEach(function(mod) {
                 var modData = {}; var safeKey = encodeURIComponent(ctName)+'_'+mod.id;
                 DAY_KEYS.forEach(function(dk) {
@@ -66852,7 +66920,7 @@ ml>
             var activeModId = _ctActiveModId[ctName];
             if (!activeModId) {
                 var ctModIds = _ctModsSelected[ctName] || [];
-                activeModId = ctModIds.length > 0 ? ctModIds[0] : (MODALIDADES_CATALOG && MODALIDADES_CATALOG[0] ? MODALIDADES_CATALOG[0].id : 'karate');
+                activeModId = ctModIds.length > 0 ? ctModIds[0] : (_dojoEstilo || 'karate_shotokan');
             }
             var safeKey = encodeURIComponent(ctName)+'_'+activeModId;
             var daysContainer = document.getElementById('ctSchedDays_'+safeKey);
@@ -85901,7 +85969,16 @@ ml>
 
             // Formato legado: {dia: valor}
             if (modFilter) return '';
-            return _extrairHorariosStr(hpd[dayKey] || hpd['_global'] || ctHorariosFallback || '');
+            // Tentar hpd[modId], depois _global, depois qualquer valor presente, depois fallback
+            var horStr = hpd[dayKey] || hpd['_global'] || '';
+            if (!horStr) {
+                // Se não achou pela chave do dia, pegar qualquer horário presente
+                var hpdVals = Object.values(hpd);
+                for (var hv = 0; hv < hpdVals.length; hv++) {
+                    if (typeof hpdVals[hv] === 'string' && hpdVals[hv]) { horStr = hpdVals[hv]; break; }
+                }
+            }
+            return _extrairHorariosStr(horStr || ctHorariosFallback || '');
         }
 
         /**
@@ -102000,14 +102077,28 @@ ml>
                 return typeof hpd[k] === 'object' && !Array.isArray(hpd[k]);
             });
             if (!_ctModsSelected[ctName] || _ctModsSelected[ctName].length === 0) {
+                // Iniciar com o estilo do dojo (não com todos os 10 estilos)
+                var dojoId   = _dojoEstilo || 'karate_shotokan';
                 var initMods = [];
+
+                // 1. Mods que já têm horários salvos no hpd
                 hpdModKeys.forEach(function(k) {
                     var found = catalog.find(function(m){ return m.id === k; });
                     if (found && !initMods.find(function(m){ return m.id === found.id; })) initMods.push(found);
                 });
-                catalog.forEach(function(mod) {
-                    if (!initMods.find(function(m){ return m.id === mod.id; })) initMods.push(mod);
-                });
+
+                // 2. Se nenhum hpd, usar o estilo do dojo
+                if (initMods.length === 0) {
+                    var dojoMod = catalog.find(function(m){ return m.id === dojoId; });
+                    if (dojoMod) {
+                        initMods.push(dojoMod);
+                    } else {
+                        // Fallback: usar schema diretamente
+                        var schema2 = MODALIDADES_SCHEMA && MODALIDADES_SCHEMA[dojoId];
+                        if (schema2) initMods.push({ id: dojoId, nome: schema2.nome||dojoId, icon:'🥋', cor: schema2.cor||'#C41E3A', corRGB: schema2.corRGB||'196,30,58', desc: schema2.descricao||'' });
+                    }
+                }
+
                 _ctModsSelected[ctName] = initMods.map(function(m){ return m.id; });
             }
             var ctMods = (_ctModsSelected[ctName] || []).map(function(id){
@@ -102289,10 +102380,13 @@ ml>
             var safeKey    = encodeURIComponent(ctName)+'_'+modId;
             var html = '<div class="ct-schedule-days" id="ctSchedDays_'+safeKey+'">';
 
+            // Se o CT tem dias de treino nos dias globais do schedule, ativar por padrão
+            // (retrocompatibilidade: se hpd veio da chave 'karate', usar como fallback)
+
             DAY_KEYS.forEach(function(dk, d) {
                 var active   = schedule[dk] === true;
                 var dayTimes = [];
-                // Read existing times from modHpd — support array or string
+                // Read existing times — modHpd pode ter veio de chave legada
                 var raw = modHpd ? modHpd[dk] : null;
                 if (Array.isArray(raw)) {
                     raw.forEach(function(s){ var t = (typeof s === 'object' ? s.inicio : s)||''; if(t) dayTimes.push(t.trim()); });
@@ -102579,9 +102673,17 @@ ml>
             // Lê os chips de tempo do DOM e serializa como {modId: {dia: "HH:MM,HH:MM"}}
             var result = {}; var DAY_KEYS = ['seg','ter','qua','qui','sex','sab','dom'];
             var ctModIds = _ctModsSelected[ctName] || [];
-            var mods = ctModIds.length > 0
-                ? ctModIds.map(function(id){ return (MODALIDADES_CATALOG||[]).find(function(m){return m.id===id;}); }).filter(Boolean)
-                : (MODALIDADES_CATALOG || []);
+            // Usar só o estilo do dojo se não há seleção explícita
+            var mods;
+            if (ctModIds.length > 0) {
+                mods = ctModIds.map(function(id){ return (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===id; }); }).filter(Boolean);
+            } else {
+                // Fallback: só o estilo ativo do dojo
+                var dojoId = _dojoEstilo || 'karate_shotokan';
+                var schema = MODALIDADES_SCHEMA && MODALIDADES_SCHEMA[dojoId];
+                var dojoMod = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id === dojoId; });
+                mods = dojoMod ? [dojoMod] : (schema ? [{ id: dojoId, nome: schema.nome||dojoId }] : [{ id: dojoId, nome: dojoId }]);
+            }
             mods.forEach(function(mod) {
                 var modData = {}; var safeKey = encodeURIComponent(ctName)+'_'+mod.id;
                 DAY_KEYS.forEach(function(dk) {
@@ -102601,7 +102703,7 @@ ml>
             var activeModId = _ctActiveModId[ctName];
             if (!activeModId) {
                 var ctModIds = _ctModsSelected[ctName] || [];
-                activeModId = ctModIds.length > 0 ? ctModIds[0] : (MODALIDADES_CATALOG && MODALIDADES_CATALOG[0] ? MODALIDADES_CATALOG[0].id : 'karate');
+                activeModId = ctModIds.length > 0 ? ctModIds[0] : (_dojoEstilo || 'karate_shotokan');
             }
             var safeKey = encodeURIComponent(ctName)+'_'+activeModId;
             var daysContainer = document.getElementById('ctSchedDays_'+safeKey);
@@ -121406,7 +121508,16 @@ ml>
 
             // Formato legado: {dia: valor}
             if (modFilter) return '';
-            return _extrairHorariosStr(hpd[dayKey] || hpd['_global'] || ctHorariosFallback || '');
+            // Tentar hpd[modId], depois _global, depois qualquer valor presente, depois fallback
+            var horStr = hpd[dayKey] || hpd['_global'] || '';
+            if (!horStr) {
+                // Se não achou pela chave do dia, pegar qualquer horário presente
+                var hpdVals = Object.values(hpd);
+                for (var hv = 0; hv < hpdVals.length; hv++) {
+                    if (typeof hpdVals[hv] === 'string' && hpdVals[hv]) { horStr = hpdVals[hv]; break; }
+                }
+            }
+            return _extrairHorariosStr(horStr || ctHorariosFallback || '');
         }
 
         /**
@@ -137215,14 +137326,28 @@ ml>
                 return typeof hpd[k] === 'object' && !Array.isArray(hpd[k]);
             });
             if (!_ctModsSelected[ctName] || _ctModsSelected[ctName].length === 0) {
+                // Iniciar com o estilo do dojo (não com todos os 10 estilos)
+                var dojoId   = _dojoEstilo || 'karate_shotokan';
                 var initMods = [];
+
+                // 1. Mods que já têm horários salvos no hpd
                 hpdModKeys.forEach(function(k) {
                     var found = catalog.find(function(m){ return m.id === k; });
                     if (found && !initMods.find(function(m){ return m.id === found.id; })) initMods.push(found);
                 });
-                catalog.forEach(function(mod) {
-                    if (!initMods.find(function(m){ return m.id === mod.id; })) initMods.push(mod);
-                });
+
+                // 2. Se nenhum hpd, usar o estilo do dojo
+                if (initMods.length === 0) {
+                    var dojoMod = catalog.find(function(m){ return m.id === dojoId; });
+                    if (dojoMod) {
+                        initMods.push(dojoMod);
+                    } else {
+                        // Fallback: usar schema diretamente
+                        var schema2 = MODALIDADES_SCHEMA && MODALIDADES_SCHEMA[dojoId];
+                        if (schema2) initMods.push({ id: dojoId, nome: schema2.nome||dojoId, icon:'🥋', cor: schema2.cor||'#C41E3A', corRGB: schema2.corRGB||'196,30,58', desc: schema2.descricao||'' });
+                    }
+                }
+
                 _ctModsSelected[ctName] = initMods.map(function(m){ return m.id; });
             }
             var ctMods = (_ctModsSelected[ctName] || []).map(function(id){
@@ -137504,10 +137629,13 @@ ml>
             var safeKey    = encodeURIComponent(ctName)+'_'+modId;
             var html = '<div class="ct-schedule-days" id="ctSchedDays_'+safeKey+'">';
 
+            // Se o CT tem dias de treino nos dias globais do schedule, ativar por padrão
+            // (retrocompatibilidade: se hpd veio da chave 'karate', usar como fallback)
+
             DAY_KEYS.forEach(function(dk, d) {
                 var active   = schedule[dk] === true;
                 var dayTimes = [];
-                // Read existing times from modHpd — support array or string
+                // Read existing times — modHpd pode ter veio de chave legada
                 var raw = modHpd ? modHpd[dk] : null;
                 if (Array.isArray(raw)) {
                     raw.forEach(function(s){ var t = (typeof s === 'object' ? s.inicio : s)||''; if(t) dayTimes.push(t.trim()); });
@@ -137794,9 +137922,17 @@ ml>
             // Lê os chips de tempo do DOM e serializa como {modId: {dia: "HH:MM,HH:MM"}}
             var result = {}; var DAY_KEYS = ['seg','ter','qua','qui','sex','sab','dom'];
             var ctModIds = _ctModsSelected[ctName] || [];
-            var mods = ctModIds.length > 0
-                ? ctModIds.map(function(id){ return (MODALIDADES_CATALOG||[]).find(function(m){return m.id===id;}); }).filter(Boolean)
-                : (MODALIDADES_CATALOG || []);
+            // Usar só o estilo do dojo se não há seleção explícita
+            var mods;
+            if (ctModIds.length > 0) {
+                mods = ctModIds.map(function(id){ return (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===id; }); }).filter(Boolean);
+            } else {
+                // Fallback: só o estilo ativo do dojo
+                var dojoId = _dojoEstilo || 'karate_shotokan';
+                var schema = MODALIDADES_SCHEMA && MODALIDADES_SCHEMA[dojoId];
+                var dojoMod = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id === dojoId; });
+                mods = dojoMod ? [dojoMod] : (schema ? [{ id: dojoId, nome: schema.nome||dojoId }] : [{ id: dojoId, nome: dojoId }]);
+            }
             mods.forEach(function(mod) {
                 var modData = {}; var safeKey = encodeURIComponent(ctName)+'_'+mod.id;
                 DAY_KEYS.forEach(function(dk) {
@@ -137816,7 +137952,7 @@ ml>
             var activeModId = _ctActiveModId[ctName];
             if (!activeModId) {
                 var ctModIds = _ctModsSelected[ctName] || [];
-                activeModId = ctModIds.length > 0 ? ctModIds[0] : (MODALIDADES_CATALOG && MODALIDADES_CATALOG[0] ? MODALIDADES_CATALOG[0].id : 'karate');
+                activeModId = ctModIds.length > 0 ? ctModIds[0] : (_dojoEstilo || 'karate_shotokan');
             }
             var safeKey = encodeURIComponent(ctName)+'_'+activeModId;
             var daysContainer = document.getElementById('ctSchedDays_'+safeKey);
