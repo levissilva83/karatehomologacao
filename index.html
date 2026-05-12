@@ -5963,7 +5963,7 @@
             border-width: 16px 16px 0 0;
             border-color: rgba(0,0,0,0.4) transparent transparent transparent;
         }
-        .checkin-tema-hero::after { content: var(--mod-hero-icon,'🏋️'); position: absolute; right: 14px; bottom: 10px; font-size: 38px; opacity: 0.07; line-height: 1; pointer-events:none; }
+        .checkin-tema-hero::after { content: var(--mod-hero-icon,'🥋'); position: absolute; right: 14px; bottom: 10px; font-size: 38px; opacity: 0.07; line-height: 1; pointer-events:none; }
         .checkin-tema-hero-label { display: inline-flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; }
         .checkin-tema-hero-label span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: crono-pulse 2s infinite; }
         .checkin-tema-hero-horario { font-size: 11px; color: rgba(148,163,184,0.7); font-weight: 700; margin-bottom: 3px; }
@@ -7682,7 +7682,7 @@
                 </div>
             </div>
             <div class="mode-switch" id="modeSwitcher">
-                <button class="mode-switch-opt" id="modeOptAluno" onclick="switchViewMode('aluno')">🏋️ Aluno</button>
+                <button class="mode-switch-opt" id="modeOptAluno" onclick="switchViewMode('aluno')">🥋 Aluno</button>
                 <button class="mode-switch-opt active admin-active" id="modeOptAdmin" onclick="switchViewMode('admin')">⚙️ Admin</button>
             </div>
             <div class="hdr-user" id="headerUser" onclick="handleLogout()">
@@ -7926,7 +7926,7 @@
                     </div>
 
                     <button id="btnConfirmarPresenca" onclick="confirmAttendance()">
-                        <span class="btn-conf-icon" id="btnConfIcon">🏋️</span>
+                        <span class="btn-conf-icon" id="btnConfIcon">🥋</span>
                         <span class="btn-conf-label" id="btnConfLabel">✓ Confirmar Presença</span>
                         <span class="btn-conf-mod" id="btnConfMod">Karatê</span>
                     </button>
@@ -8243,7 +8243,29 @@
 
                 <!-- TAB: PREPARAÇÃO FÍSICA -->
                 <div id="prepfisica-tab" class="tab-content">
-                    <!-- Kata & Técnicas -->
+                    <!-- Sub-tabs: Treinos | Kata & Técnicas -->
+                    <div class="subtab-bar">
+                        <button class="subtab-btn active" data-module="treinos" onclick="switchSubTab('prepfisica-tab','sub-treinos',event)">🥋<br><span>Treinos</span></button>
+                        <button class="subtab-btn" data-module="kata" onclick="switchSubTab('prepfisica-tab','sub-kata',event)">📖<br><span>Kata</span></button>
+                    </div>
+
+                    <!-- SUB: TREINOS (Preparação Física) -->
+                    <div id="sub-treinos" class="subtab-content active">
+                        <div style="padding:12px 16px 0;">
+                            <div style="font-family:'Sora',sans-serif;font-size:18px;font-weight:900;color:var(--text-1);margin-bottom:2px;">🥋 Preparação Física</div>
+                            <div style="font-size:11px;color:var(--text-3);margin-bottom:14px;">Módulos personalizados pelo professor</div>
+                        </div>
+                        <div style="padding:0 16px 12px;" id="muscContainer">
+                            <div class="musc-empty-state"><div class="musc-empty-icon">🥋</div><div class="musc-empty-title">Carregando...</div></div>
+                        </div>
+                        <div style="padding:0 16px 16px;">
+                            <div style="font-size:13px;font-weight:800;color:var(--text-1);margin-bottom:10px;">📅 Meus Treinos Realizados</div>
+                            <div id="treinoHistoricoList"><div style="text-align:center;color:var(--text-3);font-size:12px;padding:16px;">Carregando...</div></div>
+                        </div>
+                    </div>
+
+                    <!-- SUB: KATA & TÉCNICAS -->
+                    <div id="sub-kata" class="subtab-content">
                     <div style="padding:16px 16px 0;">
                         <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:var(--text-1);margin-bottom:2px;">📖 Kata & Técnicas</div>
                         <div style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Repertório técnico do seu estilo</div>
@@ -8317,6 +8339,7 @@
 
                     </div>
                     <div style="height:24px;"></div>
+                    </div><!-- /sub-kata -->
 
                 </div> <!-- /prepfisica-tab -->
 
@@ -8806,43 +8829,43 @@
                                 <button class="games-subtab" onclick="switchGamesSubtab('ranking',this)">🏆 Ranking</button>
                             </div>
 
-                            <!-- JOGOS GRID -->
+                            <!-- JOGOS GRID — 100% Karatê -->
                             <div id="gSubJogos">
                                 <div class="games-grid">
                                     <div class="game-card gc-quiz" onclick="startGame('quiz')">
                                         <div class="game-card-icon">🧠</div>
-                                        <div class="game-card-name">Quiz</div>
-                                        <div class="game-card-desc">Teste seu conhecimento do Karatê</div>
+                                        <div class="game-card-name">Quiz Karatê</div>
+                                        <div class="game-card-desc">Teste seus conhecimentos marciais</div>
                                         <div class="game-card-xp">+10 XP/acerto</div>
                                     </div>
-                                    <div class="game-card gc-words" onclick="startGame('associacao')">
-                                        <div class="game-card-icon">🔗</div>
-                                        <div class="game-card-name">Vocabulário</div>
-                                        <div class="game-card-desc">Conecte técnica → descrição</div>
-                                        <div class="game-card-xp">+6 XP/par</div>
+                                    <div class="game-card gc-forca" onclick="startGame('forca')">
+                                        <div class="game-card-icon">🥷</div>
+                                        <div class="game-card-name">Adivinhe o Termo</div>
+                                        <div class="game-card-desc">Descubra a técnica letra por letra</div>
+                                        <div class="game-card-xp">+15 XP/palavra</div>
                                     </div>
                                     <div class="game-card gc-memory" onclick="startGame('memoria')">
                                         <div class="game-card-icon">🃏</div>
-                                        <div class="game-card-name">Memorize</div>
-                                        <div class="game-card-desc">Combine os termos do Karatê</div>
+                                        <div class="game-card-name">Memória</div>
+                                        <div class="game-card-desc">Combine técnica com seu significado</div>
                                         <div class="game-card-xp">+8 XP/par</div>
-                                    </div>
-                                    <div class="game-card gc-forca" onclick="startGame('forca')">
-                                        <div class="game-card-icon">💀</div>
-                                        <div class="game-card-name">Forca</div>
-                                        <div class="game-card-desc">Descubra o termo</div>
-                                        <div class="game-card-xp">+15 XP/palavra</div>
                                     </div>
                                     <div class="game-card gc-speed" onclick="startGame('relampago')">
                                         <div class="game-card-icon">⚡</div>
                                         <div class="game-card-name">Relâmpago</div>
-                                        <div class="game-card-desc">30s para responder!</div>
+                                        <div class="game-card-desc">30 segundos, muitas técnicas!</div>
                                         <div class="game-card-xp">+5 XP/acerto</div>
                                     </div>
+                                    <div class="game-card gc-words" onclick="startGame('associacao')">
+                                        <div class="game-card-icon">🔗</div>
+                                        <div class="game-card-name">Associação</div>
+                                        <div class="game-card-desc">Conecte técnica → descrição</div>
+                                        <div class="game-card-xp">+6 XP/par</div>
+                                    </div>
                                     <div class="game-card gc-cross" onclick="startGame('cruzadas')">
-                                        <div class="game-card-icon">✏️</div>
-                                        <div class="game-card-name">Cruzadas</div>
-                                        <div class="game-card-desc">Palavras cruzadas CT</div>
+                                        <div class="game-card-icon">📜</div>
+                                        <div class="game-card-name">Kata Quiz</div>
+                                        <div class="game-card-desc">Identifique os katas por descrição</div>
                                         <div class="game-card-xp">+20 XP/jogo</div>
                                     </div>
                                     <div class="game-card gc-english" onclick="startGame('english')">
@@ -8979,7 +9002,7 @@
                             </button>
                             <button class="adm-painel-tab-btn" id="admPainelTabBtn6" onclick="switchAdmPainelTab(6)"
                                 style="padding:8px 4px 6px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--adm-text-3);font-size:9px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.2;">
-                                <span style="font-size:15px;">📸</span><span>Foto</span>
+                                <span style="font-size:15px;">🥋</span><span>Foto</span>
                             </button>
                         </div>
 
@@ -9066,7 +9089,7 @@
                                     ondragover="event.preventDefault();this.classList.add('drag-over')"
                                     ondragleave="this.classList.remove('drag-over')"
                                     ondrop="fotoHandleDrop(event)">
-                                    <div style="font-size:40px;margin-bottom:8px;">📸</div>
+                                    <div style="font-size:40px;margin-bottom:8px;">🥋</div>
                                     <div style="font-size:14px;font-weight:700;color:var(--adm-text-1);margin-bottom:4px;">Toque para escolher foto</div>
                                     <div style="font-size:11px;color:var(--adm-text-3);">ou arraste aqui</div>
                                 </div>
@@ -9149,7 +9172,7 @@
                                 <div id="fotoSucessoCount" style="font-size:13px;color:var(--adm-text-3);margin-bottom:24px;"></div>
                                 <button onclick="fotoReiniciar()"
                                     style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#C9A23A,#8C6A0A);color:#000;font-size:14px;font-weight:800;cursor:pointer;">
-                                    📸 Nova Foto de Treino
+                                    🥋 Nova Foto de Treino
                                 </button>
                             </div>
 
@@ -10877,19 +10900,19 @@
         <div class="bnav" id="adminNav" style="display:none;">
             <div class="bnav-inner">
                 <button class="bnav-btn active" onclick="switchAdminTab('adm-painel', event)">
-                    <span class="bnav-icon">🏠</span><span class="bnav-label">Painel</span>
+                    <span class="bnav-icon">🥋</span><span class="bnav-label">Painel</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-alunos', event)">
                     <span class="bnav-icon">👥</span><span class="bnav-label">Alunos</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-graduacoes', event)">
-                    <span class="bnav-icon">🎓</span><span class="bnav-label">Graduações</span>
+                    <span class="bnav-icon">🥷</span><span class="bnav-label">Graduações</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-presenca', event)">
                     <span class="bnav-icon">📋</span><span class="bnav-label">Presença</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-sistema', event)">
-                    <span class="bnav-icon">🔧</span><span class="bnav-label">Sistema</span>
+                    <span class="bnav-icon">⚙️</span><span class="bnav-label">Sistema</span>
                 </button>
                 <button class="bnav-btn" id="bnavSuperAdmin" onclick="switchAdminTab('adm-superadmin', event)" style="display:none;">
                     <span class="bnav-icon">🔑</span><span class="bnav-label">Super</span>
@@ -11109,7 +11132,7 @@
                     <div id="stuAdminRow" style="display:none;">
                         <div class="stu-toggle-row" style="margin-bottom:8px;">
                             <div class="stu-toggle-label">
-                                🛡️ Administrador
+                                ⚙️ Administrador
                                 <div style="font-size:10px;color:var(--adm-text-3);font-weight:400;margin-top:2px;">Acesso total ao sistema</div>
                             </div>
                             <div class="stu-toggle" id="stuAdminToggle" onclick="onStuAdminToggle()"></div>
@@ -11373,7 +11396,7 @@
     <!-- MOTIVATION MODAL (Retorno) -->
     <div id="motivOverlay" class="motiv-overlay" style="display:none;">
         <div class="motiv-card">
-            <div class="motiv-emoji" id="motivEmoji">🏋️</div>
+            <div class="motiv-emoji" id="motivEmoji">🥋</div>
             <div class="motiv-title" id="motivTitle">Sentimos sua falta!</div>
             <div class="motiv-days" id="motivDays"></div>
             <div class="motiv-msg" id="motivMsg"></div>
@@ -11782,7 +11805,7 @@
             }
             // Redes de Benefício (Básico não tem)
             if (_planLimits.redesBeneficio === false) {
-                _lockByPlan('redesBeneficioSection', '🏋️ Redes de Benefício', 'profissional');
+                _lockByPlan('redesBeneficioSection', '🥋 Redes de Benefício', 'profissional');
             }
             // QR Code (Básico não tem)
             if (_planLimits.qrCode === false) {
@@ -11794,7 +11817,7 @@
                 _lockByPlan('cobBatchBtn', '⚡ Cobrar em lote', 'profissional');
             }
             if (_planLimits.fotoCheckin === false) {
-                _lockByPlan('admPainelTab6', '📸 Checkin por Foto', 'premium');
+                _lockByPlan('admPainelTab6', '🥋 Checkin por Foto', 'premium');
             }
             // Filiais (somente Premium)
             if (_planLimits.filiais < 3) {
@@ -12371,7 +12394,7 @@
                 var mod = MODALIDADES_CATALOG
                     ? MODALIDADES_CATALOG.find(function(m){ return m.id === normalizarModId(activeModality); })
                     : null;
-                return mod ? mod.icon : '🏋️';
+                return mod ? mod.icon : '🥋';
             },
 
             /** Texto de nomenclatura (null-safe — retorna '' se não existir) */
@@ -12498,7 +12521,7 @@
                 var ico = document.getElementById('btnConfIcon');
                 var tag = document.getElementById('btnConfMod');
                 if (lbl) lbl.textContent = ModalidadeUI.confirmarBtn();
-                if (ico) ico.textContent = mod ? mod.icon : '🏋️';
+                if (ico) ico.textContent = mod ? mod.icon : '🥋';
                 if (tag && mod) tag.textContent = mod.tag || mod.nome || '';
                 // Seals title
                 var sealsTitle = document.querySelector('#evoSealsSection .evo-seals-title');
@@ -12507,9 +12530,9 @@
 
             /** Guarda de exibição de jogos por modalidade */
             gamesAvailable: function() {
-                // Jogos de quiz têm conteúdo BJJ. Outras modalidades: em breve.
-                var bjjMods = ['karate'];
-                return bjjMods.indexOf(activeModality) !== -1;
+                // Jogos disponíveis para todos os estilos de Karatê
+                if (!activeModality) return true;
+                return activeModality.indexOf('karate') === 0;
             },
 
             /** Texto de indisponibilidade por modalidade */
@@ -12626,7 +12649,7 @@
             root.style.setProperty('--gold-light',     mod.corLight);
             root.style.setProperty('--gold-deep',      mod.corDark);
             root.style.setProperty('--border-accent',  'rgba(' + (mod.corRGB || '201,162,58') + ',0.25)');
-            root.style.setProperty('--mod-hero-icon', '"' + (mod.icon || '🏋️') + '"');
+            root.style.setProperty('--mod-hero-icon', '"' + (mod.icon || '🥋') + '"');
         }
 
         /**
@@ -14511,7 +14534,7 @@
                     renderPerfilCTsLiberados(_cronoCTsPermitidos, _cronoCTAtivo);
                 } else {
                     // Fallback: busca silenciosa
-                    secureFetch('getCronogramaAulas', { email: currentUser.email, modalidade: activeModality || '' }).then(function(d) {
+                    secureFetch('getCronogramaAulas', { email: currentUser.email, modalidade: (activeModality||'').indexOf('karate')===0 ? 'karate' : (activeModality||'') }).then(function(d) {
                         if (d && d.success) {
                             _cronoCTAtivo = d.ctAtivo || '';
                             _cronoCTsPermitidos = d.todosPermitidos || [];
@@ -14530,7 +14553,11 @@
                     initGamesHub();
                 }
             }
-            if (tabName === 'prepfisica-tab') { loadMusculacao(); loadTreinosCustom(); loadHistoricoTreinos(); }
+            if (tabName === 'prepfisica-tab') {
+                loadMusculacao();
+                loadTreinosCustom();
+                loadHistoricoTreinos();
+            }
             if (tabName === 'assinatura-tab')  { asnIniciarSeNecessario(); }
         }
 
@@ -15018,7 +15045,7 @@
             // Busca no backend se não encontrou
             if (!aulaHoje && ctName) {
                 try {
-                    var data = await secureFetch('getCronogramaAulas', { email: currentUser.email, ct: ctName, modalidade: activeModality || '' });
+                    var data = await secureFetch('getCronogramaAulas', { email: currentUser.email, ct: ctName, modalidade: (activeModality||'').indexOf('karate')===0 ? '' : (activeModality||'') });
                     if (data.success && data.aulas) {
                         aulaHoje = data.aulas.find(function(a) {
                             return a.data === todayStr && (a.status === 'hoje' || a.status === 'presente_hoje');
@@ -15062,20 +15089,20 @@
         // ═══ TREINO ALARM ═══
         // ===== MOTIVATIONAL MESSAGES =====
         var MOTIVATIONAL_CHECKIN = [
-            'Treino feito! Cada repetição te torna mais forte. 💪',
+            'Treino feito! Cada repetição forja o karateká. 🥋',
             'Parabéns! Mais um treino no banco. Consistência vence talento! 🔥',
-            'Você apareceu e deu o melhor. Isso já te coloca à frente de muitos! 🏆',
+            'OSS! Você apareceu e deu o melhor. Isso já te coloca à frente de muitos! 🥋',
             'Treino registrado! A consistência nunca mente — você evoluiu hoje. 📈',
             'Mais um dia de evolução. Quem treina junto, cresce junto! 🤝',
             'Mandou bem! Presença é o primeiro passo da excelência. Você apareceu! ⭐',
             'Treino concluído! Cada gota de suor é um investimento em você. 💎',
-            'Parabéns pelo treino! Disciplina é fazer mesmo quando não quer. 🎯',
+            'OSS! Disciplina é o caminho do Karatê. 🥷',
             'Hoje você foi melhor que ontem. E amanhã será melhor que hoje! 🔥',
             'Check-in feito! A jornada do mestre começa com um passo de cada vez. 🥇'
         ];
 
         var MOTIVATIONAL_MISSED = [
-            'O treino sentiu sua falta hoje... Amanhã é dia de voltar! 💪',
+            'O Dojo sentiu sua falta hoje... Amanhã é dia de voltar! 🥋',
             'Perdeu o treino de hoje, mas não perca o de amanhã! 🥋',
             'Sem treino hoje? Tudo bem, descanse e volte com tudo! 🔄',
             'O treino te espera. Não pare agora! 🔥',
@@ -15912,7 +15939,7 @@
             if (titleEl && cObj) titleEl.textContent = cObj.cordao;
             if (subEl   && cObj) {
                 var proxC = cObj.next ? faixasCap.find(function(f){ return f.id === cObj.next; }) : null;
-                subEl.textContent = cObj.nivel + (proxC ? ' · Próximo: ' + proxC.cordao : ' · 🏆 Mestre');
+                subEl.textContent = cObj.nivel + (proxC ? ' · Próximo: ' + proxC.cordao : ' · 🥋 Mestre');
             }
         }
 
@@ -15942,7 +15969,7 @@
                 if (titleEl) titleEl.textContent = nivel ? 'Grau ' + nivel.grau + ' — ' + nivel.label : 'Prajied ' + faixa;
                 if (subEl) {
                     var proxPraj = nivel && nivel.next ? prajiedFaixas.find(function(f){ return f.id === nivel.next; }) : null;
-                    subEl.textContent = (nivel ? nivel.nivel : '') + (proxPraj ? ' · Próximo: Grau ' + proxPraj.grau : ' · 🏆 Máximo');
+                    subEl.textContent = (nivel ? nivel.nivel : '') + (proxPraj ? ' · Próximo: Grau ' + proxPraj.grau : ' · 🥋 Máximo');
                 }
 
             } else if (ModalidadeGuard.hasCorda(modId)) {
@@ -15954,7 +15981,7 @@
                 if (titleEl) titleEl.textContent = cordaoObj ? cordaoObj.cordao : faixa;
                 if (subEl) {
                     var proxCordao = cordaoObj && cordaoObj.next ? cordaoFaixas.find(function(f){ return f.id === cordaoObj.next; }) : null;
-                    subEl.textContent = (cordaoObj ? cordaoObj.nivel : '') + (proxCordao ? ' · Próximo: ' + proxCordao.cordao : cordaoObj ? ' · 🏆 Mestre' : '');
+                    subEl.textContent = (cordaoObj ? cordaoObj.nivel : '') + (proxCordao ? ' · Próximo: ' + proxCordao.cordao : cordaoObj ? ' · 🥋 Mestre' : '');
                 }
 
             } else if (ModalidadeGuard.hasFaixa(modId)) {
@@ -15970,7 +15997,7 @@
                 if (titleEl) titleEl.textContent = _fLabel + ' ' + faixa + (cfg ? ' ' + cfg.emoji : '');
                 if (subEl) {
                     if (isKidsMod) {
-                        subEl.textContent = nextLabel ? 'Próxima: ' + nextLabel : '🏆 Máxima faixa kids!';
+                        subEl.textContent = nextLabel ? 'Próxima: ' + nextLabel : '🥋 Máxima faixa!';
                     } else {
                         var _gLabel = ModalidadeGuard.getNomenclatura(modId,'grau') || 'grau';
                     subEl.textContent = grau + 'º/' + maxGrau + 'º ' + _gLabel +
@@ -15980,7 +16007,7 @@
 
             } else {
                 // Sem graduação (MMA, Wrestling, No-Gi)
-                if (beltEl)  { beltEl.textContent = schema.ui.iconeEvo || '🏋️'; beltEl.className = 'evo-hero-belt sem-faixa'; }
+                if (beltEl)  { beltEl.textContent = schema.ui.iconeEvo || '🥋'; beltEl.className = 'evo-hero-belt sem-faixa'; }
                 if (titleEl) titleEl.textContent = schema.nomenclatura.evolucaoTitulo || 'Meu Desenvolvimento';
                 if (subEl)   subEl.textContent   = totalTreinos + ' treinos registrados';
                 // Status apto/não-apto não faz sentido sem graduação
@@ -16060,7 +16087,7 @@
                     if (i <= grauAtual) {
                         cls = 'unlocked'; icon = '⭐'; prog = '✅ Conquistado';
                     } else if (i === grauAtual + 1) {
-                        cls = 'current-target'; icon = '🎯'; prog = PRETA_GRAU_ANOS[i] + ' anos mín.';
+                        cls = 'current-target'; icon = '⭐'; prog = PRETA_GRAU_ANOS[i] + ' anos mín.';
                     } else {
                         cls = 'locked'; icon = '🔒'; prog = PRETA_GRAU_ANOS[i] + ' anos mín.';
                     }
@@ -16090,7 +16117,7 @@
                         cls = 'unlocked'; icon = '⭐'; lbl = 'unlocked'; prog = '✅ Conquistado';
                     } else if (hasEnoughTreinos) {
                         // Reached minimum classes — but only professor can unlock
-                        cls = 'current-target'; icon = '🎯'; lbl = 'current-target'; prog = '✅ Apto — aguardando professor';
+                        cls = 'current-target'; icon = '⭐'; lbl = 'current-target'; prog = '✅ Apto — aguardando professor';
                     } else {
                         // Locked: not enough classes
                         var progress = Math.min(totalTreinos, min);
@@ -16437,7 +16464,7 @@
                 textEl.textContent = '"Consistência constrói campeões."';
                 subEl.textContent  = 'Sua dedicação está no caminho certo!';
             } else if (freq >= 60) {
-                iconEl.textContent = '💪';
+                iconEl.textContent = '🥋';
                 textEl.textContent = '"Você está perto. Continue firme."';
                 subEl.textContent  = 'Mais alguns ' + _treino + 's e você atinge o objetivo';
             } else if (freq >= 30) {
@@ -17293,7 +17320,7 @@
                 var modSchema = ModalidadeGuard.getSchema(modId);
                 var modNome   = modSchema ? modSchema.nome : modId;
                 container.innerHTML = '<div class="evo-tl-start" style="padding:16px 10px;line-height:1.7;">' +
-                    '🥊 <strong>' + modNome + '</strong> não utiliza sistema de faixas/graduações.<br>' +
+                    '🥋 <strong>' + modNome + '</strong> não utiliza sistema de faixas/graduações.<br>' +
                     '<span style="font-size:10px;">A jornada de graduação é exclusiva de modalidades com sistema de faixas.</span>' +
                     '</div>';
                 // Esconde caixas de início e declaração
@@ -19005,7 +19032,7 @@
         var MOTIV_TIERS = {
             // 7-14 dias: Tom leve, amigável — "ei, bora voltar?"
             tier1: {
-                emoji: ['💪', '🤙', '🔥'],
+                emoji: ['🥋', '🎌', '🔥'],
                 titles: ['Tá na hora de voltar!', 'Bora treinar?', 'Saudade do treino?'],
                 titleClass: 'tier1',
                 messages: [
@@ -19042,7 +19069,7 @@
                     '"Quem volta é mais forte do que quem nunca parou."',
                     '"O Dojo espera por você. O tatame nunca esquece quem volta."'
                 ],
-                cta: 'Quero Voltar 💪'
+                cta: 'Quero Voltar 🥋'
             },
 
             // 31-60 dias: Motivação profunda — identidade + superação
@@ -20046,7 +20073,7 @@
                     cardsHtml += '<div class="guide-actions">';
                     if (ct.mapLink) cardsHtml += '<a class="guide-action-btn" href="' + ct.mapLink + '" target="_blank">📍 Mapa</a>';
                     if (ct.telefone) cardsHtml += '<a class="guide-action-btn" href="https://wa.me/55' + ct.telefone.replace(/\D/g,'') + '" target="_blank">💬 WhatsApp</a>';
-                    if (ct.instagram) cardsHtml += '<a class="guide-action-btn" href="https://instagram.com/' + ct.instagram.replace('@','') + '" target="_blank">📸 Insta</a>';
+                    if (ct.instagram) cardsHtml += '<a class="guide-action-btn" href="https://instagram.com/' + ct.instagram.replace('@','') + '" target="_blank">🥋 Insta</a>';
                     cardsHtml += '</div>';
                 }
 
@@ -21212,7 +21239,7 @@
             var hint = document.getElementById('gradTipoHint');
             if (hint) {
                 var hints = {
-                    aulas:   '🎯 Configure o mínimo de aulas por nível abaixo.',
+                    aulas:   '🥋 Configure o mínimo de aulas por nível abaixo.',
                     tempo:   '⏳ Configure o tempo mínimo por nível (em meses). Ex: 6 = graduação semestral.',
                     hibrido: '🔀 Configure aulas E meses mínimos. O aluno precisa atingir ambos.',
                     manual:  '✋ Descreva a regra. O sistema não calculará progressão automática.',
@@ -22007,11 +22034,11 @@
                     // Mensagens por categoria de treino
                     var nome = treinoNome.toLowerCase();
                     var msgSets = {
-                        forca:      ['💪 Força construída! Os músculos agradecem!', '🔥 Levantou pesado! Continue assim!', '⚡ Força máxima ativada! Bora!'],
-                        cardio:     ['🫀 Coração forte, lutador forte!', '🏃 Resistência em outro nível!', '🔥 Queimou geral! Recupera bem!'],
+                        forca:      ['🥋 Força construída! O karateká agradece!', '🔥 Treinamento intenso! Continue assim!', '⚡ Kime ativado! Bora!'],
+                        cardio:     ['🥋 Coração forte, karateká forte!', '🏅 Resistência em outro nível!', '🔥 Queimou geral! Recupera bem!'],
                         mobilidade: ['🧘 Mobilidade é a base do artes marciais!', '🌊 Corpo solto, técnica fluida!', '✨ Flexibilidade que faz diferença no !'],
-                        core:       ['💥 Core ativado! A base de tudo!', '🏆 Abdômen de aço, base inabalável!', '⚡ Core forte = artes marciais poderoso!'],
-                        padrao:     ['💪 Treino concluído! Cada rep te aproxima do teu melhor!', '🔥 Mandou bem! Consistência é o segredo!', '🏆 Mais um treino no banco! O mestre em você agradece!', '⚡ Treino salvo! Sua evolução está registrada!', '🥋 Corpo forte, mente afiada!', '💥 Trabalho feito! Recupera bem para o próximo round!']
+                        core:       ['🥷 Core ativado! A base do Karatê!', '🥋 Abdômen de aço, base inabalável!', '⚡ Core forte = Karatê poderoso!'],
+                        padrao:     ['🥋 Treino concluído! Cada rep te aproxima do teu melhor!', '🔥 OSS! Consistência é o segredo do karateká!', '🥷 Mais um treino! O Sensei em você agradece!', '⚡ Treino salvo! Sua jornada marcial está registrada!', '🥋 Corpo forte, mente afiada! OSS!', '🥋 Trabalho feito! Recupera bem para o próximo treino!']
                     };
                     var cat = nome.includes('forc') || nome.includes('muscu') || nome.includes('peso') ? 'forca'
                             : nome.includes('cardio') || nome.includes('aerob') || nome.includes('corrida') ? 'cardio'
@@ -22688,12 +22715,12 @@
 
             // Category icons
             var catIcons = {
-                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
-                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
-                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
-                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
-                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
-                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+                'Kihon': '🥋', 'Kata': '📖', 'Kumite': '⚔️', 'Bunkai': '🥷',
+                'Socos (Tsuki)': '🥋', 'Chutes (Keri)': '🦵', 'Bloqueios (Uke)': '🛡️', 'Posições (Dachi)': '🥋',
+                'Defesa Pessoal': '🥷', 'Ukemi': '⬇️', 'Kihon': '🥋', 'Kata': '📖',
+                'Kumite': '⚔️', 'Kiai': '🎯', 'Zanshin': '🧘', 'Maai': '📐', 'Kata Avançado': '🏅',
+                'Competição': '🏆', 'Dan/Kyu': '⭐', 'Avançado': '🔥', 'Filosófico': '🧘',
+                'Ensino': '📚', 'Maestria': '👑', 'Dojo Kun': '📜', 'Filosofia': '🧘', 'Budo': '⛩️'
             };
 
             // Get config for this faixa
@@ -22798,12 +22825,12 @@
             if (!items) return;
 
             var catIcons = {
-                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
-                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
-                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
-                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
-                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
-                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+                'Kihon': '🥋', 'Kata': '📖', 'Kumite': '⚔️', 'Bunkai': '🥷',
+                'Socos (Tsuki)': '🥋', 'Chutes (Keri)': '🦵', 'Bloqueios (Uke)': '🛡️', 'Posições (Dachi)': '🥋',
+                'Defesa Pessoal': '🥷', 'Ukemi': '⬇️', 'Kihon': '🥋', 'Kata': '📖',
+                'Kumite': '⚔️', 'Kiai': '🎯', 'Zanshin': '🧘', 'Maai': '📐', 'Kata Avançado': '🏅',
+                'Competição': '🏆', 'Dan/Kyu': '⭐', 'Avançado': '🔥', 'Filosófico': '🧘',
+                'Ensino': '📚', 'Maestria': '👑', 'Dojo Kun': '📜', 'Filosofia': '🧘', 'Budo': '⛩️'
             };
 
             // Group by category
@@ -22891,12 +22918,12 @@
 
             // Category icons
             var catIcons = {
-                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
-                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
-                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
-                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
-                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
-                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+                'Kihon': '🥋', 'Kata': '📖', 'Kumite': '⚔️', 'Bunkai': '🥷',
+                'Socos (Tsuki)': '🥋', 'Chutes (Keri)': '🦵', 'Bloqueios (Uke)': '🛡️', 'Posições (Dachi)': '🥋',
+                'Defesa Pessoal': '🥷', 'Ukemi': '⬇️', 'Kihon': '🥋', 'Kata': '📖',
+                'Kumite': '⚔️', 'Kiai': '🎯', 'Zanshin': '🧘', 'Maai': '📐', 'Kata Avançado': '🏅',
+                'Competição': '🏆', 'Dan/Kyu': '⭐', 'Avançado': '🔥', 'Filosófico': '🧘',
+                'Ensino': '📚', 'Maestria': '👑', 'Dojo Kun': '📜', 'Filosofia': '🧘', 'Budo': '⛩️'
             };
 
             // Group by category
@@ -23374,7 +23401,7 @@
           else if(type==='memoria') startMemoria();
           else if(type==='forca') startForca();
           else if(type==='relampago') startRelampago();
-          else if(type==='cruzadas') startCruzadas();
+          else if(type==='cruzadas') startKataQuiz();
           else if(type==='english') startEnglish();
         }
 
@@ -23701,6 +23728,87 @@
           document.getElementById('gameInfo').textContent='0/'+pool.length;
           document.getElementById('gameProgressFill').style.width='0%';
           renderEngQ();
+
+        // ── KATA QUIZ — identifique o kata pela descrição ─────────────────
+        var _KATA_QUIZ_PAIRS = [
+            { kata: 'Heian Shodan',    desc: 'Primeiro kata da série Heian — 21 movimentos' },
+            { kata: 'Heian Nidan',     desc: 'Único kata Heian com posição de gato (neko-ashi)' },
+            { kata: 'Heian Sandan',    desc: 'Primeiro kata com técnicas uraken e empi' },
+            { kata: 'Heian Yondan',    desc: 'Kata com morote-uke e juji-uke — 27 movimentos' },
+            { kata: 'Heian Godan',     desc: 'Último da série Heian — contém salto característico' },
+            { kata: 'Tekki Shodan',    desc: 'Praticado em kiba-dachi (posição do cavaleiro) na linha' },
+            { kata: 'Bassai Dai',      desc: 'Forçar a fortaleza — um dos mais importantes do Shotokan' },
+            { kata: 'Kanku Dai',       desc: 'Contemplar o céu — começa com triângulo de mãos para cima' },
+            { kata: 'Empi',            desc: 'Voo da andorinha — com técnica de salto e giro' },
+            { kata: 'Jion',            desc: 'Nome de um templo budista — kata longo e poderoso' },
+            { kata: 'Hangetsu',        desc: 'Meia-lua — praticado em hangetsu-dachi com tensão muscular' },
+            { kata: 'Unsu',            desc: 'Mãos nas nuvens — contém rotação de 360° no ar (Shotokan)' },
+            { kata: 'Sochin',          desc: 'Calma e poder — usa sochin-dachi predominantemente' },
+            { kata: 'Nijushiho',       desc: '24 passos — kata de origem chinesa com ritmo variado' },
+            { kata: 'Gojushiho Dai',   desc: '54 passos — um dos katas mais longos do Shotokan' },
+            { kata: 'Sanchin',         desc: 'Três batalhas — kata do Goju-Ryu com tensão isométrica' },
+            { kata: 'Tensho',          desc: 'Mãos que giram — Goju-Ryu, complemento do Sanchin' },
+            { kata: 'Kushanku',        desc: 'Origem chinesa — base para o Kanku Dai no Shotokan' },
+        ];
+        var _kqState = { pairs:[], current:0, score:0, wrong:0, opts:[] };
+
+        function startKataQuiz() {
+            _kqState.pairs = _KATA_QUIZ_PAIRS.slice().sort(function(){ return Math.random()-.5; }).slice(0, 10);
+            _kqState.current = 0; _kqState.score = 0; _kqState.wrong = 0;
+            showScreen('game');
+            var title = document.getElementById('gameTitle');
+            if (title) title.textContent = '📜 Kata Quiz';
+            var info = document.getElementById('gameInfo');
+            if (info) info.textContent = '1/' + _kqState.pairs.length;
+            _renderKataQuiz();
+        }
+
+        function _renderKataQuiz() {
+            var el = document.getElementById('gameContent');
+            if (!el) return;
+            var info = document.getElementById('gameInfo');
+            if (info && _kqState.current < _kqState.pairs.length) info.textContent = (_kqState.current+1) + '/' + _kqState.pairs.length;
+            var total = _kqState.pairs.length;
+            var idx   = _kqState.current;
+            if (idx >= total) {
+                el.innerHTML = '<div style="padding:30px 16px;text-align:center;">' +
+                    '<div style="font-size:48px;margin-bottom:12px;">' + (_kqState.score >= 7 ? '🏆' : '🥋') + '</div>' +
+                    '<div style="font-size:22px;font-weight:900;color:var(--text-1);">' + _kqState.score + '/' + total + '</div>' +
+                    '<div style="font-size:13px;color:var(--text-3);margin:8px 0 24px;">katas identificados</div>' +
+                    '<button onclick="addXP(' + (_kqState.score*20) + ');exitGame();" style="background:var(--accent);color:#fff;border:none;padding:14px 32px;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;">+' + (_kqState.score*20) + ' XP → Voltar</button>' +
+                    '</div>';
+                return;
+            }
+            var pair = _kqState.pairs[idx];
+            // Gerar 3 erros + 1 certo embaralhados
+            var wrong = _KATA_QUIZ_PAIRS.filter(function(p){ return p.kata !== pair.kata; })
+                .sort(function(){ return Math.random()-.5; }).slice(0,3).map(function(p){ return p.kata; });
+            var opts = wrong.concat([pair.kata]).sort(function(){ return Math.random()-.5; });
+            el.innerHTML =
+                '<div style="padding:16px;">' +
+                '<div style="font-size:11px;color:var(--text-3);margin-bottom:8px;">PERGUNTA ' + (idx+1) + '/' + total + '</div>' +
+                '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center;">' +
+                    '<div style="font-size:28px;margin-bottom:10px;">🥋</div>' +
+                    '<div style="font-size:14px;font-weight:700;color:var(--text-1);line-height:1.5;">' + escapeHtml(pair.desc) + '</div>' +
+                    '<div style="font-size:11px;color:var(--text-3);margin-top:8px;">Qual é este kata?</div>' +
+                '</div>' +
+                opts.map(function(opt) {
+                    return '<button data-kq="' + escapeHtml(opt) + '" style="width:100%;padding:14px;margin-bottom:8px;background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;color:var(--text-1);cursor:pointer;text-align:left;">🥋 ' + escapeHtml(opt) + '</button>';
+                }).join('') +
+                '</div>';
+        }
+
+        function _kqAnswer(chosen) {
+            var pair = _kqState.pairs[_kqState.current];
+            if (chosen === pair.kata) {
+                _kqState.score++;
+                addXP(20);
+            } else {
+                _kqState.wrong++;
+            }
+            _kqState.current++;
+            _renderKataQuiz();
+        }
         }
 
         function renderEngQ() {
@@ -24060,7 +24168,7 @@
           else if(g.type==='english'){score=g.score;total=g.qs.length;}
 
           var pct=total>0?Math.round(score/total*100):0;
-          emoji=pct>=80?'🏆':pct>=60?'💪':pct>=30?'📚':'🤔';
+          emoji=pct>=80?'🏆':pct>=60?'🥋':pct>=30?'📖':'🤔';
           var cls=pct>=70?'great':pct>=50?'good':'bad';
           var label=pct>=80?'Excelente!':pct>=60?'Muito bem!':pct>=30?'Continue praticando!':'Não desista!';
           var names={quiz:'Quiz',associacao:'Associação',mem:'Memória',forca:'Forca',rl:'Relâmpago',cz:'Cruzadas',english:'CT English'};
@@ -26037,7 +26145,7 @@
                 var _dias   = parseInt(dias) || 30;
                 var _ytLink = 'https://www.youtube.com/watch?v=nqyErbbObOY';
 
-                var waMsgRaw = 'Olá, ' + _nome + '! 🥋\n\nSeja bem-vindo(a) ao *Dojo Systems*! Seu acesso está pronto.\n\n🔗 *Link de acesso:*\n' + _link + '\n\n📧 *E-mail:* ' + email + '\n🔑 *Senha inicial:* ' + _senha + '\n\n⏳ Você tem *' + _dias + ' dias* de trial gratuito.\n\n▶️ *Treinamento inicial (assista antes de começar):*\n' + _ytLink + '\n\n📌 *Primeiros passos:*\n1. Acesse o link acima\n2. Faça login com seu e-mail e senha\n3. Assista o vídeo de treinamento\n4. Cadastre seus alunos em Admin → Alunos\n5. Configure os horários em Admin → Sistema\n\nQualquer dúvida estou à disposição! 💪\n_IDESystems Tecnologia_';
+                var waMsgRaw = 'Olá, ' + _nome + '! 🥋\n\nSeja bem-vindo(a) ao *Dojo Systems*! Seu acesso está pronto.\n\n🔗 *Link de acesso:*\n' + _link + '\n\n📧 *E-mail:* ' + email + '\n🔑 *Senha inicial:* ' + _senha + '\n\n⏳ Você tem *' + _dias + ' dias* de trial gratuito.\n\n▶️ *Treinamento inicial (assista antes de começar):*\n' + _ytLink + '\n\n📌 *Primeiros passos:*\n1. Acesse o link acima\n2. Faça login com seu e-mail e senha\n3. Assista o vídeo de treinamento\n4. Cadastre seus alunos em Admin → Alunos\n5. Configure os horários em Admin → Sistema\n\nQualquer dúvida estou à disposição! 🥋\n_Dojo Systems Tecnologia_';
 
                 var waEncoded  = encodeURIComponent(waMsgRaw);
                 var waTelefone = res.telefone || '';
@@ -26925,7 +27033,7 @@
             { id: 'campeonato',  icon: '🏅',  nome: 'Campeonato',          desc: 'Inscrição e placar do campeonato interno',    plano: 'academia'  },
             { id: 'exame',       icon: '🎓',  nome: 'Exame de Faixa',      desc: 'Solicitação e avaliação de promoção',         plano: 'academia'  },
             // ADD-ONS — compra separada
-            { id: 'musculacao',  icon: '🏋️',  nome: 'Preparação Física',   desc: 'Fichas de musculação complementar',           plano: 'completo'  },
+            { id: 'musculacao',  icon: '🥋',  nome: 'Preparação Física',   desc: 'Fichas de musculação complementar',           plano: 'completo'  },
             { id: 'jogos',       icon: '🎮',  nome: 'Jogos CT',           desc: 'Quiz, memória, forca e jogos educativos',     plano: 'completo'  }
         ];
 
@@ -31563,7 +31671,7 @@
                     if (_modDisplay.nivel && s.ct) html += ' · ';
                     if (s.ct) html += '📍 ' + escapeHtml(s.ct);
                     if (isAdm) html += ' · 🏫 ' + ((s.ctsProfessor || '').split(',').filter(function(x){ return x.trim(); }).length || '?') + ' CT(s)';
-                    else html += ' · 💪 ' + treinos;
+                    else html += ' · 🥋 ' + treinos;
                     if (diasAusente > 0) html += ' · 📅 ' + diasAusente + 'd ausente';
                     // Categoria etária
                     var _mpCat = s.modalidadePrincipal || 'karate';
@@ -33275,7 +33383,7 @@
         'fb.sub':'Elogie, sugira melhorias ou reporte um problema. Seu feedback é anônimo para outros alunos.',
         'fb.elogio':'😊 Elogio','fb.sugestao':'💡 Sugestão','fb.problema':'😤 Problema',
         'fb.placeholder':'Escreva sua mensagem aqui...','fb.send':'Enviar →',
-        'prep.title':'🏋️ Preparação Física','prep.sub':'Módulos personalizados pelo professor',
+        'prep.title':'🥋 Preparação Física','prep.sub':'Módulos personalizados pelo professor',
         'prep.loading':'Carregando...','prep.history':'📅 Meus Treinos Realizados',
         'rank.ranking':'Ranking','rank.loading':'Carregando ranking...','rank.camp_title':'🏆 Ranking do Campeonato',
         'rank.semester':'📅 Semestre','rank.ct':'📍 CT','rank.select_sem':'Carregando...',
@@ -33283,7 +33391,7 @@
         'rank.hall':'👑 Hall da Fama','rank.hall_sub':'Hall da Fama',
         'rank.rules_title':'Regulamento do Campeonato','rank.rules_sub':'Toque para ver as regras',
         'games.curio_tag':'CURIOSIDADE DOJO','games.curio_tap':'toque para outra →',
-        'games.jogos':'🎮 Jogos','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
+        'games.jogos':'🥋 Jogos','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
         'games.xp_total':'XP Total','games.jogos_count':'Jogos','games.precisao':'Precisão',
         'games.melhor':'Melhor 🔥','games.loading_rank':'Carregando ranking...',
         'game.quiz':'Quiz','game.quiz_desc':'Teste seus conhecimentos',
@@ -33369,7 +33477,7 @@
         'fb.sub':'Praise, suggest improvements, or report an issue. Your feedback is anonymous to other students.',
         'fb.elogio':'😊 Praise','fb.sugestao':'💡 Suggestion','fb.problema':'😤 Issue',
         'fb.placeholder':'Write your message here...','fb.send':'Send →',
-        'prep.title':'🏋️ Physical Preparation','prep.sub':'Modules personalized by the instructor',
+        'prep.title':'🥋 Physical Preparation','prep.sub':'Modules personalized by the instructor',
         'prep.loading':'Loading...','prep.history':'📅 My Completed Workouts',
         'rank.ranking':'Ranking','rank.loading':'Loading ranking...','rank.camp_title':'🏆 Championship Ranking',
         'rank.semester':'📅 Semester','rank.ct':'📍 CT','rank.select_sem':'Loading...',
@@ -33377,7 +33485,7 @@
         'rank.hall':'👑 Hall of Fame','rank.hall_sub':'Hall of Fame',
         'rank.rules_title':'Championship Rules','rank.rules_sub':'Tap to see the rules',
         'games.curio_tag':'CT TRIVIA','games.curio_tap':'tap for another →',
-        'games.jogos':'🎮 Games','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
+        'games.jogos':'🥋 Games','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
         'games.xp_total':'Total XP','games.jogos_count':'Games','games.precisao':'Accuracy',
         'games.melhor':'Best 🔥','games.loading_rank':'Loading ranking...',
         'game.quiz':'Quiz','game.quiz_desc':'Test your knowledge',
@@ -33462,7 +33570,7 @@
         'fb.sub':'Elogia, sugiere mejoras o reporta un problema. Tu feedback es anónimo para otros alumnos.',
         'fb.elogio':'😊 Elogio','fb.sugestao':'💡 Sugerencia','fb.problema':'😤 Problema',
         'fb.placeholder':'Escribe tu mensaje aquí...','fb.send':'Enviar →',
-        'prep.title':'🏋️ Preparación Física','prep.sub':'Módulos personalizados por el profesor',
+        'prep.title':'🥋 Preparación Física','prep.sub':'Módulos personalizados por el profesor',
         'prep.loading':'Cargando...','prep.history':'📅 Mis Entrenos Realizados',
         'rank.ranking':'Ranking','rank.loading':'Cargando ranking...','rank.camp_title':'🏆 Ranking del Campeonato',
         'rank.semester':'📅 Semestre','rank.ct':'📍 CT','rank.select_sem':'Cargando...',
@@ -33470,7 +33578,7 @@
         'rank.hall':'👑 Salón de la Fama','rank.hall_sub':'Salón de la Fama',
         'rank.rules_title':'Reglamento del Campeonato','rank.rules_sub':'Toca para ver las reglas',
         'games.curio_tag':'DATO CT','games.curio_tap':'toca para otra →',
-        'games.jogos':'🎮 Juegos','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
+        'games.jogos':'🥋 Juegos','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
         'games.xp_total':'XP Total','games.jogos_count':'Juegos','games.precisao':'Precisión',
         'games.melhor':'Mejor 🔥','games.loading_rank':'Cargando ranking...',
         'game.quiz':'Quiz','game.quiz_desc':'Pon a prueba tu conocimiento',
@@ -40963,7 +41071,7 @@ ml>
             border-width: 16px 16px 0 0;
             border-color: rgba(0,0,0,0.4) transparent transparent transparent;
         }
-        .checkin-tema-hero::after { content: var(--mod-hero-icon,'🏋️'); position: absolute; right: 14px; bottom: 10px; font-size: 38px; opacity: 0.07; line-height: 1; pointer-events:none; }
+        .checkin-tema-hero::after { content: var(--mod-hero-icon,'🥋'); position: absolute; right: 14px; bottom: 10px; font-size: 38px; opacity: 0.07; line-height: 1; pointer-events:none; }
         .checkin-tema-hero-label { display: inline-flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; }
         .checkin-tema-hero-label span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: crono-pulse 2s infinite; }
         .checkin-tema-hero-horario { font-size: 11px; color: rgba(148,163,184,0.7); font-weight: 700; margin-bottom: 3px; }
@@ -42682,7 +42790,7 @@ ml>
                 </div>
             </div>
             <div class="mode-switch" id="modeSwitcher">
-                <button class="mode-switch-opt" id="modeOptAluno" onclick="switchViewMode('aluno')">🏋️ Aluno</button>
+                <button class="mode-switch-opt" id="modeOptAluno" onclick="switchViewMode('aluno')">🥋 Aluno</button>
                 <button class="mode-switch-opt active admin-active" id="modeOptAdmin" onclick="switchViewMode('admin')">⚙️ Admin</button>
             </div>
             <div class="hdr-user" id="headerUser" onclick="handleLogout()">
@@ -42926,7 +43034,7 @@ ml>
                     </div>
 
                     <button id="btnConfirmarPresenca" onclick="confirmAttendance()">
-                        <span class="btn-conf-icon" id="btnConfIcon">🏋️</span>
+                        <span class="btn-conf-icon" id="btnConfIcon">🥋</span>
                         <span class="btn-conf-label" id="btnConfLabel">✓ Confirmar Presença</span>
                         <span class="btn-conf-mod" id="btnConfMod">Karatê</span>
                     </button>
@@ -43243,7 +43351,29 @@ ml>
 
                 <!-- TAB: PREPARAÇÃO FÍSICA -->
                 <div id="prepfisica-tab" class="tab-content">
-                    <!-- Kata & Técnicas -->
+                    <!-- Sub-tabs: Treinos | Kata & Técnicas -->
+                    <div class="subtab-bar">
+                        <button class="subtab-btn active" data-module="treinos" onclick="switchSubTab('prepfisica-tab','sub-treinos',event)">🥋<br><span>Treinos</span></button>
+                        <button class="subtab-btn" data-module="kata" onclick="switchSubTab('prepfisica-tab','sub-kata',event)">📖<br><span>Kata</span></button>
+                    </div>
+
+                    <!-- SUB: TREINOS (Preparação Física) -->
+                    <div id="sub-treinos" class="subtab-content active">
+                        <div style="padding:12px 16px 0;">
+                            <div style="font-family:'Sora',sans-serif;font-size:18px;font-weight:900;color:var(--text-1);margin-bottom:2px;">🥋 Preparação Física</div>
+                            <div style="font-size:11px;color:var(--text-3);margin-bottom:14px;">Módulos personalizados pelo professor</div>
+                        </div>
+                        <div style="padding:0 16px 12px;" id="muscContainer">
+                            <div class="musc-empty-state"><div class="musc-empty-icon">🥋</div><div class="musc-empty-title">Carregando...</div></div>
+                        </div>
+                        <div style="padding:0 16px 16px;">
+                            <div style="font-size:13px;font-weight:800;color:var(--text-1);margin-bottom:10px;">📅 Meus Treinos Realizados</div>
+                            <div id="treinoHistoricoList"><div style="text-align:center;color:var(--text-3);font-size:12px;padding:16px;">Carregando...</div></div>
+                        </div>
+                    </div>
+
+                    <!-- SUB: KATA & TÉCNICAS -->
+                    <div id="sub-kata" class="subtab-content">
                     <div style="padding:16px 16px 0;">
                         <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:var(--text-1);margin-bottom:2px;">📖 Kata & Técnicas</div>
                         <div style="font-size:12px;color:var(--text-3);margin-bottom:16px;">Repertório técnico do seu estilo</div>
@@ -43317,6 +43447,7 @@ ml>
 
                     </div>
                     <div style="height:24px;"></div>
+                    </div><!-- /sub-kata -->
 
                 </div> <!-- /prepfisica-tab -->
 
@@ -43806,43 +43937,43 @@ ml>
                                 <button class="games-subtab" onclick="switchGamesSubtab('ranking',this)">🏆 Ranking</button>
                             </div>
 
-                            <!-- JOGOS GRID -->
+                            <!-- JOGOS GRID — 100% Karatê -->
                             <div id="gSubJogos">
                                 <div class="games-grid">
                                     <div class="game-card gc-quiz" onclick="startGame('quiz')">
                                         <div class="game-card-icon">🧠</div>
-                                        <div class="game-card-name">Quiz</div>
-                                        <div class="game-card-desc">Teste seu conhecimento do Karatê</div>
+                                        <div class="game-card-name">Quiz Karatê</div>
+                                        <div class="game-card-desc">Teste seus conhecimentos marciais</div>
                                         <div class="game-card-xp">+10 XP/acerto</div>
                                     </div>
-                                    <div class="game-card gc-words" onclick="startGame('associacao')">
-                                        <div class="game-card-icon">🔗</div>
-                                        <div class="game-card-name">Vocabulário</div>
-                                        <div class="game-card-desc">Conecte técnica → descrição</div>
-                                        <div class="game-card-xp">+6 XP/par</div>
+                                    <div class="game-card gc-forca" onclick="startGame('forca')">
+                                        <div class="game-card-icon">🥷</div>
+                                        <div class="game-card-name">Adivinhe o Termo</div>
+                                        <div class="game-card-desc">Descubra a técnica letra por letra</div>
+                                        <div class="game-card-xp">+15 XP/palavra</div>
                                     </div>
                                     <div class="game-card gc-memory" onclick="startGame('memoria')">
                                         <div class="game-card-icon">🃏</div>
-                                        <div class="game-card-name">Memorize</div>
-                                        <div class="game-card-desc">Combine os termos do Karatê</div>
+                                        <div class="game-card-name">Memória</div>
+                                        <div class="game-card-desc">Combine técnica com seu significado</div>
                                         <div class="game-card-xp">+8 XP/par</div>
-                                    </div>
-                                    <div class="game-card gc-forca" onclick="startGame('forca')">
-                                        <div class="game-card-icon">💀</div>
-                                        <div class="game-card-name">Forca</div>
-                                        <div class="game-card-desc">Descubra o termo</div>
-                                        <div class="game-card-xp">+15 XP/palavra</div>
                                     </div>
                                     <div class="game-card gc-speed" onclick="startGame('relampago')">
                                         <div class="game-card-icon">⚡</div>
                                         <div class="game-card-name">Relâmpago</div>
-                                        <div class="game-card-desc">30s para responder!</div>
+                                        <div class="game-card-desc">30 segundos, muitas técnicas!</div>
                                         <div class="game-card-xp">+5 XP/acerto</div>
                                     </div>
+                                    <div class="game-card gc-words" onclick="startGame('associacao')">
+                                        <div class="game-card-icon">🔗</div>
+                                        <div class="game-card-name">Associação</div>
+                                        <div class="game-card-desc">Conecte técnica → descrição</div>
+                                        <div class="game-card-xp">+6 XP/par</div>
+                                    </div>
                                     <div class="game-card gc-cross" onclick="startGame('cruzadas')">
-                                        <div class="game-card-icon">✏️</div>
-                                        <div class="game-card-name">Cruzadas</div>
-                                        <div class="game-card-desc">Palavras cruzadas CT</div>
+                                        <div class="game-card-icon">📜</div>
+                                        <div class="game-card-name">Kata Quiz</div>
+                                        <div class="game-card-desc">Identifique os katas por descrição</div>
                                         <div class="game-card-xp">+20 XP/jogo</div>
                                     </div>
                                     <div class="game-card gc-english" onclick="startGame('english')">
@@ -43979,7 +44110,7 @@ ml>
                             </button>
                             <button class="adm-painel-tab-btn" id="admPainelTabBtn6" onclick="switchAdmPainelTab(6)"
                                 style="padding:8px 4px 6px;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--adm-text-3);font-size:9px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.2;">
-                                <span style="font-size:15px;">📸</span><span>Foto</span>
+                                <span style="font-size:15px;">🥋</span><span>Foto</span>
                             </button>
                         </div>
 
@@ -44066,7 +44197,7 @@ ml>
                                     ondragover="event.preventDefault();this.classList.add('drag-over')"
                                     ondragleave="this.classList.remove('drag-over')"
                                     ondrop="fotoHandleDrop(event)">
-                                    <div style="font-size:40px;margin-bottom:8px;">📸</div>
+                                    <div style="font-size:40px;margin-bottom:8px;">🥋</div>
                                     <div style="font-size:14px;font-weight:700;color:var(--adm-text-1);margin-bottom:4px;">Toque para escolher foto</div>
                                     <div style="font-size:11px;color:var(--adm-text-3);">ou arraste aqui</div>
                                 </div>
@@ -44149,7 +44280,7 @@ ml>
                                 <div id="fotoSucessoCount" style="font-size:13px;color:var(--adm-text-3);margin-bottom:24px;"></div>
                                 <button onclick="fotoReiniciar()"
                                     style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#C9A23A,#8C6A0A);color:#000;font-size:14px;font-weight:800;cursor:pointer;">
-                                    📸 Nova Foto de Treino
+                                    🥋 Nova Foto de Treino
                                 </button>
                             </div>
 
@@ -45876,19 +46007,19 @@ ml>
         <div class="bnav" id="adminNav" style="display:none;">
             <div class="bnav-inner">
                 <button class="bnav-btn active" onclick="switchAdminTab('adm-painel', event)">
-                    <span class="bnav-icon">🏠</span><span class="bnav-label">Painel</span>
+                    <span class="bnav-icon">🥋</span><span class="bnav-label">Painel</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-alunos', event)">
                     <span class="bnav-icon">👥</span><span class="bnav-label">Alunos</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-graduacoes', event)">
-                    <span class="bnav-icon">🎓</span><span class="bnav-label">Graduações</span>
+                    <span class="bnav-icon">🥷</span><span class="bnav-label">Graduações</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-presenca', event)">
                     <span class="bnav-icon">📋</span><span class="bnav-label">Presença</span>
                 </button>
                 <button class="bnav-btn" onclick="switchAdminTab('adm-sistema', event)">
-                    <span class="bnav-icon">🔧</span><span class="bnav-label">Sistema</span>
+                    <span class="bnav-icon">⚙️</span><span class="bnav-label">Sistema</span>
                 </button>
                 <button class="bnav-btn" id="bnavSuperAdmin" onclick="switchAdminTab('adm-superadmin', event)" style="display:none;">
                     <span class="bnav-icon">🔑</span><span class="bnav-label">Super</span>
@@ -46108,7 +46239,7 @@ ml>
                     <div id="stuAdminRow" style="display:none;">
                         <div class="stu-toggle-row" style="margin-bottom:8px;">
                             <div class="stu-toggle-label">
-                                🛡️ Administrador
+                                ⚙️ Administrador
                                 <div style="font-size:10px;color:var(--adm-text-3);font-weight:400;margin-top:2px;">Acesso total ao sistema</div>
                             </div>
                             <div class="stu-toggle" id="stuAdminToggle" onclick="onStuAdminToggle()"></div>
@@ -46372,7 +46503,7 @@ ml>
     <!-- MOTIVATION MODAL (Retorno) -->
     <div id="motivOverlay" class="motiv-overlay" style="display:none;">
         <div class="motiv-card">
-            <div class="motiv-emoji" id="motivEmoji">🏋️</div>
+            <div class="motiv-emoji" id="motivEmoji">🥋</div>
             <div class="motiv-title" id="motivTitle">Sentimos sua falta!</div>
             <div class="motiv-days" id="motivDays"></div>
             <div class="motiv-msg" id="motivMsg"></div>
@@ -46781,7 +46912,7 @@ ml>
             }
             // Redes de Benefício (Básico não tem)
             if (_planLimits.redesBeneficio === false) {
-                _lockByPlan('redesBeneficioSection', '🏋️ Redes de Benefício', 'profissional');
+                _lockByPlan('redesBeneficioSection', '🥋 Redes de Benefício', 'profissional');
             }
             // QR Code (Básico não tem)
             if (_planLimits.qrCode === false) {
@@ -46793,7 +46924,7 @@ ml>
                 _lockByPlan('cobBatchBtn', '⚡ Cobrar em lote', 'profissional');
             }
             if (_planLimits.fotoCheckin === false) {
-                _lockByPlan('admPainelTab6', '📸 Checkin por Foto', 'premium');
+                _lockByPlan('admPainelTab6', '🥋 Checkin por Foto', 'premium');
             }
             // Filiais (somente Premium)
             if (_planLimits.filiais < 3) {
@@ -47370,7 +47501,7 @@ ml>
                 var mod = MODALIDADES_CATALOG
                     ? MODALIDADES_CATALOG.find(function(m){ return m.id === normalizarModId(activeModality); })
                     : null;
-                return mod ? mod.icon : '🏋️';
+                return mod ? mod.icon : '🥋';
             },
 
             /** Texto de nomenclatura (null-safe — retorna '' se não existir) */
@@ -47497,7 +47628,7 @@ ml>
                 var ico = document.getElementById('btnConfIcon');
                 var tag = document.getElementById('btnConfMod');
                 if (lbl) lbl.textContent = ModalidadeUI.confirmarBtn();
-                if (ico) ico.textContent = mod ? mod.icon : '🏋️';
+                if (ico) ico.textContent = mod ? mod.icon : '🥋';
                 if (tag && mod) tag.textContent = mod.tag || mod.nome || '';
                 // Seals title
                 var sealsTitle = document.querySelector('#evoSealsSection .evo-seals-title');
@@ -47506,9 +47637,9 @@ ml>
 
             /** Guarda de exibição de jogos por modalidade */
             gamesAvailable: function() {
-                // Jogos de quiz têm conteúdo BJJ. Outras modalidades: em breve.
-                var bjjMods = ['karate'];
-                return bjjMods.indexOf(activeModality) !== -1;
+                // Jogos disponíveis para todos os estilos de Karatê
+                if (!activeModality) return true;
+                return activeModality.indexOf('karate') === 0;
             },
 
             /** Texto de indisponibilidade por modalidade */
@@ -47625,7 +47756,7 @@ ml>
             root.style.setProperty('--gold-light',     mod.corLight);
             root.style.setProperty('--gold-deep',      mod.corDark);
             root.style.setProperty('--border-accent',  'rgba(' + (mod.corRGB || '201,162,58') + ',0.25)');
-            root.style.setProperty('--mod-hero-icon', '"' + (mod.icon || '🏋️') + '"');
+            root.style.setProperty('--mod-hero-icon', '"' + (mod.icon || '🥋') + '"');
         }
 
         /**
@@ -49699,7 +49830,7 @@ ml>
                     renderPerfilCTsLiberados(_cronoCTsPermitidos, _cronoCTAtivo);
                 } else {
                     // Fallback: busca silenciosa
-                    secureFetch('getCronogramaAulas', { email: currentUser.email, modalidade: activeModality || '' }).then(function(d) {
+                    secureFetch('getCronogramaAulas', { email: currentUser.email, modalidade: (activeModality||'').indexOf('karate')===0 ? 'karate' : (activeModality||'') }).then(function(d) {
                         if (d && d.success) {
                             _cronoCTAtivo = d.ctAtivo || '';
                             _cronoCTsPermitidos = d.todosPermitidos || [];
@@ -49718,7 +49849,11 @@ ml>
                     initGamesHub();
                 }
             }
-            if (tabName === 'prepfisica-tab') { loadMusculacao(); loadTreinosCustom(); loadHistoricoTreinos(); }
+            if (tabName === 'prepfisica-tab') {
+                loadMusculacao();
+                loadTreinosCustom();
+                loadHistoricoTreinos();
+            }
             if (tabName === 'assinatura-tab')  { asnIniciarSeNecessario(); }
         }
 
@@ -50206,7 +50341,7 @@ ml>
             // Busca no backend se não encontrou
             if (!aulaHoje && ctName) {
                 try {
-                    var data = await secureFetch('getCronogramaAulas', { email: currentUser.email, ct: ctName, modalidade: activeModality || '' });
+                    var data = await secureFetch('getCronogramaAulas', { email: currentUser.email, ct: ctName, modalidade: (activeModality||'').indexOf('karate')===0 ? '' : (activeModality||'') });
                     if (data.success && data.aulas) {
                         aulaHoje = data.aulas.find(function(a) {
                             return a.data === todayStr && (a.status === 'hoje' || a.status === 'presente_hoje');
@@ -50250,20 +50385,20 @@ ml>
         // ═══ TREINO ALARM ═══
         // ===== MOTIVATIONAL MESSAGES =====
         var MOTIVATIONAL_CHECKIN = [
-            'Treino feito! Cada repetição te torna mais forte. 💪',
+            'Treino feito! Cada repetição forja o karateká. 🥋',
             'Parabéns! Mais um treino no banco. Consistência vence talento! 🔥',
-            'Você apareceu e deu o melhor. Isso já te coloca à frente de muitos! 🏆',
+            'OSS! Você apareceu e deu o melhor. Isso já te coloca à frente de muitos! 🥋',
             'Treino registrado! A consistência nunca mente — você evoluiu hoje. 📈',
             'Mais um dia de evolução. Quem treina junto, cresce junto! 🤝',
             'Mandou bem! Presença é o primeiro passo da excelência. Você apareceu! ⭐',
             'Treino concluído! Cada gota de suor é um investimento em você. 💎',
-            'Parabéns pelo treino! Disciplina é fazer mesmo quando não quer. 🎯',
+            'OSS! Disciplina é o caminho do Karatê. 🥷',
             'Hoje você foi melhor que ontem. E amanhã será melhor que hoje! 🔥',
             'Check-in feito! A jornada do mestre começa com um passo de cada vez. 🥇'
         ];
 
         var MOTIVATIONAL_MISSED = [
-            'O treino sentiu sua falta hoje... Amanhã é dia de voltar! 💪',
+            'O Dojo sentiu sua falta hoje... Amanhã é dia de voltar! 🥋',
             'Perdeu o treino de hoje, mas não perca o de amanhã! 🥋',
             'Sem treino hoje? Tudo bem, descanse e volte com tudo! 🔄',
             'O treino te espera. Não pare agora! 🔥',
@@ -51100,7 +51235,7 @@ ml>
             if (titleEl && cObj) titleEl.textContent = cObj.cordao;
             if (subEl   && cObj) {
                 var proxC = cObj.next ? faixasCap.find(function(f){ return f.id === cObj.next; }) : null;
-                subEl.textContent = cObj.nivel + (proxC ? ' · Próximo: ' + proxC.cordao : ' · 🏆 Mestre');
+                subEl.textContent = cObj.nivel + (proxC ? ' · Próximo: ' + proxC.cordao : ' · 🥋 Mestre');
             }
         }
 
@@ -51130,7 +51265,7 @@ ml>
                 if (titleEl) titleEl.textContent = nivel ? 'Grau ' + nivel.grau + ' — ' + nivel.label : 'Prajied ' + faixa;
                 if (subEl) {
                     var proxPraj = nivel && nivel.next ? prajiedFaixas.find(function(f){ return f.id === nivel.next; }) : null;
-                    subEl.textContent = (nivel ? nivel.nivel : '') + (proxPraj ? ' · Próximo: Grau ' + proxPraj.grau : ' · 🏆 Máximo');
+                    subEl.textContent = (nivel ? nivel.nivel : '') + (proxPraj ? ' · Próximo: Grau ' + proxPraj.grau : ' · 🥋 Máximo');
                 }
 
             } else if (ModalidadeGuard.hasCorda(modId)) {
@@ -51142,7 +51277,7 @@ ml>
                 if (titleEl) titleEl.textContent = cordaoObj ? cordaoObj.cordao : faixa;
                 if (subEl) {
                     var proxCordao = cordaoObj && cordaoObj.next ? cordaoFaixas.find(function(f){ return f.id === cordaoObj.next; }) : null;
-                    subEl.textContent = (cordaoObj ? cordaoObj.nivel : '') + (proxCordao ? ' · Próximo: ' + proxCordao.cordao : cordaoObj ? ' · 🏆 Mestre' : '');
+                    subEl.textContent = (cordaoObj ? cordaoObj.nivel : '') + (proxCordao ? ' · Próximo: ' + proxCordao.cordao : cordaoObj ? ' · 🥋 Mestre' : '');
                 }
 
             } else if (ModalidadeGuard.hasFaixa(modId)) {
@@ -51158,7 +51293,7 @@ ml>
                 if (titleEl) titleEl.textContent = _fLabel + ' ' + faixa + (cfg ? ' ' + cfg.emoji : '');
                 if (subEl) {
                     if (isKidsMod) {
-                        subEl.textContent = nextLabel ? 'Próxima: ' + nextLabel : '🏆 Máxima faixa kids!';
+                        subEl.textContent = nextLabel ? 'Próxima: ' + nextLabel : '🥋 Máxima faixa!';
                     } else {
                         var _gLabel = ModalidadeGuard.getNomenclatura(modId,'grau') || 'grau';
                     subEl.textContent = grau + 'º/' + maxGrau + 'º ' + _gLabel +
@@ -51168,7 +51303,7 @@ ml>
 
             } else {
                 // Sem graduação (MMA, Wrestling, No-Gi)
-                if (beltEl)  { beltEl.textContent = schema.ui.iconeEvo || '🏋️'; beltEl.className = 'evo-hero-belt sem-faixa'; }
+                if (beltEl)  { beltEl.textContent = schema.ui.iconeEvo || '🥋'; beltEl.className = 'evo-hero-belt sem-faixa'; }
                 if (titleEl) titleEl.textContent = schema.nomenclatura.evolucaoTitulo || 'Meu Desenvolvimento';
                 if (subEl)   subEl.textContent   = totalTreinos + ' treinos registrados';
                 // Status apto/não-apto não faz sentido sem graduação
@@ -51248,7 +51383,7 @@ ml>
                     if (i <= grauAtual) {
                         cls = 'unlocked'; icon = '⭐'; prog = '✅ Conquistado';
                     } else if (i === grauAtual + 1) {
-                        cls = 'current-target'; icon = '🎯'; prog = PRETA_GRAU_ANOS[i] + ' anos mín.';
+                        cls = 'current-target'; icon = '⭐'; prog = PRETA_GRAU_ANOS[i] + ' anos mín.';
                     } else {
                         cls = 'locked'; icon = '🔒'; prog = PRETA_GRAU_ANOS[i] + ' anos mín.';
                     }
@@ -51278,7 +51413,7 @@ ml>
                         cls = 'unlocked'; icon = '⭐'; lbl = 'unlocked'; prog = '✅ Conquistado';
                     } else if (hasEnoughTreinos) {
                         // Reached minimum classes — but only professor can unlock
-                        cls = 'current-target'; icon = '🎯'; lbl = 'current-target'; prog = '✅ Apto — aguardando professor';
+                        cls = 'current-target'; icon = '⭐'; lbl = 'current-target'; prog = '✅ Apto — aguardando professor';
                     } else {
                         // Locked: not enough classes
                         var progress = Math.min(totalTreinos, min);
@@ -51625,7 +51760,7 @@ ml>
                 textEl.textContent = '"Consistência constrói campeões."';
                 subEl.textContent  = 'Sua dedicação está no caminho certo!';
             } else if (freq >= 60) {
-                iconEl.textContent = '💪';
+                iconEl.textContent = '🥋';
                 textEl.textContent = '"Você está perto. Continue firme."';
                 subEl.textContent  = 'Mais alguns ' + _treino + 's e você atinge o objetivo';
             } else if (freq >= 30) {
@@ -52481,7 +52616,7 @@ ml>
                 var modSchema = ModalidadeGuard.getSchema(modId);
                 var modNome   = modSchema ? modSchema.nome : modId;
                 container.innerHTML = '<div class="evo-tl-start" style="padding:16px 10px;line-height:1.7;">' +
-                    '🥊 <strong>' + modNome + '</strong> não utiliza sistema de faixas/graduações.<br>' +
+                    '🥋 <strong>' + modNome + '</strong> não utiliza sistema de faixas/graduações.<br>' +
                     '<span style="font-size:10px;">A jornada de graduação é exclusiva de modalidades com sistema de faixas.</span>' +
                     '</div>';
                 // Esconde caixas de início e declaração
@@ -54193,7 +54328,7 @@ ml>
         var MOTIV_TIERS = {
             // 7-14 dias: Tom leve, amigável — "ei, bora voltar?"
             tier1: {
-                emoji: ['💪', '🤙', '🔥'],
+                emoji: ['🥋', '🎌', '🔥'],
                 titles: ['Tá na hora de voltar!', 'Bora treinar?', 'Saudade do treino?'],
                 titleClass: 'tier1',
                 messages: [
@@ -54230,7 +54365,7 @@ ml>
                     '"Quem volta é mais forte do que quem nunca parou."',
                     '"O Dojo espera por você. O tatame nunca esquece quem volta."'
                 ],
-                cta: 'Quero Voltar 💪'
+                cta: 'Quero Voltar 🥋'
             },
 
             // 31-60 dias: Motivação profunda — identidade + superação
@@ -55234,7 +55369,7 @@ ml>
                     cardsHtml += '<div class="guide-actions">';
                     if (ct.mapLink) cardsHtml += '<a class="guide-action-btn" href="' + ct.mapLink + '" target="_blank">📍 Mapa</a>';
                     if (ct.telefone) cardsHtml += '<a class="guide-action-btn" href="https://wa.me/55' + ct.telefone.replace(/\D/g,'') + '" target="_blank">💬 WhatsApp</a>';
-                    if (ct.instagram) cardsHtml += '<a class="guide-action-btn" href="https://instagram.com/' + ct.instagram.replace('@','') + '" target="_blank">📸 Insta</a>';
+                    if (ct.instagram) cardsHtml += '<a class="guide-action-btn" href="https://instagram.com/' + ct.instagram.replace('@','') + '" target="_blank">🥋 Insta</a>';
                     cardsHtml += '</div>';
                 }
 
@@ -56400,7 +56535,7 @@ ml>
             var hint = document.getElementById('gradTipoHint');
             if (hint) {
                 var hints = {
-                    aulas:   '🎯 Configure o mínimo de aulas por nível abaixo.',
+                    aulas:   '🥋 Configure o mínimo de aulas por nível abaixo.',
                     tempo:   '⏳ Configure o tempo mínimo por nível (em meses). Ex: 6 = graduação semestral.',
                     hibrido: '🔀 Configure aulas E meses mínimos. O aluno precisa atingir ambos.',
                     manual:  '✋ Descreva a regra. O sistema não calculará progressão automática.',
@@ -57195,11 +57330,11 @@ ml>
                     // Mensagens por categoria de treino
                     var nome = treinoNome.toLowerCase();
                     var msgSets = {
-                        forca:      ['💪 Força construída! Os músculos agradecem!', '🔥 Levantou pesado! Continue assim!', '⚡ Força máxima ativada! Bora!'],
-                        cardio:     ['🫀 Coração forte, lutador forte!', '🏃 Resistência em outro nível!', '🔥 Queimou geral! Recupera bem!'],
+                        forca:      ['🥋 Força construída! O karateká agradece!', '🔥 Treinamento intenso! Continue assim!', '⚡ Kime ativado! Bora!'],
+                        cardio:     ['🥋 Coração forte, karateká forte!', '🏅 Resistência em outro nível!', '🔥 Queimou geral! Recupera bem!'],
                         mobilidade: ['🧘 Mobilidade é a base do artes marciais!', '🌊 Corpo solto, técnica fluida!', '✨ Flexibilidade que faz diferença no !'],
-                        core:       ['💥 Core ativado! A base de tudo!', '🏆 Abdômen de aço, base inabalável!', '⚡ Core forte = artes marciais poderoso!'],
-                        padrao:     ['💪 Treino concluído! Cada rep te aproxima do teu melhor!', '🔥 Mandou bem! Consistência é o segredo!', '🏆 Mais um treino no banco! O mestre em você agradece!', '⚡ Treino salvo! Sua evolução está registrada!', '🥋 Corpo forte, mente afiada!', '💥 Trabalho feito! Recupera bem para o próximo round!']
+                        core:       ['🥷 Core ativado! A base do Karatê!', '🥋 Abdômen de aço, base inabalável!', '⚡ Core forte = Karatê poderoso!'],
+                        padrao:     ['🥋 Treino concluído! Cada rep te aproxima do teu melhor!', '🔥 OSS! Consistência é o segredo do karateká!', '🥷 Mais um treino! O Sensei em você agradece!', '⚡ Treino salvo! Sua jornada marcial está registrada!', '🥋 Corpo forte, mente afiada! OSS!', '🥋 Trabalho feito! Recupera bem para o próximo treino!']
                     };
                     var cat = nome.includes('forc') || nome.includes('muscu') || nome.includes('peso') ? 'forca'
                             : nome.includes('cardio') || nome.includes('aerob') || nome.includes('corrida') ? 'cardio'
@@ -57876,12 +58011,12 @@ ml>
 
             // Category icons
             var catIcons = {
-                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
-                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
-                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
-                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
-                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
-                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+                'Kihon': '🥋', 'Kata': '📖', 'Kumite': '⚔️', 'Bunkai': '🥷',
+                'Socos (Tsuki)': '🥋', 'Chutes (Keri)': '🦵', 'Bloqueios (Uke)': '🛡️', 'Posições (Dachi)': '🥋',
+                'Defesa Pessoal': '🥷', 'Ukemi': '⬇️', 'Kihon': '🥋', 'Kata': '📖',
+                'Kumite': '⚔️', 'Kiai': '🎯', 'Zanshin': '🧘', 'Maai': '📐', 'Kata Avançado': '🏅',
+                'Competição': '🏆', 'Dan/Kyu': '⭐', 'Avançado': '🔥', 'Filosófico': '🧘',
+                'Ensino': '📚', 'Maestria': '👑', 'Dojo Kun': '📜', 'Filosofia': '🧘', 'Budo': '⛩️'
             };
 
             // Get config for this faixa
@@ -57986,12 +58121,12 @@ ml>
             if (!items) return;
 
             var catIcons = {
-                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
-                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
-                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
-                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
-                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
-                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+                'Kihon': '🥋', 'Kata': '📖', 'Kumite': '⚔️', 'Bunkai': '🥷',
+                'Socos (Tsuki)': '🥋', 'Chutes (Keri)': '🦵', 'Bloqueios (Uke)': '🛡️', 'Posições (Dachi)': '🥋',
+                'Defesa Pessoal': '🥷', 'Ukemi': '⬇️', 'Kihon': '🥋', 'Kata': '📖',
+                'Kumite': '⚔️', 'Kiai': '🎯', 'Zanshin': '🧘', 'Maai': '📐', 'Kata Avançado': '🏅',
+                'Competição': '🏆', 'Dan/Kyu': '⭐', 'Avançado': '🔥', 'Filosófico': '🧘',
+                'Ensino': '📚', 'Maestria': '👑', 'Dojo Kun': '📜', 'Filosofia': '🧘', 'Budo': '⛩️'
             };
 
             // Group by category
@@ -58079,12 +58214,12 @@ ml>
 
             // Category icons
             var catIcons = {
-                'Quedas': '⬇️', 'Raspagens': '🔄', 'Passagens': '➡️', 'Passagens de Guarda': '➡️',
-                'Pegada de Costas': '🔙', 'Finalizações': '🎯', 'Defesas': '🛡️', 'Defesas e Escapes': '🛡️',
-                'Guarda': '🦶', 'Raspagem': '🔄', 'Passagem': '➡️', 'Finalização': '🎯',
-                'Costas': '🔙', 'Defesa': '🛡️', 'Transição': '🔀', 'Queda': '⬇️', 'No-Gi': '💪',
-                'Sistema': '📐', 'Leg Lock': '🦵', 'Avançado': '🔥', 'Competição': '🏆',
-                'Ensino': '📚', 'Maestria': '👑', 'Defesa Pessoal': '🥊', 'Filosofia': '🧘', 'Gestão': '📋'
+                'Kihon': '🥋', 'Kata': '📖', 'Kumite': '⚔️', 'Bunkai': '🥷',
+                'Socos (Tsuki)': '🥋', 'Chutes (Keri)': '🦵', 'Bloqueios (Uke)': '🛡️', 'Posições (Dachi)': '🥋',
+                'Defesa Pessoal': '🥷', 'Ukemi': '⬇️', 'Kihon': '🥋', 'Kata': '📖',
+                'Kumite': '⚔️', 'Kiai': '🎯', 'Zanshin': '🧘', 'Maai': '📐', 'Kata Avançado': '🏅',
+                'Competição': '🏆', 'Dan/Kyu': '⭐', 'Avançado': '🔥', 'Filosófico': '🧘',
+                'Ensino': '📚', 'Maestria': '👑', 'Dojo Kun': '📜', 'Filosofia': '🧘', 'Budo': '⛩️'
             };
 
             // Group by category
@@ -58562,7 +58697,7 @@ ml>
           else if(type==='memoria') startMemoria();
           else if(type==='forca') startForca();
           else if(type==='relampago') startRelampago();
-          else if(type==='cruzadas') startCruzadas();
+          else if(type==='cruzadas') startKataQuiz();
           else if(type==='english') startEnglish();
         }
 
@@ -59248,7 +59383,7 @@ ml>
           else if(g.type==='english'){score=g.score;total=g.qs.length;}
 
           var pct=total>0?Math.round(score/total*100):0;
-          emoji=pct>=80?'🏆':pct>=60?'💪':pct>=30?'📚':'🤔';
+          emoji=pct>=80?'🏆':pct>=60?'🥋':pct>=30?'📖':'🤔';
           var cls=pct>=70?'great':pct>=50?'good':'bad';
           var label=pct>=80?'Excelente!':pct>=60?'Muito bem!':pct>=30?'Continue praticando!':'Não desista!';
           var names={quiz:'Quiz',associacao:'Associação',mem:'Memória',forca:'Forca',rl:'Relâmpago',cz:'Cruzadas',english:'CT English'};
@@ -61225,7 +61360,7 @@ ml>
                 var _dias   = parseInt(dias) || 30;
                 var _ytLink = 'https://www.youtube.com/watch?v=nqyErbbObOY';
 
-                var waMsgRaw = 'Olá, ' + _nome + '! 🥋\n\nSeja bem-vindo(a) ao *Dojo Systems*! Seu acesso está pronto.\n\n🔗 *Link de acesso:*\n' + _link + '\n\n📧 *E-mail:* ' + email + '\n🔑 *Senha inicial:* ' + _senha + '\n\n⏳ Você tem *' + _dias + ' dias* de trial gratuito.\n\n▶️ *Treinamento inicial (assista antes de começar):*\n' + _ytLink + '\n\n📌 *Primeiros passos:*\n1. Acesse o link acima\n2. Faça login com seu e-mail e senha\n3. Assista o vídeo de treinamento\n4. Cadastre seus alunos em Admin → Alunos\n5. Configure os horários em Admin → Sistema\n\nQualquer dúvida estou à disposição! 💪\n_IDESystems Tecnologia_';
+                var waMsgRaw = 'Olá, ' + _nome + '! 🥋\n\nSeja bem-vindo(a) ao *Dojo Systems*! Seu acesso está pronto.\n\n🔗 *Link de acesso:*\n' + _link + '\n\n📧 *E-mail:* ' + email + '\n🔑 *Senha inicial:* ' + _senha + '\n\n⏳ Você tem *' + _dias + ' dias* de trial gratuito.\n\n▶️ *Treinamento inicial (assista antes de começar):*\n' + _ytLink + '\n\n📌 *Primeiros passos:*\n1. Acesse o link acima\n2. Faça login com seu e-mail e senha\n3. Assista o vídeo de treinamento\n4. Cadastre seus alunos em Admin → Alunos\n5. Configure os horários em Admin → Sistema\n\nQualquer dúvida estou à disposição! 🥋\n_Dojo Systems Tecnologia_';
 
                 var waEncoded  = encodeURIComponent(waMsgRaw);
                 var waTelefone = res.telefone || '';
@@ -62113,7 +62248,7 @@ ml>
             { id: 'campeonato',  icon: '🏅',  nome: 'Campeonato',          desc: 'Inscrição e placar do campeonato interno',    plano: 'academia'  },
             { id: 'exame',       icon: '🎓',  nome: 'Exame de Faixa',      desc: 'Solicitação e avaliação de promoção',         plano: 'academia'  },
             // ADD-ONS — compra separada
-            { id: 'musculacao',  icon: '🏋️',  nome: 'Preparação Física',   desc: 'Fichas de musculação complementar',           plano: 'completo'  },
+            { id: 'musculacao',  icon: '🥋',  nome: 'Preparação Física',   desc: 'Fichas de musculação complementar',           plano: 'completo'  },
             { id: 'jogos',       icon: '🎮',  nome: 'Jogos CT',           desc: 'Quiz, memória, forca e jogos educativos',     plano: 'completo'  }
         ];
 
@@ -66751,7 +66886,7 @@ ml>
                     if (_modDisplay.nivel && s.ct) html += ' · ';
                     if (s.ct) html += '📍 ' + escapeHtml(s.ct);
                     if (isAdm) html += ' · 🏫 ' + ((s.ctsProfessor || '').split(',').filter(function(x){ return x.trim(); }).length || '?') + ' CT(s)';
-                    else html += ' · 💪 ' + treinos;
+                    else html += ' · 🥋 ' + treinos;
                     if (diasAusente > 0) html += ' · 📅 ' + diasAusente + 'd ausente';
                     // Categoria etária
                     var _mpCat = s.modalidadePrincipal || 'karate';
@@ -68463,7 +68598,7 @@ ml>
         'fb.sub':'Elogie, sugira melhorias ou reporte um problema. Seu feedback é anônimo para outros alunos.',
         'fb.elogio':'😊 Elogio','fb.sugestao':'💡 Sugestão','fb.problema':'😤 Problema',
         'fb.placeholder':'Escreva sua mensagem aqui...','fb.send':'Enviar →',
-        'prep.title':'🏋️ Preparação Física','prep.sub':'Módulos personalizados pelo professor',
+        'prep.title':'🥋 Preparação Física','prep.sub':'Módulos personalizados pelo professor',
         'prep.loading':'Carregando...','prep.history':'📅 Meus Treinos Realizados',
         'rank.ranking':'Ranking','rank.loading':'Carregando ranking...','rank.camp_title':'🏆 Ranking do Campeonato',
         'rank.semester':'📅 Semestre','rank.ct':'📍 CT','rank.select_sem':'Carregando...',
@@ -68471,7 +68606,7 @@ ml>
         'rank.hall':'👑 Hall da Fama','rank.hall_sub':'Hall da Fama',
         'rank.rules_title':'Regulamento do Campeonato','rank.rules_sub':'Toque para ver as regras',
         'games.curio_tag':'CURIOSIDADE DOJO','games.curio_tap':'toque para outra →',
-        'games.jogos':'🎮 Jogos','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
+        'games.jogos':'🥋 Jogos','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
         'games.xp_total':'XP Total','games.jogos_count':'Jogos','games.precisao':'Precisão',
         'games.melhor':'Melhor 🔥','games.loading_rank':'Carregando ranking...',
         'game.quiz':'Quiz','game.quiz_desc':'Teste seus conhecimentos',
@@ -68557,7 +68692,7 @@ ml>
         'fb.sub':'Praise, suggest improvements, or report an issue. Your feedback is anonymous to other students.',
         'fb.elogio':'😊 Praise','fb.sugestao':'💡 Suggestion','fb.problema':'😤 Issue',
         'fb.placeholder':'Write your message here...','fb.send':'Send →',
-        'prep.title':'🏋️ Physical Preparation','prep.sub':'Modules personalized by the instructor',
+        'prep.title':'🥋 Physical Preparation','prep.sub':'Modules personalized by the instructor',
         'prep.loading':'Loading...','prep.history':'📅 My Completed Workouts',
         'rank.ranking':'Ranking','rank.loading':'Loading ranking...','rank.camp_title':'🏆 Championship Ranking',
         'rank.semester':'📅 Semester','rank.ct':'📍 CT','rank.select_sem':'Loading...',
@@ -68565,7 +68700,7 @@ ml>
         'rank.hall':'👑 Hall of Fame','rank.hall_sub':'Hall of Fame',
         'rank.rules_title':'Championship Rules','rank.rules_sub':'Tap to see the rules',
         'games.curio_tag':'CT TRIVIA','games.curio_tap':'tap for another →',
-        'games.jogos':'🎮 Games','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
+        'games.jogos':'🥋 Games','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
         'games.xp_total':'Total XP','games.jogos_count':'Games','games.precisao':'Accuracy',
         'games.melhor':'Best 🔥','games.loading_rank':'Loading ranking...',
         'game.quiz':'Quiz','game.quiz_desc':'Test your knowledge',
@@ -68650,7 +68785,7 @@ ml>
         'fb.sub':'Elogia, sugiere mejoras o reporta un problema. Tu feedback es anónimo para otros alumnos.',
         'fb.elogio':'😊 Elogio','fb.sugestao':'💡 Sugerencia','fb.problema':'😤 Problema',
         'fb.placeholder':'Escribe tu mensaje aquí...','fb.send':'Enviar →',
-        'prep.title':'🏋️ Preparación Física','prep.sub':'Módulos personalizados por el profesor',
+        'prep.title':'🥋 Preparación Física','prep.sub':'Módulos personalizados por el profesor',
         'prep.loading':'Cargando...','prep.history':'📅 Mis Entrenos Realizados',
         'rank.ranking':'Ranking','rank.loading':'Cargando ranking...','rank.camp_title':'🏆 Ranking del Campeonato',
         'rank.semester':'📅 Semestre','rank.ct':'📍 CT','rank.select_sem':'Cargando...',
@@ -68658,7 +68793,7 @@ ml>
         'rank.hall':'👑 Salón de la Fama','rank.hall_sub':'Salón de la Fama',
         'rank.rules_title':'Reglamento del Campeonato','rank.rules_sub':'Toca para ver las reglas',
         'games.curio_tag':'DATO CT','games.curio_tap':'toca para otra →',
-        'games.jogos':'🎮 Juegos','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
+        'games.jogos':'🥋 Juegos','games.manual':'📖 Manual','games.rank':'🏆 Ranking',
         'games.xp_total':'XP Total','games.jogos_count':'Juegos','games.precisao':'Precisión',
         'games.melhor':'Mejor 🔥','games.loading_rank':'Cargando ranking...',
         'game.quiz':'Quiz','game.quiz_desc':'Pon a prueba tu conocimiento',
@@ -70222,6 +70357,12 @@ ml>
         })();
 
 
+
+        // Event delegation para Kata Quiz
+        document.addEventListener('click', function(e) {
+            var kqBtn = e.target.closest('[data-kq]') || e.target.closest('[data-kq-opt]');
+            if (kqBtn) _kqAnswer(kqBtn.getAttribute('data-kq') || kqBtn.getAttribute('data-kq-opt'));
+        });
 
         // Event delegation para botões de faixa admin
         document.addEventListener('click', function(e) {
