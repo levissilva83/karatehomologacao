@@ -141865,6 +141865,296 @@ ml>
         }
 
 
+
+        // ══════════════════════════════════════════════════════════════════
+        // CRONOGRAMA ADMIN — Lógica refatorada
+        // Modalidades e CTs vêm do backend, NÃO das aulas existentes
+        // ══════════════════════════════════════════════════════════════════
+
+        var _admCronoCTsList   = [];   // lista de CTs carregada do backend
+        var _admCronoModsList  = [];   // lista de modalidades carregada do backend
+        var _admCronoNewCTs    = [];   // CTs selecionados para nova aula
+        var _admCronoNewMod    = '';   // modalidade selecionada para nova aula
+        var _cronoNewAulaMode  = false;
+
+        // ── Carregar CTs e Modalidades do backend ─────────────────────────
+        async function _loadCronoMasterData() {
+            try {
+                // CTs
+                if (!_admCronoCTsList.length) {
+                    var ctData = await secureFetch('getCTsList', {});
+                    if (ctData && ctData.success && ctData.cts) {
+                        _admCronoCTsList = ctData.cts.map(function(c) {
+                            return typeof c === 'string' ? c : (c.name || c.nome || '');
+                        }).filter(Boolean);
+                    }
+                }
+            } catch(e) {}
+
+            try {
+                // Modalidades — do estilo do dojo
+                if (!_admCronoModsList.length) {
+                    var modData = await secureFetch('getModalidades', {});
+                    if (modData && modData.success && modData.modalidades) {
+                        _admCronoModsList = modData.modalidades.map(function(m) {
+                            return { id: m.id, nome: m.nome || m.id, cor: m.cor || '#C41E3A' };
+                        });
+                    }
+                    // Fallback: usar o estilo do dojo diretamente
+                    if (!_admCronoModsList.length && _dojoEstilo) {
+                        var schema = MODALIDADES_SCHEMA[_dojoEstilo] || MODALIDADES_SCHEMA['karate'];
+                        if (schema) {
+                            _admCronoModsList = [{ id: _dojoEstilo, nome: schema.nome || _dojoEstilo, cor: schema.cor || '#C41E3A' }];
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+
+        // ── Refatorar renderAdmCronoCTChips para usar _admCronoCTsList ────
+        function renderAdmCronoCTChips() {
+            var el = document.getElementById('cronoAdmCTChips');
+            if (!el) return;
+
+            // Obter CTs: da lista carregada OU das aulas existentes
+            var ctsSet = {};
+            _admCronoCTsList.forEach(function(ct) { ctsSet[ct] = 1; });
+            _admCronoAulas.forEach(function(a) { if (a.ct) ctsSet[a.ct] = 1; });
+            var keys = Object.keys(ctsSet);
+
+            if (!keys.length) {
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT cadastrado — crie um CT primeiro</span>';
+                return;
+            }
+            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
+            var html = '<button data-crono-ct-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroCT ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroCT ? '#fff' : 'var(--adm-text-2)') + ';">Todos</button>';
+            keys.forEach(function(ct) {
+                var active = _admCronoFiltroCT === ct;
+                html += '<button data-crono-ct="' + escapeHtml(ct) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
+            });
+            el.innerHTML = html;
+        }
+
+        // ── Refatorar renderAdmCronoModChips para usar _admCronoModsList ──
+        function renderAdmCronoModChips() {
+            var el = document.getElementById('cronoAdmModalidadeChips');
+            if (!el) return;
+
+            // Obter mods: da lista carregada OU das aulas existentes
+            var modsMap = {};
+            _admCronoModsList.forEach(function(m) { modsMap[m.id] = m.nome; });
+            _admCronoAulas.forEach(function(a) { if (a.modalidade && !modsMap[a.modalidade]) modsMap[a.modalidade] = a.modalidade; });
+            var keys = Object.keys(modsMap);
+
+            if (!keys.length) {
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Carregando estilos...</span>';
+                return;
+            }
+            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
+            var html = '';
+            if (keys.length > 1) {
+                html += '<button data-crono-mod-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroMod ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroMod ? '#fff' : 'var(--adm-text-2)') + ';">Todas</button>';
+            }
+            keys.forEach(function(id) {
+                var active = _admCronoFiltroMod === id;
+                var nome   = modsMap[id] || id;
+                html += '<button data-crono-mod="' + escapeHtml(id) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">🥋 ' + escapeHtml(nome) + '</button>';
+            });
+            el.innerHTML = html;
+        }
+
+        // ── openCronoNewAulaPanel — preenche chips de CTs e Modalidades ───
+        async function openCronoNewAulaPanel() {
+            var panel = document.getElementById('cronoNewAulaPanel');
+            if (!panel) return;
+
+            // Garantir que temos os dados
+            await _loadCronoMasterData();
+
+            // Preencher CT chips
+            var ctEl = document.getElementById('cronoNewCTChips');
+            if (ctEl) {
+                var ctList = _admCronoCTsList.length ? _admCronoCTsList :
+                    Array.from(new Set(_admCronoAulas.map(function(a){ return a.ct; }).filter(Boolean)));
+                if (!ctList.length) {
+                    ctEl.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT — crie um CT em Centros de Treinamento</span>';
+                } else {
+                    var stCT = 'padding:6px 12px;border-radius:20px;border:1.5px solid var(--adm-border);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                    ctEl.innerHTML = ctList.map(function(ct) {
+                        var sel = _admCronoNewCTs.indexOf(ct) !== -1;
+                        return '<button data-new-ct="' + escapeHtml(ct) + '" style="' + stCT + 'background:' + (sel ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)') + ';color:' + (sel ? '#fff' : 'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
+                    }).join('');
+                }
+            }
+
+            // Preencher Modalidade chips — auto-selecionar se só 1
+            var modEl = document.getElementById('cronoNewModalidadeChips');
+            if (modEl) {
+                var modList = _admCronoModsList.length ? _admCronoModsList :
+                    [{ id: _dojoEstilo || 'karate_shotokan', nome: 'Karatê', cor: '#C41E3A' }];
+
+                // Auto-selecionar se há só 1 modalidade
+                if (modList.length === 1 && !_admCronoNewMod) {
+                    _admCronoNewMod = modList[0].id;
+                }
+
+                var stMod = 'padding:6px 12px;border-radius:20px;border:1.5px solid;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                modEl.innerHTML = modList.map(function(m) {
+                    var sel = _admCronoNewMod === m.id;
+                    var cor = m.cor || '#C41E3A';
+                    return '<button data-new-mod="' + escapeHtml(m.id) + '" ' +
+                        'style="' + stMod + 'border-color:' + (sel ? cor : 'var(--adm-border)') + ';' +
+                        'background:' + (sel ? cor : 'transparent') + ';' +
+                        'color:' + (sel ? '#fff' : 'var(--adm-text-2)') + ';">' +
+                        '🥋 ' + escapeHtml(m.nome) + '</button>';
+                }).join('');
+            }
+
+            // Atualizar datas selecionadas
+            var datesEl = document.getElementById('cronoNewDatesChips');
+            if (datesEl) {
+                if (_admCronoSelectedDates.length) {
+                    datesEl.textContent = _admCronoSelectedDates.map(function(d) {
+                        var p = d.split('-'); return p[2]+'/'+p[1]+'/'+p[0];
+                    }).join(', ');
+                } else {
+                    datesEl.textContent = 'Nenhuma data selecionada — clique no calendário';
+                    datesEl.style.color = 'var(--adm-text-3)';
+                }
+            }
+
+            panel.style.display = 'flex';
+        }
+
+        function closeCronoNewAulaPanel() {
+            var panel = document.getElementById('cronoNewAulaPanel');
+            if (panel) panel.style.display = 'none';
+            _admCronoNewCTs  = [];
+            _admCronoNewMod  = '';
+            _cronoNewAulaMode = false;
+        }
+
+        // Event delegation para os chips do painel Nova Aula
+        document.addEventListener('click', function(e) {
+            // CT chip no filtro
+            var ctAll = e.target.closest('[data-crono-ct-all]');
+            if (ctAll) { admCronoFiltroCT(''); return; }
+            var ctChip = e.target.closest('[data-crono-ct]');
+            if (ctChip) { admCronoFiltroCT(ctChip.getAttribute('data-crono-ct')); return; }
+
+            // Mod chip no filtro
+            var modAll = e.target.closest('[data-crono-mod-all]');
+            if (modAll) { admCronoFiltroMod(''); return; }
+            var modChip = e.target.closest('[data-crono-mod]');
+            if (modChip) { admCronoFiltroMod(modChip.getAttribute('data-crono-mod')); return; }
+
+            // CT chip no Nova Aula
+            var newCT = e.target.closest('[data-new-ct]');
+            if (newCT) {
+                var ct = newCT.getAttribute('data-new-ct');
+                var idx = _admCronoNewCTs.indexOf(ct);
+                if (idx === -1) _admCronoNewCTs.push(ct);
+                else _admCronoNewCTs.splice(idx, 1);
+                // Re-render só os chips de CT
+                var stCT = 'padding:6px 12px;border-radius:20px;border:1.5px solid var(--adm-border);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                newCT.parentElement.querySelectorAll('[data-new-ct]').forEach(function(btn) {
+                    var isSel = _admCronoNewCTs.indexOf(btn.getAttribute('data-new-ct')) !== -1;
+                    btn.style.background = isSel ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)';
+                    btn.style.color      = isSel ? '#fff' : 'var(--adm-text-2)';
+                });
+                return;
+            }
+
+            // Mod chip no Nova Aula
+            var newMod = e.target.closest('[data-new-mod]');
+            if (newMod) {
+                _admCronoNewMod = newMod.getAttribute('data-new-mod');
+                newMod.parentElement.querySelectorAll('[data-new-mod]').forEach(function(btn) {
+                    var schema = MODALIDADES_SCHEMA[_dojoEstilo] || {};
+                    var cor    = schema.cor || '#C41E3A';
+                    var isSel  = btn.getAttribute('data-new-mod') === _admCronoNewMod;
+                    btn.style.background   = isSel ? cor : 'transparent';
+                    btn.style.borderColor  = isSel ? cor : 'var(--adm-border)';
+                    btn.style.color        = isSel ? '#fff' : 'var(--adm-text-2)';
+                });
+                return;
+            }
+        });
+
+        // ── Refatorar loadAdminCronograma para carregar dados mestres ──────
+        async function loadAdminCronograma() {
+            try {
+                // Carregar dados mestres (CTs + Modalidades) em paralelo com aulas
+                await _loadCronoMasterData();
+                var data = await secureFetch('getCronogramaAulas', {
+                    email: currentUser ? currentUser.email : '',
+                    admin: true
+                });
+                if (!data || !data.success) return;
+                _admCronoAulas = data.aulas || [];
+                renderAdmCronoCTChips();
+                renderAdmCronoModChips();
+                renderAdmCronoCal();
+                if (_admCronoSelectedDate) renderCronoAgenda(_admCronoSelectedDate);
+            } catch(e) { console.error('[loadAdminCronograma]', e); }
+        }
+
+        // ── saveCronogramaAula usa _admCronoNewCTs e _admCronoNewMod ──────
+        async function saveCronogramaAula() {
+            var datas    = _admCronoSelectedDates;
+            var cts      = _admCronoNewCTs;
+            var mod      = _admCronoNewMod || _dojoEstilo || 'karate_shotokan';
+            var horario  = (document.getElementById('cronoAdmHorario') || {}).value || '';
+            var tema     = (document.getElementById('cronoAdmTema')    || {}).value || '';
+            var desc     = (document.getElementById('cronoAdmDesc')    || {}).value || '';
+            var msgEl    = document.getElementById('cronoAdmMsg');
+
+            if (!datas || !datas.length) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Selecione pelo menos uma data no calendário</span>';
+                return;
+            }
+            if (!cts.length) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Selecione pelo menos um CT</span>';
+                return;
+            }
+            if (!tema) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Informe o tema da aula</span>';
+                return;
+            }
+
+            if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-text-3);">Salvando...</span>';
+            var saveBtn = document.getElementById('cronoAdmSaveBtn');
+            if (saveBtn) saveBtn.disabled = true;
+
+            try {
+                var result = await secureFetch('saveCronogramaAulas', {
+                    datas: datas,
+                    cts: cts,
+                    modalidade: mod,
+                    horario: horario,
+                    tema: tema,
+                    descricao: desc
+                });
+                if (result && result.success) {
+                    if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-green);">✅ ' + (result.message || 'Aula(s) salva(s)!') + '</span>';
+                    _admCronoSelectedDates = [];
+                    document.getElementById('cronoAdmTema').value = '';
+                    document.getElementById('cronoAdmDesc').value = '';
+                    await loadAdminCronograma();
+                    renderAdmCronoCal();
+                    renderCronoAgenda();
+                    _syncCronoAluno();
+                    setTimeout(function() { closeCronoNewAulaPanel(); }, 800);
+                } else {
+                    if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">❌ ' + escapeHtml((result && result.message) || 'Erro') + '</span>';
+                }
+            } catch(err) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">❌ ' + escapeHtml(err.message) + '</span>';
+            } finally {
+                if (saveBtn) saveBtn.disabled = false;
+            }
+        }
+
     </script>
 </body>>
 </html>
