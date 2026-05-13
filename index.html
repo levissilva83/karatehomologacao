@@ -6305,8 +6305,8 @@
         .mod-home-card {
             position: relative; overflow: hidden;
             border-radius: 18px;
-            border: 1.5px solid rgba(var(--mod-card-rgb,201,162,58), 0.15);
-            background: var(--mod-card-bg, rgba(14,13,16,0.95));
+            border: 1.5px solid rgba(var(--mod-card-rgb,201,162,58), 0.35);
+            background: var(--mod-card-bg, var(--bg-card, #F4F1EA));
             cursor: pointer;
             transition: transform 0.22s cubic-bezier(0.34,1.4,0.64,1),
                         border-color 0.2s, box-shadow 0.2s;
@@ -6360,12 +6360,13 @@
         .mod-home-card-nome {
             font-family: 'Sora', sans-serif;
             font-size: 18px; font-weight: 800;
-            /* Fundo do card é escuro (rgba(14,13,16)) → texto CLARO */
-            color: #F0EBE0; margin-bottom: 2px;
+            color: var(--mod-card-text, #FFFFFF);
+            margin-bottom: 2px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .mod-home-card-desc {
             font-size: 12px;
-            color: #B0A48C; /* quente, legível no escuro */
+            color: var(--text-3, #6B5D52);
             margin-bottom: 8px;
         }
         .mod-home-card-meta {
@@ -6374,15 +6375,15 @@
         .mod-home-card-tag {
             font-size: 9px; font-weight: 800; letter-spacing: 0.8px;
             padding: 3px 9px; border-radius: 20px;
-            color: var(--mod-card-accent);
-            background: rgba(var(--mod-card-rgb,201,162,58), 0.10);
-            border: 1px solid rgba(var(--mod-card-rgb,201,162,58), 0.20);
+            color: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,196,30,58), 0.12);
+            border: 1px solid rgba(255,255,255,196,30,58), 0.30);
         }
         .mod-home-card-badge-principal {
             font-size: 9px; font-weight: 800; letter-spacing: 0.5px;
             padding: 3px 9px; border-radius: 20px;
-            background: rgba(var(--mod-card-rgb,201,162,58), 0.18);
-            color: var(--mod-card-accent);
+            background: rgba(255,255,255,,201,162,58), 0.18);
+            color: rgba(255,255,255,0.95);
             border: 1px solid rgba(var(--mod-card-rgb,201,162,58), 0.30);
         }
 
@@ -11936,7 +11937,7 @@
                 gradientBg:'radial-gradient(ellipse at 20% 10%,rgba(' + corRGB + ',0.18) 0%,transparent 60%)',
                 btnLabel:  (m.emoji || '🥋') + ' Treinei',
                 btnClass:  'mod-btn-' + m.id.replace(/_/g,'-'),
-                cardBg:    'linear-gradient(145deg,rgba(' + corRGB + ',0.12) 0%,rgba(' + corRGB + ',0.06) 100%)',
+                cardBg:    'linear-gradient(145deg,rgba(' + corRGB + ',0.18) 0%,rgba(' + corRGB + ',0.10) 100%)',
                 tag:       (MOD_GRAD_TIPO_STYLES[m.gradTipo] || {}).tag || '',
                 tagColor:  cor,
                 gradTipo:  m.gradTipo || 'nenhum',
@@ -12697,6 +12698,7 @@ var MODALIDADES_SCHEMA = {
             root.style.setProperty('--mod-accent-rgb', mod.corRGB || '201,162,58');
             root.style.setProperty('--mod-dark',       mod.corDark);
             root.style.setProperty('--mod-light',      mod.corLight);
+            root.style.setProperty('--mod-card-text',  '#FFFFFF');
             root.style.setProperty('--mod-dim',        'rgba(' + (mod.corRGB || '201,162,58') + ',0.10)');
             root.style.setProperty('--mod-glow',       'rgba(' + (mod.corRGB || '201,162,58') + ',0.20)');
             root.style.setProperty('--mod-gradient',   mod.gradient);
@@ -41491,8 +41493,8 @@ ml>
         .mod-home-card {
             position: relative; overflow: hidden;
             border-radius: 18px;
-            border: 1.5px solid rgba(var(--mod-card-rgb,201,162,58), 0.15);
-            background: var(--mod-card-bg, rgba(14,13,16,0.95));
+            border: 1.5px solid rgba(var(--mod-card-rgb,201,162,58), 0.35);
+            background: var(--mod-card-bg, var(--bg-card, #F4F1EA));
             cursor: pointer;
             transition: transform 0.22s cubic-bezier(0.34,1.4,0.64,1),
                         border-color 0.2s, box-shadow 0.2s;
@@ -41546,12 +41548,13 @@ ml>
         .mod-home-card-nome {
             font-family: 'Sora', sans-serif;
             font-size: 18px; font-weight: 800;
-            /* Fundo do card é escuro (rgba(14,13,16)) → texto CLARO */
-            color: #F0EBE0; margin-bottom: 2px;
+            color: var(--mod-card-text, #FFFFFF);
+            margin-bottom: 2px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .mod-home-card-desc {
             font-size: 12px;
-            color: #B0A48C; /* quente, legível no escuro */
+            color: var(--text-3, #6B5D52);
             margin-bottom: 8px;
         }
         .mod-home-card-meta {
@@ -41560,9 +41563,9 @@ ml>
         .mod-home-card-tag {
             font-size: 9px; font-weight: 800; letter-spacing: 0.8px;
             padding: 3px 9px; border-radius: 20px;
-            color: var(--mod-card-accent);
-            background: rgba(var(--mod-card-rgb,201,162,58), 0.10);
-            border: 1px solid rgba(var(--mod-card-rgb,201,162,58), 0.20);
+            color: var(--mod-card-accent, #C41E3A);
+            background: rgba(var(--mod-card-rgb,196,30,58), 0.12);
+            border: 1px solid rgba(var(--mod-card-rgb,196,30,58), 0.30);
         }
         .mod-home-card-badge-principal {
             font-size: 9px; font-weight: 800; letter-spacing: 0.5px;
@@ -47057,7 +47060,7 @@ ml>
                 gradientBg:'radial-gradient(ellipse at 20% 10%,rgba(' + corRGB + ',0.18) 0%,transparent 60%)',
                 btnLabel:  (m.emoji || '🥋') + ' Treinei',
                 btnClass:  'mod-btn-' + m.id.replace(/_/g,'-'),
-                cardBg:    'linear-gradient(145deg,rgba(' + corRGB + ',0.12) 0%,rgba(' + corRGB + ',0.06) 100%)',
+                cardBg:    'linear-gradient(145deg,rgba(' + corRGB + ',0.18) 0%,rgba(' + corRGB + ',0.10) 100%)',
                 tag:       (MOD_GRAD_TIPO_STYLES[m.gradTipo] || {}).tag || '',
                 tagColor:  cor,
                 gradTipo:  m.gradTipo || 'nenhum',
@@ -47774,6 +47777,7 @@ ml>
             root.style.setProperty('--mod-accent-rgb', mod.corRGB || '201,162,58');
             root.style.setProperty('--mod-dark',       mod.corDark);
             root.style.setProperty('--mod-light',      mod.corLight);
+            root.style.setProperty('--mod-card-text',  '#FFFFFF');
             root.style.setProperty('--mod-dim',        'rgba(' + (mod.corRGB || '201,162,58') + ',0.10)');
             root.style.setProperty('--mod-glow',       'rgba(' + (mod.corRGB || '201,162,58') + ',0.20)');
             root.style.setProperty('--mod-gradient',   mod.gradient);
@@ -70838,13 +70842,26 @@ ml>
         // ── Carregar CTs e Modalidades do backend ─────────────────────────
         async function _loadCronoMasterData() {
             try {
-                // CTs
+                // CTs — usar allCTs já carregados no login (mais confiável para admin)
                 if (!_admCronoCTsList.length) {
-                    var ctData = await secureFetch('getCTsList', {});
-                    if (ctData && ctData.success && ctData.cts) {
-                        _admCronoCTsList = ctData.cts.map(function(c) {
+                    // 1. Tentar allCTs (populado no login do admin)
+                    if (typeof allCTs !== 'undefined' && allCTs && allCTs.length) {
+                        _admCronoCTsList = allCTs.map(function(c) {
                             return typeof c === 'string' ? c : (c.name || c.nome || '');
                         }).filter(Boolean);
+                    }
+                    // 2. Fallback: buscar do backend
+                    if (!_admCronoCTsList.length) {
+                        var ctData = await secureFetch('getCTsList', {});
+                        if (ctData && ctData.success && ctData.cts) {
+                            _admCronoCTsList = ctData.cts.map(function(c) {
+                                return typeof c === 'string' ? c : (c.name || c.nome || '');
+                            }).filter(Boolean);
+                        }
+                    }
+                    // 3. Último fallback: currentUser.ct
+                    if (!_admCronoCTsList.length && currentUser && currentUser.ct) {
+                        _admCronoCTsList = [currentUser.ct];
                     }
                 }
             } catch(e) {}
@@ -70870,52 +70887,27 @@ ml>
         }
 
 
-        async function _loadCronoMasterData() {
-            try {
-                // CTs
-                if (!_admCronoCTsList.length) {
-                    var ctData = await secureFetch('getCTsList', {});
-                    if (ctData && ctData.success && ctData.cts) {
-                        _admCronoCTsList = ctData.cts.map(function(c) {
-                            return typeof c === 'string' ? c : (c.name || c.nome || '');
-                        }).filter(Boolean);
-                    }
-                }
-            } catch(e) {}
 
-            try {
-                // Modalidades — do estilo do dojo
-                if (!_admCronoModsList.length) {
-                    var modData = await secureFetch('getModalidades', {});
-                    if (modData && modData.success && modData.modalidades) {
-                        _admCronoModsList = modData.modalidades.map(function(m) {
-                            return { id: m.id, nome: m.nome || m.id, cor: m.cor || '#C41E3A' };
-                        });
-                    }
-                    // Fallback: usar o estilo do dojo diretamente
-                    if (!_admCronoModsList.length && _dojoEstilo) {
-                        var schema = MODALIDADES_SCHEMA[_dojoEstilo] || MODALIDADES_SCHEMA['karate'];
-                        if (schema) {
-                            _admCronoModsList = [{ id: _dojoEstilo, nome: schema.nome || _dojoEstilo, cor: schema.cor || '#C41E3A' }];
-                        }
-                    }
-                }
-            } catch(e) {}
-        }
 
         function renderAdmCronoCTChips() {
             var el = document.getElementById('cronoAdmCTChips');
             if (!el) return;
-            var cts = {};
-            _admCronoAulas.forEach(function(a){ if(a.ct) cts[a.ct]=1; });
-            var keys = Object.keys(cts);
-            if (!keys.length) { el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Nenhum CT</span>'; return; }
-            var html = '';
-            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;';
-            html += '<button data-crono-ct-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroCT?'var(--adm-primary)':'transparent') + ';color:' + (!_admCronoFiltroCT?'#fff':'var(--adm-text-2)') + ';">Todos</button>';
+
+            // Obter CTs: da lista carregada OU das aulas existentes
+            var ctsSet = {};
+            _admCronoCTsList.forEach(function(ct) { ctsSet[ct] = 1; });
+            _admCronoAulas.forEach(function(a) { if (a.ct) ctsSet[a.ct] = 1; });
+            var keys = Object.keys(ctsSet);
+
+            if (!keys.length) {
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT cadastrado — crie um CT primeiro</span>';
+                return;
+            }
+            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
+            var html = '<button data-crono-ct-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroCT ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroCT ? '#fff' : 'var(--adm-text-2)') + ';">Todos</button>';
             keys.forEach(function(ct) {
                 var active = _admCronoFiltroCT === ct;
-                html += '<button data-crono-ct="' + escapeHtml(ct) + '" style="' + stAll + 'background:' + (active?'var(--adm-primary)':'transparent') + ';color:' + (active?'#fff':'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
+                html += '<button data-crono-ct="' + escapeHtml(ct) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
             });
             el.innerHTML = html;
         }
@@ -70923,16 +70915,26 @@ ml>
         function renderAdmCronoModChips() {
             var el = document.getElementById('cronoAdmModalidadeChips');
             if (!el) return;
-            var mods = {};
-            _admCronoAulas.forEach(function(a){ if(a.modalidade) mods[a.modalidade]=1; });
-            var keys = Object.keys(mods);
-            if (!keys.length) { el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Sem filtro</span>'; return; }
+
+            // Obter mods: da lista carregada OU das aulas existentes
+            var modsMap = {};
+            _admCronoModsList.forEach(function(m) { modsMap[m.id] = m.nome; });
+            _admCronoAulas.forEach(function(a) { if (a.modalidade && !modsMap[a.modalidade]) modsMap[a.modalidade] = a.modalidade; });
+            var keys = Object.keys(modsMap);
+
+            if (!keys.length) {
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Carregando estilos...</span>';
+                return;
+            }
+            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
             var html = '';
-            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;';
-            html += '<button data-crono-mod-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroMod?'var(--adm-primary)':'transparent') + ';color:' + (!_admCronoFiltroMod?'#fff':'var(--adm-text-2)') + ';">Todas</button>';
-            keys.forEach(function(mod) {
-                var active = _admCronoFiltroMod === mod;
-                html += '<button data-crono-mod="' + escapeHtml(mod) + '" style="' + stAll + 'background:' + (active?'var(--adm-primary)':'transparent') + ';color:' + (active?'#fff':'var(--adm-text-2)') + ';">' + escapeHtml(mod) + '</button>';
+            if (keys.length > 1) {
+                html += '<button data-crono-mod-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroMod ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroMod ? '#fff' : 'var(--adm-text-2)') + ';">Todas</button>';
+            }
+            keys.forEach(function(id) {
+                var active = _admCronoFiltroMod === id;
+                var nome   = modsMap[id] || id;
+                html += '<button data-crono-mod="' + escapeHtml(id) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">🥋 ' + escapeHtml(nome) + '</button>';
             });
             el.innerHTML = html;
         }
