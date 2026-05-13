@@ -7477,6 +7477,327 @@
             }
         }
 
+
+        /* ══════════════════════════════════════════════════════════════
+           MÓDULO MODALIDADES CRUD — CSS Premium v2.0
+        ══════════════════════════════════════════════════════════════ */
+
+        /* --- Painel de Modalidades --- */
+        .mod-crud-wrap { padding: 0; }
+
+        .mod-crud-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 16px 10px; border-bottom: 1px solid var(--adm-border);
+        }
+        .mod-crud-title {
+            font-size: 15px; font-weight: 900; color: var(--adm-text-1);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .mod-crud-btn-new {
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 16px; background: #C41E3A;
+            color: #fff; border: none; border-radius: 10px;
+            font-size: 12px; font-weight: 800; cursor: pointer;
+            transition: all 0.18s; box-shadow: 0 2px 8px rgba(196,30,58,0.3);
+        }
+        .mod-crud-btn-new:hover { background: #a01830; transform: translateY(-1px); }
+
+        /* --- Grid de Cards --- */
+        .mod-crud-grid {
+            display: flex; flex-direction: column; gap: 10px;
+            padding: 12px 16px;
+        }
+
+        .mod-card {
+            background: var(--adm-bg-elevated);
+            border: 1.5px solid var(--adm-border);
+            border-radius: 14px; overflow: hidden;
+            transition: all 0.2s; position: relative;
+        }
+        .mod-card:hover { border-color: var(--adm-primary); transform: translateY(-1px); }
+        .mod-card.inactive { opacity: 0.6; }
+
+        .mod-card-stripe {
+            height: 4px; width: 100%;
+        }
+        .mod-card-body {
+            padding: 12px 14px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .mod-card-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; flex-shrink: 0;
+        }
+        .mod-card-info { flex: 1; min-width: 0; }
+        .mod-card-name {
+            font-size: 14px; font-weight: 800; color: var(--adm-text-1);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .mod-card-id {
+            font-size: 9px; color: var(--adm-text-3); font-family: monospace;
+            margin: 1px 0 5px;
+        }
+        .mod-card-stats {
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .mod-card-stat {
+            font-size: 10px; font-weight: 600; color: var(--adm-text-3);
+            display: flex; align-items: center; gap: 3px;
+        }
+        .mod-card-actions {
+            display: flex; flex-direction: column; gap: 5px; flex-shrink: 0;
+        }
+        .mod-card-btn {
+            padding: 5px 10px; border-radius: 7px; border: 1px solid var(--adm-border);
+            background: transparent; color: var(--adm-text-2);
+            font-size: 10px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .mod-card-btn:hover { background: var(--adm-bg-card); }
+        .mod-card-btn.edit  { color: var(--adm-primary); border-color: rgba(201,162,58,0.3); }
+        .mod-card-btn.del   { color: #f87171; border-color: rgba(248,113,113,0.3); }
+        .mod-card-badge {
+            display: inline-flex; align-items: center; gap: 3px;
+            padding: 2px 7px; border-radius: 6px;
+            font-size: 9px; font-weight: 700;
+        }
+        .mod-card-badge.active   { background: rgba(74,222,128,0.12); color: #4ade80; }
+        .mod-card-badge.inactive { background: rgba(248,113,113,0.12); color: #f87171; }
+
+        /* --- Modal CRUD --- */
+        .mod-modal-overlay {
+            position: fixed; inset: 0; z-index: 99990;
+            background: rgba(10,10,20,0.85);
+            display: flex; align-items: flex-end; justify-content: center;
+            animation: modOverlayIn 0.2s ease;
+        }
+        @keyframes modOverlayIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .mod-modal {
+            width: 100%; max-width: 520px; max-height: 92vh;
+            background: #F4F1EA;
+            border-radius: 20px 20px 0 0;
+            display: flex; flex-direction: column; overflow: hidden;
+            animation: modSlideIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes modSlideIn {
+            from { transform: translateY(100%); }
+            to   { transform: translateY(0); }
+        }
+
+        .mod-modal-handle {
+            width: 36px; height: 4px; border-radius: 2px;
+            background: rgba(26,22,18,0.15); margin: 10px auto 0;
+        }
+        .mod-modal-header {
+            padding: 14px 20px 12px; border-bottom: 1px solid rgba(26,22,18,0.10);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .mod-modal-header-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0; background: rgba(196,30,58,0.10);
+        }
+        .mod-modal-title {
+            font-size: 16px; font-weight: 900; color: #1A1614; flex: 1;
+        }
+        .mod-modal-close {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(26,22,18,0.08); border: none;
+            color: #6B5D52; font-size: 14px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Tabs do modal */
+        .mod-modal-tabs {
+            display: flex; border-bottom: 1px solid rgba(26,22,18,0.10);
+            background: #F0EDE6;
+        }
+        .mod-modal-tab {
+            flex: 1; padding: 10px 6px; border: none;
+            background: transparent; color: #8A7060;
+            font-size: 10px; font-weight: 700; cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s; text-align: center;
+        }
+        .mod-modal-tab.active {
+            color: #C41E3A; border-bottom-color: #C41E3A;
+            background: rgba(196,30,58,0.04);
+        }
+
+        .mod-modal-body {
+            flex: 1; overflow-y: auto; padding: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .mod-modal-panel { display: none; }
+        .mod-modal-panel.active { display: block; }
+
+        /* Campos do formulário dentro do modal */
+        .mod-field { margin-bottom: 14px; }
+        .mod-field-label {
+            font-size: 10px; font-weight: 700; color: #8A7060;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            display: block; margin-bottom: 5px;
+        }
+        .mod-field-input {
+            width: 100%; box-sizing: border-box;
+            padding: 10px 12px; background: #FFFFFF;
+            border: 1.5px solid rgba(26,22,18,0.14);
+            border-radius: 9px; font-size: 13px; color: #1A1614;
+            font-family: inherit; transition: border-color 0.15s;
+        }
+        .mod-field-input:focus {
+            outline: none; border-color: #C41E3A; background: #FFFFFF;
+        }
+        .mod-field-input::placeholder { color: #B0A090; }
+        .mod-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* Seletor de cor */
+        .mod-color-picker {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;
+        }
+        .mod-color-swatch {
+            width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+            transition: transform 0.15s; border: 2px solid transparent;
+        }
+        .mod-color-swatch:hover { transform: scale(1.15); }
+        .mod-color-swatch.selected { border-color: #1A1614; transform: scale(1.15); }
+
+        /* Seletor de ícone */
+        .mod-icon-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 6px;
+        }
+        .mod-icon-btn {
+            aspect-ratio: 1; font-size: 20px; background: #FFFFFF;
+            border: 1.5px solid rgba(26,22,18,0.10); border-radius: 9px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.15s;
+        }
+        .mod-icon-btn:hover  { border-color: #C41E3A; transform: scale(1.1); }
+        .mod-icon-btn.selected { border-color: #C41E3A; background: rgba(196,30,58,0.08); }
+
+        /* Toggle switch no modal */
+        .mod-toggle-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid rgba(26,22,18,0.06);
+        }
+        .mod-toggle-row:last-child { border-bottom: none; }
+        .mod-toggle-label { font-size: 13px; font-weight: 600; color: #1A1614; }
+        .mod-toggle-desc  { font-size: 10px; color: #8A7060; margin-top: 1px; }
+        .mod-toggle {
+            width: 44px; height: 24px; border-radius: 12px;
+            background: rgba(26,22,18,0.15); cursor: pointer;
+            position: relative; transition: background 0.25s; flex-shrink: 0;
+        }
+        .mod-toggle.on { background: #15803D; }
+        .mod-toggle::after {
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #fff; transition: transform 0.25s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        }
+        .mod-toggle.on::after { transform: translateX(20px); }
+
+        /* Grade de horários */
+        .mod-horario-grid { display: flex; flex-direction: column; gap: 8px; }
+        .mod-horario-day {
+            background: #FFFFFF; border: 1px solid rgba(26,22,18,0.10);
+            border-radius: 10px; padding: 10px 12px;
+        }
+        .mod-horario-day-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .mod-horario-day-name {
+            font-size: 11px; font-weight: 800; color: #1A1614;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .mod-horario-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+        .mod-horario-chip {
+            display: flex; align-items: center; gap: 4px;
+            padding: 3px 8px 3px 10px;
+            background: rgba(196,30,58,0.08); border: 1px solid rgba(196,30,58,0.2);
+            border-radius: 12px; font-size: 11px; font-weight: 700; color: #C41E3A;
+        }
+        .mod-horario-chip-del {
+            background: none; border: none; color: #C41E3A;
+            cursor: pointer; font-size: 11px; padding: 0; line-height: 1;
+        }
+        .mod-horario-add {
+            display: flex; gap: 5px; margin-top: 6px;
+        }
+        .mod-horario-input {
+            flex: 1; padding: 6px 10px; background: #F8F5F0;
+            border: 1px solid rgba(26,22,18,0.12); border-radius: 7px;
+            font-size: 12px; color: #1A1614;
+        }
+        .mod-horario-add-btn {
+            padding: 6px 12px; background: #C41E3A; color: #fff;
+            border: none; border-radius: 7px; font-size: 12px;
+            font-weight: 700; cursor: pointer;
+        }
+
+        /* Graduação — lista de faixas */
+        .mod-grad-list { display: flex; flex-direction: column; gap: 6px; }
+        .mod-grad-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 10px; background: #FFFFFF;
+            border: 1px solid rgba(26,22,18,0.10); border-radius: 9px;
+            cursor: grab;
+        }
+        .mod-grad-item:active { cursor: grabbing; }
+        .mod-grad-drag { color: #C0B0A0; font-size: 12px; flex-shrink: 0; cursor: grab; }
+        .mod-grad-emoji { font-size: 18px; flex-shrink: 0; }
+        .mod-grad-color {
+            width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0;
+        }
+        .mod-grad-label {
+            flex: 1; font-size: 12px; font-weight: 700; color: #1A1614;
+            min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .mod-grad-del {
+            background: none; border: none; color: #f87171;
+            cursor: pointer; font-size: 13px; padding: 0; flex-shrink: 0;
+        }
+        .mod-grad-add-row {
+            display: grid; grid-template-columns: 1fr 1fr auto; gap: 6px;
+            margin-top: 8px;
+        }
+
+        /* Footer do modal */
+        .mod-modal-footer {
+            padding: 12px 16px; border-top: 1px solid rgba(26,22,18,0.10);
+            background: #F0EDE6; display: flex; gap: 10px;
+        }
+        .mod-btn-cancel {
+            flex: 1; padding: 11px; background: transparent;
+            border: 1px solid rgba(26,22,18,0.15); border-radius: 10px;
+            color: #6B5D52; font-size: 13px; font-weight: 700; cursor: pointer;
+        }
+        .mod-btn-save {
+            flex: 2; padding: 11px; background: #C41E3A;
+            border: none; border-radius: 10px; color: #fff;
+            font-size: 13px; font-weight: 900; cursor: pointer;
+            transition: all 0.15s; box-shadow: 0 3px 10px rgba(196,30,58,0.3);
+        }
+        .mod-btn-save:hover   { background: #a01830; }
+        .mod-btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Empty state */
+        .mod-empty {
+            text-align: center; padding: 40px 20px; color: #8A7060;
+        }
+        .mod-empty-icon { font-size: 48px; margin-bottom: 12px; }
+        .mod-empty-title { font-size: 15px; font-weight: 800; color: #4A3F36; margin-bottom: 6px; }
+        .mod-empty-sub   { font-size: 12px; line-height: 1.5; }
+
+        /* Seção Modalidades na aba CTs */
+        .mod-section-sep {
+            height: 1px; background: rgba(26,22,18,0.08);
+            margin: 16px 0;
+        }
+
 </style>
 
     <script>
@@ -9283,6 +9604,25 @@
                                 <div id="adminCTTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
                                 <!-- Conteúdo da aba ativa -->
                                 <div id="adminCTContent"><div class="admin-empty">Carregando...</div></div>
+
+                                <!-- ══ SEÇÃO MODALIDADES ══════════════════════════════════ -->
+                                <div class="mod-section-sep"></div>
+                                <div class="mod-crud-wrap" id="modCrudWrap">
+                                    <div class="mod-crud-header">
+                                        <div class="mod-crud-title">
+                                            🥋 Modalidades
+                                        </div>
+                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)">
+                                            ＋ Nova Modalidade
+                                        </button>
+                                    </div>
+                                    <div id="modCrudGrid" class="mod-crud-grid">
+                                        <div class="mod-empty">
+                                            <div class="mod-empty-icon">🥋</div>
+                                            <div class="mod-empty-title">Carregando...</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -11499,7 +11839,7 @@
         var _ctmId = (function() {
             try { return localStorage.getItem('ctm_id') || 'matrix'; } catch(e) { return 'matrix'; }
         })();
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxclytQccuritOz0UnRuj7zY6oYt8cYeH7RyF1ViKV6xXuTYEl_SYEge7tg1VwRjJlS/exec'
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybKMZ9etKRlmmIvedUMqoVz8cpqIV5seYwPxoP-0sgi0Q_1g8Jwuey49bAM-c8wZNH/exec'
                          + '?ctm=' + _ctmId;
 
         // ── Verifica se o cliente existe no registry ──────────────
@@ -20335,6 +20675,11 @@
 
         // ── Tabs Cronograma + Centros de Treinamento ──────────────────────
         function switchCronoCtTab(n) {
+            // Ao abrir aba de CTs, carregar módulo de modalidades
+            if (n === 2 && !_modCrudLoaded) {
+                _modCrudLoaded = true;
+                loadModCrud();
+            }
             [1,2].forEach(function(i) {
                 var panel = document.getElementById('cronoCtTab' + i);
                 var btn   = document.getElementById('cronoCtTabBtn' + i);
@@ -30436,7 +30781,8 @@
                 '.step{display:inline-block;background:#f5f0e0;border-radius:20px;padding:4px 12px;margin:3px;font-size:12px;font-weight:600;}' +
                 '.url{font-size:8px;color:#999;word-break:break-all;margin-top:8px;}' +
                 '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} @page{margin:0.5cm;}}' +
-                '</style></head><body>' +
+                
+'</styl'+'e></head><body>' +
                 '<div class="card">' +
                 '<div class="logo">🥋</div>' +
                 '<div class="title">Check-in</div>' +
@@ -44800,6 +45146,25 @@ ml>
                                 <div id="adminCTTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
                                 <!-- Conteúdo da aba ativa -->
                                 <div id="adminCTContent"><div class="admin-empty">Carregando...</div></div>
+
+                                <!-- ══ SEÇÃO MODALIDADES ══════════════════════════════════ -->
+                                <div class="mod-section-sep"></div>
+                                <div class="mod-crud-wrap" id="modCrudWrap">
+                                    <div class="mod-crud-header">
+                                        <div class="mod-crud-title">
+                                            🥋 Modalidades
+                                        </div>
+                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)">
+                                            ＋ Nova Modalidade
+                                        </button>
+                                    </div>
+                                    <div id="modCrudGrid" class="mod-crud-grid">
+                                        <div class="mod-empty">
+                                            <div class="mod-empty-icon">🥋</div>
+                                            <div class="mod-empty-title">Carregando...</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65862,7 +66227,7 @@ ml>
                 '.step{display:inline-block;background:#f5f0e0;border-radius:20px;padding:4px 12px;margin:3px;font-size:12px;font-weight:600;}' +
                 '.url{font-size:8px;color:#999;word-break:break-all;margin-top:8px;}' +
                 '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} @page{margin:0.5cm;}}' +
-                '</style></head><body>' +
+                '</styl'+'e></head><body>' +
                 '<div class="card">' +
                 '<div class="logo">🥋</div>' +
                 '<div class="title">Check-in</div>' +
@@ -80700,6 +81065,25 @@ ml>
                                 <div id="adminCTTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
                                 <!-- Conteúdo da aba ativa -->
                                 <div id="adminCTContent"><div class="admin-empty">Carregando...</div></div>
+
+                                <!-- ══ SEÇÃO MODALIDADES ══════════════════════════════════ -->
+                                <div class="mod-section-sep"></div>
+                                <div class="mod-crud-wrap" id="modCrudWrap">
+                                    <div class="mod-crud-header">
+                                        <div class="mod-crud-title">
+                                            🥋 Modalidades
+                                        </div>
+                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)">
+                                            ＋ Nova Modalidade
+                                        </button>
+                                    </div>
+                                    <div id="modCrudGrid" class="mod-crud-grid">
+                                        <div class="mod-empty">
+                                            <div class="mod-empty-icon">🥋</div>
+                                            <div class="mod-empty-title">Carregando...</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101853,7 +102237,7 @@ ml>
                 '.step{display:inline-block;background:#f5f0e0;border-radius:20px;padding:4px 12px;margin:3px;font-size:12px;font-weight:600;}' +
                 '.url{font-size:8px;color:#999;word-break:break-all;margin-top:8px;}' +
                 '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} @page{margin:0.5cm;}}' +
-                '</style></head><body>' +
+                '</styl'+'e></head><body>' +
                 '<div class="card">' +
                 '<div class="logo">🥋</div>' +
                 '<div class="title">Check-in</div>' +
@@ -116214,6 +116598,25 @@ ml>
                                 <div id="adminCTTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
                                 <!-- Conteúdo da aba ativa -->
                                 <div id="adminCTContent"><div class="admin-empty">Carregando...</div></div>
+
+                                <!-- ══ SEÇÃO MODALIDADES ══════════════════════════════════ -->
+                                <div class="mod-section-sep"></div>
+                                <div class="mod-crud-wrap" id="modCrudWrap">
+                                    <div class="mod-crud-header">
+                                        <div class="mod-crud-title">
+                                            🥋 Modalidades
+                                        </div>
+                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)">
+                                            ＋ Nova Modalidade
+                                        </button>
+                                    </div>
+                                    <div id="modCrudGrid" class="mod-crud-grid">
+                                        <div class="mod-empty">
+                                            <div class="mod-empty-icon">🥋</div>
+                                            <div class="mod-empty-title">Carregando...</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -137276,7 +137679,7 @@ ml>
                 '.step{display:inline-block;background:#f5f0e0;border-radius:20px;padding:4px 12px;margin:3px;font-size:12px;font-weight:600;}' +
                 '.url{font-size:8px;color:#999;word-break:break-all;margin-top:8px;}' +
                 '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} @page{margin:0.5cm;}}' +
-                '</style></head><body>' +
+                '</styl'+'e></head><body>' +
                 '<div class="card">' +
                 '<div class="logo">🥋</div>' +
                 '<div class="title">Check-in</div>' +
@@ -143134,6 +143537,533 @@ ml>
         }
 
 
+
+        // ══════════════════════════════════════════════════════════════════════
+        // MÓDULO MODALIDADES CRUD — v2.0 Dojo Systems
+        // ══════════════════════════════════════════════════════════════════════
+
+        var _modCrudData      = [];      // cache de modalidades
+        var _modCrudEditando  = null;    // modalidade sendo editada
+        var _modCrudTabAtiva  = 'geral'; // tab ativa do modal
+        var _modCrudGradList  = [];      // faixas em edição
+        var _modCrudHorarios  = {};      // horários em edição: { seg: ['19:00'], ter: [] ... }
+
+        var MOD_CORES = [
+            '#C41E3A','#E8600A','#1A6B3C','#1A5C9E','#7B2C9E',
+            '#0A6E6E','#6B3A1F','#1F4E6B','#5C4A00','#4A4A4A',
+            '#C97A06','#B8860B','#8B0000','#006400','#00008B'
+        ];
+        var MOD_ICONES = ['🥋','🥷','⚔️','🏅','🎌','⛩️','🏆','🔴','⚡','🔥',
+                          '💪','🧘','🤸','🏃','👊','🦵','🛡️','📖','⭐','🎯'];
+        var MOD_DIAS_LABELS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        var MOD_DIAS_KEYS   = ['seg','ter','qua','qui','sex','sab','dom'];
+
+        // ── CARREGAR E RENDERIZAR CARDS ──────────────────────────────────────
+
+        async function loadModCrud() {
+            var grid = document.getElementById('modCrudGrid');
+            if (grid) grid.innerHTML = '<div class="mod-empty"><div class="mod-empty-icon">⏳</div><div class="mod-empty-title">Carregando...</div></div>';
+            try {
+                var res = await secureFetch('getModalidadesAdmin', {});
+                if (!res || !res.success) throw new Error((res && res.message) || 'Erro');
+                _modCrudData = res.modalidades || [];
+                _renderModCrudGrid();
+            } catch(e) {
+                if (grid) grid.innerHTML = '<div class="mod-empty"><div class="mod-empty-icon">⚠️</div><div class="mod-empty-title">Erro ao carregar</div><div class="mod-empty-sub">' + escapeHtml(e.message) + '</div></div>';
+            }
+        }
+
+        function _renderModCrudGrid() {
+            var grid = document.getElementById('modCrudGrid');
+            if (!grid) return;
+            if (!_modCrudData.length) {
+                grid.innerHTML = '<div class="mod-empty">' +
+                    '<div class="mod-empty-icon">🥋</div>' +
+                    '<div class="mod-empty-title">Nenhuma modalidade cadastrada</div>' +
+                    '<div class="mod-empty-sub">Clique em "+ Nova Modalidade" para começar.</div>' +
+                    '</div>';
+                return;
+            }
+            grid.innerHTML = _modCrudData.map(function(mod) {
+                var ativo = mod.ativo !== false;
+                var cor   = mod.cor || '#C41E3A';
+                var rgb   = mod.corRGB || '196,30,58';
+                return '<div class="mod-card' + (ativo ? '' : ' inactive') + '">' +
+                    '<div class="mod-card-stripe" style="background:' + cor + ';"></div>' +
+                    '<div class="mod-card-body">' +
+                        '<div class="mod-card-icon" style="background:rgba(' + rgb + ',0.12);">' + (mod.icon || '🥋') + '</div>' +
+                        '<div class="mod-card-info">' +
+                            '<div class="mod-card-name">' + escapeHtml(mod.nome) + '</div>' +
+                            '<div class="mod-card-id">' + escapeHtml(mod.id) + '</div>' +
+                            '<div class="mod-card-stats">' +
+                                '<span class="mod-card-badge ' + (ativo ? 'active' : 'inactive') + '">' + (ativo ? '● Ativa' : '● Inativa') + '</span>' +
+                                '<span class="mod-card-stat">👥 ' + (mod.totalAlunos || 0) + '</span>' +
+                                '<span class="mod-card-stat">🥋 ' + (mod.totalFaixas || 0) + ' faixas</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="mod-card-actions">' +
+                            '<button class="mod-card-btn edit" data-modid="' + escapeHtml(mod.id) + '" data-action="edit">✏️ Editar</button>' +
+                            '<button class="mod-card-btn del"  data-modid="' + escapeHtml(mod.id) + '" data-action="del">' + (ativo ? '🚫 Desativar' : '✅ Ativar') + '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // ── EVENT DELEGATION PARA CARDS ─────────────────────────────────────
+
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-action][data-modid]');
+            if (!btn) return;
+            var modId  = btn.getAttribute('data-modid');
+            var action = btn.getAttribute('data-action');
+            if (action === 'edit') {
+                var mod = _modCrudData.find(function(m){ return m.id === modId; });
+                if (mod) openModCrudModal(mod);
+            } else if (action === 'del') {
+                _toggleModAtivo(modId);
+            }
+        });
+
+        async function _toggleModAtivo(modId) {
+            var mod = _modCrudData.find(function(m){ return m.id === modId; });
+            if (!mod) return;
+            var novoStatus = !mod.ativo;
+            var label = novoStatus ? 'ativar' : 'desativar';
+            if (!confirm('Deseja ' + label + ' a modalidade "' + mod.nome + '"?\n\n' +
+                (novoStatus ? 'A modalidade voltará a aparecer no sistema.' : 'A modalidade será ocultada. Dados e histórico são preservados.'))) return;
+            try {
+                var res = await secureFetch('saveModalidadeCompleta', {
+                    id: mod.id, nome: mod.nome, icon: mod.icon, cor: mod.cor,
+                    corRGB: mod.corRGB, desc: mod.desc, gradTipo: mod.gradTipo,
+                    ativo: novoStatus, parentId: mod.parentId
+                });
+                if (res && res.success) {
+                    mod.ativo = novoStatus;
+                    _renderModCrudGrid();
+                    _showModToast(novoStatus ? '✅ Modalidade ativada!' : '🚫 Modalidade desativada.');
+                    await _carregarCatalogModalidades();
+                } else {
+                    alert('Erro: ' + ((res && res.message) || 'Tente novamente'));
+                }
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        // ── MODAL CRUD ───────────────────────────────────────────────────────
+
+        function openModCrudModal(modOuNull) {
+            _modCrudEditando  = modOuNull;
+            _modCrudTabAtiva  = 'geral';
+            _modCrudGradList  = modOuNull && modOuNull.graduacaoJSON ? (Array.isArray(modOuNull.graduacaoJSON) ? modOuNull.graduacaoJSON : []) : [];
+            _modCrudHorarios  = modOuNull && modOuNull.horariosJSON  ? JSON.parse(JSON.stringify(modOuNull.horariosJSON)) : {};
+
+            // Inicializar horários com todos os dias
+            MOD_DIAS_KEYS.forEach(function(dk) { if (!_modCrudHorarios[dk]) _modCrudHorarios[dk] = []; });
+
+            var existing = document.getElementById('modCrudModalOverlay');
+            if (existing) existing.remove();
+
+            var overlay = document.createElement('div');
+            overlay.id = 'modCrudModalOverlay';
+            overlay.className = 'mod-modal-overlay';
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModCrudModal(); });
+
+            var isEdit = !!modOuNull;
+            var mod    = modOuNull || {};
+            var cor    = mod.cor   || MOD_CORES[0];
+            var icon   = mod.icon  || '🥋';
+
+            overlay.innerHTML =
+                '<div class="mod-modal" id="modCrudModal">' +
+                    '<div class="mod-modal-handle"></div>' +
+                    '<div class="mod-modal-header">' +
+                        '<div class="mod-modal-header-icon" id="modModalPreviewIcon" style="background:rgba(196,30,58,0.10);">' + icon + '</div>' +
+                        '<div class="mod-modal-title">' + (isEdit ? 'Editar Modalidade' : 'Nova Modalidade') + '</div>' +
+                        '<button class="mod-modal-close" onclick="closeModCrudModal()">✕</button>' +
+                    '</div>' +
+                    '<div class="mod-modal-tabs">' +
+                        '<button class="mod-modal-tab active" data-mtab="geral"   onclick="switchModTab(\'geral\')">⚙️ Geral</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="visual"  onclick="switchModTab(\'visual\')">🎨 Visual</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="horarios" onclick="switchModTab(\'horarios\')">📅 Horários</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="grad"    onclick="switchModTab(\'grad\')">🏅 Graduação</button>' +
+                    '</div>' +
+                    '<div class="mod-modal-body">' +
+
+                        // ── Tab Geral ─────────────────────────────────────
+                        '<div class="mod-modal-panel active" id="modTab_geral">' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Nome da modalidade *</label>' +
+                                '<input class="mod-field-input" id="modFieldNome" type="text" placeholder="ex: Kyokushin Kids" value="' + escapeHtml(mod.nome || '') + '" oninput="_modAutoSlug()">' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">ID (slug) — gerado automaticamente</label>' +
+                                '<input class="mod-field-input" id="modFieldId" type="text" placeholder="ex: karate_kyokushin_kids" value="' + escapeHtml(mod.id || '') + '" ' + (isEdit ? 'readonly style="background:#F8F5F0;color:#8A7060;"' : 'oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,\'\')"') + '>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Descrição</label>' +
+                                '<textarea class="mod-field-input" id="modFieldDesc" rows="2" placeholder="Descreva a modalidade...">' + escapeHtml(mod.desc || '') + '</textarea>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Sistema de graduação</label>' +
+                                '<select class="mod-field-input" id="modFieldGradTipo">' +
+                                    ['faixa_cintura','corda','nivel','prajied','nenhum'].map(function(g) {
+                                        var labels = { faixa_cintura: '🥋 Faixas de cintura', corda: '🪢 Cordas', nivel: '⭐ Níveis', prajied: '🏅 Prajied (Thai)', nenhum: '⛔ Sem graduação' };
+                                        return '<option value="' + g + '"' + (mod.gradTipo === g ? ' selected' : '') + '>' + (labels[g]||g) + '</option>';
+                                    }).join('') +
+                                '</select>' +
+                            '</div>' +
+                            '<div style="background:#FFFFFF;border:1px solid rgba(26,22,18,0.10);border-radius:10px;padding:4px 12px;">' +
+                                ['ativo','permiteRanking','permitePresenca','permiteEvolucao','permiteCronograma','permiteExame','permiteCadastro'].map(function(key) {
+                                    var labels = { ativo:'Modalidade ativa', permiteRanking:'Permitir ranking', permitePresenca:'Permitir presença', permiteEvolucao:'Permitir evolução', permiteCronograma:'Permitir cronograma', permiteExame:'Permitir exame', permiteCadastro:'Exibir no cadastro de alunos' };
+                                    var descs  = { ativo:'Aparece no sistema e para os alunos', permiteRanking:'Gera ranking por faixa/graduação', permitePresenca:'Controle de frequência', permiteEvolucao:'Relatório de evolução do aluno', permiteCronograma:'Aulas aparecem no cronograma', permiteExame:'Exames de graduação habilitados', permiteCadastro:'Aparece no formulário de cadastro' };
+                                    var cfg    = (mod.configJSON || {});
+                                    var isOn   = key === 'ativo' ? mod.ativo !== false : (cfg[key] !== false);
+                                    return '<div class="mod-toggle-row">' +
+                                        '<div><div class="mod-toggle-label">' + (labels[key]||key) + '</div>' +
+                                        '<div class="mod-toggle-desc">' + (descs[key]||'') + '</div></div>' +
+                                        '<div class="mod-toggle' + (isOn ? ' on' : '') + '" data-toggle-key="' + key + '" onclick="_modToggle(this)"></div>' +
+                                    '</div>';
+                                }).join('') +
+                            '</div>' +
+                        '</div>' +
+
+                        // ── Tab Visual ─────────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_visual">' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Ícone</label>' +
+                                '<div class="mod-icon-grid" id="modIconGrid">' +
+                                    MOD_ICONES.map(function(ic) {
+                                        return '<button class="mod-icon-btn' + (ic === icon ? ' selected' : '') + '" data-icon="' + ic + '" onclick="_modPickIcon(this)">' + ic + '</button>';
+                                    }).join('') +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Cor</label>' +
+                                '<div class="mod-color-picker" id="modColorPicker">' +
+                                    MOD_CORES.map(function(c) {
+                                        return '<div class="mod-color-swatch' + (c === cor ? ' selected' : '') + '" data-cor="' + c + '" style="background:' + c + ';" onclick="_modPickColor(this)"></div>';
+                                    }).join('') +
+                                '</div>' +
+                                '<input class="mod-field-input" id="modFieldCor" type="text" value="' + escapeHtml(cor) + '" placeholder="#C41E3A" style="margin-top:8px;" oninput="_modCorManual(this.value)">' +
+                            '</div>' +
+                        '</div>' +
+
+                        // ── Tab Horários ───────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_horarios">' +
+                            '<div style="font-size:11px;color:#8A7060;margin-bottom:12px;line-height:1.5;">Configure os horários desta modalidade. Cada dia pode ter múltiplos horários.</div>' +
+                            '<div class="mod-horario-grid" id="modHorarioGrid"></div>' +
+                        '</div>' +
+
+                        // ── Tab Graduação ──────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_grad">' +
+                            '<div style="font-size:11px;color:#8A7060;margin-bottom:12px;line-height:1.5;">Monte a sequência de graduação. Arraste para reordenar. As faixas serão sincronizadas automaticamente.</div>' +
+                            '<div class="mod-grad-list" id="modGradList"></div>' +
+                            '<div class="mod-grad-add-row" style="margin-top:10px;">' +
+                                '<input class="mod-field-input" id="modGradNome"  placeholder="Nome (ex: Amarela)" style="padding:8px;">' +
+                                '<input class="mod-field-input" id="modGradEmoji" placeholder="🥋" style="padding:8px;max-width:60px;">' +
+                                '<button onclick="_modGradAdd()" style="padding:8px 14px;background:#C41E3A;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;">+</button>' +
+                            '</div>' +
+                        '</div>' +
+
+                    '</div>' + // /body
+                    '<div id="modModalMsg" style="padding:0 16px 2px;font-size:11px;min-height:18px;"></div>' +
+                    '<div class="mod-modal-footer">' +
+                        '<button class="mod-btn-cancel" onclick="closeModCrudModal()">Cancelar</button>' +
+                        '<button class="mod-btn-save" id="modBtnSave" onclick="saveModCrud()">💾 Salvar</button>' +
+                    '</div>' +
+                '</div>';
+
+            document.body.appendChild(overlay);
+            _renderModHorarios();
+            _renderModGradList();
+            setTimeout(function() { var inp = document.getElementById('modFieldNome'); if (inp) inp.focus(); }, 100);
+        }
+
+        function closeModCrudModal() {
+            var el = document.getElementById('modCrudModalOverlay');
+            if (el) el.remove();
+        }
+
+        function switchModTab(tab) {
+            _modCrudTabAtiva = tab;
+            document.querySelectorAll('.mod-modal-tab').forEach(function(b) {
+                b.classList.toggle('active', b.getAttribute('data-mtab') === tab);
+            });
+            document.querySelectorAll('.mod-modal-panel').forEach(function(p) {
+                p.classList.toggle('active', p.id === 'modTab_' + tab);
+            });
+            if (tab === 'horarios') _renderModHorarios();
+            if (tab === 'grad')     _renderModGradList();
+        }
+
+        // ── HELPERS ─────────────────────────────────────────────────────────
+
+        function _modAutoSlug() {
+            if (_modCrudEditando) return; // não alterar slug em edição
+            var nome = (document.getElementById('modFieldNome') || {}).value || '';
+            var _ESTILOS_B = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catB = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_B.indexOf(m.id) !== -1; });
+            var prefixo = (_catB && _catB.id) || _dojoEstilo || 'karate_shotokan';
+            var sufixo  = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
+            var idEl = document.getElementById('modFieldId');
+            if (idEl) idEl.value = prefixo + '_' + sufixo;
+        }
+
+        function _modToggle(el) {
+            el.classList.toggle('on');
+        }
+
+        function _modPickIcon(btn) {
+            document.querySelectorAll('.mod-icon-btn').forEach(function(b){ b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            var previewEl = document.getElementById('modModalPreviewIcon');
+            if (previewEl) previewEl.textContent = btn.getAttribute('data-icon');
+        }
+
+        function _modPickColor(swatch) {
+            document.querySelectorAll('.mod-color-swatch').forEach(function(s){ s.classList.remove('selected'); });
+            swatch.classList.add('selected');
+            var cor = swatch.getAttribute('data-cor');
+            var inp = document.getElementById('modFieldCor');
+            if (inp) inp.value = cor;
+            // Atualizar preview header
+            var previewEl = document.getElementById('modModalPreviewIcon');
+            if (previewEl) {
+                var rgb = _hexToRgb(cor);
+                previewEl.style.background = 'rgba(' + rgb + ',0.12)';
+            }
+        }
+
+        function _modCorManual(val) {
+            if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                document.querySelectorAll('.mod-color-swatch').forEach(function(s){
+                    s.classList.toggle('selected', s.getAttribute('data-cor') === val);
+                });
+            }
+        }
+
+        function _hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? parseInt(result[1],16) + ',' + parseInt(result[2],16) + ',' + parseInt(result[3],16) : '196,30,58';
+        }
+
+        // ── HORÁRIOS ────────────────────────────────────────────────────────
+
+        function _renderModHorarios() {
+            var grid = document.getElementById('modHorarioGrid');
+            if (!grid) return;
+            grid.innerHTML = MOD_DIAS_KEYS.map(function(dk, di) {
+                var horarios = _modCrudHorarios[dk] || [];
+                return '<div class="mod-horario-day">' +
+                    '<div class="mod-horario-day-header">' +
+                        '<span class="mod-horario-day-name">' + MOD_DIAS_LABELS[di] + '</span>' +
+                    '</div>' +
+                    '<div class="mod-horario-chips" id="modHorChips_' + dk + '">' +
+                        horarios.map(function(h) {
+                            return '<span class="mod-horario-chip">' + escapeHtml(h) +
+                                '<button class="mod-horario-chip-del" data-hor-dk="' + dk + '" data-hor-val="' + escapeHtml(h) + '" onclick="_modHorDel(this)">✕</button></span>';
+                        }).join('') +
+                    '</div>' +
+                    '<div class="mod-horario-add">' +
+                        '<input class="mod-horario-input" id="modHorInp_' + dk + '" type="text" placeholder="HH:MM" maxlength="5"' +
+                            ' oninput="_modHorFmt(this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();_modHorAdd(\'' + dk + '\')}">' +
+                        '<button class="mod-horario-add-btn" data-hor-add="' + dk + '" onclick="_modHorAdd(\'' + dk + '\')">+</button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        function _modHorFmt(inp) {
+            var v = inp.value.replace(/[^\d:]/g,'');
+            if (v.length === 2 && inp.value.length === 2 && v.indexOf(':') === -1) v = v + ':';
+            if (v.length > 5) v = v.slice(0,5);
+            inp.value = v;
+        }
+
+        function _modHorAdd(dk) {
+            var inp = document.getElementById('modHorInp_' + dk);
+            if (!inp) return;
+            var val = inp.value.trim();
+            if (!/^\d{1,2}:\d{2}$/.test(val)) { inp.style.borderColor = '#f87171'; setTimeout(function(){ inp.style.borderColor = ''; }, 1200); return; }
+            var parts = val.split(':');
+            var h = parseInt(parts[0]), m = parseInt(parts[1]);
+            if (h > 23 || m > 59) return;
+            var fmt = ('0'+h).slice(-2) + ':' + ('0'+m).slice(-2);
+            if (!_modCrudHorarios[dk]) _modCrudHorarios[dk] = [];
+            if (_modCrudHorarios[dk].indexOf(fmt) !== -1) { inp.value = ''; return; }
+            _modCrudHorarios[dk].push(fmt);
+            _modCrudHorarios[dk].sort();
+            inp.value = '';
+            _renderModHorarios();
+        }
+
+        function _modHorDel(btn) {
+            var dk  = btn.getAttribute('data-hor-dk');
+            var val = btn.getAttribute('data-hor-val');
+            _modCrudHorarios[dk] = (_modCrudHorarios[dk] || []).filter(function(h){ return h !== val; });
+            _renderModHorarios();
+        }
+
+        // ── GRADUAÇÃO ────────────────────────────────────────────────────────
+
+        function _renderModGradList() {
+            var list = document.getElementById('modGradList');
+            if (!list) return;
+            if (!_modCrudGradList.length) {
+                list.innerHTML = '<div style="text-align:center;padding:16px;color:#8A7060;font-size:12px;">Nenhuma faixa adicionada.<br>Use o campo abaixo para adicionar.</div>';
+                return;
+            }
+            list.innerHTML = _modCrudGradList.map(function(f, idx) {
+                return '<div class="mod-grad-item" draggable="true" data-grad-idx="' + idx + '">' +
+                    '<span class="mod-grad-drag">⠿⠿</span>' +
+                    '<span class="mod-grad-emoji">' + (f.emoji || '🥋') + '</span>' +
+                    '<div class="mod-grad-color" style="background:' + (f.cor||'#555') + ';"></div>' +
+                    '<span class="mod-grad-label">' + escapeHtml(f.label || f.nome || f.id || '') + '</span>' +
+                    '<span style="font-size:9px;color:#8A7060;">' + (idx+1) + 'º</span>' +
+                    '<button class="mod-grad-del" data-grad-idx="' + idx + '" onclick="_modGradDel(this)">✕</button>' +
+                '</div>';
+            }).join('');
+            _modGradDragDrop();
+        }
+
+        function _modGradAdd() {
+            var nomeEl  = document.getElementById('modGradNome');
+            var emojiEl = document.getElementById('modGradEmoji');
+            var nome    = (nomeEl && nomeEl.value.trim()) || '';
+            var emoji   = (emojiEl && emojiEl.value.trim()) || '🥋';
+            if (!nome) { if(nomeEl) { nomeEl.style.borderColor='#f87171'; setTimeout(function(){ nomeEl.style.borderColor=''; },1200); } return; }
+            var GRAD_CORES = ['#e8e8e8','#fdd835','#fb8c00','#2e7d32','#1565c0','#6a1b9a','#5d4037','#1a1a1a'];
+            var cor = GRAD_CORES[_modCrudGradList.length % GRAD_CORES.length] || '#666';
+            _modCrudGradList.push({
+                id:        nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'_'),
+                label:     nome,
+                emoji:     emoji,
+                cor:       cor,
+                corRGB:    _hexToRgb(cor),
+                ordem:     _modCrudGradList.length + 1,
+                min_meses: 0,
+                max_grau:  4,
+                ativo:     true
+            });
+            if (nomeEl)  nomeEl.value  = '';
+            if (emojiEl) emojiEl.value = '';
+            _renderModGradList();
+        }
+
+        function _modGradDel(btn) {
+            var idx = parseInt(btn.getAttribute('data-grad-idx'));
+            _modCrudGradList.splice(idx, 1);
+            _renderModGradList();
+        }
+
+        function _modGradDragDrop() {
+            var list  = document.getElementById('modGradList');
+            if (!list) return;
+            var items = list.querySelectorAll('.mod-grad-item');
+            var dragging = null;
+            items.forEach(function(item) {
+                item.addEventListener('dragstart', function() { dragging = item; item.style.opacity = '0.4'; });
+                item.addEventListener('dragend',   function() { item.style.opacity = '1'; dragging = null; _updateGradOrder(); });
+                item.addEventListener('dragover',  function(e) { e.preventDefault(); var rect = item.getBoundingClientRect(); var mid = rect.top + rect.height/2; if (dragging && dragging !== item) { if (e.clientY < mid) list.insertBefore(dragging, item); else list.insertBefore(dragging, item.nextSibling); } });
+            });
+        }
+
+        function _updateGradOrder() {
+            var list  = document.getElementById('modGradList');
+            if (!list) return;
+            var items = list.querySelectorAll('.mod-grad-item');
+            var newList = [];
+            items.forEach(function(item) {
+                var idx = parseInt(item.getAttribute('data-grad-idx'));
+                if (_modCrudGradList[idx]) newList.push(_modCrudGradList[idx]);
+            });
+            _modCrudGradList = newList;
+        }
+
+        // ── SALVAR ───────────────────────────────────────────────────────────
+
+        async function saveModCrud() {
+            var msg     = document.getElementById('modModalMsg');
+            var btn     = document.getElementById('modBtnSave');
+            var id      = (document.getElementById('modFieldId')       || {}).value.trim();
+            var nome    = (document.getElementById('modFieldNome')      || {}).value.trim();
+            var desc    = (document.getElementById('modFieldDesc')      || {}).value.trim();
+            var gradTipo= (document.getElementById('modFieldGradTipo')  || {}).value || 'faixa_cintura';
+            var cor     = (document.getElementById('modFieldCor')       || {}).value.trim() || MOD_CORES[0];
+
+            // Ícone selecionado
+            var iconSel = document.querySelector('.mod-icon-btn.selected');
+            var icon    = iconSel ? iconSel.getAttribute('data-icon') : '🥋';
+
+            // Toggles
+            var toggles = {};
+            document.querySelectorAll('.mod-toggle[data-toggle-key]').forEach(function(t) {
+                toggles[t.getAttribute('data-toggle-key')] = t.classList.contains('on');
+            });
+            var ativo = toggles.ativo !== false;
+            delete toggles.ativo;
+
+            if (!id)   { if(msg){ msg.style.color='#f87171'; msg.textContent='⚠️ ID obrigatório'; } return; }
+            if (!nome) { if(msg){ msg.style.color='#f87171'; msg.textContent='⚠️ Nome obrigatório'; switchModTab('geral'); } return; }
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+            if (msg) { msg.style.color = '#8A7060'; msg.textContent = ''; }
+
+            try {
+                // 1. Salvar modalidade principal
+                var res = await secureFetch('saveModalidadeCompleta', {
+                    id: id, nome: nome, icon: icon, cor: cor,
+                    corRGB: _hexToRgb(cor), desc: desc, gradTipo: gradTipo,
+                    ativo: ativo, parentId: (_modCrudEditando && _modCrudEditando.parentId) || '',
+                    configJSON:    toggles,
+                    horariosJSON:  _modCrudHorarios,
+                    graduacaoJSON: _modCrudGradList
+                });
+                if (!res || !res.success) throw new Error((res && res.message) || 'Erro ao salvar');
+
+                // 2. Sincronizar faixas se há graduação
+                if (_modCrudGradList.length > 0) {
+                    await secureFetch('saveGraduacaoModalidade', { id: id, graduacao: _modCrudGradList });
+                }
+
+                // 3. Recarregar catálogo e grid
+                await _carregarCatalogModalidades();
+                await loadModCrud();
+                closeModCrudModal();
+                _showModToast('✅ Modalidade "' + nome + '" salva com sucesso!');
+
+                // 4. Se novo, abrir painel de atribuição a alunos
+                if (!_modCrudEditando) {
+                    var ctAtivo2 = _ctAtivaNome || _ctSelecionado || '';
+                    await _abrirPainelAtribuicaoModalidade(id, nome, ctAtivo2);
+                }
+
+            } catch(e) {
+                if (msg) { msg.style.color = '#f87171'; msg.textContent = '❌ ' + e.message; }
+            } finally {
+                if (btn) { btn.disabled = false; btn.textContent = '💾 Salvar'; }
+            }
+        }
+
+        // ── TOAST ───────────────────────────────────────────────────────────
+
+        function _showModToast(text) {
+            var t = document.createElement('div');
+            t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;background:#1A1614;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,0.4);animation:modOverlayIn 0.2s ease;white-space:nowrap;';
+            t.textContent = text;
+            document.body.appendChild(t);
+            setTimeout(function() { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(function(){ t.remove(); }, 400); }, 2500);
+        }
+
+        // ── CARREGAR AO ABRIR A ABA ────────────────────────────────────────
+
+        // Hook: quando admin abre a aba CTs, carregar modalidades
+        var _modCrudLoaded = false;
+        var _origSwitchCronoCtTab = typeof switchCronoCtTab === 'function' ? switchCronoCtTab : null;
+
+
     </script>
-</body>>
+</body>
 </html>
