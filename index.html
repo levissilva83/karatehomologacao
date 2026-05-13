@@ -5163,19 +5163,20 @@
 
         .stu-toggle-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(26,22,18,0.07);
             color: #1A1614;
         }
         .stu-toggle-label { font-size: 13px; color: var(--text-2); font-weight: 600; }
         .stu-toggle {
             position: relative;
             width: 44px; height: 24px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(26,22,18,0.15);
             border-radius: 12px;
             cursor: pointer;
             transition: background 0.3s;
         }
-        .stu-toggle.on { background: rgba(46,204,113,0.5); }
+        .stu-toggle.on { background: #15803D; }
         .stu-toggle::after {
             content: '';
             position: absolute;
@@ -5184,6 +5185,7 @@
             background: #fff;
             border-radius: 50%;
             transition: transform 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .stu-toggle.on::after { transform: translateX(20px); }
 
@@ -5191,13 +5193,13 @@
             display: flex; gap: 6px; margin-top: 6px;
         }
         .stu-day-btn {
-            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.04); color: var(--text-3); font-size: 13px; font-weight: 700;
+            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(26,22,18,0.15);
+            background: #F8F5F0; color: #8A7060; font-size: 13px; font-weight: 700;
             cursor: pointer; transition: all 0.2s;
         }
         .stu-day-btn.on {
-            background: rgba(20,184,166,0.2); border-color: var(--adm-primary);
-            color: var(--adm-primary-bright); box-shadow: 0 0 8px rgba(20,184,166,0.15);
+            background: rgba(196,30,58,0.12); border-color: #C41E3A;
+            color: #C41E3A; box-shadow: 0 0 6px rgba(196,30,58,0.15);
         }
         .stu-days-hint {
             font-size: 10px; color: var(--text-3); margin-top: 4px; min-height: 14px;
@@ -11170,7 +11172,7 @@
                             🥋 Estilo do Dojo
                         </label>
                         <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
-                            Modalidade praticada no CT — define o sistema de graduação e check-in do aluno.
+                            Marque as modalidades que este aluno pratica. Inclui o estilo base e sub-modalidades criadas.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
 
@@ -11497,7 +11499,7 @@
         var _ctmId = (function() {
             try { return localStorage.getItem('ctm_id') || 'matrix'; } catch(e) { return 'matrix'; }
         })();
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7_fgKBhQAbwT2WGYU2W7HHEAHRjwdCAhkslZBbpSVb8VGFHmHYWMS0P-42Bud21FB/exec'
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxclytQccuritOz0UnRuj7zY6oYt8cYeH7RyF1ViKV6xXuTYEl_SYEge7tg1VwRjJlS/exec'
                          + '?ctm=' + _ctmId;
 
         // ── Verifica se o cliente existe no registry ──────────────
@@ -40678,19 +40680,20 @@ ml>
 
         .stu-toggle-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(26,22,18,0.07);
             color: #1A1614;
         }
         .stu-toggle-label { font-size: 13px; color: var(--text-2); font-weight: 600; }
         .stu-toggle {
             position: relative;
             width: 44px; height: 24px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(26,22,18,0.15);
             border-radius: 12px;
             cursor: pointer;
             transition: background 0.3s;
         }
-        .stu-toggle.on { background: rgba(46,204,113,0.5); }
+        .stu-toggle.on { background: #15803D; }
         .stu-toggle::after {
             content: '';
             position: absolute;
@@ -40699,6 +40702,7 @@ ml>
             background: #fff;
             border-radius: 50%;
             transition: transform 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .stu-toggle.on::after { transform: translateX(20px); }
 
@@ -40706,13 +40710,13 @@ ml>
             display: flex; gap: 6px; margin-top: 6px;
         }
         .stu-day-btn {
-            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.04); color: var(--text-3); font-size: 13px; font-weight: 700;
+            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(26,22,18,0.15);
+            background: #F8F5F0; color: #8A7060; font-size: 13px; font-weight: 700;
             cursor: pointer; transition: all 0.2s;
         }
         .stu-day-btn.on {
-            background: rgba(20,184,166,0.2); border-color: var(--adm-primary);
-            color: var(--adm-primary-bright); box-shadow: 0 0 8px rgba(20,184,166,0.15);
+            background: rgba(196,30,58,0.12); border-color: #C41E3A;
+            color: #C41E3A; box-shadow: 0 0 6px rgba(196,30,58,0.15);
         }
         .stu-days-hint {
             font-size: 10px; color: var(--text-3); margin-top: 4px; min-height: 14px;
@@ -46684,7 +46688,7 @@ ml>
                             🥋 Estilo do Dojo
                         </label>
                         <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
-                            Modalidade praticada no CT — define o sistema de graduação e check-in do aluno.
+                            Marque as modalidades que este aluno pratica. Inclui o estilo base e sub-modalidades criadas.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
 
@@ -48751,7 +48755,18 @@ ml>
             if (principalSel) principalSel.innerHTML = '<option value="">— Selecione a principal —</option>';
             var activeMods = (currentMods || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
             var gradData   = modalidadesGrad || {};
-            MODALIDADES_CATALOG.forEach(function(mod) {
+            // Filtrar pelo estilo do dojo — só mostrar estilo base + sub-modalidades derivadas
+            var _ESTILOS_BASE_STU = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _dojoBaseMod = MODALIDADES_CATALOG.find(function(m){ return _ESTILOS_BASE_STU.indexOf(m.id) !== -1; });
+            var _dojoBaseId  = _dojoBaseMod ? _dojoBaseMod.id : (_dojoEstilo || 'karate_shotokan');
+            var _modsParaExibir = MODALIDADES_CATALOG.filter(function(m){
+                return m.id === _dojoBaseId || m.id.indexOf(_dojoBaseId + '_') === 0;
+            });
+            if (_modsParaExibir.length === 0) _modsParaExibir = MODALIDADES_CATALOG; // fallback
+
+            _modsParaExibir.forEach(function(mod) {
                 var isChecked  = activeMods.indexOf(mod.id) !== -1;
                 var modGrad    = gradData[mod.id] || {};
                 var nivelSalvo = modGrad.nivel || modGrad.faixa || ''; // v4.9: suporta 'nivel' e legado 'faixa'
@@ -76565,19 +76580,20 @@ ml>
 
         .stu-toggle-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(26,22,18,0.07);
             color: #1A1614;
         }
         .stu-toggle-label { font-size: 13px; color: var(--text-2); font-weight: 600; }
         .stu-toggle {
             position: relative;
             width: 44px; height: 24px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(26,22,18,0.15);
             border-radius: 12px;
             cursor: pointer;
             transition: background 0.3s;
         }
-        .stu-toggle.on { background: rgba(46,204,113,0.5); }
+        .stu-toggle.on { background: #15803D; }
         .stu-toggle::after {
             content: '';
             position: absolute;
@@ -76586,6 +76602,7 @@ ml>
             background: #fff;
             border-radius: 50%;
             transition: transform 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .stu-toggle.on::after { transform: translateX(20px); }
 
@@ -76593,13 +76610,13 @@ ml>
             display: flex; gap: 6px; margin-top: 6px;
         }
         .stu-day-btn {
-            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.04); color: var(--text-3); font-size: 13px; font-weight: 700;
+            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(26,22,18,0.15);
+            background: #F8F5F0; color: #8A7060; font-size: 13px; font-weight: 700;
             cursor: pointer; transition: all 0.2s;
         }
         .stu-day-btn.on {
-            background: rgba(20,184,166,0.2); border-color: var(--adm-primary);
-            color: var(--adm-primary-bright); box-shadow: 0 0 8px rgba(20,184,166,0.15);
+            background: rgba(196,30,58,0.12); border-color: #C41E3A;
+            color: #C41E3A; box-shadow: 0 0 6px rgba(196,30,58,0.15);
         }
         .stu-days-hint {
             font-size: 10px; color: var(--text-3); margin-top: 4px; min-height: 14px;
@@ -82572,7 +82589,7 @@ ml>
                             🥋 Estilo do Dojo
                         </label>
                         <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
-                            Modalidade praticada no CT — define o sistema de graduação e check-in do aluno.
+                            Marque as modalidades que este aluno pratica. Inclui o estilo base e sub-modalidades criadas.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
 
@@ -112077,19 +112094,20 @@ ml>
 
         .stu-toggle-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(26,22,18,0.07);
             color: #1A1614;
         }
         .stu-toggle-label { font-size: 13px; color: var(--text-2); font-weight: 600; }
         .stu-toggle {
             position: relative;
             width: 44px; height: 24px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(26,22,18,0.15);
             border-radius: 12px;
             cursor: pointer;
             transition: background 0.3s;
         }
-        .stu-toggle.on { background: rgba(46,204,113,0.5); }
+        .stu-toggle.on { background: #15803D; }
         .stu-toggle::after {
             content: '';
             position: absolute;
@@ -112098,6 +112116,7 @@ ml>
             background: #fff;
             border-radius: 50%;
             transition: transform 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .stu-toggle.on::after { transform: translateX(20px); }
 
@@ -112105,13 +112124,13 @@ ml>
             display: flex; gap: 6px; margin-top: 6px;
         }
         .stu-day-btn {
-            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.04); color: var(--text-3); font-size: 13px; font-weight: 700;
+            flex: 1; height: 38px; border-radius: 8px; border: 1.5px solid rgba(26,22,18,0.15);
+            background: #F8F5F0; color: #8A7060; font-size: 13px; font-weight: 700;
             cursor: pointer; transition: all 0.2s;
         }
         .stu-day-btn.on {
-            background: rgba(20,184,166,0.2); border-color: var(--adm-primary);
-            color: var(--adm-primary-bright); box-shadow: 0 0 8px rgba(20,184,166,0.15);
+            background: rgba(196,30,58,0.12); border-color: #C41E3A;
+            color: #C41E3A; box-shadow: 0 0 6px rgba(196,30,58,0.15);
         }
         .stu-days-hint {
             font-size: 10px; color: var(--text-3); margin-top: 4px; min-height: 14px;
@@ -118083,7 +118102,7 @@ ml>
                             🥋 Estilo do Dojo
                         </label>
                         <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
-                            Modalidade praticada no CT — define o sistema de graduação e check-in do aluno.
+                            Marque as modalidades que este aluno pratica. Inclui o estilo base e sub-modalidades criadas.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
 
@@ -120150,7 +120169,18 @@ ml>
             if (principalSel) principalSel.innerHTML = '<option value="">— Selecione a principal —</option>';
             var activeMods = (currentMods || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
             var gradData   = modalidadesGrad || {};
-            MODALIDADES_CATALOG.forEach(function(mod) {
+            // Filtrar pelo estilo do dojo — só mostrar estilo base + sub-modalidades derivadas
+            var _ESTILOS_BASE_STU = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _dojoBaseMod = MODALIDADES_CATALOG.find(function(m){ return _ESTILOS_BASE_STU.indexOf(m.id) !== -1; });
+            var _dojoBaseId  = _dojoBaseMod ? _dojoBaseMod.id : (_dojoEstilo || 'karate_shotokan');
+            var _modsParaExibir = MODALIDADES_CATALOG.filter(function(m){
+                return m.id === _dojoBaseId || m.id.indexOf(_dojoBaseId + '_') === 0;
+            });
+            if (_modsParaExibir.length === 0) _modsParaExibir = MODALIDADES_CATALOG; // fallback
+
+            _modsParaExibir.forEach(function(mod) {
                 var isChecked  = activeMods.indexOf(mod.id) !== -1;
                 var modGrad    = gradData[mod.id] || {};
                 var nivelSalvo = modGrad.nivel || modGrad.faixa || ''; // v4.9: suporta 'nivel' e legado 'faixa'
