@@ -11886,8 +11886,8 @@
             });
 
             MODALIDADES_CATALOG = res.modalidades.map(function(m) {
-              var cor    = m.cor    || '#C9A23A';
-              var corRGB = m.corRGB || '201,162,58';
+              var cor    = m.cor    || '#C41E3A';
+              var corRGB = m.corRGB || '196,30,58';
               var icon   = m.icon   || '🥋';
 
               // Atualiza MODALIDADES_SCHEMA com faixas vindas da planilha
@@ -11918,6 +11918,16 @@
             });
             _modCatalogById = {};
             MODALIDADES_CATALOG.forEach(function(m){ _modCatalogById[m.id] = m; });
+
+            // Sincronizar _dojoEstilo com o estilo real retornado pelo backend
+            var _ESTILOS_SYNC = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catSync = MODALIDADES_CATALOG.find(function(m){ return _ESTILOS_SYNC.indexOf(m.id) !== -1; });
+            if (_catSync && typeof _setDojoEstilo === 'function') {
+                _setDojoEstilo(_catSync.id);
+                console.log('[dojoEstilo] Sincronizado via catálogo:', _catSync.id);
+            }
 
             // Re-renderiza tela home se estiver visível (resolve timing issue)
             var modHomeGrid = document.getElementById('modHomeGrid');
@@ -30841,8 +30851,13 @@
         function openNewModalidadeModal() {
             var ov = document.getElementById('newModalidadeOverlay');
             if (!ov) return;
-            // Carregar prefixo do estilo do dojo
-            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo cacheado)
+            var _ESTILOS_B = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catBase = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_B.indexOf(m.id) !== -1; });
+            var _estiloReal = (_catBase && _catBase.id) || _dojoEstilo || 'karate_shotokan';
+            var prefixo = _estiloReal + '_';
             var prefEl   = document.getElementById('newModPrefixoLabel');
             var prefSpan = document.getElementById('newModPrefixoSpan');
             var exemEl   = document.getElementById('newModExemplos');
@@ -30867,7 +30882,13 @@
 
         function cadastrarNovaModalidade() {
             var sufixo = ((document.getElementById('newModSuffix') || {}).value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            // Detectar estilo real do dojo via catálogo
+            var _ESTILOS_C = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catMod = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_C.indexOf(m.id) !== -1; });
+            var _estiloReal2 = (_catMod && _catMod.id) || _dojoEstilo || 'karate_shotokan';
+            var prefixo = _estiloReal2 + '_';
             var id    = sufixo ? (prefixo + sufixo) : '';
             // Atualizar hidden input
             var midEl = document.getElementById('newModId');
@@ -31148,7 +31169,7 @@
                 html += '<button class="ct-mod-tab-v3-del" title="Remover aba" onclick="event.stopPropagation();removeCTModTab('+safeQ+',\''+mod.id+'\')">✕</button>';
                 html += '</button>';
             });
-            html += '<button class="ct-mod-tab-add" onclick="openNewModalidadeModal()">＋ Nova</button>';
+            html += '<button class="ct-mod-tab-add" onclick="openCTModModal(\''+safeCtEnc+'\')" title="Adicionar sub-modalidade">＋ Nova</button>';
             html += '</div>';
 
             // ── Painéis (um por modalidade, todos no DOM, só 1 visível) ──
@@ -31274,10 +31295,17 @@
 
             var footerHtml = '<div style="padding:12px 16px;border-top:1px solid var(--adm-border);flex-shrink:0;display:flex;flex-direction:column;gap:8px;">';
             footerHtml += '<button onclick="abrirNovaModalidadeForm()" style="width:100%;padding:10px;background:rgba(201,162,58,0.08);color:var(--adm-primary);border:1.5px solid rgba(201,162,58,0.3);border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;">➕ Nova Sub-Modalidade</button>';
-            // Estilo do dojo como base do prefixo
-            var _dojoBase = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : (catalog.length > 0 ? catalog[0].id : 'karate_shotokan');
+            // Detectar estilo real do dojo a partir do catálogo carregado
+            // Prioridade: 1) primeiro estilo base do catalog, 2) _dojoEstilo, 3) fallback
+            var _ESTILOS_BASE = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _baseFromCatalog = catalog.find(function(m){ return _ESTILOS_BASE.indexOf(m.id) !== -1; });
+            var _dojoBase    = (_baseFromCatalog && _baseFromCatalog.id)
+                || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
+            var _dojoBaseNomeExib = _baseFromCatalog ? _baseFromCatalog.nome : _dojoBase;
             var _prefixoBase = _dojoBase + '_';
-            var _nomeBase    = catalog.length > 0 ? catalog[0].nome : 'Karatê';
+            var _nomeBase    = _dojoBaseNomeExib;
 
             footerHtml += '<div id="novaModalidadeForm" style="display:none;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;padding:12px;">';
             footerHtml += '<div style="font-size:11px;font-weight:800;color:var(--adm-primary);margin-bottom:8px;">➕ Nova Sub-Modalidade</div>';
@@ -31365,8 +31393,12 @@
             var nome   = ((document.getElementById('novaModNome')   || {}).value || '').trim();
             var msg    = document.getElementById('novaModMsg');
 
-            // Prefixo = estilo do dojo
-            var dojoBase = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan';
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo)
+            var _ESTILOS_D = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catD = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_D.indexOf(m.id) !== -1; });
+            var dojoBase = (_catD && _catD.id) || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
             var id = sufixo ? (dojoBase + '_' + sufixo) : '';
 
             // Atualizar hidden input
@@ -47358,8 +47390,8 @@ ml>
             });
 
             MODALIDADES_CATALOG = res.modalidades.map(function(m) {
-              var cor    = m.cor    || '#C9A23A';
-              var corRGB = m.corRGB || '201,162,58';
+              var cor    = m.cor    || '#C41E3A';
+              var corRGB = m.corRGB || '196,30,58';
               var icon   = m.icon   || '🥋';
 
               // Atualiza MODALIDADES_SCHEMA com faixas vindas da planilha
@@ -47390,6 +47422,16 @@ ml>
             });
             _modCatalogById = {};
             MODALIDADES_CATALOG.forEach(function(m){ _modCatalogById[m.id] = m; });
+
+            // Sincronizar _dojoEstilo com o estilo real retornado pelo backend
+            var _ESTILOS_SYNC = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catSync = MODALIDADES_CATALOG.find(function(m){ return _ESTILOS_SYNC.indexOf(m.id) !== -1; });
+            if (_catSync && typeof _setDojoEstilo === 'function') {
+                _setDojoEstilo(_catSync.id);
+                console.log('[dojoEstilo] Sincronizado via catálogo:', _catSync.id);
+            }
 
             // Re-renderiza tela home se estiver visível (resolve timing issue)
             var modHomeGrid = document.getElementById('modHomeGrid');
@@ -66212,8 +66254,13 @@ ml>
         function openNewModalidadeModal() {
             var ov = document.getElementById('newModalidadeOverlay');
             if (!ov) return;
-            // Carregar prefixo do estilo do dojo
-            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo cacheado)
+            var _ESTILOS_B = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catBase = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_B.indexOf(m.id) !== -1; });
+            var _estiloReal = (_catBase && _catBase.id) || _dojoEstilo || 'karate_shotokan';
+            var prefixo = _estiloReal + '_';
             var prefEl   = document.getElementById('newModPrefixoLabel');
             var prefSpan = document.getElementById('newModPrefixoSpan');
             var exemEl   = document.getElementById('newModExemplos');
@@ -66238,7 +66285,13 @@ ml>
 
         function cadastrarNovaModalidade() {
             var sufixo = ((document.getElementById('newModSuffix') || {}).value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            // Detectar estilo real do dojo via catálogo
+            var _ESTILOS_C = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catMod = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_C.indexOf(m.id) !== -1; });
+            var _estiloReal2 = (_catMod && _catMod.id) || _dojoEstilo || 'karate_shotokan';
+            var prefixo = _estiloReal2 + '_';
             var id    = sufixo ? (prefixo + sufixo) : '';
             // Atualizar hidden input
             var midEl = document.getElementById('newModId');
@@ -66519,7 +66572,7 @@ ml>
                 html += '<button class="ct-mod-tab-v3-del" title="Remover aba" onclick="event.stopPropagation();removeCTModTab('+safeQ+',\''+mod.id+'\')">✕</button>';
                 html += '</button>';
             });
-            html += '<button class="ct-mod-tab-add" onclick="openNewModalidadeModal()">＋ Nova</button>';
+            html += '<button class="ct-mod-tab-add" onclick="openCTModModal(\''+safeCtEnc+'\')" title="Adicionar sub-modalidade">＋ Nova</button>';
             html += '</div>';
 
             // ── Painéis (um por modalidade, todos no DOM, só 1 visível) ──
@@ -66642,10 +66695,17 @@ ml>
 
             var footerHtml = '<div style="padding:12px 16px;border-top:1px solid var(--adm-border);flex-shrink:0;display:flex;flex-direction:column;gap:8px;">';
             footerHtml += '<button onclick="abrirNovaModalidadeForm()" style="width:100%;padding:10px;background:rgba(201,162,58,0.08);color:var(--adm-primary);border:1.5px solid rgba(201,162,58,0.3);border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;">➕ Nova Sub-Modalidade</button>';
-            // Estilo do dojo como base do prefixo
-            var _dojoBase = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : (catalog.length > 0 ? catalog[0].id : 'karate_shotokan');
+            // Detectar estilo real do dojo a partir do catálogo carregado
+            // Prioridade: 1) primeiro estilo base do catalog, 2) _dojoEstilo, 3) fallback
+            var _ESTILOS_BASE = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _baseFromCatalog = catalog.find(function(m){ return _ESTILOS_BASE.indexOf(m.id) !== -1; });
+            var _dojoBase    = (_baseFromCatalog && _baseFromCatalog.id)
+                || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
+            var _dojoBaseNomeExib = _baseFromCatalog ? _baseFromCatalog.nome : _dojoBase;
             var _prefixoBase = _dojoBase + '_';
-            var _nomeBase    = catalog.length > 0 ? catalog[0].nome : 'Karatê';
+            var _nomeBase    = _dojoBaseNomeExib;
 
             footerHtml += '<div id="novaModalidadeForm" style="display:none;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;padding:12px;">';
             footerHtml += '<div style="font-size:11px;font-weight:800;color:var(--adm-primary);margin-bottom:8px;">➕ Nova Sub-Modalidade</div>';
@@ -66733,8 +66793,12 @@ ml>
             var nome   = ((document.getElementById('novaModNome')   || {}).value || '').trim();
             var msg    = document.getElementById('novaModMsg');
 
-            // Prefixo = estilo do dojo
-            var dojoBase = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan';
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo)
+            var _ESTILOS_D = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catD = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_D.indexOf(m.id) !== -1; });
+            var dojoBase = (_catD && _catD.id) || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
             var id = sufixo ? (dojoBase + '_' + sufixo) : '';
 
             // Atualizar hidden input
@@ -83191,8 +83255,8 @@ ml>
             });
 
             MODALIDADES_CATALOG = res.modalidades.map(function(m) {
-              var cor    = m.cor    || '#C9A23A';
-              var corRGB = m.corRGB || '201,162,58';
+              var cor    = m.cor    || '#C41E3A';
+              var corRGB = m.corRGB || '196,30,58';
               var icon   = m.icon   || '🥋';
 
               // Atualiza MODALIDADES_SCHEMA com faixas vindas da planilha
@@ -83223,6 +83287,16 @@ ml>
             });
             _modCatalogById = {};
             MODALIDADES_CATALOG.forEach(function(m){ _modCatalogById[m.id] = m; });
+
+            // Sincronizar _dojoEstilo com o estilo real retornado pelo backend
+            var _ESTILOS_SYNC = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catSync = MODALIDADES_CATALOG.find(function(m){ return _ESTILOS_SYNC.indexOf(m.id) !== -1; });
+            if (_catSync && typeof _setDojoEstilo === 'function') {
+                _setDojoEstilo(_catSync.id);
+                console.log('[dojoEstilo] Sincronizado via catálogo:', _catSync.id);
+            }
 
             // Re-renderiza tela home se estiver visível (resolve timing issue)
             var modHomeGrid = document.getElementById('modHomeGrid');
@@ -102146,8 +102220,13 @@ ml>
         function openNewModalidadeModal() {
             var ov = document.getElementById('newModalidadeOverlay');
             if (!ov) return;
-            // Carregar prefixo do estilo do dojo
-            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo cacheado)
+            var _ESTILOS_B = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catBase = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_B.indexOf(m.id) !== -1; });
+            var _estiloReal = (_catBase && _catBase.id) || _dojoEstilo || 'karate_shotokan';
+            var prefixo = _estiloReal + '_';
             var prefEl   = document.getElementById('newModPrefixoLabel');
             var prefSpan = document.getElementById('newModPrefixoSpan');
             var exemEl   = document.getElementById('newModExemplos');
@@ -102172,7 +102251,13 @@ ml>
 
         function cadastrarNovaModalidade() {
             var sufixo = ((document.getElementById('newModSuffix') || {}).value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            // Detectar estilo real do dojo via catálogo
+            var _ESTILOS_C = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catMod = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_C.indexOf(m.id) !== -1; });
+            var _estiloReal2 = (_catMod && _catMod.id) || _dojoEstilo || 'karate_shotokan';
+            var prefixo = _estiloReal2 + '_';
             var id    = sufixo ? (prefixo + sufixo) : '';
             // Atualizar hidden input
             var midEl = document.getElementById('newModId');
@@ -102453,7 +102538,7 @@ ml>
                 html += '<button class="ct-mod-tab-v3-del" title="Remover aba" onclick="event.stopPropagation();removeCTModTab('+safeQ+',\''+mod.id+'\')">✕</button>';
                 html += '</button>';
             });
-            html += '<button class="ct-mod-tab-add" onclick="openNewModalidadeModal()">＋ Nova</button>';
+            html += '<button class="ct-mod-tab-add" onclick="openCTModModal(\''+safeCtEnc+'\')" title="Adicionar sub-modalidade">＋ Nova</button>';
             html += '</div>';
 
             // ── Painéis (um por modalidade, todos no DOM, só 1 visível) ──
@@ -102576,10 +102661,17 @@ ml>
 
             var footerHtml = '<div style="padding:12px 16px;border-top:1px solid var(--adm-border);flex-shrink:0;display:flex;flex-direction:column;gap:8px;">';
             footerHtml += '<button onclick="abrirNovaModalidadeForm()" style="width:100%;padding:10px;background:rgba(201,162,58,0.08);color:var(--adm-primary);border:1.5px solid rgba(201,162,58,0.3);border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;">➕ Nova Sub-Modalidade</button>';
-            // Estilo do dojo como base do prefixo
-            var _dojoBase = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : (catalog.length > 0 ? catalog[0].id : 'karate_shotokan');
+            // Detectar estilo real do dojo a partir do catálogo carregado
+            // Prioridade: 1) primeiro estilo base do catalog, 2) _dojoEstilo, 3) fallback
+            var _ESTILOS_BASE = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _baseFromCatalog = catalog.find(function(m){ return _ESTILOS_BASE.indexOf(m.id) !== -1; });
+            var _dojoBase    = (_baseFromCatalog && _baseFromCatalog.id)
+                || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
+            var _dojoBaseNomeExib = _baseFromCatalog ? _baseFromCatalog.nome : _dojoBase;
             var _prefixoBase = _dojoBase + '_';
-            var _nomeBase    = catalog.length > 0 ? catalog[0].nome : 'Karatê';
+            var _nomeBase    = _dojoBaseNomeExib;
 
             footerHtml += '<div id="novaModalidadeForm" style="display:none;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;padding:12px;">';
             footerHtml += '<div style="font-size:11px;font-weight:800;color:var(--adm-primary);margin-bottom:8px;">➕ Nova Sub-Modalidade</div>';
@@ -102667,8 +102759,12 @@ ml>
             var nome   = ((document.getElementById('novaModNome')   || {}).value || '').trim();
             var msg    = document.getElementById('novaModMsg');
 
-            // Prefixo = estilo do dojo
-            var dojoBase = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan';
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo)
+            var _ESTILOS_D = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catD = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_D.indexOf(m.id) !== -1; });
+            var dojoBase = (_catD && _catD.id) || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
             var id = sufixo ? (dojoBase + '_' + sufixo) : '';
 
             // Atualizar hidden input
@@ -118660,8 +118756,8 @@ ml>
             });
 
             MODALIDADES_CATALOG = res.modalidades.map(function(m) {
-              var cor    = m.cor    || '#C9A23A';
-              var corRGB = m.corRGB || '201,162,58';
+              var cor    = m.cor    || '#C41E3A';
+              var corRGB = m.corRGB || '196,30,58';
               var icon   = m.icon   || '🥋';
 
               // Atualiza MODALIDADES_SCHEMA com faixas vindas da planilha
@@ -118692,6 +118788,16 @@ ml>
             });
             _modCatalogById = {};
             MODALIDADES_CATALOG.forEach(function(m){ _modCatalogById[m.id] = m; });
+
+            // Sincronizar _dojoEstilo com o estilo real retornado pelo backend
+            var _ESTILOS_SYNC = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catSync = MODALIDADES_CATALOG.find(function(m){ return _ESTILOS_SYNC.indexOf(m.id) !== -1; });
+            if (_catSync && typeof _setDojoEstilo === 'function') {
+                _setDojoEstilo(_catSync.id);
+                console.log('[dojoEstilo] Sincronizado via catálogo:', _catSync.id);
+            }
 
             // Re-renderiza tela home se estiver visível (resolve timing issue)
             var modHomeGrid = document.getElementById('modHomeGrid');
@@ -137514,8 +137620,13 @@ ml>
         function openNewModalidadeModal() {
             var ov = document.getElementById('newModalidadeOverlay');
             if (!ov) return;
-            // Carregar prefixo do estilo do dojo
-            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo cacheado)
+            var _ESTILOS_B = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catBase = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_B.indexOf(m.id) !== -1; });
+            var _estiloReal = (_catBase && _catBase.id) || _dojoEstilo || 'karate_shotokan';
+            var prefixo = _estiloReal + '_';
             var prefEl   = document.getElementById('newModPrefixoLabel');
             var prefSpan = document.getElementById('newModPrefixoSpan');
             var exemEl   = document.getElementById('newModExemplos');
@@ -137540,7 +137651,13 @@ ml>
 
         function cadastrarNovaModalidade() {
             var sufixo = ((document.getElementById('newModSuffix') || {}).value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-            var prefixo = (_dojoEstilo || 'karate_shotokan') + '_';
+            // Detectar estilo real do dojo via catálogo
+            var _ESTILOS_C = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catMod = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_C.indexOf(m.id) !== -1; });
+            var _estiloReal2 = (_catMod && _catMod.id) || _dojoEstilo || 'karate_shotokan';
+            var prefixo = _estiloReal2 + '_';
             var id    = sufixo ? (prefixo + sufixo) : '';
             // Atualizar hidden input
             var midEl = document.getElementById('newModId');
@@ -137821,7 +137938,7 @@ ml>
                 html += '<button class="ct-mod-tab-v3-del" title="Remover aba" onclick="event.stopPropagation();removeCTModTab('+safeQ+',\''+mod.id+'\')">✕</button>';
                 html += '</button>';
             });
-            html += '<button class="ct-mod-tab-add" onclick="openNewModalidadeModal()">＋ Nova</button>';
+            html += '<button class="ct-mod-tab-add" onclick="openCTModModal(\''+safeCtEnc+'\')" title="Adicionar sub-modalidade">＋ Nova</button>';
             html += '</div>';
 
             // ── Painéis (um por modalidade, todos no DOM, só 1 visível) ──
@@ -137944,10 +138061,17 @@ ml>
 
             var footerHtml = '<div style="padding:12px 16px;border-top:1px solid var(--adm-border);flex-shrink:0;display:flex;flex-direction:column;gap:8px;">';
             footerHtml += '<button onclick="abrirNovaModalidadeForm()" style="width:100%;padding:10px;background:rgba(201,162,58,0.08);color:var(--adm-primary);border:1.5px solid rgba(201,162,58,0.3);border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;">➕ Nova Sub-Modalidade</button>';
-            // Estilo do dojo como base do prefixo
-            var _dojoBase = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : (catalog.length > 0 ? catalog[0].id : 'karate_shotokan');
+            // Detectar estilo real do dojo a partir do catálogo carregado
+            // Prioridade: 1) primeiro estilo base do catalog, 2) _dojoEstilo, 3) fallback
+            var _ESTILOS_BASE = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _baseFromCatalog = catalog.find(function(m){ return _ESTILOS_BASE.indexOf(m.id) !== -1; });
+            var _dojoBase    = (_baseFromCatalog && _baseFromCatalog.id)
+                || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
+            var _dojoBaseNomeExib = _baseFromCatalog ? _baseFromCatalog.nome : _dojoBase;
             var _prefixoBase = _dojoBase + '_';
-            var _nomeBase    = catalog.length > 0 ? catalog[0].nome : 'Karatê';
+            var _nomeBase    = _dojoBaseNomeExib;
 
             footerHtml += '<div id="novaModalidadeForm" style="display:none;background:var(--adm-bg-elevated);border:1px solid var(--adm-border);border-radius:10px;padding:12px;">';
             footerHtml += '<div style="font-size:11px;font-weight:800;color:var(--adm-primary);margin-bottom:8px;">➕ Nova Sub-Modalidade</div>';
@@ -138035,8 +138159,12 @@ ml>
             var nome   = ((document.getElementById('novaModNome')   || {}).value || '').trim();
             var msg    = document.getElementById('novaModMsg');
 
-            // Prefixo = estilo do dojo
-            var dojoBase = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan';
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo)
+            var _ESTILOS_D = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catD = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_D.indexOf(m.id) !== -1; });
+            var dojoBase = (_catD && _catD.id) || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
             var id = sufixo ? (dojoBase + '_' + sufixo) : '';
 
             // Atualizar hidden input
