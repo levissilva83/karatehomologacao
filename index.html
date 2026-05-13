@@ -9267,19 +9267,15 @@
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:6px;color:#4ade80;font-size:10px;font-weight:700;cursor:pointer;">+ Modalidade</button>
+                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:6px;color:var(--adm-primary);font-size:10px;font-weight:700;cursor:pointer;">🥋 + Sub-Modalidade</button>
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
                                 <!-- Criar CT — RECURSO PREMIUM (bloqueado) -->
-                                <div id="addCTSection" style="border:1.5px dashed rgba(201,162,58,0.35);border-radius:10px;padding:14px;background:rgba(201,162,58,0.04);margin-bottom:10px;">
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <span style="font-size:22px;flex-shrink:0;">🔒</span>
-                                        <div style="flex:1;">
-                                            <div style="font-size:12px;font-weight:800;color:var(--adm-primary);margin-bottom:2px;">Criar Filial / CT — Recurso Premium</div>
-                                            <div style="font-size:11px;color:var(--adm-text-3);line-height:1.5;">Disponível nos planos pagos. Entre em contato para habilitar múltiplos centros de treinamento.</div>
-                                        </div>
-                                    </div>
+                                <div id="addCTSection" style="margin-bottom:10px;">
+                                    <button onclick="openAddCTPanel()" style="width:100%;padding:10px 14px;background:var(--adm-primary-dim);border:1.5px dashed var(--adm-border-accent);border-radius:10px;color:var(--adm-primary);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                                        <span style="font-size:16px;">🏯</span> + Criar Novo CT / Filial
+                                    </button>
                                 </div>
                                 <!-- Abas de CTs -->
                                 <div id="adminCTTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
@@ -11501,7 +11497,7 @@
         var _ctmId = (function() {
             try { return localStorage.getItem('ctm_id') || 'matrix'; } catch(e) { return 'matrix'; }
         })();
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1dkifyyEkFPdeXKzlLND7LNsM88NBmXva_xD7zPlm-E88Q7PxFRVXgO7UccDVdj0W/exec'
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7_fgKBhQAbwT2WGYU2W7HHEAHRjwdCAhkslZBbpSVb8VGFHmHYWMS0P-42Bud21FB/exec'
                          + '?ctm=' + _ctmId;
 
         // ── Verifica se o cliente existe no registry ──────────────
@@ -11722,6 +11718,9 @@
 
         // Mostra badge de bloqueio por plano em um elemento
         function _lockByPlan(elId, recurso, planoNecessario) {
+            // CTs e modalidades: admin tem liberdade total — nunca bloquear
+            var recursosLivres = ['addCTSection', 'redesBeneficioSection', 'admPainelTab6'];
+            if (recursosLivres.indexOf(elId) !== -1) return;
             var el = document.getElementById(elId);
             if (!el) return;
             var nomePlano = _planNomes[planoNecessario] || planoNecessario;
@@ -11821,7 +11820,7 @@
             }
             // Filiais (somente Premium)
             if (_planLimits.filiais < 3) {
-                _lockByPlan('addCTSection', '🏠 Criar Filiais / CTs', 'premium');
+                // addCTSection: sem bloqueio — admin tem liberdade total de criar CTs e modalidades
             }
         }
 
@@ -25326,7 +25325,7 @@
 
         async function saCriarCT() {
             // 🔒 RECURSO PREMIUM — criação de filiais bloqueada
-            alert('🔒 Criar Filial / CT é um recurso dos planos pagos.\n\nEntre em contato para habilitar múltiplos centros de treinamento.');
+            openAddCTPanel();
         }
 
         async function saExcluirCT(nome) {
@@ -31083,7 +31082,7 @@
            • Cada aba tem cor própria, painel isolado, dados independentes
            • switchCTModTabV3 garante hide/show real (não só CSS class)
         ───────────────────────────────────────────────────────── */
-        function renderCTContent(ctName) {
+        async function renderCTContent(ctName) {
             var contentEl = document.getElementById('adminCTContent');
             if (!contentEl) return;
 
@@ -31092,6 +31091,11 @@
 
             var schedule  = ctScheduleCache[ctName] || {};
             var hpd = (typeof ctObj === 'object' && ctObj.horariosPorDia) ? ctObj.horariosPorDia : {};
+
+            // Garantir catálogo atualizado — sub-modalidades recém-criadas precisam estar aqui
+            if (!MODALIDADES_CATALOG || MODALIDADES_CATALOG.length === 0) {
+                await _carregarCatalogModalidades();
+            }
             var catalog  = MODALIDADES_CATALOG || [];
 
             // ── Determina quais modalidades este CT usa ──────────────────
@@ -31149,7 +31153,12 @@
             html += '</div></div>';
 
             if (ctMods.length === 0) {
-                html += '<div class="admin-empty">Nenhuma modalidade configurada. Clique em ⚙ Modalidades para adicionar.</div>';
+                // Catalog pode estar desatualizado — mostrar botão para recarregar e abrir modal
+                html += '<div class="admin-empty" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px;">' +
+                    '<div style="font-size:14px;font-weight:700;color:var(--adm-text-1);">Nenhuma modalidade configurada</div>' +
+                    '<div style="font-size:11px;color:var(--adm-text-3);">Clique em Modalidades para adicionar o estilo do seu dojo</div>' +
+                    '<button onclick="openCTModModal(\''+safeCtEnc+'\')" style="padding:9px 20px;background:var(--adm-primary);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">⚙ Configurar Modalidades</button>' +
+                '</div>';
                 contentEl.innerHTML = html;
                 return;
             }
@@ -31246,6 +31255,8 @@
         async function openCTModModal(encCt) {
             var ctName = decodeURIComponent(encCt);
             _ctAtivaNome = ctName;
+            // Recarregar catálogo para incluir sub-modalidades recém-criadas
+            await _carregarCatalogModalidades();
             var selected = _ctModsSelected[ctName] || [];
 
             // ── Busca modalidades do contrato deste CT via LICENCIADOS ────
@@ -31425,21 +31436,21 @@
                 });
                 if (res && res.success) {
                     if(msg) msg.style.color='#4ade80',msg.textContent='✅ ' + nome + ' criada!';
-                    // 1. Recarregar catálogo de modalidades
+                    // 1. Recarregar catálogo
                     await _carregarCatalogModalidades();
-                    // 2. Adicionar automaticamente ao CT ativo
+                    // 2. Adicionar ao CT ativo
                     var ctAtivo = _ctAtivaNome || _ctSelecionado || '';
                     if (ctAtivo) {
                         var sel = _ctModsSelected[ctAtivo] || [];
                         if (sel.indexOf(id) === -1) sel.push(id);
                         _ctModsSelected[ctAtivo] = sel;
-                        _ctActiveModId[ctAtivo] = id; // ativar a nova aba
+                        _ctActiveModId[ctAtivo] = id;
                     }
-                    // 3. Fechar modal e re-renderizar o CT com a nova aba
-                    setTimeout(function(){
-                        closeCTModModal();
-                        if (ctAtivo) renderCTContent(ctAtivo);
-                    }, 800);
+                    // 3. Fechar modal CT e abrir painel de atribuição de alunos
+                    closeCTModModal();
+                    if (ctAtivo) await renderCTContent(ctAtivo);
+                    // 4. Perguntar quais alunos recebem a nova modalidade
+                    await _abrirPainelAtribuicaoModalidade(id, nome, ctAtivo);
                 } else {
                     if(msg) msg.style.color='#f87171',msg.textContent='❌ ' + ((res&&res.message)||'Erro');
                 }
@@ -31465,11 +31476,10 @@
             if (chk) chk.checked = isSel;
         }
 
-        function applyCTModSelection(ctName) {
+        async function applyCTModSelection(ctName) {
             // Re-renderiza o conteúdo do CT com as modalidades atualizadas
-            // _ctModsSelected já foi atualizado pelo toggleCTModSel
             delete _ctActiveModId[ctName]; // reset para primeira aba
-            renderCTContent(ctName);
+            await renderCTContent(ctName);
         }
 
         /* Remove uma modalidade das abas deste CT (não exclui do sistema) */
@@ -44772,19 +44782,15 @@ ml>
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:6px;color:#4ade80;font-size:10px;font-weight:700;cursor:pointer;">+ Modalidade</button>
+                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:6px;color:var(--adm-primary);font-size:10px;font-weight:700;cursor:pointer;">🥋 + Sub-Modalidade</button>
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
                                 <!-- Criar CT — RECURSO PREMIUM (bloqueado) -->
-                                <div id="addCTSection" style="border:1.5px dashed rgba(201,162,58,0.35);border-radius:10px;padding:14px;background:rgba(201,162,58,0.04);margin-bottom:10px;">
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <span style="font-size:22px;flex-shrink:0;">🔒</span>
-                                        <div style="flex:1;">
-                                            <div style="font-size:12px;font-weight:800;color:var(--adm-primary);margin-bottom:2px;">Criar Filial / CT — Recurso Premium</div>
-                                            <div style="font-size:11px;color:var(--adm-text-3);line-height:1.5;">Disponível nos planos pagos. Entre em contato para habilitar múltiplos centros de treinamento.</div>
-                                        </div>
-                                    </div>
+                                <div id="addCTSection" style="margin-bottom:10px;">
+                                    <button onclick="openAddCTPanel()" style="width:100%;padding:10px 14px;background:var(--adm-primary-dim);border:1.5px dashed var(--adm-border-accent);border-radius:10px;color:var(--adm-primary);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                                        <span style="font-size:16px;">🏯</span> + Criar Novo CT / Filial
+                                    </button>
                                 </div>
                                 <!-- Abas de CTs -->
                                 <div id="adminCTTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
@@ -47226,6 +47232,9 @@ ml>
 
         // Mostra badge de bloqueio por plano em um elemento
         function _lockByPlan(elId, recurso, planoNecessario) {
+            // CTs e modalidades: admin tem liberdade total — nunca bloquear
+            var recursosLivres = ['addCTSection', 'redesBeneficioSection', 'admPainelTab6'];
+            if (recursosLivres.indexOf(elId) !== -1) return;
             var el = document.getElementById(elId);
             if (!el) return;
             var nomePlano = _planNomes[planoNecessario] || planoNecessario;
@@ -47325,7 +47334,7 @@ ml>
             }
             // Filiais (somente Premium)
             if (_planLimits.filiais < 3) {
-                _lockByPlan('addCTSection', '🏠 Criar Filiais / CTs', 'premium');
+                // addCTSection: sem bloqueio — admin tem liberdade total de criar CTs e modalidades
             }
         }
 
@@ -60729,7 +60738,7 @@ ml>
 
         async function saCriarCT() {
             // 🔒 RECURSO PREMIUM — criação de filiais bloqueada
-            alert('🔒 Criar Filial / CT é um recurso dos planos pagos.\n\nEntre em contato para habilitar múltiplos centros de treinamento.');
+            openAddCTPanel();
         }
 
         async function saExcluirCT(nome) {
@@ -66486,7 +66495,7 @@ ml>
            • Cada aba tem cor própria, painel isolado, dados independentes
            • switchCTModTabV3 garante hide/show real (não só CSS class)
         ───────────────────────────────────────────────────────── */
-        function renderCTContent(ctName) {
+        async function renderCTContent(ctName) {
             var contentEl = document.getElementById('adminCTContent');
             if (!contentEl) return;
 
@@ -66495,6 +66504,11 @@ ml>
 
             var schedule  = ctScheduleCache[ctName] || {};
             var hpd = (typeof ctObj === 'object' && ctObj.horariosPorDia) ? ctObj.horariosPorDia : {};
+
+            // Garantir catálogo atualizado — sub-modalidades recém-criadas precisam estar aqui
+            if (!MODALIDADES_CATALOG || MODALIDADES_CATALOG.length === 0) {
+                await _carregarCatalogModalidades();
+            }
             var catalog  = MODALIDADES_CATALOG || [];
 
             // ── Determina quais modalidades este CT usa ──────────────────
@@ -66552,7 +66566,12 @@ ml>
             html += '</div></div>';
 
             if (ctMods.length === 0) {
-                html += '<div class="admin-empty">Nenhuma modalidade configurada. Clique em ⚙ Modalidades para adicionar.</div>';
+                // Catalog pode estar desatualizado — mostrar botão para recarregar e abrir modal
+                html += '<div class="admin-empty" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px;">' +
+                    '<div style="font-size:14px;font-weight:700;color:var(--adm-text-1);">Nenhuma modalidade configurada</div>' +
+                    '<div style="font-size:11px;color:var(--adm-text-3);">Clique em Modalidades para adicionar o estilo do seu dojo</div>' +
+                    '<button onclick="openCTModModal(\''+safeCtEnc+'\')" style="padding:9px 20px;background:var(--adm-primary);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">⚙ Configurar Modalidades</button>' +
+                '</div>';
                 contentEl.innerHTML = html;
                 return;
             }
@@ -66646,6 +66665,8 @@ ml>
         async function openCTModModal(encCt) {
             var ctName = decodeURIComponent(encCt);
             _ctAtivaNome = ctName;
+            // Recarregar catálogo para incluir sub-modalidades recém-criadas
+            await _carregarCatalogModalidades();
             var selected = _ctModsSelected[ctName] || [];
 
             // ── Busca modalidades do contrato deste CT via LICENCIADOS ────
@@ -66825,21 +66846,21 @@ ml>
                 });
                 if (res && res.success) {
                     if(msg) msg.style.color='#4ade80',msg.textContent='✅ ' + nome + ' criada!';
-                    // 1. Recarregar catálogo de modalidades
+                    // 1. Recarregar catálogo
                     await _carregarCatalogModalidades();
-                    // 2. Adicionar automaticamente ao CT ativo
+                    // 2. Adicionar ao CT ativo
                     var ctAtivo = _ctAtivaNome || _ctSelecionado || '';
                     if (ctAtivo) {
                         var sel = _ctModsSelected[ctAtivo] || [];
                         if (sel.indexOf(id) === -1) sel.push(id);
                         _ctModsSelected[ctAtivo] = sel;
-                        _ctActiveModId[ctAtivo] = id; // ativar a nova aba
+                        _ctActiveModId[ctAtivo] = id;
                     }
-                    // 3. Fechar modal e re-renderizar o CT com a nova aba
-                    setTimeout(function(){
-                        closeCTModModal();
-                        if (ctAtivo) renderCTContent(ctAtivo);
-                    }, 800);
+                    // 3. Fechar modal CT e abrir painel de atribuição de alunos
+                    closeCTModModal();
+                    if (ctAtivo) await renderCTContent(ctAtivo);
+                    // 4. Perguntar quais alunos recebem a nova modalidade
+                    await _abrirPainelAtribuicaoModalidade(id, nome, ctAtivo);
                 } else {
                     if(msg) msg.style.color='#f87171',msg.textContent='❌ ' + ((res&&res.message)||'Erro');
                 }
@@ -66865,11 +66886,10 @@ ml>
             if (chk) chk.checked = isSel;
         }
 
-        function applyCTModSelection(ctName) {
+        async function applyCTModSelection(ctName) {
             // Re-renderiza o conteúdo do CT com as modalidades atualizadas
-            // _ctModsSelected já foi atualizado pelo toggleCTModSel
             delete _ctActiveModId[ctName]; // reset para primeira aba
-            renderCTContent(ctName);
+            await renderCTContent(ctName);
         }
 
         /* Remove uma modalidade das abas deste CT (não exclui do sistema) */
@@ -70962,6 +70982,19 @@ ml>
             if (ctBtn  && typeof admCronoFiltroCT  === 'function') admCronoFiltroCT(ctBtn.getAttribute('data-crono-ct'));
             if (modAll && typeof admCronoFiltroMod === 'function') admCronoFiltroMod('');
             if (modBtn && typeof admCronoFiltroMod === 'function') admCronoFiltroMod(modBtn.getAttribute('data-crono-mod'));
+        });
+
+        // Event delegation para painel de atribuição de modalidade
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('[data-atrib-pular]')) {
+                var ov = document.getElementById('atribModOverlay');
+                if (ov) ov.remove();
+                return;
+            }
+            var salvarBtn = e.target.closest('[data-atrib-salvar]');
+            if (salvarBtn) {
+                _salvarAtribuicaoModalidade(salvarBtn.getAttribute('data-atrib-salvar'));
+            }
         });
 
         // Event delegation para Cronograma week strip e calendário mensal
@@ -80636,19 +80669,15 @@ ml>
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:6px;color:#4ade80;font-size:10px;font-weight:700;cursor:pointer;">+ Modalidade</button>
+                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:6px;color:var(--adm-primary);font-size:10px;font-weight:700;cursor:pointer;">🥋 + Sub-Modalidade</button>
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
                                 <!-- Criar CT — RECURSO PREMIUM (bloqueado) -->
-                                <div id="addCTSection" style="border:1.5px dashed rgba(201,162,58,0.35);border-radius:10px;padding:14px;background:rgba(201,162,58,0.04);margin-bottom:10px;">
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <span style="font-size:22px;flex-shrink:0;">🔒</span>
-                                        <div style="flex:1;">
-                                            <div style="font-size:12px;font-weight:800;color:var(--adm-primary);margin-bottom:2px;">Criar Filial / CT — Recurso Premium</div>
-                                            <div style="font-size:11px;color:var(--adm-text-3);line-height:1.5;">Disponível nos planos pagos. Entre em contato para habilitar múltiplos centros de treinamento.</div>
-                                        </div>
-                                    </div>
+                                <div id="addCTSection" style="margin-bottom:10px;">
+                                    <button onclick="openAddCTPanel()" style="width:100%;padding:10px 14px;background:var(--adm-primary-dim);border:1.5px dashed var(--adm-border-accent);border-radius:10px;color:var(--adm-primary);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                                        <span style="font-size:16px;">🏯</span> + Criar Novo CT / Filial
+                                    </button>
                                 </div>
                                 <!-- Abas de CTs -->
                                 <div id="adminCTTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
@@ -83091,6 +83120,9 @@ ml>
 
         // Mostra badge de bloqueio por plano em um elemento
         function _lockByPlan(elId, recurso, planoNecessario) {
+            // CTs e modalidades: admin tem liberdade total — nunca bloquear
+            var recursosLivres = ['addCTSection', 'redesBeneficioSection', 'admPainelTab6'];
+            if (recursosLivres.indexOf(elId) !== -1) return;
             var el = document.getElementById(elId);
             if (!el) return;
             var nomePlano = _planNomes[planoNecessario] || planoNecessario;
@@ -83190,7 +83222,7 @@ ml>
             }
             // Filiais (somente Premium)
             if (_planLimits.filiais < 3) {
-                _lockByPlan('addCTSection', '🏠 Criar Filiais / CTs', 'premium');
+                // addCTSection: sem bloqueio — admin tem liberdade total de criar CTs e modalidades
             }
         }
 
@@ -96695,7 +96727,7 @@ ml>
 
         async function saCriarCT() {
             // 🔒 RECURSO PREMIUM — criação de filiais bloqueada
-            alert('🔒 Criar Filial / CT é um recurso dos planos pagos.\n\nEntre em contato para habilitar múltiplos centros de treinamento.');
+            openAddCTPanel();
         }
 
         async function saExcluirCT(nome) {
@@ -102452,7 +102484,7 @@ ml>
            • Cada aba tem cor própria, painel isolado, dados independentes
            • switchCTModTabV3 garante hide/show real (não só CSS class)
         ───────────────────────────────────────────────────────── */
-        function renderCTContent(ctName) {
+        async function renderCTContent(ctName) {
             var contentEl = document.getElementById('adminCTContent');
             if (!contentEl) return;
 
@@ -102461,6 +102493,11 @@ ml>
 
             var schedule  = ctScheduleCache[ctName] || {};
             var hpd = (typeof ctObj === 'object' && ctObj.horariosPorDia) ? ctObj.horariosPorDia : {};
+
+            // Garantir catálogo atualizado — sub-modalidades recém-criadas precisam estar aqui
+            if (!MODALIDADES_CATALOG || MODALIDADES_CATALOG.length === 0) {
+                await _carregarCatalogModalidades();
+            }
             var catalog  = MODALIDADES_CATALOG || [];
 
             // ── Determina quais modalidades este CT usa ──────────────────
@@ -102518,7 +102555,12 @@ ml>
             html += '</div></div>';
 
             if (ctMods.length === 0) {
-                html += '<div class="admin-empty">Nenhuma modalidade configurada. Clique em ⚙ Modalidades para adicionar.</div>';
+                // Catalog pode estar desatualizado — mostrar botão para recarregar e abrir modal
+                html += '<div class="admin-empty" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px;">' +
+                    '<div style="font-size:14px;font-weight:700;color:var(--adm-text-1);">Nenhuma modalidade configurada</div>' +
+                    '<div style="font-size:11px;color:var(--adm-text-3);">Clique em Modalidades para adicionar o estilo do seu dojo</div>' +
+                    '<button onclick="openCTModModal(\''+safeCtEnc+'\')" style="padding:9px 20px;background:var(--adm-primary);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">⚙ Configurar Modalidades</button>' +
+                '</div>';
                 contentEl.innerHTML = html;
                 return;
             }
@@ -102612,6 +102654,8 @@ ml>
         async function openCTModModal(encCt) {
             var ctName = decodeURIComponent(encCt);
             _ctAtivaNome = ctName;
+            // Recarregar catálogo para incluir sub-modalidades recém-criadas
+            await _carregarCatalogModalidades();
             var selected = _ctModsSelected[ctName] || [];
 
             // ── Busca modalidades do contrato deste CT via LICENCIADOS ────
@@ -102791,21 +102835,21 @@ ml>
                 });
                 if (res && res.success) {
                     if(msg) msg.style.color='#4ade80',msg.textContent='✅ ' + nome + ' criada!';
-                    // 1. Recarregar catálogo de modalidades
+                    // 1. Recarregar catálogo
                     await _carregarCatalogModalidades();
-                    // 2. Adicionar automaticamente ao CT ativo
+                    // 2. Adicionar ao CT ativo
                     var ctAtivo = _ctAtivaNome || _ctSelecionado || '';
                     if (ctAtivo) {
                         var sel = _ctModsSelected[ctAtivo] || [];
                         if (sel.indexOf(id) === -1) sel.push(id);
                         _ctModsSelected[ctAtivo] = sel;
-                        _ctActiveModId[ctAtivo] = id; // ativar a nova aba
+                        _ctActiveModId[ctAtivo] = id;
                     }
-                    // 3. Fechar modal e re-renderizar o CT com a nova aba
-                    setTimeout(function(){
-                        closeCTModModal();
-                        if (ctAtivo) renderCTContent(ctAtivo);
-                    }, 800);
+                    // 3. Fechar modal CT e abrir painel de atribuição de alunos
+                    closeCTModModal();
+                    if (ctAtivo) await renderCTContent(ctAtivo);
+                    // 4. Perguntar quais alunos recebem a nova modalidade
+                    await _abrirPainelAtribuicaoModalidade(id, nome, ctAtivo);
                 } else {
                     if(msg) msg.style.color='#f87171',msg.textContent='❌ ' + ((res&&res.message)||'Erro');
                 }
@@ -102831,11 +102875,10 @@ ml>
             if (chk) chk.checked = isSel;
         }
 
-        function applyCTModSelection(ctName) {
+        async function applyCTModSelection(ctName) {
             // Re-renderiza o conteúdo do CT com as modalidades atualizadas
-            // _ctModsSelected já foi atualizado pelo toggleCTModSel
             delete _ctActiveModId[ctName]; // reset para primeira aba
-            renderCTContent(ctName);
+            await renderCTContent(ctName);
         }
 
         /* Remove uma modalidade das abas deste CT (não exclui do sistema) */
@@ -116138,19 +116181,15 @@ ml>
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:6px;color:#4ade80;font-size:10px;font-weight:700;cursor:pointer;">+ Modalidade</button>
+                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:6px;color:var(--adm-primary);font-size:10px;font-weight:700;cursor:pointer;">🥋 + Sub-Modalidade</button>
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
                                 <!-- Criar CT — RECURSO PREMIUM (bloqueado) -->
-                                <div id="addCTSection" style="border:1.5px dashed rgba(201,162,58,0.35);border-radius:10px;padding:14px;background:rgba(201,162,58,0.04);margin-bottom:10px;">
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <span style="font-size:22px;flex-shrink:0;">🔒</span>
-                                        <div style="flex:1;">
-                                            <div style="font-size:12px;font-weight:800;color:var(--adm-primary);margin-bottom:2px;">Criar Filial / CT — Recurso Premium</div>
-                                            <div style="font-size:11px;color:var(--adm-text-3);line-height:1.5;">Disponível nos planos pagos. Entre em contato para habilitar múltiplos centros de treinamento.</div>
-                                        </div>
-                                    </div>
+                                <div id="addCTSection" style="margin-bottom:10px;">
+                                    <button onclick="openAddCTPanel()" style="width:100%;padding:10px 14px;background:var(--adm-primary-dim);border:1.5px dashed var(--adm-border-accent);border-radius:10px;color:var(--adm-primary);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                                        <span style="font-size:16px;">🏯</span> + Criar Novo CT / Filial
+                                    </button>
                                 </div>
                                 <!-- Abas de CTs -->
                                 <div id="adminCTTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
@@ -118592,6 +118631,9 @@ ml>
 
         // Mostra badge de bloqueio por plano em um elemento
         function _lockByPlan(elId, recurso, planoNecessario) {
+            // CTs e modalidades: admin tem liberdade total — nunca bloquear
+            var recursosLivres = ['addCTSection', 'redesBeneficioSection', 'admPainelTab6'];
+            if (recursosLivres.indexOf(elId) !== -1) return;
             var el = document.getElementById(elId);
             if (!el) return;
             var nomePlano = _planNomes[planoNecessario] || planoNecessario;
@@ -118691,7 +118733,7 @@ ml>
             }
             // Filiais (somente Premium)
             if (_planLimits.filiais < 3) {
-                _lockByPlan('addCTSection', '🏠 Criar Filiais / CTs', 'premium');
+                // addCTSection: sem bloqueio — admin tem liberdade total de criar CTs e modalidades
             }
         }
 
@@ -132095,7 +132137,7 @@ ml>
 
         async function saCriarCT() {
             // 🔒 RECURSO PREMIUM — criação de filiais bloqueada
-            alert('🔒 Criar Filial / CT é um recurso dos planos pagos.\n\nEntre em contato para habilitar múltiplos centros de treinamento.');
+            openAddCTPanel();
         }
 
         async function saExcluirCT(nome) {
@@ -137852,7 +137894,7 @@ ml>
            • Cada aba tem cor própria, painel isolado, dados independentes
            • switchCTModTabV3 garante hide/show real (não só CSS class)
         ───────────────────────────────────────────────────────── */
-        function renderCTContent(ctName) {
+        async function renderCTContent(ctName) {
             var contentEl = document.getElementById('adminCTContent');
             if (!contentEl) return;
 
@@ -137861,6 +137903,11 @@ ml>
 
             var schedule  = ctScheduleCache[ctName] || {};
             var hpd = (typeof ctObj === 'object' && ctObj.horariosPorDia) ? ctObj.horariosPorDia : {};
+
+            // Garantir catálogo atualizado — sub-modalidades recém-criadas precisam estar aqui
+            if (!MODALIDADES_CATALOG || MODALIDADES_CATALOG.length === 0) {
+                await _carregarCatalogModalidades();
+            }
             var catalog  = MODALIDADES_CATALOG || [];
 
             // ── Determina quais modalidades este CT usa ──────────────────
@@ -137918,7 +137965,12 @@ ml>
             html += '</div></div>';
 
             if (ctMods.length === 0) {
-                html += '<div class="admin-empty">Nenhuma modalidade configurada. Clique em ⚙ Modalidades para adicionar.</div>';
+                // Catalog pode estar desatualizado — mostrar botão para recarregar e abrir modal
+                html += '<div class="admin-empty" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px;">' +
+                    '<div style="font-size:14px;font-weight:700;color:var(--adm-text-1);">Nenhuma modalidade configurada</div>' +
+                    '<div style="font-size:11px;color:var(--adm-text-3);">Clique em Modalidades para adicionar o estilo do seu dojo</div>' +
+                    '<button onclick="openCTModModal(\''+safeCtEnc+'\')" style="padding:9px 20px;background:var(--adm-primary);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">⚙ Configurar Modalidades</button>' +
+                '</div>';
                 contentEl.innerHTML = html;
                 return;
             }
@@ -138012,6 +138064,8 @@ ml>
         async function openCTModModal(encCt) {
             var ctName = decodeURIComponent(encCt);
             _ctAtivaNome = ctName;
+            // Recarregar catálogo para incluir sub-modalidades recém-criadas
+            await _carregarCatalogModalidades();
             var selected = _ctModsSelected[ctName] || [];
 
             // ── Busca modalidades do contrato deste CT via LICENCIADOS ────
@@ -138191,21 +138245,21 @@ ml>
                 });
                 if (res && res.success) {
                     if(msg) msg.style.color='#4ade80',msg.textContent='✅ ' + nome + ' criada!';
-                    // 1. Recarregar catálogo de modalidades
+                    // 1. Recarregar catálogo
                     await _carregarCatalogModalidades();
-                    // 2. Adicionar automaticamente ao CT ativo
+                    // 2. Adicionar ao CT ativo
                     var ctAtivo = _ctAtivaNome || _ctSelecionado || '';
                     if (ctAtivo) {
                         var sel = _ctModsSelected[ctAtivo] || [];
                         if (sel.indexOf(id) === -1) sel.push(id);
                         _ctModsSelected[ctAtivo] = sel;
-                        _ctActiveModId[ctAtivo] = id; // ativar a nova aba
+                        _ctActiveModId[ctAtivo] = id;
                     }
-                    // 3. Fechar modal e re-renderizar o CT com a nova aba
-                    setTimeout(function(){
-                        closeCTModModal();
-                        if (ctAtivo) renderCTContent(ctAtivo);
-                    }, 800);
+                    // 3. Fechar modal CT e abrir painel de atribuição de alunos
+                    closeCTModModal();
+                    if (ctAtivo) await renderCTContent(ctAtivo);
+                    // 4. Perguntar quais alunos recebem a nova modalidade
+                    await _abrirPainelAtribuicaoModalidade(id, nome, ctAtivo);
                 } else {
                     if(msg) msg.style.color='#f87171',msg.textContent='❌ ' + ((res&&res.message)||'Erro');
                 }
@@ -138231,11 +138285,10 @@ ml>
             if (chk) chk.checked = isSel;
         }
 
-        function applyCTModSelection(ctName) {
+        async function applyCTModSelection(ctName) {
             // Re-renderiza o conteúdo do CT com as modalidades atualizadas
-            // _ctModsSelected já foi atualizado pelo toggleCTModSel
             delete _ctActiveModId[ctName]; // reset para primeira aba
-            renderCTContent(ctName);
+            await renderCTContent(ctName);
         }
 
         /* Remove uma modalidade das abas deste CT (não exclui do sistema) */
@@ -142929,6 +142982,127 @@ ml>
                 if (saveBtn) saveBtn.disabled = false;
             }
         }
+
+
+        // ══════════════════════════════════════════════════════════════════
+        // ATRIBUIÇÃO DE MODALIDADE A ALUNOS
+        // Abre após criar nova sub-modalidade — permite escolher quais
+        // alunos recebem a nova modalidade imediatamente
+        // ══════════════════════════════════════════════════════════════════
+
+        async function _abrirPainelAtribuicaoModalidade(modId, modNome, ctFiltro) {
+            // Buscar lista de alunos do CT
+            var overlay = document.createElement('div');
+            overlay.id  = 'atribModOverlay';
+            overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(26,22,18,0.7);display:flex;align-items:flex-end;justify-content:center;padding:0;';
+
+            var panel = document.createElement('div');
+            panel.style.cssText = 'width:100%;max-width:520px;max-height:88vh;background:#F4F1EA;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;';
+
+            // Header
+            panel.innerHTML =
+                '<div style="padding:16px 20px 12px;background:#1A1614;border-bottom:2px solid #C41E3A;">' +
+                    '<div style="font-size:15px;font-weight:800;color:#FFFFFF;">🥋 Atribuir modalidade aos alunos</div>' +
+                    '<div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:3px;">Quem deve ter acesso a <strong style="color:#C41E3A;">' + escapeHtml(modNome) + '</strong>?</div>' +
+                '</div>' +
+                '<div id="atribModLoading" style="padding:32px;text-align:center;color:#6B5D52;font-size:13px;">Carregando alunos...</div>' +
+                '<div id="atribModListaWrap" style="flex:1;overflow-y:auto;padding:0;display:none;">' +
+                    '<div style="padding:10px 16px;background:#EDE9DF;border-bottom:1px solid rgba(26,22,18,0.08);display:flex;gap:8px;align-items:center;">' +
+                        '<button id="atribModBtnTodos" onclick="_atribSelectAll(true)" style="flex:1;padding:8px;background:#C41E3A;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">✅ Selecionar todos</button>' +
+                        '<button onclick="_atribSelectAll(false)" style="flex:1;padding:8px;background:transparent;color:#6B5D52;border:1px solid rgba(26,22,18,0.15);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">☐ Desmarcar todos</button>' +
+                    '</div>' +
+                    '<div id="atribModLista" style="padding:8px 16px;display:flex;flex-direction:column;gap:6px;"></div>' +
+                '</div>' +
+                '<div style="padding:12px 16px;background:#F4F1EA;border-top:1px solid rgba(26,22,18,0.08);display:flex;gap:10px;">' +
+                    '<button data-atrib-pular="1" style="flex:1;padding:11px;background:transparent;color:#6B5D52;border:1px solid rgba(26,22,18,0.15);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">Pular</button>' +
+                    '<button id="atribModBtnSalvar" data-atrib-salvar="' + escapeHtml(modId) + '" style="flex:2;padding:11px;background:#C41E3A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">💾 Atribuir aos selecionados</button>' +
+                '</div>';
+
+            overlay.appendChild(panel);
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+
+            // Buscar alunos
+            try {
+                var data = await secureFetch('getAlunosList', {
+                    ct: ctFiltro || '',
+                    page: 1,
+                    limit: 500
+                });
+                var alunos = (data && data.alunos) ? data.alunos : [];
+                var lista  = document.getElementById('atribModLista');
+                var load   = document.getElementById('atribModLoading');
+                var wrap   = document.getElementById('atribModListaWrap');
+
+                if (!alunos.length) {
+                    if(load) load.textContent = 'Nenhum aluno encontrado neste CT.';
+                    return;
+                }
+
+                if(load) load.style.display = 'none';
+                if(wrap) wrap.style.display = 'flex';
+
+                // Montar lista com checkboxes
+                alunos.forEach(function(a) {
+                    var jaTemMod = a.modalidades && a.modalidades.indexOf(modId) !== -1;
+                    var item = document.createElement('label');
+                    item.style.cssText = 'display:flex;align-items:center;gap:10px;padding:9px 12px;background:#FFFFFF;border:1.5px solid ' + (jaTemMod ? 'rgba(196,30,58,0.3)' : 'rgba(26,22,18,0.09)') + ';border-radius:10px;cursor:pointer;';
+                    item.innerHTML =
+                        '<input type="checkbox" data-email="' + escapeHtml(a.email) + '" ' + (jaTemMod ? 'disabled checked' : 'checked') + ' style="width:17px;height:17px;flex-shrink:0;accent-color:#C41E3A;cursor:pointer;">' +
+                        '<div style="flex:1;min-width:0;">' +
+                            '<div style="font-size:13px;font-weight:700;color:#1A1614;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(a.nome||a.email) + '</div>' +
+                            '<div style="font-size:10px;color:#8A7060;">🥋 ' + escapeHtml(a.faixa||'Branca') + (jaTemMod ? ' · <span style="color:#C41E3A;font-weight:700;">já tem esta modalidade</span>' : '') + '</div>' +
+                        '</div>';
+                    lista.appendChild(item);
+                });
+
+            } catch(e) {
+                var load2 = document.getElementById('atribModLoading');
+                if(load2) load2.textContent = '❌ Erro ao carregar alunos: ' + e.message;
+            }
+        }
+
+        function _atribSelectAll(sel) {
+            var cbs = document.querySelectorAll('#atribModLista input[type="checkbox"]:not(:disabled)');
+            cbs.forEach(function(cb){ cb.checked = sel; });
+        }
+
+        async function _salvarAtribuicaoModalidade(modId) {
+            var cbs = document.querySelectorAll('#atribModLista input[type="checkbox"]:checked:not(:disabled)');
+            if (!cbs.length) {
+                document.getElementById('atribModOverlay').remove();
+                return;
+            }
+
+            var btn = document.getElementById('atribModBtnSalvar');
+            if(btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+
+            var ok = 0, erros = 0;
+            for (var i = 0; i < cbs.length; i++) {
+                var email = cbs[i].getAttribute('data-email');
+                try {
+                    // Buscar modalidades atuais do aluno e adicionar a nova
+                    var res = await secureFetch('setModalidadesAluno', {
+                        targetEmail: email,
+                        modalidade:  modId,
+                        action:      'add'
+                    });
+                    if (res && res.success) ok++;
+                    else erros++;
+                } catch(e) { erros++; }
+            }
+
+            var overlay = document.getElementById('atribModOverlay');
+            if(overlay) {
+                overlay.innerHTML = '<div style="background:#F4F1EA;border-radius:20px;padding:32px 24px;text-align:center;max-width:320px;margin:auto;">' +
+                    '<div style="font-size:48px;margin-bottom:12px;">' + (erros ? '⚠️' : '✅') + '</div>' +
+                    '<div style="font-size:16px;font-weight:800;color:#1A1614;margin-bottom:6px;">' + ok + ' aluno(s) atualizado(s)</div>' +
+                    (erros ? '<div style="font-size:12px;color:#C41E3A;margin-bottom:12px;">' + erros + ' erro(s)</div>' : '') +
+                    '<button data-atrib-pular="1" style="padding:11px 32px;background:#C41E3A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">OK</button>' +
+                    '</div>';
+            }
+        }
+
 
     </script>
 </body>>
