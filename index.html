@@ -9590,7 +9590,7 @@
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:6px;color:var(--adm-primary);font-size:10px;font-weight:700;cursor:pointer;">🥋 + Sub-Modalidade</button>
+
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
@@ -9610,10 +9610,10 @@
                                 <div class="mod-crud-wrap" id="modCrudWrap">
                                     <div class="mod-crud-header">
                                         <div class="mod-crud-title">
-                                            🥋 Modalidades
+                                            🥋 Sub-Modalidades do Dojo
                                         </div>
-                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)">
-                                            ＋ Nova Modalidade
+                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)" title="Criar nova sub-modalidade derivada do estilo do dojo">
+                                            ＋ Nova
                                         </button>
                                     </div>
                                     <div id="modCrudGrid" class="mod-crud-grid">
@@ -12284,6 +12284,14 @@
         function _buildSchemaFromApiData(mod) {
             if (!mod || !mod.id) return;
             var gradTipo = mod.gradTipo || 'nenhum';
+            // Criar alias no MODALIDADES_SCHEMA para karate_* → usa o schema 'karate' como base
+            var id = mod.id.toLowerCase();
+            if (id.indexOf('karate_') === 0 && !MODALIDADES_SCHEMA[id]) {
+                var baseSchema = MODALIDADES_SCHEMA['karate_shotokan'] || MODALIDADES_SCHEMA['karate'];
+                if (baseSchema) {
+                    MODALIDADES_SCHEMA[id] = Object.assign({}, baseSchema, { id: id, nome: mod.nome || id });
+                }
+            }
             var faixas   = mod.faixas  || [];
             if (!faixas.length) return; // sem faixas na planilha = mantém hardcoded
 
@@ -12525,7 +12533,14 @@
              */
             getSchema: function(modId) {
                 if (!modId) return null;
-                return MODALIDADES_SCHEMA[modId] || null;
+                // Busca direta
+                if (MODALIDADES_SCHEMA[modId]) return MODALIDADES_SCHEMA[modId];
+                // Fallback: karate_shotokan → karate, karate_kyokushin_kids → karate
+                if (modId.indexOf('karate_') === 0) {
+                    return MODALIDADES_SCHEMA['karate_shotokan'] ||
+                           MODALIDADES_SCHEMA['karate'] || null;
+                }
+                return null;
             },
 
             /**
@@ -45132,7 +45147,7 @@ ml>
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:6px;color:var(--adm-primary);font-size:10px;font-weight:700;cursor:pointer;">🥋 + Sub-Modalidade</button>
+
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
@@ -45152,10 +45167,10 @@ ml>
                                 <div class="mod-crud-wrap" id="modCrudWrap">
                                     <div class="mod-crud-header">
                                         <div class="mod-crud-title">
-                                            🥋 Modalidades
+                                            🥋 Sub-Modalidades do Dojo
                                         </div>
-                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)">
-                                            ＋ Nova Modalidade
+                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)" title="Criar nova sub-modalidade derivada do estilo do dojo">
+                                            ＋ Nova
                                         </button>
                                     </div>
                                     <div id="modCrudGrid" class="mod-crud-grid">
@@ -48066,7 +48081,14 @@ ml>
              */
             getSchema: function(modId) {
                 if (!modId) return null;
-                return MODALIDADES_SCHEMA[modId] || null;
+                // Busca direta
+                if (MODALIDADES_SCHEMA[modId]) return MODALIDADES_SCHEMA[modId];
+                // Fallback: karate_shotokan → karate, karate_kyokushin_kids → karate
+                if (modId.indexOf('karate_') === 0) {
+                    return MODALIDADES_SCHEMA['karate_shotokan'] ||
+                           MODALIDADES_SCHEMA['karate'] || null;
+                }
+                return null;
             },
 
             /**
@@ -49129,7 +49151,16 @@ ml>
             var _modsParaExibir = MODALIDADES_CATALOG.filter(function(m){
                 return m.id === _dojoBaseId || m.id.indexOf(_dojoBaseId + '_') === 0;
             });
-            if (_modsParaExibir.length === 0) _modsParaExibir = MODALIDADES_CATALOG; // fallback
+            // Se não achou nada no catalog, usar schema como fallback visual
+            if (_modsParaExibir.length === 0 && MODALIDADES_CATALOG.length > 0) {
+                _modsParaExibir = MODALIDADES_CATALOG;
+            } else if (_modsParaExibir.length === 0) {
+                // Catalog vazio: criar entrada sintética do estilo do dojo
+                var _schemaFb = MODALIDADES_SCHEMA[_dojoBaseId] || MODALIDADES_SCHEMA['karate_shotokan'] || MODALIDADES_SCHEMA['karate'];
+                if (_schemaFb) {
+                    _modsParaExibir = [{ id: _dojoBaseId, nome: _schemaFb.nomenclatura ? (_schemaFb.nomenclatura.academia || 'Karatê') : 'Karatê', icon: '🥋', cor: '#C41E3A', corRGB: '196,30,58' }];
+                }
+            }
 
             _modsParaExibir.forEach(function(mod) {
                 var isChecked  = activeMods.indexOf(mod.id) !== -1;
@@ -81051,7 +81082,7 @@ ml>
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:6px;color:var(--adm-primary);font-size:10px;font-weight:700;cursor:pointer;">🥋 + Sub-Modalidade</button>
+
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
@@ -81071,10 +81102,10 @@ ml>
                                 <div class="mod-crud-wrap" id="modCrudWrap">
                                     <div class="mod-crud-header">
                                         <div class="mod-crud-title">
-                                            🥋 Modalidades
+                                            🥋 Sub-Modalidades do Dojo
                                         </div>
-                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)">
-                                            ＋ Nova Modalidade
+                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)" title="Criar nova sub-modalidade derivada do estilo do dojo">
+                                            ＋ Nova
                                         </button>
                                     </div>
                                     <div id="modCrudGrid" class="mod-crud-grid">
@@ -83986,7 +84017,14 @@ ml>
              */
             getSchema: function(modId) {
                 if (!modId) return null;
-                return MODALIDADES_SCHEMA[modId] || null;
+                // Busca direta
+                if (MODALIDADES_SCHEMA[modId]) return MODALIDADES_SCHEMA[modId];
+                // Fallback: karate_shotokan → karate, karate_kyokushin_kids → karate
+                if (modId.indexOf('karate_') === 0) {
+                    return MODALIDADES_SCHEMA['karate_shotokan'] ||
+                           MODALIDADES_SCHEMA['karate'] || null;
+                }
+                return null;
             },
 
             /**
@@ -116584,7 +116622,7 @@ ml>
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:var(--adm-primary-dim);border:1px solid var(--adm-border-accent);border-radius:6px;color:var(--adm-primary);font-size:10px;font-weight:700;cursor:pointer;">🥋 + Sub-Modalidade</button>
+
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
@@ -116604,10 +116642,10 @@ ml>
                                 <div class="mod-crud-wrap" id="modCrudWrap">
                                     <div class="mod-crud-header">
                                         <div class="mod-crud-title">
-                                            🥋 Modalidades
+                                            🥋 Sub-Modalidades do Dojo
                                         </div>
-                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)">
-                                            ＋ Nova Modalidade
+                                        <button class="mod-crud-btn-new" onclick="openModCrudModal(null)" title="Criar nova sub-modalidade derivada do estilo do dojo">
+                                            ＋ Nova
                                         </button>
                                     </div>
                                     <div id="modCrudGrid" class="mod-crud-grid">
@@ -119518,7 +119556,14 @@ ml>
              */
             getSchema: function(modId) {
                 if (!modId) return null;
-                return MODALIDADES_SCHEMA[modId] || null;
+                // Busca direta
+                if (MODALIDADES_SCHEMA[modId]) return MODALIDADES_SCHEMA[modId];
+                // Fallback: karate_shotokan → karate, karate_kyokushin_kids → karate
+                if (modId.indexOf('karate_') === 0) {
+                    return MODALIDADES_SCHEMA['karate_shotokan'] ||
+                           MODALIDADES_SCHEMA['karate'] || null;
+                }
+                return null;
             },
 
             /**
@@ -120581,7 +120626,16 @@ ml>
             var _modsParaExibir = MODALIDADES_CATALOG.filter(function(m){
                 return m.id === _dojoBaseId || m.id.indexOf(_dojoBaseId + '_') === 0;
             });
-            if (_modsParaExibir.length === 0) _modsParaExibir = MODALIDADES_CATALOG; // fallback
+            // Se não achou nada no catalog, usar schema como fallback visual
+            if (_modsParaExibir.length === 0 && MODALIDADES_CATALOG.length > 0) {
+                _modsParaExibir = MODALIDADES_CATALOG;
+            } else if (_modsParaExibir.length === 0) {
+                // Catalog vazio: criar entrada sintética do estilo do dojo
+                var _schemaFb = MODALIDADES_SCHEMA[_dojoBaseId] || MODALIDADES_SCHEMA['karate_shotokan'] || MODALIDADES_SCHEMA['karate'];
+                if (_schemaFb) {
+                    _modsParaExibir = [{ id: _dojoBaseId, nome: _schemaFb.nomenclatura ? (_schemaFb.nomenclatura.academia || 'Karatê') : 'Karatê', icon: '🥋', cor: '#C41E3A', corRGB: '196,30,58' }];
+                }
+            }
 
             _modsParaExibir.forEach(function(mod) {
                 var isChecked  = activeMods.indexOf(mod.id) !== -1;
