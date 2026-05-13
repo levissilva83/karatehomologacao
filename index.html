@@ -6811,6 +6811,328 @@
             color: var(--accent);
         }
         .stu-mod-checkbox:has(input:checked) .stu-mod-lbl { color: var(--accent); }
+
+        /* ══════════════════════════════════════════════════════════════
+           MÓDULO MODALIDADES CRUD — CSS Premium v2.0
+        ══════════════════════════════════════════════════════════════ */
+
+        /* --- Painel de Modalidades --- */
+        .mod-crud-wrap { padding: 0; }
+
+        .mod-crud-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 16px 10px; border-bottom: 1px solid var(--adm-border);
+        }
+        .mod-crud-title {
+            font-size: 15px; font-weight: 900; color: var(--adm-text-1);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .mod-crud-btn-new {
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 16px; background: #C41E3A;
+            color: #fff; border: none; border-radius: 10px;
+            font-size: 12px; font-weight: 800; cursor: pointer;
+            transition: all 0.18s; box-shadow: 0 2px 8px rgba(196,30,58,0.3);
+        }
+        .mod-crud-btn-new:hover { background: #a01830; transform: translateY(-1px); }
+
+        /* --- Grid de Cards --- */
+        .mod-crud-grid {
+            display: flex; flex-direction: column; gap: 10px;
+            padding: 12px 16px;
+        }
+
+        .mod-card {
+            background: var(--adm-bg-elevated);
+            border: 1.5px solid var(--adm-border);
+            border-radius: 14px; overflow: hidden;
+            transition: all 0.2s; position: relative;
+        }
+        .mod-card:hover { border-color: var(--adm-primary); transform: translateY(-1px); }
+        .mod-card.inactive { opacity: 0.6; }
+
+        .mod-card-stripe {
+            height: 4px; width: 100%;
+        }
+        .mod-card-body {
+            padding: 12px 14px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .mod-card-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; flex-shrink: 0;
+        }
+        .mod-card-info { flex: 1; min-width: 0; }
+        .mod-card-name {
+            font-size: 14px; font-weight: 800; color: var(--adm-text-1);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .mod-card-id {
+            font-size: 9px; color: var(--adm-text-3); font-family: monospace;
+            margin: 1px 0 5px;
+        }
+        .mod-card-stats {
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .mod-card-stat {
+            font-size: 10px; font-weight: 600; color: var(--adm-text-3);
+            display: flex; align-items: center; gap: 3px;
+        }
+        .mod-card-actions {
+            display: flex; flex-direction: column; gap: 5px; flex-shrink: 0;
+        }
+        .mod-card-btn {
+            padding: 5px 10px; border-radius: 7px; border: 1px solid var(--adm-border);
+            background: transparent; color: var(--adm-text-2);
+            font-size: 10px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .mod-card-btn:hover { background: var(--adm-bg-card); }
+        .mod-card-btn.edit  { color: var(--adm-primary); border-color: rgba(201,162,58,0.3); }
+        .mod-card-btn.del   { color: #f87171; border-color: rgba(248,113,113,0.3); }
+        .mod-card-badge {
+            display: inline-flex; align-items: center; gap: 3px;
+            padding: 2px 7px; border-radius: 6px;
+            font-size: 9px; font-weight: 700;
+        }
+        .mod-card-badge.active   { background: rgba(74,222,128,0.12); color: #4ade80; }
+        .mod-card-badge.inactive { background: rgba(248,113,113,0.12); color: #f87171; }
+
+        /* --- Modal CRUD --- */
+        .mod-modal-overlay {
+            position: fixed; inset: 0; z-index: 99990;
+            background: rgba(10,10,20,0.85);
+            display: flex; align-items: flex-end; justify-content: center;
+            animation: modOverlayIn 0.2s ease;
+        }
+        @keyframes modOverlayIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .mod-modal {
+            width: 100%; max-width: 520px; max-height: 92vh;
+            background: #F4F1EA;
+            border-radius: 20px 20px 0 0;
+            display: flex; flex-direction: column; overflow: hidden;
+            animation: modSlideIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes modSlideIn {
+            from { transform: translateY(100%); }
+            to   { transform: translateY(0); }
+        }
+
+        .mod-modal-handle {
+            width: 36px; height: 4px; border-radius: 2px;
+            background: rgba(26,22,18,0.15); margin: 10px auto 0;
+        }
+        .mod-modal-header {
+            padding: 14px 20px 12px; border-bottom: 1px solid rgba(26,22,18,0.10);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .mod-modal-header-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0; background: rgba(196,30,58,0.10);
+        }
+        .mod-modal-title {
+            font-size: 16px; font-weight: 900; color: #1A1614; flex: 1;
+        }
+        .mod-modal-close {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(26,22,18,0.08); border: none;
+            color: #6B5D52; font-size: 14px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Tabs do modal */
+        .mod-modal-tabs {
+            display: flex; border-bottom: 1px solid rgba(26,22,18,0.10);
+            background: #F0EDE6;
+        }
+        .mod-modal-tab {
+            flex: 1; padding: 10px 6px; border: none;
+            background: transparent; color: #8A7060;
+            font-size: 10px; font-weight: 700; cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s; text-align: center;
+        }
+        .mod-modal-tab.active {
+            color: #C41E3A; border-bottom-color: #C41E3A;
+            background: rgba(196,30,58,0.04);
+        }
+
+        .mod-modal-body {
+            flex: 1; overflow-y: auto; padding: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .mod-modal-panel { display: none; }
+        .mod-modal-panel.active { display: block; }
+
+        /* Campos do formulário dentro do modal */
+        .mod-field { margin-bottom: 14px; }
+        .mod-field-label {
+            font-size: 10px; font-weight: 700; color: #8A7060;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            display: block; margin-bottom: 5px;
+        }
+        .mod-field-input {
+            width: 100%; box-sizing: border-box;
+            padding: 10px 12px; background: #FFFFFF;
+            border: 1.5px solid rgba(26,22,18,0.14);
+            border-radius: 9px; font-size: 13px; color: #1A1614;
+            font-family: inherit; transition: border-color 0.15s;
+        }
+        .mod-field-input:focus {
+            outline: none; border-color: #C41E3A; background: #FFFFFF;
+        }
+        .mod-field-input::placeholder { color: #B0A090; }
+        .mod-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* Seletor de cor */
+        .mod-color-picker {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;
+        }
+        .mod-color-swatch {
+            width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+            transition: transform 0.15s; border: 2px solid transparent;
+        }
+        .mod-color-swatch:hover { transform: scale(1.15); }
+        .mod-color-swatch.selected { border-color: #1A1614; transform: scale(1.15); }
+
+        /* Seletor de ícone */
+        .mod-icon-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 6px;
+        }
+        .mod-icon-btn {
+            aspect-ratio: 1; font-size: 20px; background: #FFFFFF;
+            border: 1.5px solid rgba(26,22,18,0.10); border-radius: 9px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.15s;
+        }
+        .mod-icon-btn:hover  { border-color: #C41E3A; transform: scale(1.1); }
+        .mod-icon-btn.selected { border-color: #C41E3A; background: rgba(196,30,58,0.08); }
+
+        /* Toggle switch no modal */
+        .mod-toggle-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid rgba(26,22,18,0.06);
+        }
+        .mod-toggle-row:last-child { border-bottom: none; }
+        .mod-toggle-label { font-size: 13px; font-weight: 600; color: #1A1614; }
+        .mod-toggle-desc  { font-size: 10px; color: #8A7060; margin-top: 1px; }
+        .mod-toggle {
+            width: 44px; height: 24px; border-radius: 12px;
+            background: rgba(26,22,18,0.15); cursor: pointer;
+            position: relative; transition: background 0.25s; flex-shrink: 0;
+        }
+        .mod-toggle.on { background: #15803D; }
+        .mod-toggle::after {
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #fff; transition: transform 0.25s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        }
+        .mod-toggle.on::after { transform: translateX(20px); }
+
+        /* Grade de horários */
+        .mod-horario-grid { display: flex; flex-direction: column; gap: 8px; }
+        .mod-horario-day {
+            background: #FFFFFF; border: 1px solid rgba(26,22,18,0.10);
+            border-radius: 10px; padding: 10px 12px;
+        }
+        .mod-horario-day-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .mod-horario-day-name {
+            font-size: 11px; font-weight: 800; color: #1A1614;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .mod-horario-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+        .mod-horario-chip {
+            display: flex; align-items: center; gap: 4px;
+            padding: 3px 8px 3px 10px;
+            background: rgba(196,30,58,0.08); border: 1px solid rgba(196,30,58,0.2);
+            border-radius: 12px; font-size: 11px; font-weight: 700; color: #C41E3A;
+        }
+        .mod-horario-chip-del {
+            background: none; border: none; color: #C41E3A;
+            cursor: pointer; font-size: 11px; padding: 0; line-height: 1;
+        }
+        .mod-horario-add {
+            display: flex; gap: 5px; margin-top: 6px;
+        }
+        .mod-horario-input {
+            flex: 1; padding: 6px 10px; background: #F8F5F0;
+            border: 1px solid rgba(26,22,18,0.12); border-radius: 7px;
+            font-size: 12px; color: #1A1614;
+        }
+        .mod-horario-add-btn {
+            padding: 6px 12px; background: #C41E3A; color: #fff;
+            border: none; border-radius: 7px; font-size: 12px;
+            font-weight: 700; cursor: pointer;
+        }
+
+        /* Graduação — lista de faixas */
+        .mod-grad-list { display: flex; flex-direction: column; gap: 6px; }
+        .mod-grad-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 10px; background: #FFFFFF;
+            border: 1px solid rgba(26,22,18,0.10); border-radius: 9px;
+            cursor: grab;
+        }
+        .mod-grad-item:active { cursor: grabbing; }
+        .mod-grad-drag { color: #C0B0A0; font-size: 12px; flex-shrink: 0; cursor: grab; }
+        .mod-grad-emoji { font-size: 18px; flex-shrink: 0; }
+        .mod-grad-color {
+            width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0;
+        }
+        .mod-grad-label {
+            flex: 1; font-size: 12px; font-weight: 700; color: #1A1614;
+            min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .mod-grad-del {
+            background: none; border: none; color: #f87171;
+            cursor: pointer; font-size: 13px; padding: 0; flex-shrink: 0;
+        }
+        .mod-grad-add-row {
+            display: grid; grid-template-columns: 1fr 1fr auto; gap: 6px;
+            margin-top: 8px;
+        }
+
+        /* Footer do modal */
+        .mod-modal-footer {
+            padding: 12px 16px; border-top: 1px solid rgba(26,22,18,0.10);
+            background: #F0EDE6; display: flex; gap: 10px;
+        }
+        .mod-btn-cancel {
+            flex: 1; padding: 11px; background: transparent;
+            border: 1px solid rgba(26,22,18,0.15); border-radius: 10px;
+            color: #6B5D52; font-size: 13px; font-weight: 700; cursor: pointer;
+        }
+        .mod-btn-save {
+            flex: 2; padding: 11px; background: #C41E3A;
+            border: none; border-radius: 10px; color: #fff;
+            font-size: 13px; font-weight: 900; cursor: pointer;
+            transition: all 0.15s; box-shadow: 0 3px 10px rgba(196,30,58,0.3);
+        }
+        .mod-btn-save:hover   { background: #a01830; }
+        .mod-btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Empty state */
+        .mod-empty {
+            text-align: center; padding: 40px 20px; color: #8A7060;
+        }
+        .mod-empty-icon { font-size: 48px; margin-bottom: 12px; }
+        .mod-empty-title { font-size: 15px; font-weight: 800; color: #4A3F36; margin-bottom: 6px; }
+        .mod-empty-sub   { font-size: 12px; line-height: 1.5; }
+
+        /* Seção Modalidades na aba CTs */
+        .mod-section-sep {
+            height: 1px; background: rgba(26,22,18,0.08);
+            margin: 16px 0;
+        }
+
+
 </style>
 
 <!-- ═══════════════════════════════════════════════════════════════
@@ -10497,6 +10819,186 @@ textarea:focus {
         // ═══════════════════════════════════════
 
         // Catálogo de modalidades disponíveis — pode ser expandido pelo admin
+        function _buildSchemaFromApiData(mod) {
+            if (!mod || !mod.id) return;
+            var gradTipo = mod.gradTipo || 'nenhum';
+            // Criar alias no MODALIDADES_SCHEMA para karate_* → usa o schema 'karate' como base
+            var id = mod.id.toLowerCase();
+            if (id.indexOf('karate_') === 0 && !MODALIDADES_SCHEMA[id]) {
+                var baseSchema = MODALIDADES_SCHEMA['karate_shotokan'] || MODALIDADES_SCHEMA['karate'];
+                if (baseSchema) {
+                    MODALIDADES_SCHEMA[id] = Object.assign({}, baseSchema, { id: id, nome: mod.nome || id });
+                }
+            }
+            var faixas   = mod.faixas  || [];
+            if (!faixas.length) return; // sem faixas na planilha = mantém hardcoded
+
+            var faixasFormatadas = faixas.map(function(f, idx) {
+                var _id  = f.id    || f.label || '';
+                var _lbl = f.label || f.id    || '';
+                return {
+                    id:             _id,
+                    label:          _lbl,
+                    cordao:         f.cordao     || _lbl,
+                    nivel:          f.nivel      || _lbl,
+                    nivelLabel:     f.nivelLabel || _lbl,
+                    emoji:          f.emoji     || '🥋',
+                    cor:            f.cor       || '#C9A23A',
+                    corRGB:         f.corRGB    || '201,162,58',
+                    cssClass:       _id.toLowerCase().replace(/[^a-z0-9]/g,'-'),
+                    next:           f.next      || null,
+                    minMeses:       f.minMeses  !== undefined ? f.minMeses  : (f.min_meses || 0),
+                    maxGrau:        f.maxGrau   !== undefined ? f.maxGrau   : (f.max_grau  !== undefined ? f.max_grau : 4),
+                    idadeMin:       f.idadeMin  !== undefined ? parseInt(f.idadeMin)  || 0 : 0,
+                    idadeMax:       f.idadeMax  !== undefined ? parseInt(f.idadeMax)  || 0 : 0,
+                    ordemProgresso: f.ordem     || (idx + 1)
+                };
+            });
+
+            // maxGrausPorFaixa = max das faixas intermediárias (última é especial)
+            var maxGrausPorFaixa = 4;
+            var intermediarias = faixasFormatadas.slice(0, -1);
+            if (intermediarias.length > 0) {
+                maxGrausPorFaixa = intermediarias.reduce(function(min, f) {
+                    return f.maxGrau < min ? f.maxGrau : min;
+                }, intermediarias[0].maxGrau);
+            }
+
+            if (MODALIDADES_SCHEMA[mod.id]) {
+                // Modalidade já existe: atualiza só as faixas (preserva UI/nomenclatura)
+                MODALIDADES_SCHEMA[mod.id].graduacao.faixas           = faixasFormatadas;
+                MODALIDADES_SCHEMA[mod.id].graduacao.maxGrausPorFaixa = maxGrausPorFaixa;
+            } else {
+                // Nova modalidade não hardcoded: cria schema completo
+                var hasGrad = gradTipo !== 'nenhum';
+                MODALIDADES_SCHEMA[mod.id] = {
+                    id: mod.id,
+                    graduacao: {
+                        tipo: gradTipo, hasGraduacao: hasGrad,
+                        hasFaixa:    gradTipo === 'faixa_cintura',
+                        hasPrajied:  gradTipo === 'prajied',
+                        labelFaixa: 'Faixa', labelGrau: 'Grau', labelGrauPlural: 'Graus',
+                        maxGrausPorFaixa: hasGrad ? maxGrausPorFaixa : null,
+                        simbolo: gradTipo === 'faixa_cintura' ? 'stripe' : gradTipo,
+                        faixas: faixasFormatadas
+                    },
+                    nomenclatura: {
+                        treino:'Treino', aula:'Aula', professor:'Professor',
+                        aluno:'Karateka', academia:'Dojo',
+                        faixa:'Faixa', faixas:'Faixas', grau:'Grau', graus:'Graus',
+                        confirmarBtn:'🥋 Treinei',
+                        evolucaoTitulo:'Minha Evolução',
+                        roadmapTitulo:'🥋 ' + (mod.nome||mod.id),
+                        roadmapSub:'Sua jornada em ' + (mod.nome||mod.id)
+                    },
+                    ui: {
+                        mostrarFaixa:    gradTipo === 'faixa_cintura',
+                        mostrarGraus:    hasGrad,
+                        mostrarPrajied:  gradTipo === 'prajied',
+                        mostrarRoadmap:  hasGrad,
+                        mostrarFrequencia: true,
+                        mostrarCriterios:  hasGrad,
+                        roadmapTipo:     gradTipo === 'faixa_cintura' ? 'cintura' : gradTipo,
+                        iconeEvo:        mod.icon || '🥋'
+                    }
+                };
+            }
+        }
+
+        async function _carregarCatalogModalidades() {
+          try {
+            var res = await secureFetch('getModalidades', {});
+            if (!res || !res.modalidades) return;
+
+            // Popula MODALIDADES_SCHEMA com faixas vindas da planilha
+            res.modalidades.forEach(function(m) {
+              if (!m.faixas || !m.faixas.length) return;
+              var modId = m.id;
+              // Inicializa schema se não existe (modalidade customizada)
+              if (!MODALIDADES_SCHEMA[modId]) {
+                MODALIDADES_SCHEMA[modId] = {
+                  id: modId,
+                  graduacao: { tipo: m.gradTipo || 'faixa_cintura', hasGraduacao: true, hasFaixa: true, hasPrajied: false, faixas: [], maxGrausPorFaixa: 4, labelFaixa: 'Faixa', labelGrau: 'Grau', labelGrauPlural: 'Graus', simbolo: 'stripe' },
+                  nomenclatura: { treino:'Treino', professor:'Professor', aluno:'Aluno', faixa:'Faixa', grau:'Grau', graus:'Graus', confirmarBtn:'🥋 Treinei', roadmapTitulo:'🥋 Sistema de Graduação', roadmapSub:'' },
+                  ui: { mostrarFaixa:true, mostrarGraus:true, mostrarPrajied:false, mostrarRoadmap:true, mostrarFrequencia:true, mostrarCriterios:true, roadmapTipo:'cintura', iconeEvo:'🥋' }
+                };
+              }
+              // Atualiza faixas com dados da planilha (sobrescreve hardcoded)
+              var grad = MODALIDADES_SCHEMA[modId].graduacao;
+              grad.faixas = m.faixas.map(function(f, idx) {
+                return {
+                  id:             f.id,
+                  label:          f.label || f.id,
+                  emoji:          f.emoji || '🥋',
+                  cor:            f.cor   || '#C9A23A',
+                  corRGB:         f.corRGB|| '201,162,58',
+                  cssClass:       (f.id || '').toString().toLowerCase().replace(/[^a-z0-9]/g,'-'),
+                  next:           f.next  || null,
+                  minMeses:       f.minMeses || 0,
+                  ordemProgresso: idx + 1
+                };
+              });
+              // maxGrausPorFaixa: usa o max_grau da ÚLTIMA faixa como referência geral
+              var lastFaixa = m.faixas[m.faixas.length - 1];
+              grad.maxGrausPorFaixa = lastFaixa ? (lastFaixa.maxGrau || 4) : 4;
+              // Prajied = tipo de graduação com id numérico (Muay Thai)
+              grad.hasPrajied = (m.gradTipo === 'prajied');
+              grad.hasFaixa   = (m.gradTipo !== 'prajied' && m.gradTipo !== 'nenhum');
+              grad.tipo       = m.gradTipo || 'faixa_cintura';
+            });
+
+            MODALIDADES_CATALOG = res.modalidades.map(function(m) {
+              var cor    = m.cor    || '#C41E3A';
+              var corRGB = m.corRGB || '196,30,58';
+              var icon   = m.icon   || '🥋';
+
+              // Atualiza MODALIDADES_SCHEMA com faixas vindas da planilha
+              _buildSchemaFromApiData(m);
+
+              return {
+                id:        m.id,
+                icon:      icon,
+                nome:      m.nome   || m.id,
+                desc:      m.desc   || '',
+                navIcon:   icon,
+                navLabel:  m.nome   || m.id,
+                cor:       cor,
+                corDark:   cor,
+                corLight:  cor,
+                corRGB:    corRGB,
+                gradient:  'linear-gradient(135deg,' + cor + ' 0%,' + cor + ' 100%)',
+                gradientBg:'radial-gradient(ellipse at 20% 10%,rgba(' + corRGB + ',0.18) 0%,transparent 60%)',
+                btnLabel:  (m.emoji || '🥋') + ' Treinei',
+                btnClass:  'mod-btn-' + m.id.replace(/_/g,'-'),
+                cardBg:    'linear-gradient(145deg,rgba(' + corRGB + ',0.12) 0%,rgba(' + corRGB + ',0.06) 100%)',
+                tag:       (MOD_GRAD_TIPO_STYLES[m.gradTipo] || {}).tag || '',
+                tagColor:  cor,
+                gradTipo:  m.gradTipo || 'nenhum',
+                ativo:     m.ativo !== false,
+                faixas:    m.faixas || []
+              };
+            });
+            _modCatalogById = {};
+            MODALIDADES_CATALOG.forEach(function(m){ _modCatalogById[m.id] = m; });
+
+            // Sincronizar _dojoEstilo com o estilo real retornado pelo backend
+            var _ESTILOS_SYNC = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catSync = MODALIDADES_CATALOG.find(function(m){ return _ESTILOS_SYNC.indexOf(m.id) !== -1; });
+            if (_catSync && typeof _setDojoEstilo === 'function') {
+                _setDojoEstilo(_catSync.id);
+                console.log('[dojoEstilo] Sincronizado via catálogo:', _catSync.id);
+            }
+
+            // Re-renderiza tela home se estiver visível (resolve timing issue)
+            var modHomeGrid = document.getElementById('modHomeGrid');
+            if (modHomeGrid && typeof initModalidades === 'function') {
+                initModalidades();
+            }
+          } catch(e) { console.warn('[_carregarCatalogModalidades]', e.message); }
+        }
+
         var MODALIDADES_CATALOG = [
             {
                 id: 'karate',
@@ -10523,6 +11025,20 @@ textarea:focus {
         //     NUNCA reutilizar lógica de graduação entre modalidades.
         //     NUNCA assumir padrão quando a configuração não existir.
         // =================================================================
+        var _dojoEstilo = (function() {
+            try { return localStorage.getItem('dojo_estilo') || 'karate_shotokan'; } catch(e) { return 'karate_shotokan'; }
+        })();
+
+        function _setDojoEstilo(estilo) {
+            _dojoEstilo = estilo || 'karate_shotokan';
+            try { localStorage.setItem('dojo_estilo', _dojoEstilo); } catch(e) {}
+        }
+
+        // Retorna o schema ativo do dojo, com fallback para karate_shotokan
+        function getEstiloSchema() {
+            return MODALIDADES_SCHEMA[_dojoEstilo] || MODALIDADES_SCHEMA['karate_shotokan'] || MODALIDADES_SCHEMA['karate'];
+        }
+
         var MODALIDADES_SCHEMA = {
 
             karate: {
@@ -10620,7 +11136,13 @@ textarea:focus {
              */
             getSchema: function(modId) {
                 if (!modId) return null;
-                var normalized = this._normalize(modId);
+                // Busca direta
+                if (MODALIDADES_SCHEMA[modId]) return MODALIDADES_SCHEMA[modId];
+                // Fallback para karate_* → usa schema base 'karate'
+                if (modId.indexOf('karate_') === 0) {
+                    return MODALIDADES_SCHEMA['karate_shotokan'] ||
+                           MODALIDADES_SCHEMA['karate'] || null;
+                }
                 // 1. Alias SEMPRE primeiro — previne schema dinâmico ruim de ganhar
                 var aliasTarget = this._ALIASES[normalized] || this._ALIASES[modId];
                 if (aliasTarget && MODALIDADES_SCHEMA[aliasTarget]) return MODALIDADES_SCHEMA[aliasTarget];
@@ -24617,7 +25139,7 @@ textarea:focus {
                 '.step{display:inline-block;background:#f5f0e0;border-radius:20px;padding:4px 12px;margin:3px;font-size:12px;font-weight:600;}' +
                 '.url{font-size:8px;color:#999;word-break:break-all;margin-top:8px;}' +
                 '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} @page{margin:0.5cm;}}' +
-                '</style></head><body>' +
+                '</styl'+'e></head><body>' +
                 '<div class="card">' +
                 '<div class="logo">🥋</div>' +
                 '<div class="title">CHECK-IN div>' +
@@ -28297,5 +28819,2610 @@ textarea:focus {
         <canvas id="avbCameraCanvas" style="display:none;"></canvas>
     </div>
 
+
+    <script>
+    // ════════════════════════════════════════════════════════
+    // DOJO SYSTEMS — Módulos adicionais
+    // ════════════════════════════════════════════════════════
+
+
+        var _cronoAulas       = [];
+        var _cronoCTAtivo     = '';
+        var _cronoAulasModalidade = '';
+        var _cronoView        = 'diario';  // 'diario' | 'mensal'
+        var _cronoCurrentDate = new Date();
+        var _cronoCalMonth    = new Date().getMonth();
+        var _cronoCalYear     = new Date().getFullYear();
+        var _cronoCTsPermitidos = [];
+        var _cronoPendingCT     = null;
+        var _cronoPendingVisualizar = false;
+
+        var MESES_CRONO = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                           'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+        // Filtra aulas pelo CT ativo e modalidade ativa
+        function _getAulasFiltradas() {
+            if (!_cronoAulas || !_cronoAulas.length) return [];
+            return _cronoAulas.filter(function(a) {
+                if (_cronoCTAtivo && a.ct && a.ct !== _cronoCTAtivo) return false;
+                return true; // sem filtro de modalidade — karatê é único
+            });
+        }
+
+        async function loadCronograma(ctOverride, visualizar) {
+            var container = document.getElementById('cronoDiarioContent');
+            var kpiBar    = document.getElementById('cronoKPIs');
+            if (container) container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Carregando...</div>';
+
+            var ctName = ctOverride || (currentUser && currentUser.ct) || '';
+            if (ctOverride && ctOverride !== _cronoCTAtivo) {
+                _cronoAulas = [];
+                _cronoCTAtivo = ctOverride;
+            }
+
+            try {
+                // Usar cache se disponível para o mesmo CT
+                if (!_cronoAulas || _cronoAulas.length === 0) {
+                    var res = await secureFetch('getCronogramaAulas', {
+                        email: currentUser ? currentUser.email : '',
+                        ct:    ctName,
+                        modalidade: '' // karatê único — sem filtro
+                    });
+                    if (res && res.success) {
+                        _cronoAulas    = res.aulas || [];
+                        _cronoCTAtivo  = ctName;
+                        _cronoCTsPermitidos = res.todosPermitidos || [ctName];
+                    }
+                }
+            } catch(e) {
+                if (container) container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--coral);font-size:12px;">Erro ao carregar aulas</div>';
+                return;
+            }
+
+            // Renderizar KPIs
+            _renderCronoKPIs();
+
+            // Renderizar view atual
+            if (_cronoView === 'mensal') {
+                renderCronoMensal();
+            } else {
+                renderCronoDiario();
+            }
+        }
+
+        function setCronoView(view) {
+            _cronoView = view;
+            var btnD = document.getElementById('cronoViewDiario');
+            var btnM = document.getElementById('cronoViewMensal');
+            var panD = document.getElementById('cronoPanelDiario');
+            var panM = document.getElementById('cronoPanelMensal');
+
+            if (btnD) btnD.classList.toggle('active', view === 'diario');
+            if (btnM) btnM.classList.toggle('active', view === 'mensal');
+            if (panD) panD.style.display = view === 'diario' ? 'block' : 'none';
+            if (panM) panM.style.display = view === 'mensal' ? 'block' : 'none';
+
+            if (view === 'mensal') renderCronoMensal();
+            else                   renderCronoDiario();
+        }
+
+        function cronoDayNav(delta) {
+            _cronoCurrentDate = new Date(_cronoCurrentDate);
+            _cronoCurrentDate.setDate(_cronoCurrentDate.getDate() + delta);
+            renderCronoDiario();
+        }
+
+        function aulasCalNav(delta) {
+            _cronoCalMonth += delta;
+            if (_cronoCalMonth > 11) { _cronoCalMonth = 0; _cronoCalYear++; }
+            if (_cronoCalMonth < 0)  { _cronoCalMonth = 11; _cronoCalYear--; }
+            renderCronoMensal();
+        }
+
+        function _renderCronoKPIs() {
+            var el = document.getElementById('cronoKPIs');
+            if (!el) return;
+            var aulas = _getAulasFiltradas();
+            var today = _fmtDate(new Date());
+            var proximas = aulas.filter(function(a) { return a.data >= today; }).length;
+            var passadas  = aulas.filter(function(a) { return a.data < today; }).length;
+            el.innerHTML =
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + aulas.length + '</div><div class="crono-kpi-lbl">Aulas cadastradas</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + proximas + '</div><div class="crono-kpi-lbl">Próximas</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + passadas + '</div><div class="crono-kpi-lbl">Realizadas</div></div>';
+        }
+
+        function _fmtDate(d) {
+            return d.getFullYear() + '-' +
+                   String(d.getMonth()+1).padStart(2,'0') + '-' +
+                   String(d.getDate()).padStart(2,'0');
+        }
+
+        function _fmtDateBR(dateStr) {
+            if (!dateStr) return '';
+            var p = dateStr.split('-');
+            if (p.length !== 3) return dateStr;
+            return p[2] + '/' + p[1] + '/' + p[0];
+        }
+
+        function renderCronoDiario() {
+            var today   = _fmtDate(new Date());
+            var cur     = _fmtDate(_cronoCurrentDate);
+            var aulas   = _getAulasFiltradas();
+
+            // Atualizar título do dia
+            var titleEl = document.getElementById('cronoDayTitle');
+            if (titleEl) {
+                var opts = { weekday:'long', day:'numeric', month:'long' };
+                titleEl.textContent = _cronoCurrentDate.toLocaleDateString('pt-BR', opts);
+                if (cur === today) titleEl.textContent += ' · Hoje';
+            }
+
+            // Renderizar week strip (7 dias ao redor do dia atual)
+            var weekEl = document.getElementById('cronoWeekStrip');
+            if (weekEl) {
+                var strip = '';
+                for (var wi = -3; wi <= 3; wi++) {
+                    var wd = new Date(_cronoCurrentDate);
+                    wd.setDate(wd.getDate() + wi);
+                    var wds  = _fmtDate(wd);
+                    var isT  = wds === today;
+                    var isSel = wds === cur;
+                    var hasA = aulas.some(function(a){ return a.data === wds; });
+                    var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+                    strip += '<div class="crono-week-day' + (isSel ? ' selected' : '') + (isT ? ' today' : '') + '" ' +
+                        'data-crono-day="' + wds + '" ' +
+                        'style="position:relative;">' +
+                        '<div style="font-size:10px;color:var(--text-3);">' + dayNames[wd.getDay()] + '</div>' +
+                        '<div style="font-size:14px;font-weight:700;">' + wd.getDate() + '</div>' +
+                        (hasA ? '<div style="width:5px;height:5px;border-radius:50%;background:var(--accent);margin:2px auto 0;"></div>' : '<div style="width:5px;height:5px;margin:2px auto 0;"></div>') +
+                        '</div>';
+                }
+                weekEl.innerHTML = strip;
+            }
+
+            // Aulas do dia selecionado
+            var contEl = document.getElementById('cronoDiarioContent');
+                if (!contEl) return;
+
+            var aulasHoje = aulas.filter(function(a){ return a.data === cur; });
+
+            if (!aulasHoje.length) {
+                var isWeekend = _cronoCurrentDate.getDay() === 0 || _cronoCurrentDate.getDay() === 6;
+                contEl.innerHTML = '<div style="text-align:center;padding:28px 16px;color:var(--text-3);">' +
+                    '<div style="font-size:32px;margin-bottom:8px;">🥋</div>' +
+                    '<div style="font-size:13px;font-weight:600;color:var(--text-2);">' +
+                    (isWeekend ? 'Descanso — sem aula cadastrada' : 'Nenhuma aula cadastrada para este dia') +
+                    '</div></div>';
+                return;
+            }
+
+            var html = '';
+            aulasHoje.forEach(function(a) {
+                var isPast = cur < today;
+                var isToday = cur === today;
+                var statusColor = a.status === 'presente_hoje' ? '#4ade80' : isPast ? '#f87171' : '#C41E3A';
+                var statusLabel = a.status === 'presente_hoje' ? '✅ Presente' : isPast ? '⚪ Não registrado' : isToday ? '📍 Hoje' : '📅 Agendada';
+
+                html += '<div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid ' + statusColor + ';border-radius:10px;padding:14px 16px;margin-bottom:10px;">' +
+                    '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;">' +
+                        '<div style="font-weight:800;font-size:14px;color:var(--text-1);">' + escapeHtml(a.tema || 'Aula de Karatê') + '</div>' +
+                        '<span style="font-size:10px;color:' + statusColor + ';font-weight:700;">' + statusLabel + '</span>' +
+                    '</div>';
+
+                if (a.horario) html += '<div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">⏰ ' + escapeHtml(a.horario) + (a.ct ? ' · 📍 ' + escapeHtml(a.ct) : '') + '</div>';
+                if (a.descricao) html += '<div style="font-size:12px;color:var(--text-2);margin-bottom:6px;">' + escapeHtml(a.descricao) + '</div>';
+
+                if (a.tecnicas && a.tecnicas.length) {
+                    html += '<div style="display:flex;flex-wrap:wrap;gap:5px;">';
+                    a.tecnicas.forEach(function(t) {
+                        html += '<span style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--border-accent);border-radius:12px;padding:2px 8px;font-size:10px;font-weight:600;">🥋 ' + escapeHtml(t) + '</span>';
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
+            });
+            contEl.innerHTML = html;
+        }
+
+        function _jumpCronoDay(dateStr) {
+            var p = dateStr.split('-');
+            _cronoCurrentDate = new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
+            renderCronoDiario();
+        }
+
+        function renderCronoMensal() {
+            var monthEl = document.getElementById('aulasCalMonth');
+            var gridEl  = document.getElementById('aulasCalGrid');
+            if (!gridEl) return;
+
+            if (monthEl) monthEl.textContent = MESES_CRONO[_cronoCalMonth] + ' ' + _cronoCalYear;
+
+            var aulas      = _getAulasFiltradas();
+            var today      = _fmtDate(new Date());
+            var firstDay   = new Date(_cronoCalYear, _cronoCalMonth, 1).getDay();
+            var daysInMonth = new Date(_cronoCalYear, _cronoCalMonth + 1, 0).getDate();
+
+            var aulaMap = {};
+            aulas.forEach(function(a) {
+                if (a.data) {
+                    if (!aulaMap[a.data]) aulaMap[a.data] = [];
+                    aulaMap[a.data].push(a);
+                }
+            });
+
+            var html = '';
+            // Empty cells before first day
+            for (var e = 0; e < firstDay; e++) html += '<div></div>';
+
+            for (var d = 1; d <= daysInMonth; d++) {
+                var ds  = _cronoCalYear + '-' + String(_cronoCalMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+                var isT = ds === today;
+                var hasA = !!aulaMap[ds];
+                var isP  = hasA && aulas.some(function(a){ return a.data === ds && a.status === 'presente_hoje'; });
+
+                var bg  = hasA ? (isP ? '#4ade80' : (ds < today ? '#f87171' : '#C41E3A')) : 'transparent';
+                var fc  = hasA ? '#fff' : (isT ? 'var(--accent)' : 'var(--text-1)');
+                var fw  = (isT || hasA) ? '800' : '400';
+                var border = isT && !hasA ? '1.5px solid var(--accent)' : '1.5px solid transparent';
+
+                html += '<div data-crono-cal="' + ds + '" ' +
+                    'style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;' +
+                    'border-radius:50%;background:' + bg + ';color:' + fc + ';font-weight:' + fw + ';' +
+                    'font-size:13px;cursor:pointer;border:' + border + ';">' + d + '</div>';
+            }
+            gridEl.innerHTML = html;
+
+            // Painel "Treino de hoje" no topo
+            var hojeEl = document.getElementById('cronoTreinoHoje');
+            if (hojeEl) {
+                var aulasHoje = aulaMap[today];
+                if (aulasHoje && aulasHoje.length) {
+                    hojeEl.innerHTML = '<div style="background:var(--accent-dim);border:1px solid var(--border-accent);border-radius:10px;padding:12px 14px;">' +
+                        '<div style="font-size:11px;color:var(--accent);font-weight:700;margin-bottom:4px;">📍 HOJE — ' + (aulasHoje[0].horario || '') + '</div>' +
+                        '<div style="font-size:14px;font-weight:800;color:var(--text-1);">' + escapeHtml(aulasHoje[0].tema || 'Aula de Karatê') + '</div>' +
+                        '</div>';
+                    hojeEl.style.display = 'block';
+                } else {
+                    hojeEl.style.display = 'none';
+                }
+            }
+        }
+
+        function cronoDayClick(dateStr) {
+            var aulas   = _getAulasFiltradas();
+            var aulasD  = aulas.filter(function(a){ return a.data === dateStr; });
+            var detEl   = document.getElementById('aulaDayDetail');
+            if (!detEl) return;
+
+            if (!aulasD.length) { detEl.style.display = 'none'; return; }
+
+            var html = '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;">';
+            html += '<div style="font-size:11px;color:var(--text-3);margin-bottom:10px;">' + _fmtDateBR(dateStr) + '</div>';
+            aulasD.forEach(function(a) {
+                html += '<div style="margin-bottom:8px;">' +
+                    '<div style="font-weight:800;font-size:13px;color:var(--text-1);">' + escapeHtml(a.tema || 'Aula') + '</div>' +
+                    (a.horario ? '<div style="font-size:11px;color:var(--text-3);">⏰ ' + escapeHtml(a.horario) + '</div>' : '') +
+                    (a.descricao ? '<div style="font-size:11px;color:var(--text-2);margin-top:3px;">' + escapeHtml(a.descricao) + '</div>' : '') +
+                '</div>';
+            });
+            html += '</div>';
+            detEl.innerHTML = html;
+            detEl.style.display = 'block';
+            detEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+
+
+        // ══════════════════════════════════════════════════════════════════
+        // CRONOGRAMA ADMIN — Lógica refatorada
+        // Modalidades e CTs vêm do backend, NÃO das aulas existentes
+        // ══════════════════════════════════════════════════════════════════
+
+        var _admCronoCTsList   = [];   // lista de CTs carregada do backend
+        var _admCronoModsList  = [];   // lista de modalidades carregada do backend
+        var _admCronoNewCTs    = [];   // CTs selecionados para nova aula
+        var _admCronoNewMod    = '';   // modalidade selecionada para nova aula
+        var _cronoNewAulaMode  = false;
+
+        // ── Carregar CTs e Modalidades do backend ─────────────────────────
+        async function _loadCronoMasterData() {
+            try {
+                // CTs
+                if (!_admCronoCTsList.length) {
+                    var ctData = await secureFetch('getCTsList', {});
+                    if (ctData && ctData.success && ctData.cts) {
+                        _admCronoCTsList = ctData.cts.map(function(c) {
+                            return typeof c === 'string' ? c : (c.name || c.nome || '');
+                        }).filter(Boolean);
+                    }
+                }
+            } catch(e) {}
+
+            try {
+                // Modalidades — do estilo do dojo
+                if (!_admCronoModsList.length) {
+                    var modData = await secureFetch('getModalidades', {});
+                    if (modData && modData.success && modData.modalidades) {
+                        _admCronoModsList = modData.modalidades.map(function(m) {
+                            return { id: m.id, nome: m.nome || m.id, cor: m.cor || '#C41E3A' };
+                        });
+                    }
+                    // Fallback: usar o estilo do dojo diretamente
+                    if (!_admCronoModsList.length && _dojoEstilo) {
+                        var schema = MODALIDADES_SCHEMA[_dojoEstilo] || MODALIDADES_SCHEMA['karate'];
+                        if (schema) {
+                            _admCronoModsList = [{ id: _dojoEstilo, nome: schema.nome || _dojoEstilo, cor: schema.cor || '#C41E3A' }];
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+
+        // ── Refatorar renderAdmCronoCTChips para usar _admCronoCTsList ────
+        function renderAdmCronoCTChips() {
+            var el = document.getElementById('cronoAdmCTChips');
+            if (!el) return;
+
+            // Obter CTs: da lista carregada OU das aulas existentes
+            var ctsSet = {};
+            _admCronoCTsList.forEach(function(ct) { ctsSet[ct] = 1; });
+            _admCronoAulas.forEach(function(a) { if (a.ct) ctsSet[a.ct] = 1; });
+            var keys = Object.keys(ctsSet);
+
+            if (!keys.length) {
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT cadastrado — crie um CT primeiro</span>';
+                return;
+            }
+            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
+            var html = '<button data-crono-ct-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroCT ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroCT ? '#fff' : 'var(--adm-text-2)') + ';">Todos</button>';
+            keys.forEach(function(ct) {
+                var active = _admCronoFiltroCT === ct;
+                html += '<button data-crono-ct="' + escapeHtml(ct) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
+            });
+            el.innerHTML = html;
+        }
+
+        // ── Refatorar renderAdmCronoModChips para usar _admCronoModsList ──
+        function renderAdmCronoModChips() {
+            var el = document.getElementById('cronoAdmModalidadeChips');
+            if (!el) return;
+
+            // Obter mods: da lista carregada OU das aulas existentes
+            var modsMap = {};
+            _admCronoModsList.forEach(function(m) { modsMap[m.id] = m.nome; });
+            _admCronoAulas.forEach(function(a) { if (a.modalidade && !modsMap[a.modalidade]) modsMap[a.modalidade] = a.modalidade; });
+            var keys = Object.keys(modsMap);
+
+            if (!keys.length) {
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Carregando estilos...</span>';
+                return;
+            }
+            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
+            var html = '';
+            if (keys.length > 1) {
+                html += '<button data-crono-mod-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroMod ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroMod ? '#fff' : 'var(--adm-text-2)') + ';">Todas</button>';
+            }
+            keys.forEach(function(id) {
+                var active = _admCronoFiltroMod === id;
+                var nome   = modsMap[id] || id;
+                html += '<button data-crono-mod="' + escapeHtml(id) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">🥋 ' + escapeHtml(nome) + '</button>';
+            });
+            el.innerHTML = html;
+        }
+
+        // ── openCronoNewAulaPanel — preenche chips de CTs e Modalidades ───
+        async function openCronoNewAulaPanel() {
+            var panel = document.getElementById('cronoNewAulaPanel');
+            if (!panel) return;
+
+            // Garantir que temos os dados
+            await _loadCronoMasterData();
+
+            // Preencher CT chips
+            var ctEl = document.getElementById('cronoNewCTChips');
+            if (ctEl) {
+                var ctList = _admCronoCTsList.length ? _admCronoCTsList :
+                    Array.from(new Set(_admCronoAulas.map(function(a){ return a.ct; }).filter(Boolean)));
+                if (!ctList.length) {
+                    ctEl.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT — crie um CT em Centros de Treinamento</span>';
+                } else {
+                    var stCT = 'padding:6px 12px;border-radius:20px;border:1.5px solid var(--adm-border);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                    ctEl.innerHTML = ctList.map(function(ct) {
+                        var sel = _admCronoNewCTs.indexOf(ct) !== -1;
+                        return '<button data-new-ct="' + escapeHtml(ct) + '" style="' + stCT + 'background:' + (sel ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)') + ';color:' + (sel ? '#fff' : 'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
+                    }).join('');
+                }
+            }
+
+            // Preencher Modalidade chips — auto-selecionar se só 1
+            var modEl = document.getElementById('cronoNewModalidadeChips');
+            if (modEl) {
+                var modList = _admCronoModsList.length ? _admCronoModsList :
+                    [{ id: _dojoEstilo || 'karate_shotokan', nome: 'Karatê', cor: '#C41E3A' }];
+
+                // Auto-selecionar se há só 1 modalidade
+                if (modList.length === 1 && !_admCronoNewMod) {
+                    _admCronoNewMod = modList[0].id;
+                }
+
+                var stMod = 'padding:6px 12px;border-radius:20px;border:1.5px solid;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                modEl.innerHTML = modList.map(function(m) {
+                    var sel = _admCronoNewMod === m.id;
+                    var cor = m.cor || '#C41E3A';
+                    return '<button data-new-mod="' + escapeHtml(m.id) + '" ' +
+                        'style="' + stMod + 'border-color:' + (sel ? cor : 'var(--adm-border)') + ';' +
+                        'background:' + (sel ? cor : 'transparent') + ';' +
+                        'color:' + (sel ? '#fff' : 'var(--adm-text-2)') + ';">' +
+                        '🥋 ' + escapeHtml(m.nome) + '</button>';
+                }).join('');
+            }
+
+            // Atualizar datas selecionadas
+            var datesEl = document.getElementById('cronoNewDatesChips');
+            if (datesEl) {
+                if (_admCronoSelectedDates.length) {
+                    datesEl.textContent = _admCronoSelectedDates.map(function(d) {
+                        var p = d.split('-'); return p[2]+'/'+p[1]+'/'+p[0];
+                    }).join(', ');
+                } else {
+                    datesEl.textContent = 'Nenhuma data selecionada — clique no calendário';
+                    datesEl.style.color = 'var(--adm-text-3)';
+                }
+            }
+
+            panel.style.display = 'flex';
+        }
+
+        function closeCronoNewAulaPanel() {
+            var panel = document.getElementById('cronoNewAulaPanel');
+            if (panel) panel.style.display = 'none';
+            _admCronoNewCTs  = [];
+            _admCronoNewMod  = '';
+            _cronoNewAulaMode = false;
+        }
+
+        // Event delegation para os chips do painel Nova Aula
+        document.addEventListener('click', function(e) {
+            // CT chip no filtro
+            var ctAll = e.target.closest('[data-crono-ct-all]');
+            if (ctAll) { admCronoFiltroCT(''); return; }
+            var ctChip = e.target.closest('[data-crono-ct]');
+            if (ctChip) { admCronoFiltroCT(ctChip.getAttribute('data-crono-ct')); return; }
+
+            // Mod chip no filtro
+            var modAll = e.target.closest('[data-crono-mod-all]');
+            if (modAll) { admCronoFiltroMod(''); return; }
+            var modChip = e.target.closest('[data-crono-mod]');
+            if (modChip) { admCronoFiltroMod(modChip.getAttribute('data-crono-mod')); return; }
+
+            // CT chip no Nova Aula
+            var newCT = e.target.closest('[data-new-ct]');
+            if (newCT) {
+                var ct = newCT.getAttribute('data-new-ct');
+                var idx = _admCronoNewCTs.indexOf(ct);
+                if (idx === -1) _admCronoNewCTs.push(ct);
+                else _admCronoNewCTs.splice(idx, 1);
+                // Re-render só os chips de CT
+                var stCT = 'padding:6px 12px;border-radius:20px;border:1.5px solid var(--adm-border);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                newCT.parentElement.querySelectorAll('[data-new-ct]').forEach(function(btn) {
+                    var isSel = _admCronoNewCTs.indexOf(btn.getAttribute('data-new-ct')) !== -1;
+                    btn.style.background = isSel ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)';
+                    btn.style.color      = isSel ? '#fff' : 'var(--adm-text-2)';
+                });
+                return;
+            }
+
+            // Mod chip no Nova Aula
+            var newMod = e.target.closest('[data-new-mod]');
+            if (newMod) {
+                _admCronoNewMod = newMod.getAttribute('data-new-mod');
+                newMod.parentElement.querySelectorAll('[data-new-mod]').forEach(function(btn) {
+                    var schema = MODALIDADES_SCHEMA[_dojoEstilo] || {};
+                    var cor    = schema.cor || '#C41E3A';
+                    var isSel  = btn.getAttribute('data-new-mod') === _admCronoNewMod;
+                    btn.style.background   = isSel ? cor : 'transparent';
+                    btn.style.borderColor  = isSel ? cor : 'var(--adm-border)';
+                    btn.style.color        = isSel ? '#fff' : 'var(--adm-text-2)';
+                });
+                return;
+            }
+        });
+
+        // ── Refatorar loadAdminCronograma para carregar dados mestres ──────
+        async function loadAdminCronograma() {
+            try {
+                // Carregar dados mestres (CTs + Modalidades) em paralelo com aulas
+                await _loadCronoMasterData();
+                var data = await secureFetch('getCronogramaAulas', {
+                    email: currentUser ? currentUser.email : '',
+                    admin: true
+                });
+                if (!data || !data.success) return;
+                _admCronoAulas = data.aulas || [];
+                renderAdmCronoCTChips();
+                renderAdmCronoModChips();
+                renderAdmCronoCal();
+                if (_admCronoSelectedDate) renderCronoAgenda(_admCronoSelectedDate);
+            } catch(e) { console.error('[loadAdminCronograma]', e); }
+        }
+
+        // ── saveCronogramaAula usa _admCronoNewCTs e _admCronoNewMod ──────
+        async function saveCronogramaAula() {
+            var datas    = _admCronoSelectedDates;
+            var cts      = _admCronoNewCTs;
+            var mod      = _admCronoNewMod || _dojoEstilo || 'karate_shotokan';
+            var horario  = (document.getElementById('cronoAdmHorario') || {}).value || '';
+            var tema     = (document.getElementById('cronoAdmTema')    || {}).value || '';
+            var desc     = (document.getElementById('cronoAdmDesc')    || {}).value || '';
+            var msgEl    = document.getElementById('cronoAdmMsg');
+
+            if (!datas || !datas.length) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Selecione pelo menos uma data no calendário</span>';
+                return;
+            }
+            if (!cts.length) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Selecione pelo menos um CT</span>';
+                return;
+            }
+            if (!tema) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Informe o tema da aula</span>';
+                return;
+            }
+
+            if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-text-3);">Salvando...</span>';
+            var saveBtn = document.getElementById('cronoAdmSaveBtn');
+            if (saveBtn) saveBtn.disabled = true;
+
+            try {
+                var result = await secureFetch('saveCronogramaAulas', {
+                    datas: datas,
+                    cts: cts,
+                    modalidade: mod,
+                    horario: horario,
+                    tema: tema,
+                    descricao: desc
+                });
+                if (result && result.success) {
+                    if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-green);">✅ ' + (result.message || 'Aula(s) salva(s)!') + '</span>';
+                    _admCronoSelectedDates = [];
+                    document.getElementById('cronoAdmTema').value = '';
+                    document.getElementById('cronoAdmDesc').value = '';
+                    await loadAdminCronograma();
+                    renderAdmCronoCal();
+                    renderCronoAgenda();
+                    _syncCronoAluno();
+                    setTimeout(function() { closeCronoNewAulaPanel(); }, 800);
+                } else {
+                    if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">❌ ' + escapeHtml((result && result.message) || 'Erro') + '</span>';
+                }
+            } catch(err) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">❌ ' + escapeHtml(err.message) + '</span>';
+            } finally {
+                if (saveBtn) saveBtn.disabled = false;
+            }
+        }
+
+
+        // ══════════════════════════════════════════════════════════════════
+        // ATRIBUIÇÃO DE MODALIDADE A ALUNOS
+        // Abre após criar nova sub-modalidade — permite escolher quais
+        // alunos recebem a nova modalidade imediatamente
+        // ══════════════════════════════════════════════════════════════════
+
+        async function _abrirPainelAtribuicaoModalidade(modId, modNome, ctFiltro) {
+            // Buscar lista de alunos do CT
+            var overlay = document.createElement('div');
+            overlay.id  = 'atribModOverlay';
+            overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(26,22,18,0.7);display:flex;align-items:flex-end;justify-content:center;padding:0;';
+
+            var panel = document.createElement('div');
+            panel.style.cssText = 'width:100%;max-width:520px;max-height:88vh;background:#F4F1EA;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;';
+
+            // Header
+            panel.innerHTML =
+                '<div style="padding:16px 20px 12px;background:#1A1614;border-bottom:2px solid #C41E3A;">' +
+                    '<div style="font-size:15px;font-weight:800;color:#FFFFFF;">🥋 Atribuir modalidade aos alunos</div>' +
+                    '<div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:3px;">Quem deve ter acesso a <strong style="color:#C41E3A;">' + escapeHtml(modNome) + '</strong>?</div>' +
+                '</div>' +
+                '<div id="atribModLoading" style="padding:32px;text-align:center;color:#6B5D52;font-size:13px;">Carregando alunos...</div>' +
+                '<div id="atribModListaWrap" style="flex:1;overflow-y:auto;padding:0;display:none;">' +
+                    '<div style="padding:10px 16px;background:#EDE9DF;border-bottom:1px solid rgba(26,22,18,0.08);display:flex;gap:8px;align-items:center;">' +
+                        '<button id="atribModBtnTodos" onclick="_atribSelectAll(true)" style="flex:1;padding:8px;background:#C41E3A;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">✅ Selecionar todos</button>' +
+                        '<button onclick="_atribSelectAll(false)" style="flex:1;padding:8px;background:transparent;color:#6B5D52;border:1px solid rgba(26,22,18,0.15);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">☐ Desmarcar todos</button>' +
+                    '</div>' +
+                    '<div id="atribModLista" style="padding:8px 16px;display:flex;flex-direction:column;gap:6px;"></div>' +
+                '</div>' +
+                '<div style="padding:12px 16px;background:#F4F1EA;border-top:1px solid rgba(26,22,18,0.08);display:flex;gap:10px;">' +
+                    '<button data-atrib-pular="1" style="flex:1;padding:11px;background:transparent;color:#6B5D52;border:1px solid rgba(26,22,18,0.15);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">Pular</button>' +
+                    '<button id="atribModBtnSalvar" data-atrib-salvar="' + escapeHtml(modId) + '" style="flex:2;padding:11px;background:#C41E3A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">💾 Atribuir aos selecionados</button>' +
+                '</div>';
+
+            overlay.appendChild(panel);
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+
+            // Buscar alunos
+            try {
+                var data = await secureFetch('getAlunosList', {
+                    ct: ctFiltro || '',
+                    page: 1,
+                    limit: 500
+                });
+                var alunos = (data && data.alunos) ? data.alunos : [];
+                var lista  = document.getElementById('atribModLista');
+                var load   = document.getElementById('atribModLoading');
+                var wrap   = document.getElementById('atribModListaWrap');
+
+                if (!alunos.length) {
+                    if(load) load.textContent = 'Nenhum aluno encontrado neste CT.';
+                    return;
+                }
+
+                if(load) load.style.display = 'none';
+                if(wrap) wrap.style.display = 'flex';
+
+                // Montar lista com checkboxes
+                alunos.forEach(function(a) {
+                    var jaTemMod = a.modalidades && a.modalidades.indexOf(modId) !== -1;
+                    var item = document.createElement('label');
+                    item.style.cssText = 'display:flex;align-items:center;gap:10px;padding:9px 12px;background:#FFFFFF;border:1.5px solid ' + (jaTemMod ? 'rgba(196,30,58,0.3)' : 'rgba(26,22,18,0.09)') + ';border-radius:10px;cursor:pointer;';
+                    item.innerHTML =
+                        '<input type="checkbox" data-email="' + escapeHtml(a.email) + '" ' + (jaTemMod ? 'disabled checked' : 'checked') + ' style="width:17px;height:17px;flex-shrink:0;accent-color:#C41E3A;cursor:pointer;">' +
+                        '<div style="flex:1;min-width:0;">' +
+                            '<div style="font-size:13px;font-weight:700;color:#1A1614;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(a.nome||a.email) + '</div>' +
+                            '<div style="font-size:10px;color:#8A7060;">🥋 ' + escapeHtml(a.faixa||'Branca') + (jaTemMod ? ' · <span style="color:#C41E3A;font-weight:700;">já tem esta modalidade</span>' : '') + '</div>' +
+                        '</div>';
+                    lista.appendChild(item);
+                });
+
+            } catch(e) {
+                var load2 = document.getElementById('atribModLoading');
+                if(load2) load2.textContent = '❌ Erro ao carregar alunos: ' + e.message;
+            }
+        }
+
+        function _atribSelectAll(sel) {
+            var cbs = document.querySelectorAll('#atribModLista input[type="checkbox"]:not(:disabled)');
+            cbs.forEach(function(cb){ cb.checked = sel; });
+        }
+
+        async function _salvarAtribuicaoModalidade(modId) {
+            var cbs = document.querySelectorAll('#atribModLista input[type="checkbox"]:checked:not(:disabled)');
+            if (!cbs.length) {
+                document.getElementById('atribModOverlay').remove();
+                return;
+            }
+
+            var btn = document.getElementById('atribModBtnSalvar');
+            if(btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+
+            var ok = 0, erros = 0;
+            for (var i = 0; i < cbs.length; i++) {
+                var email = cbs[i].getAttribute('data-email');
+                try {
+                    // Buscar modalidades atuais do aluno e adicionar a nova
+                    var res = await secureFetch('setModalidadesAluno', {
+                        targetEmail: email,
+                        modalidade:  modId,
+                        action:      'add'
+                    });
+                    if (res && res.success) ok++;
+                    else erros++;
+                } catch(e) { erros++; }
+            }
+
+            var overlay = document.getElementById('atribModOverlay');
+            if(overlay) {
+                overlay.innerHTML = '<div style="background:#F4F1EA;border-radius:20px;padding:32px 24px;text-align:center;max-width:320px;margin:auto;">' +
+                    '<div style="font-size:48px;margin-bottom:12px;">' + (erros ? '⚠️' : '✅') + '</div>' +
+                    '<div style="font-size:16px;font-weight:800;color:#1A1614;margin-bottom:6px;">' + ok + ' aluno(s) atualizado(s)</div>' +
+                    (erros ? '<div style="font-size:12px;color:#C41E3A;margin-bottom:12px;">' + erros + ' erro(s)</div>' : '') +
+                    '<button data-atrib-pular="1" style="padding:11px 32px;background:#C41E3A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">OK</button>' +
+                    '</div>';
+            }
+        }
+
+
+
+        // ══════════════════════════════════════════════════════════════════════
+        // MÓDULO MODALIDADES CRUD — v2.0 Dojo Systems
+        // ══════════════════════════════════════════════════════════════════════
+
+        var _modCrudData      = [];      // cache de modalidades
+        var _modCrudEditando  = null;    // modalidade sendo editada
+        var _modCrudTabAtiva  = 'geral'; // tab ativa do modal
+        var _modCrudGradList  = [];      // faixas em edição
+        var _modCrudHorarios  = {};      // horários em edição: { seg: ['19:00'], ter: [] ... }
+
+        var MOD_CORES = [
+            '#C41E3A','#E8600A','#1A6B3C','#1A5C9E','#7B2C9E',
+            '#0A6E6E','#6B3A1F','#1F4E6B','#5C4A00','#4A4A4A',
+            '#C97A06','#B8860B','#8B0000','#006400','#00008B'
+        ];
+        var MOD_ICONES = ['🥋','🥷','⚔️','🏅','🎌','⛩️','🏆','🔴','⚡','🔥',
+                          '💪','🧘','🤸','🏃','👊','🦵','🛡️','📖','⭐','🎯'];
+        var MOD_DIAS_LABELS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        var MOD_DIAS_KEYS   = ['seg','ter','qua','qui','sex','sab','dom'];
+
+        // ── CARREGAR E RENDERIZAR CARDS ──────────────────────────────────────
+
+        async function loadModCrud() {
+            var grid = document.getElementById('modCrudGrid');
+            if (grid) grid.innerHTML = '<div class="mod-empty"><div class="mod-empty-icon">⏳</div><div class="mod-empty-title">Carregando...</div></div>';
+            try {
+                var res = await secureFetch('getModalidadesAdmin', {});
+                if (!res || !res.success) throw new Error((res && res.message) || 'Erro');
+                _modCrudData = res.modalidades || [];
+                _renderModCrudGrid();
+            } catch(e) {
+                if (grid) grid.innerHTML = '<div class="mod-empty"><div class="mod-empty-icon">⚠️</div><div class="mod-empty-title">Erro ao carregar</div><div class="mod-empty-sub">' + escapeHtml(e.message) + '</div></div>';
+            }
+        }
+
+        function _renderModCrudGrid() {
+            var grid = document.getElementById('modCrudGrid');
+            if (!grid) return;
+            if (!_modCrudData.length) {
+                grid.innerHTML = '<div class="mod-empty">' +
+                    '<div class="mod-empty-icon">🥋</div>' +
+                    '<div class="mod-empty-title">Nenhuma modalidade cadastrada</div>' +
+                    '<div class="mod-empty-sub">Clique em "+ Nova Modalidade" para começar.</div>' +
+                    '</div>';
+                return;
+            }
+            grid.innerHTML = _modCrudData.map(function(mod) {
+                var ativo = mod.ativo !== false;
+                var cor   = mod.cor || '#C41E3A';
+                var rgb   = mod.corRGB || '196,30,58';
+                return '<div class="mod-card' + (ativo ? '' : ' inactive') + '">' +
+                    '<div class="mod-card-stripe" style="background:' + cor + ';"></div>' +
+                    '<div class="mod-card-body">' +
+                        '<div class="mod-card-icon" style="background:rgba(' + rgb + ',0.12);">' + (mod.icon || '🥋') + '</div>' +
+                        '<div class="mod-card-info">' +
+                            '<div class="mod-card-name">' + escapeHtml(mod.nome) + '</div>' +
+                            '<div class="mod-card-id">' + escapeHtml(mod.id) + '</div>' +
+                            '<div class="mod-card-stats">' +
+                                '<span class="mod-card-badge ' + (ativo ? 'active' : 'inactive') + '">' + (ativo ? '● Ativa' : '● Inativa') + '</span>' +
+                                '<span class="mod-card-stat">👥 ' + (mod.totalAlunos || 0) + '</span>' +
+                                '<span class="mod-card-stat">🥋 ' + (mod.totalFaixas || 0) + ' faixas</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="mod-card-actions">' +
+                            '<button class="mod-card-btn edit" data-modid="' + escapeHtml(mod.id) + '" data-action="edit">✏️ Editar</button>' +
+                            '<button class="mod-card-btn del"  data-modid="' + escapeHtml(mod.id) + '" data-action="del">' + (ativo ? '🚫 Desativar' : '✅ Ativar') + '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // ── EVENT DELEGATION PARA CARDS ─────────────────────────────────────
+
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-action][data-modid]');
+            if (!btn) return;
+            var modId  = btn.getAttribute('data-modid');
+            var action = btn.getAttribute('data-action');
+            if (action === 'edit') {
+                var mod = _modCrudData.find(function(m){ return m.id === modId; });
+                if (mod) openModCrudModal(mod);
+            } else if (action === 'del') {
+                _toggleModAtivo(modId);
+            }
+        });
+
+        async function _toggleModAtivo(modId) {
+            var mod = _modCrudData.find(function(m){ return m.id === modId; });
+            if (!mod) return;
+            var novoStatus = !mod.ativo;
+            var label = novoStatus ? 'ativar' : 'desativar';
+            if (!confirm('Deseja ' + label + ' a modalidade "' + mod.nome + '"?\n\n' +
+                (novoStatus ? 'A modalidade voltará a aparecer no sistema.' : 'A modalidade será ocultada. Dados e histórico são preservados.'))) return;
+            try {
+                var res = await secureFetch('saveModalidadeCompleta', {
+                    id: mod.id, nome: mod.nome, icon: mod.icon, cor: mod.cor,
+                    corRGB: mod.corRGB, desc: mod.desc, gradTipo: mod.gradTipo,
+                    ativo: novoStatus, parentId: mod.parentId
+                });
+                if (res && res.success) {
+                    mod.ativo = novoStatus;
+                    _renderModCrudGrid();
+                    _showModToast(novoStatus ? '✅ Modalidade ativada!' : '🚫 Modalidade desativada.');
+                    await _carregarCatalogModalidades();
+                } else {
+                    alert('Erro: ' + ((res && res.message) || 'Tente novamente'));
+                }
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        // ── MODAL CRUD ───────────────────────────────────────────────────────
+
+        function openModCrudModal(modOuNull) {
+            _modCrudEditando  = modOuNull;
+            _modCrudTabAtiva  = 'geral';
+            _modCrudGradList  = modOuNull && modOuNull.graduacaoJSON ? (Array.isArray(modOuNull.graduacaoJSON) ? modOuNull.graduacaoJSON : []) : [];
+            _modCrudHorarios  = modOuNull && modOuNull.horariosJSON  ? JSON.parse(JSON.stringify(modOuNull.horariosJSON)) : {};
+
+            // Inicializar horários com todos os dias
+            MOD_DIAS_KEYS.forEach(function(dk) { if (!_modCrudHorarios[dk]) _modCrudHorarios[dk] = []; });
+
+            var existing = document.getElementById('modCrudModalOverlay');
+            if (existing) existing.remove();
+
+            var overlay = document.createElement('div');
+            overlay.id = 'modCrudModalOverlay';
+            overlay.className = 'mod-modal-overlay';
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModCrudModal(); });
+
+            var isEdit = !!modOuNull;
+            var mod    = modOuNull || {};
+            var cor    = mod.cor   || MOD_CORES[0];
+            var icon   = mod.icon  || '🥋';
+
+            overlay.innerHTML =
+                '<div class="mod-modal" id="modCrudModal">' +
+                    '<div class="mod-modal-handle"></div>' +
+                    '<div class="mod-modal-header">' +
+                        '<div class="mod-modal-header-icon" id="modModalPreviewIcon" style="background:rgba(196,30,58,0.10);">' + icon + '</div>' +
+                        '<div class="mod-modal-title">' + (isEdit ? 'Editar Modalidade' : 'Nova Modalidade') + '</div>' +
+                        '<button class="mod-modal-close" onclick="closeModCrudModal()">✕</button>' +
+                    '</div>' +
+                    '<div class="mod-modal-tabs">' +
+                        '<button class="mod-modal-tab active" data-mtab="geral"   onclick="switchModTab(\'geral\')">⚙️ Geral</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="visual"  onclick="switchModTab(\'visual\')">🎨 Visual</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="horarios" onclick="switchModTab(\'horarios\')">📅 Horários</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="grad"    onclick="switchModTab(\'grad\')">🏅 Graduação</button>' +
+                    '</div>' +
+                    '<div class="mod-modal-body">' +
+
+                        // ── Tab Geral ─────────────────────────────────────
+                        '<div class="mod-modal-panel active" id="modTab_geral">' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Nome da modalidade *</label>' +
+                                '<input class="mod-field-input" id="modFieldNome" type="text" placeholder="ex: Kyokushin Kids" value="' + escapeHtml(mod.nome || '') + '" oninput="_modAutoSlug()">' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">ID (slug) — gerado automaticamente</label>' +
+                                '<input class="mod-field-input" id="modFieldId" type="text" placeholder="ex: karate_kyokushin_kids" value="' + escapeHtml(mod.id || '') + '" ' + (isEdit ? 'readonly style="background:#F8F5F0;color:#8A7060;"' : 'oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,\'\')"') + '>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Descrição</label>' +
+                                '<textarea class="mod-field-input" id="modFieldDesc" rows="2" placeholder="Descreva a modalidade...">' + escapeHtml(mod.desc || '') + '</textarea>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Sistema de graduação</label>' +
+                                '<select class="mod-field-input" id="modFieldGradTipo">' +
+                                    ['faixa_cintura','corda','nivel','prajied','nenhum'].map(function(g) {
+                                        var labels = { faixa_cintura: '🥋 Faixas de cintura', corda: '🪢 Cordas', nivel: '⭐ Níveis', prajied: '🏅 Prajied (Thai)', nenhum: '⛔ Sem graduação' };
+                                        return '<option value="' + g + '"' + (mod.gradTipo === g ? ' selected' : '') + '>' + (labels[g]||g) + '</option>';
+                                    }).join('') +
+                                '</select>' +
+                            '</div>' +
+                            '<div style="background:#FFFFFF;border:1px solid rgba(26,22,18,0.10);border-radius:10px;padding:4px 12px;">' +
+                                ['ativo','permiteRanking','permitePresenca','permiteEvolucao','permiteCronograma','permiteExame','permiteCadastro'].map(function(key) {
+                                    var labels = { ativo:'Modalidade ativa', permiteRanking:'Permitir ranking', permitePresenca:'Permitir presença', permiteEvolucao:'Permitir evolução', permiteCronograma:'Permitir cronograma', permiteExame:'Permitir exame', permiteCadastro:'Exibir no cadastro de alunos' };
+                                    var descs  = { ativo:'Aparece no sistema e para os alunos', permiteRanking:'Gera ranking por faixa/graduação', permitePresenca:'Controle de frequência', permiteEvolucao:'Relatório de evolução do aluno', permiteCronograma:'Aulas aparecem no cronograma', permiteExame:'Exames de graduação habilitados', permiteCadastro:'Aparece no formulário de cadastro' };
+                                    var cfg    = (mod.configJSON || {});
+                                    var isOn   = key === 'ativo' ? mod.ativo !== false : (cfg[key] !== false);
+                                    return '<div class="mod-toggle-row">' +
+                                        '<div><div class="mod-toggle-label">' + (labels[key]||key) + '</div>' +
+                                        '<div class="mod-toggle-desc">' + (descs[key]||'') + '</div></div>' +
+                                        '<div class="mod-toggle' + (isOn ? ' on' : '') + '" data-toggle-key="' + key + '" onclick="_modToggle(this)"></div>' +
+                                    '</div>';
+                                }).join('') +
+                            '</div>' +
+                        '</div>' +
+
+                        // ── Tab Visual ─────────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_visual">' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Ícone</label>' +
+                                '<div class="mod-icon-grid" id="modIconGrid">' +
+                                    MOD_ICONES.map(function(ic) {
+                                        return '<button class="mod-icon-btn' + (ic === icon ? ' selected' : '') + '" data-icon="' + ic + '" onclick="_modPickIcon(this)">' + ic + '</button>';
+                                    }).join('') +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Cor</label>' +
+                                '<div class="mod-color-picker" id="modColorPicker">' +
+                                    MOD_CORES.map(function(c) {
+                                        return '<div class="mod-color-swatch' + (c === cor ? ' selected' : '') + '" data-cor="' + c + '" style="background:' + c + ';" onclick="_modPickColor(this)"></div>';
+                                    }).join('') +
+                                '</div>' +
+                                '<input class="mod-field-input" id="modFieldCor" type="text" value="' + escapeHtml(cor) + '" placeholder="#C41E3A" style="margin-top:8px;" oninput="_modCorManual(this.value)">' +
+                            '</div>' +
+                        '</div>' +
+
+                        // ── Tab Horários ───────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_horarios">' +
+                            '<div style="font-size:11px;color:#8A7060;margin-bottom:12px;line-height:1.5;">Configure os horários desta modalidade. Cada dia pode ter múltiplos horários.</div>' +
+                            '<div class="mod-horario-grid" id="modHorarioGrid"></div>' +
+                        '</div>' +
+
+                        // ── Tab Graduação ──────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_grad">' +
+                            '<div style="font-size:11px;color:#8A7060;margin-bottom:12px;line-height:1.5;">Monte a sequência de graduação. Arraste para reordenar. As faixas serão sincronizadas automaticamente.</div>' +
+                            '<div class="mod-grad-list" id="modGradList"></div>' +
+                            '<div class="mod-grad-add-row" style="margin-top:10px;">' +
+                                '<input class="mod-field-input" id="modGradNome"  placeholder="Nome (ex: Amarela)" style="padding:8px;">' +
+                                '<input class="mod-field-input" id="modGradEmoji" placeholder="🥋" style="padding:8px;max-width:60px;">' +
+                                '<button onclick="_modGradAdd()" style="padding:8px 14px;background:#C41E3A;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;">+</button>' +
+                            '</div>' +
+                        '</div>' +
+
+                    '</div>' + // /body
+                    '<div id="modModalMsg" style="padding:0 16px 2px;font-size:11px;min-height:18px;"></div>' +
+                    '<div class="mod-modal-footer">' +
+                        '<button class="mod-btn-cancel" onclick="closeModCrudModal()">Cancelar</button>' +
+                        '<button class="mod-btn-save" id="modBtnSave" onclick="saveModCrud()">💾 Salvar</button>' +
+                    '</div>' +
+                '</div>';
+
+            document.body.appendChild(overlay);
+            _renderModHorarios();
+            _renderModGradList();
+            setTimeout(function() { var inp = document.getElementById('modFieldNome'); if (inp) inp.focus(); }, 100);
+        }
+
+        function closeModCrudModal() {
+            var el = document.getElementById('modCrudModalOverlay');
+            if (el) el.remove();
+        }
+
+        function switchModTab(tab) {
+            _modCrudTabAtiva = tab;
+            document.querySelectorAll('.mod-modal-tab').forEach(function(b) {
+                b.classList.toggle('active', b.getAttribute('data-mtab') === tab);
+            });
+            document.querySelectorAll('.mod-modal-panel').forEach(function(p) {
+                p.classList.toggle('active', p.id === 'modTab_' + tab);
+            });
+            if (tab === 'horarios') _renderModHorarios();
+            if (tab === 'grad')     _renderModGradList();
+        }
+
+        // ── HELPERS ─────────────────────────────────────────────────────────
+
+        function _modAutoSlug() {
+            if (_modCrudEditando) return; // não alterar slug em edição
+            var nome = (document.getElementById('modFieldNome') || {}).value || '';
+            var _ESTILOS_B = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catB = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_B.indexOf(m.id) !== -1; });
+            var prefixo = (_catB && _catB.id) || _dojoEstilo || 'karate_shotokan';
+            var sufixo  = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
+            var idEl = document.getElementById('modFieldId');
+            if (idEl) idEl.value = prefixo + '_' + sufixo;
+        }
+
+        function _modToggle(el) {
+            el.classList.toggle('on');
+        }
+
+        function _modPickIcon(btn) {
+            document.querySelectorAll('.mod-icon-btn').forEach(function(b){ b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            var previewEl = document.getElementById('modModalPreviewIcon');
+            if (previewEl) previewEl.textContent = btn.getAttribute('data-icon');
+        }
+
+        function _modPickColor(swatch) {
+            document.querySelectorAll('.mod-color-swatch').forEach(function(s){ s.classList.remove('selected'); });
+            swatch.classList.add('selected');
+            var cor = swatch.getAttribute('data-cor');
+            var inp = document.getElementById('modFieldCor');
+            if (inp) inp.value = cor;
+            // Atualizar preview header
+            var previewEl = document.getElementById('modModalPreviewIcon');
+            if (previewEl) {
+                var rgb = _hexToRgb(cor);
+                previewEl.style.background = 'rgba(' + rgb + ',0.12)';
+            }
+        }
+
+        function _modCorManual(val) {
+            if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                document.querySelectorAll('.mod-color-swatch').forEach(function(s){
+                    s.classList.toggle('selected', s.getAttribute('data-cor') === val);
+                });
+            }
+        }
+
+        function _hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? parseInt(result[1],16) + ',' + parseInt(result[2],16) + ',' + parseInt(result[3],16) : '196,30,58';
+        }
+
+        // ── HORÁRIOS ────────────────────────────────────────────────────────
+
+        function _renderModHorarios() {
+            var grid = document.getElementById('modHorarioGrid');
+            if (!grid) return;
+            grid.innerHTML = MOD_DIAS_KEYS.map(function(dk, di) {
+                var horarios = _modCrudHorarios[dk] || [];
+                return '<div class="mod-horario-day">' +
+                    '<div class="mod-horario-day-header">' +
+                        '<span class="mod-horario-day-name">' + MOD_DIAS_LABELS[di] + '</span>' +
+                    '</div>' +
+                    '<div class="mod-horario-chips" id="modHorChips_' + dk + '">' +
+                        horarios.map(function(h) {
+                            return '<span class="mod-horario-chip">' + escapeHtml(h) +
+                                '<button class="mod-horario-chip-del" data-hor-dk="' + dk + '" data-hor-val="' + escapeHtml(h) + '" onclick="_modHorDel(this)">✕</button></span>';
+                        }).join('') +
+                    '</div>' +
+                    '<div class="mod-horario-add">' +
+                        '<input class="mod-horario-input" id="modHorInp_' + dk + '" type="text" placeholder="HH:MM" maxlength="5"' +
+                            ' oninput="_modHorFmt(this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();_modHorAdd(\'' + dk + '\')}">' +
+                        '<button class="mod-horario-add-btn" data-hor-add="' + dk + '" onclick="_modHorAdd(\'' + dk + '\')">+</button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        function _modHorFmt(inp) {
+            var v = inp.value.replace(/[^\d:]/g,'');
+            if (v.length === 2 && inp.value.length === 2 && v.indexOf(':') === -1) v = v + ':';
+            if (v.length > 5) v = v.slice(0,5);
+            inp.value = v;
+        }
+
+        function _modHorAdd(dk) {
+            var inp = document.getElementById('modHorInp_' + dk);
+            if (!inp) return;
+            var val = inp.value.trim();
+            if (!/^\d{1,2}:\d{2}$/.test(val)) { inp.style.borderColor = '#f87171'; setTimeout(function(){ inp.style.borderColor = ''; }, 1200); return; }
+            var parts = val.split(':');
+            var h = parseInt(parts[0]), m = parseInt(parts[1]);
+            if (h > 23 || m > 59) return;
+            var fmt = ('0'+h).slice(-2) + ':' + ('0'+m).slice(-2);
+            if (!_modCrudHorarios[dk]) _modCrudHorarios[dk] = [];
+            if (_modCrudHorarios[dk].indexOf(fmt) !== -1) { inp.value = ''; return; }
+            _modCrudHorarios[dk].push(fmt);
+            _modCrudHorarios[dk].sort();
+            inp.value = '';
+            _renderModHorarios();
+        }
+
+        function _modHorDel(btn) {
+            var dk  = btn.getAttribute('data-hor-dk');
+            var val = btn.getAttribute('data-hor-val');
+            _modCrudHorarios[dk] = (_modCrudHorarios[dk] || []).filter(function(h){ return h !== val; });
+            _renderModHorarios();
+        }
+
+        // ── GRADUAÇÃO ────────────────────────────────────────────────────────
+
+        function _renderModGradList() {
+            var list = document.getElementById('modGradList');
+            if (!list) return;
+            if (!_modCrudGradList.length) {
+                list.innerHTML = '<div style="text-align:center;padding:16px;color:#8A7060;font-size:12px;">Nenhuma faixa adicionada.<br>Use o campo abaixo para adicionar.</div>';
+                return;
+            }
+            list.innerHTML = _modCrudGradList.map(function(f, idx) {
+                return '<div class="mod-grad-item" draggable="true" data-grad-idx="' + idx + '">' +
+                    '<span class="mod-grad-drag">⠿⠿</span>' +
+                    '<span class="mod-grad-emoji">' + (f.emoji || '🥋') + '</span>' +
+                    '<div class="mod-grad-color" style="background:' + (f.cor||'#555') + ';"></div>' +
+                    '<span class="mod-grad-label">' + escapeHtml(f.label || f.nome || f.id || '') + '</span>' +
+                    '<span style="font-size:9px;color:#8A7060;">' + (idx+1) + 'º</span>' +
+                    '<button class="mod-grad-del" data-grad-idx="' + idx + '" onclick="_modGradDel(this)">✕</button>' +
+                '</div>';
+            }).join('');
+            _modGradDragDrop();
+        }
+
+        function _modGradAdd() {
+            var nomeEl  = document.getElementById('modGradNome');
+            var emojiEl = document.getElementById('modGradEmoji');
+            var nome    = (nomeEl && nomeEl.value.trim()) || '';
+            var emoji   = (emojiEl && emojiEl.value.trim()) || '🥋';
+            if (!nome) { if(nomeEl) { nomeEl.style.borderColor='#f87171'; setTimeout(function(){ nomeEl.style.borderColor=''; },1200); } return; }
+            var GRAD_CORES = ['#e8e8e8','#fdd835','#fb8c00','#2e7d32','#1565c0','#6a1b9a','#5d4037','#1a1a1a'];
+            var cor = GRAD_CORES[_modCrudGradList.length % GRAD_CORES.length] || '#666';
+            _modCrudGradList.push({
+                id:        nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'_'),
+                label:     nome,
+                emoji:     emoji,
+                cor:       cor,
+                corRGB:    _hexToRgb(cor),
+                ordem:     _modCrudGradList.length + 1,
+                min_meses: 0,
+                max_grau:  4,
+                ativo:     true
+            });
+            if (nomeEl)  nomeEl.value  = '';
+            if (emojiEl) emojiEl.value = '';
+            _renderModGradList();
+        }
+
+        function _modGradDel(btn) {
+            var idx = parseInt(btn.getAttribute('data-grad-idx'));
+            _modCrudGradList.splice(idx, 1);
+            _renderModGradList();
+        }
+
+        function _modGradDragDrop() {
+            var list  = document.getElementById('modGradList');
+            if (!list) return;
+            var items = list.querySelectorAll('.mod-grad-item');
+            var dragging = null;
+            items.forEach(function(item) {
+                item.addEventListener('dragstart', function() { dragging = item; item.style.opacity = '0.4'; });
+                item.addEventListener('dragend',   function() { item.style.opacity = '1'; dragging = null; _updateGradOrder(); });
+                item.addEventListener('dragover',  function(e) { e.preventDefault(); var rect = item.getBoundingClientRect(); var mid = rect.top + rect.height/2; if (dragging && dragging !== item) { if (e.clientY < mid) list.insertBefore(dragging, item); else list.insertBefore(dragging, item.nextSibling); } });
+            });
+        }
+
+        function _updateGradOrder() {
+            var list  = document.getElementById('modGradList');
+            if (!list) return;
+            var items = list.querySelectorAll('.mod-grad-item');
+            var newList = [];
+            items.forEach(function(item) {
+                var idx = parseInt(item.getAttribute('data-grad-idx'));
+                if (_modCrudGradList[idx]) newList.push(_modCrudGradList[idx]);
+            });
+            _modCrudGradList = newList;
+        }
+
+        // ── SALVAR ───────────────────────────────────────────────────────────
+
+        async function saveModCrud() {
+            var msg     = document.getElementById('modModalMsg');
+            var btn     = document.getElementById('modBtnSave');
+            var id      = (document.getElementById('modFieldId')       || {}).value.trim();
+            var nome    = (document.getElementById('modFieldNome')      || {}).value.trim();
+            var desc    = (document.getElementById('modFieldDesc')      || {}).value.trim();
+            var gradTipo= (document.getElementById('modFieldGradTipo')  || {}).value || 'faixa_cintura';
+            var cor     = (document.getElementById('modFieldCor')       || {}).value.trim() || MOD_CORES[0];
+
+            // Ícone selecionado
+            var iconSel = document.querySelector('.mod-icon-btn.selected');
+            var icon    = iconSel ? iconSel.getAttribute('data-icon') : '🥋';
+
+            // Toggles
+            var toggles = {};
+            document.querySelectorAll('.mod-toggle[data-toggle-key]').forEach(function(t) {
+                toggles[t.getAttribute('data-toggle-key')] = t.classList.contains('on');
+            });
+            var ativo = toggles.ativo !== false;
+            delete toggles.ativo;
+
+            if (!id)   { if(msg){ msg.style.color='#f87171'; msg.textContent='⚠️ ID obrigatório'; } return; }
+            if (!nome) { if(msg){ msg.style.color='#f87171'; msg.textContent='⚠️ Nome obrigatório'; switchModTab('geral'); } return; }
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+            if (msg) { msg.style.color = '#8A7060'; msg.textContent = ''; }
+
+            try {
+                // 1. Salvar modalidade principal
+                var res = await secureFetch('saveModalidadeCompleta', {
+                    id: id, nome: nome, icon: icon, cor: cor,
+                    corRGB: _hexToRgb(cor), desc: desc, gradTipo: gradTipo,
+                    ativo: ativo, parentId: (_modCrudEditando && _modCrudEditando.parentId) || '',
+                    configJSON:    toggles,
+                    horariosJSON:  _modCrudHorarios,
+                    graduacaoJSON: _modCrudGradList
+                });
+                if (!res || !res.success) throw new Error((res && res.message) || 'Erro ao salvar');
+
+                // 2. Sincronizar faixas se há graduação
+                if (_modCrudGradList.length > 0) {
+                    await secureFetch('saveGraduacaoModalidade', { id: id, graduacao: _modCrudGradList });
+                }
+
+                // 3. Recarregar catálogo e grid
+                await _carregarCatalogModalidades();
+                await loadModCrud();
+                closeModCrudModal();
+                _showModToast('✅ Modalidade "' + nome + '" salva com sucesso!');
+
+                // 4. Se novo, abrir painel de atribuição a alunos
+                if (!_modCrudEditando) {
+                    var ctAtivo2 = _ctAtivaNome || _ctSelecionado || '';
+                    await _abrirPainelAtribuicaoModalidade(id, nome, ctAtivo2);
+                }
+
+            } catch(e) {
+                if (msg) { msg.style.color = '#f87171'; msg.textContent = '❌ ' + e.message; }
+            } finally {
+                if (btn) { btn.disabled = false; btn.textContent = '💾 Salvar'; }
+            }
+        }
+
+        // ── TOAST ───────────────────────────────────────────────────────────
+
+        function _showModToast(text) {
+            var t = document.createElement('div');
+            t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;background:#1A1614;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,0.4);white-space:nowrap;';
+            t.textContent = text;
+            document.body.appendChild(t);
+            setTimeout(function() { t.style.opacity='0'; t.style.transition='opacity 0.3s'; setTimeout(function(){ t.remove(); },400); }, 2500);
+        }
+
+        // ── CARREGAR AO ABRIR A ABA ────────────────────────────────────────
+        // Hook: quando admin abre a aba CTs, carregar modalidades
+        var _modCrudLoaded = false;
+
+
+
+
+        // Event delegation para Cronograma week strip e calendário mensal
+        document.addEventListener('click', function(e) {
+            var dayEl = e.target.closest('[data-crono-day]');
+            if (dayEl) _jumpCronoDay(dayEl.getAttribute('data-crono-day'));
+            var calEl = e.target.closest('[data-crono-cal]');
+            if (calEl) cronoDayClick(calEl.getAttribute('data-crono-cal'));
+        });
+
+        // Event delegation para Chamada (Lista de Presença)
+        document.addEventListener('click', function(e) {
+            var chamadaBtn = e.target.closest('[data-chamada-email]');
+            if (chamadaBtn) {
+                var email = chamadaBtn.getAttribute('data-chamada-email');
+                var ct    = chamadaBtn.getAttribute('data-chamada-ct');
+                var mod   = chamadaBtn.getAttribute('data-chamada-mod');
+                var hor   = chamadaBtn.getAttribute('data-chamada-date');
+                var date  = chamadaBtn.getAttribute('data-chamada-date');
+                chamadaBtn.disabled = true;
+                chamadaBtn.textContent = '⏳';
+                secureFetch('registrarPresencaManual', {
+                    targetEmail: email, ct: ct, modalidade: mod, horario: hor, data: date
+                }).then(function(res) {
+                    if (res && res.success) {
+                        chamadaBtn.textContent = '✅ Presente';
+                        chamadaBtn.style.background = 'rgba(74,222,128,0.15)';
+                        chamadaBtn.style.color = '#4ade80';
+                        chamadaBtn.disabled = true;
+                        setTimeout(function() { loadPresencaList(); }, 800);
+                    } else {
+                        chamadaBtn.disabled = false;
+                        chamadaBtn.textContent = '✅ Presente';
+                        alert((res && res.message) || 'Erro ao confirmar');
+                    }
+                }).catch(function(e) {
+                    chamadaBtn.disabled = false;
+                    chamadaBtn.textContent = '✅ Presente';
+                });
+            }
+        });
+
+        // Event delegation para Kata Quiz
+        document.addEventListener('click', function(e) {
+            var kqBtn = e.target.closest('[data-kq]') || e.target.closest('[data-kq-opt]');
+            if (kqBtn) _kqAnswer(kqBtn.getAttribute('data-kq') || kqBtn.getAttribute('data-kq-opt'));
+        });
+
+        // Event delegation para botões de faixa admin
+        document.addEventListener('click', function(e) {
+            var editBtn = e.target.closest('[data-edit-faixa]');
+            var delBtn  = e.target.closest('[data-del-faixa]');
+            if (editBtn && typeof editarFaixaAdmin === 'function') {
+                editarFaixaAdmin(editBtn.getAttribute('data-edit-faixa'));
+            }
+            if (delBtn && typeof deletarFaixaAdmin === 'function') {
+                deletarFaixaAdmin(delBtn.getAttribute('data-del-faixa'));
+            }
+        });
+
+
+        // ══════════════════════════════════════════════════════════════════
+        // CRONOGRAMA DE AULAS — ALUNO
+        // ══════════════════════════════════════════════════════════════════
+
+        var _cronoAulas       = [];
+        var _cronoCTAtivo     = '';
+        var _cronoAulasModalidade = '';
+        var _cronoView        = 'diario';  // 'diario' | 'mensal'
+        var _cronoCurrentDate = new Date();
+        var _cronoCalMonth    = new Date().getMonth();
+        var _cronoCalYear     = new Date().getFullYear();
+        var _cronoCTsPermitidos = [];
+        var _cronoPendingCT     = null;
+        var _cronoPendingVisualizar = false;
+
+        var MESES_CRONO = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                           'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+        // Filtra aulas pelo CT ativo e modalidade ativa
+        function _getAulasFiltradas() {
+            if (!_cronoAulas || !_cronoAulas.length) return [];
+            return _cronoAulas.filter(function(a) {
+                if (_cronoCTAtivo && a.ct && a.ct !== _cronoCTAtivo) return false;
+                return true; // sem filtro de modalidade — karatê é único
+            });
+        }
+
+        async function loadCronograma(ctOverride, visualizar) {
+            var container = document.getElementById('cronoDiarioContent');
+            var kpiBar    = document.getElementById('cronoKPIs');
+            if (container) container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Carregando...</div>';
+
+            var ctName = ctOverride || (currentUser && currentUser.ct) || '';
+            if (ctOverride && ctOverride !== _cronoCTAtivo) {
+                _cronoAulas = [];
+                _cronoCTAtivo = ctOverride;
+            }
+
+            try {
+                // Usar cache se disponível para o mesmo CT
+                if (!_cronoAulas || _cronoAulas.length === 0) {
+                    var res = await secureFetch('getCronogramaAulas', {
+                        email: currentUser ? currentUser.email : '',
+                        ct:    ctName,
+                        modalidade: '' // karatê único — sem filtro
+                    });
+                    if (res && res.success) {
+                        _cronoAulas    = res.aulas || [];
+                        _cronoCTAtivo  = ctName;
+                        _cronoCTsPermitidos = res.todosPermitidos || [ctName];
+                    }
+                }
+            } catch(e) {
+                if (container) container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--coral);font-size:12px;">Erro ao carregar aulas</div>';
+                return;
+            }
+
+            // Renderizar KPIs
+            _renderCronoKPIs();
+
+            // Renderizar view atual
+            if (_cronoView === 'mensal') {
+                renderCronoMensal();
+            } else {
+                renderCronoDiario();
+            }
+        }
+
+        function setCronoView(view) {
+            _cronoView = view;
+            var btnD = document.getElementById('cronoViewDiario');
+            var btnM = document.getElementById('cronoViewMensal');
+            var panD = document.getElementById('cronoPanelDiario');
+            var panM = document.getElementById('cronoPanelMensal');
+
+            if (btnD) btnD.classList.toggle('active', view === 'diario');
+            if (btnM) btnM.classList.toggle('active', view === 'mensal');
+            if (panD) panD.style.display = view === 'diario' ? 'block' : 'none';
+            if (panM) panM.style.display = view === 'mensal' ? 'block' : 'none';
+
+            if (view === 'mensal') renderCronoMensal();
+            else                   renderCronoDiario();
+        }
+
+        function cronoDayNav(delta) {
+            _cronoCurrentDate = new Date(_cronoCurrentDate);
+            _cronoCurrentDate.setDate(_cronoCurrentDate.getDate() + delta);
+            renderCronoDiario();
+        }
+
+        function aulasCalNav(delta) {
+            _cronoCalMonth += delta;
+            if (_cronoCalMonth > 11) { _cronoCalMonth = 0; _cronoCalYear++; }
+            if (_cronoCalMonth < 0)  { _cronoCalMonth = 11; _cronoCalYear--; }
+            renderCronoMensal();
+        }
+
+        function _renderCronoKPIs() {
+            var el = document.getElementById('cronoKPIs');
+            if (!el) return;
+            var aulas = _getAulasFiltradas();
+            var today = _fmtDate(new Date());
+            var proximas = aulas.filter(function(a) { return a.data >= today; }).length;
+            var passadas  = aulas.filter(function(a) { return a.data < today; }).length;
+            el.innerHTML =
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + aulas.length + '</div><div class="crono-kpi-lbl">Aulas cadastradas</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + proximas + '</div><div class="crono-kpi-lbl">Próximas</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + passadas + '</div><div class="crono-kpi-lbl">Realizadas</div></div>';
+        }
+
+        function _fmtDate(d) {
+            return d.getFullYear() + '-' +
+                   String(d.getMonth()+1).padStart(2,'0') + '-' +
+                   String(d.getDate()).padStart(2,'0');
+        }
+
+        function _fmtDateBR(dateStr) {
+            if (!dateStr) return '';
+            var p = dateStr.split('-');
+            if (p.length !== 3) return dateStr;
+            return p[2] + '/' + p[1] + '/' + p[0];
+        }
+
+        function renderCronoDiario() {
+            var today   = _fmtDate(new Date());
+            var cur     = _fmtDate(_cronoCurrentDate);
+            var aulas   = _getAulasFiltradas();
+
+            // Atualizar título do dia
+            var titleEl = document.getElementById('cronoDayTitle');
+            if (titleEl) {
+                var opts = { weekday:'long', day:'numeric', month:'long' };
+                titleEl.textContent = _cronoCurrentDate.toLocaleDateString('pt-BR', opts);
+                if (cur === today) titleEl.textContent += ' · Hoje';
+            }
+
+            // Renderizar week strip (7 dias ao redor do dia atual)
+            var weekEl = document.getElementById('cronoWeekStrip');
+            if (weekEl) {
+                var strip = '';
+                for (var wi = -3; wi <= 3; wi++) {
+                    var wd = new Date(_cronoCurrentDate);
+                    wd.setDate(wd.getDate() + wi);
+                    var wds  = _fmtDate(wd);
+                    var isT  = wds === today;
+                    var isSel = wds === cur;
+                    var hasA = aulas.some(function(a){ return a.data === wds; });
+                    var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+                    strip += '<div class="crono-week-day' + (isSel ? ' selected' : '') + (isT ? ' today' : '') + '" ' +
+                        'data-crono-day="' + wds + '" ' +
+                        'style="position:relative;">' +
+                        '<div style="font-size:10px;color:var(--text-3);">' + dayNames[wd.getDay()] + '</div>' +
+                        '<div style="font-size:14px;font-weight:700;">' + wd.getDate() + '</div>' +
+                        (hasA ? '<div style="width:5px;height:5px;border-radius:50%;background:var(--accent);margin:2px auto 0;"></div>' : '<div style="width:5px;height:5px;margin:2px auto 0;"></div>') +
+                        '</div>';
+                }
+                weekEl.innerHTML = strip;
+            }
+
+            // Aulas do dia selecionado
+            var contEl = document.getElementById('cronoDiarioContent');
+                if (!contEl) return;
+
+            var aulasHoje = aulas.filter(function(a){ return a.data === cur; });
+
+            if (!aulasHoje.length) {
+                var isWeekend = _cronoCurrentDate.getDay() === 0 || _cronoCurrentDate.getDay() === 6;
+                contEl.innerHTML = '<div style="text-align:center;padding:28px 16px;color:var(--text-3);">' +
+                    '<div style="font-size:32px;margin-bottom:8px;">🥋</div>' +
+                    '<div style="font-size:13px;font-weight:600;color:var(--text-2);">' +
+                    (isWeekend ? 'Descanso — sem aula cadastrada' : 'Nenhuma aula cadastrada para este dia') +
+                    '</div></div>';
+                return;
+            }
+
+            var html = '';
+            aulasHoje.forEach(function(a) {
+                var isPast = cur < today;
+                var isToday = cur === today;
+                var statusColor = a.status === 'presente_hoje' ? '#4ade80' : isPast ? '#f87171' : '#C41E3A';
+                var statusLabel = a.status === 'presente_hoje' ? '✅ Presente' : isPast ? '⚪ Não registrado' : isToday ? '📍 Hoje' : '📅 Agendada';
+
+                html += '<div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid ' + statusColor + ';border-radius:10px;padding:14px 16px;margin-bottom:10px;">' +
+                    '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;">' +
+                        '<div style="font-weight:800;font-size:14px;color:var(--text-1);">' + escapeHtml(a.tema || 'Aula de Karatê') + '</div>' +
+                        '<span style="font-size:10px;color:' + statusColor + ';font-weight:700;">' + statusLabel + '</span>' +
+                    '</div>';
+
+                if (a.horario) html += '<div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">⏰ ' + escapeHtml(a.horario) + (a.ct ? ' · 📍 ' + escapeHtml(a.ct) : '') + '</div>';
+                if (a.descricao) html += '<div style="font-size:12px;color:var(--text-2);margin-bottom:6px;">' + escapeHtml(a.descricao) + '</div>';
+
+                if (a.tecnicas && a.tecnicas.length) {
+                    html += '<div style="display:flex;flex-wrap:wrap;gap:5px;">';
+                    a.tecnicas.forEach(function(t) {
+                        html += '<span style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--border-accent);border-radius:12px;padding:2px 8px;font-size:10px;font-weight:600;">🥋 ' + escapeHtml(t) + '</span>';
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
+            });
+            contEl.innerHTML = html;
+        }
+
+        function _jumpCronoDay(dateStr) {
+            var p = dateStr.split('-');
+            _cronoCurrentDate = new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
+            renderCronoDiario();
+        }
+
+        function renderCronoMensal() {
+            var monthEl = document.getElementById('aulasCalMonth');
+            var gridEl  = document.getElementById('aulasCalGrid');
+            if (!gridEl) return;
+
+            if (monthEl) monthEl.textContent = MESES_CRONO[_cronoCalMonth] + ' ' + _cronoCalYear;
+
+            var aulas      = _getAulasFiltradas();
+            var today      = _fmtDate(new Date());
+            var firstDay   = new Date(_cronoCalYear, _cronoCalMonth, 1).getDay();
+            var daysInMonth = new Date(_cronoCalYear, _cronoCalMonth + 1, 0).getDate();
+
+            var aulaMap = {};
+            aulas.forEach(function(a) {
+                if (a.data) {
+                    if (!aulaMap[a.data]) aulaMap[a.data] = [];
+                    aulaMap[a.data].push(a);
+                }
+            });
+
+            var html = '';
+            // Empty cells before first day
+            for (var e = 0; e < firstDay; e++) html += '<div></div>';
+
+            for (var d = 1; d <= daysInMonth; d++) {
+                var ds  = _cronoCalYear + '-' + String(_cronoCalMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+                var isT = ds === today;
+                var hasA = !!aulaMap[ds];
+                var isP  = hasA && aulas.some(function(a){ return a.data === ds && a.status === 'presente_hoje'; });
+
+                var bg  = hasA ? (isP ? '#4ade80' : (ds < today ? '#f87171' : '#C41E3A')) : 'transparent';
+                var fc  = hasA ? '#fff' : (isT ? 'var(--accent)' : 'var(--text-1)');
+                var fw  = (isT || hasA) ? '800' : '400';
+                var border = isT && !hasA ? '1.5px solid var(--accent)' : '1.5px solid transparent';
+
+                html += '<div data-crono-cal="' + ds + '" ' +
+                    'style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;' +
+                    'border-radius:50%;background:' + bg + ';color:' + fc + ';font-weight:' + fw + ';' +
+                    'font-size:13px;cursor:pointer;border:' + border + ';">' + d + '</div>';
+            }
+            gridEl.innerHTML = html;
+
+            // Painel "Treino de hoje" no topo
+            var hojeEl = document.getElementById('cronoTreinoHoje');
+            if (hojeEl) {
+                var aulasHoje = aulaMap[today];
+                if (aulasHoje && aulasHoje.length) {
+                    hojeEl.innerHTML = '<div style="background:var(--accent-dim);border:1px solid var(--border-accent);border-radius:10px;padding:12px 14px;">' +
+                        '<div style="font-size:11px;color:var(--accent);font-weight:700;margin-bottom:4px;">📍 HOJE — ' + (aulasHoje[0].horario || '') + '</div>' +
+                        '<div style="font-size:14px;font-weight:800;color:var(--text-1);">' + escapeHtml(aulasHoje[0].tema || 'Aula de Karatê') + '</div>' +
+                        '</div>';
+                    hojeEl.style.display = 'block';
+                } else {
+                    hojeEl.style.display = 'none';
+                }
+            }
+        }
+
+        function cronoDayClick(dateStr) {
+            var aulas   = _getAulasFiltradas();
+            var aulasD  = aulas.filter(function(a){ return a.data === dateStr; });
+            var detEl   = document.getElementById('aulaDayDetail');
+            if (!detEl) return;
+
+            if (!aulasD.length) { detEl.style.display = 'none'; return; }
+
+            var html = '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;">';
+            html += '<div style="font-size:11px;color:var(--text-3);margin-bottom:10px;">' + _fmtDateBR(dateStr) + '</div>';
+            aulasD.forEach(function(a) {
+                html += '<div style="margin-bottom:8px;">' +
+                    '<div style="font-weight:800;font-size:13px;color:var(--text-1);">' + escapeHtml(a.tema || 'Aula') + '</div>' +
+                    (a.horario ? '<div style="font-size:11px;color:var(--text-3);">⏰ ' + escapeHtml(a.horario) + '</div>' : '') +
+                    (a.descricao ? '<div style="font-size:11px;color:var(--text-2);margin-top:3px;">' + escapeHtml(a.descricao) + '</div>' : '') +
+                '</div>';
+            });
+            html += '</div>';
+            detEl.innerHTML = html;
+            detEl.style.display = 'block';
+            detEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+
+
+
+        // ════════════ DOJO SYSTEMS — Admin Cronograma & Modalidades ════════════
+
+        var _admCronoCTsList   = [];   // lista de CTs carregada do backend
+        var _admCronoModsList  = [];   // lista de modalidades carregada do backend
+        var _admCronoNewCTs    = [];   // CTs selecionados para nova aula
+        var _admCronoNewMod    = '';   // modalidade selecionada para nova aula
+        var _cronoNewAulaMode  = false;
+
+        // ── Carregar CTs e Modalidades do backend ─────────────────────────
+        async function _loadCronoMasterData() {
+            try {
+                // CTs
+                if (!_admCronoCTsList.length) {
+                    var ctData = await secureFetch('getCTsList', {});
+                    if (ctData && ctData.success && ctData.cts) {
+                        _admCronoCTsList = ctData.cts.map(function(c) {
+                            return typeof c === 'string' ? c : (c.name || c.nome || '');
+                        }).filter(Boolean);
+                    }
+                }
+            } catch(e) {}
+
+            try {
+                // Modalidades — do estilo do dojo
+                if (!_admCronoModsList.length) {
+                    var modData = await secureFetch('getModalidades', {});
+                    if (modData && modData.success && modData.modalidades) {
+                        _admCronoModsList = modData.modalidades.map(function(m) {
+                            return { id: m.id, nome: m.nome || m.id, cor: m.cor || '#C41E3A' };
+                        });
+                    }
+                    // Fallback: usar o estilo do dojo diretamente
+                    if (!_admCronoModsList.length && _dojoEstilo) {
+                        var schema = MODALIDADES_SCHEMA[_dojoEstilo] || MODALIDADES_SCHEMA['karate'];
+                        if (schema) {
+                            _admCronoModsList = [{ id: _dojoEstilo, nome: schema.nome || _dojoEstilo, cor: schema.cor || '#C41E3A' }];
+                        }
+                    }
+                }
+            } catch(e) {}
+        }
+
+        // ── Refatorar renderAdmCronoCTChips para usar _admCronoCTsList ────
+        function renderAdmCronoCTChips() {
+            var el = document.getElementById('cronoAdmCTChips');
+            if (!el) return;
+
+            // Obter CTs: da lista carregada OU das aulas existentes
+            var ctsSet = {};
+            _admCronoCTsList.forEach(function(ct) { ctsSet[ct] = 1; });
+            _admCronoAulas.forEach(function(a) { if (a.ct) ctsSet[a.ct] = 1; });
+            var keys = Object.keys(ctsSet);
+
+            if (!keys.length) {
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT cadastrado — crie um CT primeiro</span>';
+                return;
+            }
+            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
+            var html = '<button data-crono-ct-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroCT ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroCT ? '#fff' : 'var(--adm-text-2)') + ';">Todos</button>';
+            keys.forEach(function(ct) {
+                var active = _admCronoFiltroCT === ct;
+                html += '<button data-crono-ct="' + escapeHtml(ct) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
+            });
+            el.innerHTML = html;
+        }
+
+        // ── Refatorar renderAdmCronoModChips para usar _admCronoModsList ──
+        function renderAdmCronoModChips() {
+            var el = document.getElementById('cronoAdmModalidadeChips');
+            if (!el) return;
+
+            // Obter mods: da lista carregada OU das aulas existentes
+            var modsMap = {};
+            _admCronoModsList.forEach(function(m) { modsMap[m.id] = m.nome; });
+            _admCronoAulas.forEach(function(a) { if (a.modalidade && !modsMap[a.modalidade]) modsMap[a.modalidade] = a.modalidade; });
+            var keys = Object.keys(modsMap);
+
+            if (!keys.length) {
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Carregando estilos...</span>';
+                return;
+            }
+            var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
+            var html = '';
+            if (keys.length > 1) {
+                html += '<button data-crono-mod-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroMod ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroMod ? '#fff' : 'var(--adm-text-2)') + ';">Todas</button>';
+            }
+            keys.forEach(function(id) {
+                var active = _admCronoFiltroMod === id;
+                var nome   = modsMap[id] || id;
+                html += '<button data-crono-mod="' + escapeHtml(id) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">🥋 ' + escapeHtml(nome) + '</button>';
+            });
+            el.innerHTML = html;
+        }
+
+        // ── openCronoNewAulaPanel — preenche chips de CTs e Modalidades ───
+        async function openCronoNewAulaPanel() {
+            var panel = document.getElementById('cronoNewAulaPanel');
+            if (!panel) return;
+
+            // Garantir que temos os dados
+            await _loadCronoMasterData();
+
+            // Preencher CT chips
+            var ctEl = document.getElementById('cronoNewCTChips');
+            if (ctEl) {
+                var ctList = _admCronoCTsList.length ? _admCronoCTsList :
+                    Array.from(new Set(_admCronoAulas.map(function(a){ return a.ct; }).filter(Boolean)));
+                if (!ctList.length) {
+                    ctEl.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT — crie um CT em Centros de Treinamento</span>';
+                } else {
+                    var stCT = 'padding:6px 12px;border-radius:20px;border:1.5px solid var(--adm-border);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                    ctEl.innerHTML = ctList.map(function(ct) {
+                        var sel = _admCronoNewCTs.indexOf(ct) !== -1;
+                        return '<button data-new-ct="' + escapeHtml(ct) + '" style="' + stCT + 'background:' + (sel ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)') + ';color:' + (sel ? '#fff' : 'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
+                    }).join('');
+                }
+            }
+
+            // Preencher Modalidade chips — auto-selecionar se só 1
+            var modEl = document.getElementById('cronoNewModalidadeChips');
+            if (modEl) {
+                var modList = _admCronoModsList.length ? _admCronoModsList :
+                    [{ id: _dojoEstilo || 'karate_shotokan', nome: 'Karatê', cor: '#C41E3A' }];
+
+                // Auto-selecionar se há só 1 modalidade
+                if (modList.length === 1 && !_admCronoNewMod) {
+                    _admCronoNewMod = modList[0].id;
+                }
+
+                var stMod = 'padding:6px 12px;border-radius:20px;border:1.5px solid;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                modEl.innerHTML = modList.map(function(m) {
+                    var sel = _admCronoNewMod === m.id;
+                    var cor = m.cor || '#C41E3A';
+                    return '<button data-new-mod="' + escapeHtml(m.id) + '" ' +
+                        'style="' + stMod + 'border-color:' + (sel ? cor : 'var(--adm-border)') + ';' +
+                        'background:' + (sel ? cor : 'transparent') + ';' +
+                        'color:' + (sel ? '#fff' : 'var(--adm-text-2)') + ';">' +
+                        '🥋 ' + escapeHtml(m.nome) + '</button>';
+                }).join('');
+            }
+
+            // Atualizar datas selecionadas
+            var datesEl = document.getElementById('cronoNewDatesChips');
+            if (datesEl) {
+                if (_admCronoSelectedDates.length) {
+                    datesEl.textContent = _admCronoSelectedDates.map(function(d) {
+                        var p = d.split('-'); return p[2]+'/'+p[1]+'/'+p[0];
+                    }).join(', ');
+                } else {
+                    datesEl.textContent = 'Nenhuma data selecionada — clique no calendário';
+                    datesEl.style.color = 'var(--adm-text-3)';
+                }
+            }
+
+            panel.style.display = 'flex';
+        }
+
+        function closeCronoNewAulaPanel() {
+            var panel = document.getElementById('cronoNewAulaPanel');
+            if (panel) panel.style.display = 'none';
+            _admCronoNewCTs  = [];
+            _admCronoNewMod  = '';
+            _cronoNewAulaMode = false;
+        }
+
+        // Event delegation para os chips do painel Nova Aula
+        document.addEventListener('click', function(e) {
+            // CT chip no filtro
+            var ctAll = e.target.closest('[data-crono-ct-all]');
+            if (ctAll) { admCronoFiltroCT(''); return; }
+            var ctChip = e.target.closest('[data-crono-ct]');
+            if (ctChip) { admCronoFiltroCT(ctChip.getAttribute('data-crono-ct')); return; }
+
+            // Mod chip no filtro
+            var modAll = e.target.closest('[data-crono-mod-all]');
+            if (modAll) { admCronoFiltroMod(''); return; }
+            var modChip = e.target.closest('[data-crono-mod]');
+            if (modChip) { admCronoFiltroMod(modChip.getAttribute('data-crono-mod')); return; }
+
+            // CT chip no Nova Aula
+            var newCT = e.target.closest('[data-new-ct]');
+            if (newCT) {
+                var ct = newCT.getAttribute('data-new-ct');
+                var idx = _admCronoNewCTs.indexOf(ct);
+                if (idx === -1) _admCronoNewCTs.push(ct);
+                else _admCronoNewCTs.splice(idx, 1);
+                // Re-render só os chips de CT
+                var stCT = 'padding:6px 12px;border-radius:20px;border:1.5px solid var(--adm-border);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;';
+                newCT.parentElement.querySelectorAll('[data-new-ct]').forEach(function(btn) {
+                    var isSel = _admCronoNewCTs.indexOf(btn.getAttribute('data-new-ct')) !== -1;
+                    btn.style.background = isSel ? 'var(--adm-primary)' : 'var(--adm-bg-elevated)';
+                    btn.style.color      = isSel ? '#fff' : 'var(--adm-text-2)';
+                });
+                return;
+            }
+
+            // Mod chip no Nova Aula
+            var newMod = e.target.closest('[data-new-mod]');
+            if (newMod) {
+                _admCronoNewMod = newMod.getAttribute('data-new-mod');
+                newMod.parentElement.querySelectorAll('[data-new-mod]').forEach(function(btn) {
+                    var schema = MODALIDADES_SCHEMA[_dojoEstilo] || {};
+                    var cor    = schema.cor || '#C41E3A';
+                    var isSel  = btn.getAttribute('data-new-mod') === _admCronoNewMod;
+                    btn.style.background   = isSel ? cor : 'transparent';
+                    btn.style.borderColor  = isSel ? cor : 'var(--adm-border)';
+                    btn.style.color        = isSel ? '#fff' : 'var(--adm-text-2)';
+                });
+                return;
+            }
+        });
+
+
+        async function loadAdminCronograma() {
+            try {
+                // Carregar dados mestres (CTs + Modalidades) em paralelo com aulas
+                await _loadCronoMasterData();
+                var data = await secureFetch('getCronogramaAulas', {
+                    email: currentUser ? currentUser.email : '',
+                    admin: true
+                });
+                if (!data || !data.success) return;
+                _admCronoAulas = data.aulas || [];
+                renderAdmCronoCTChips();
+                renderAdmCronoModChips();
+                renderAdmCronoCal();
+                if (_admCronoSelectedDate) renderCronoAgenda(_admCronoSelectedDate);
+            } catch(e) { console.error('[loadAdminCronograma]', e); }
+        }
+
+        async function saveCronogramaAula() {
+            var datas    = _admCronoSelectedDates;
+            var cts      = _admCronoNewCTs;
+            var mod      = _admCronoNewMod || _dojoEstilo || 'karate_shotokan';
+            var horario  = (document.getElementById('cronoAdmHorario') || {}).value || '';
+            var tema     = (document.getElementById('cronoAdmTema')    || {}).value || '';
+            var desc     = (document.getElementById('cronoAdmDesc')    || {}).value || '';
+            var msgEl    = document.getElementById('cronoAdmMsg');
+
+            if (!datas || !datas.length) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Selecione pelo menos uma data no calendário</span>';
+                return;
+            }
+            if (!cts.length) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Selecione pelo menos um CT</span>';
+                return;
+            }
+            if (!tema) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">⚠️ Informe o tema da aula</span>';
+                return;
+            }
+
+            if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-text-3);">Salvando...</span>';
+            var saveBtn = document.getElementById('cronoAdmSaveBtn');
+            if (saveBtn) saveBtn.disabled = true;
+
+            try {
+                var result = await secureFetch('saveCronogramaAulas', {
+                    datas: datas,
+                    cts: cts,
+                    modalidade: mod,
+                    horario: horario,
+                    tema: tema,
+                    descricao: desc
+                });
+                if (result && result.success) {
+                    if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-green);">✅ ' + (result.message || 'Aula(s) salva(s)!') + '</span>';
+                    _admCronoSelectedDates = [];
+                    document.getElementById('cronoAdmTema').value = '';
+                    document.getElementById('cronoAdmDesc').value = '';
+                    await loadAdminCronograma();
+                    renderAdmCronoCal();
+                    renderCronoAgenda();
+                    _syncCronoAluno();
+                    setTimeout(function() { closeCronoNewAulaPanel(); }, 800);
+                } else {
+                    if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">❌ ' + escapeHtml((result && result.message) || 'Erro') + '</span>';
+                }
+            } catch(err) {
+                if (msgEl) msgEl.innerHTML = '<span style="color:var(--adm-red);">❌ ' + escapeHtml(err.message) + '</span>';
+            } finally {
+                if (saveBtn) saveBtn.disabled = false;
+            }
+        }
+
+        async function _abrirPainelAtribuicaoModalidade(modId, modNome, ctFiltro) {
+            // Buscar lista de alunos do CT
+            var overlay = document.createElement('div');
+            overlay.id  = 'atribModOverlay';
+            overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(26,22,18,0.7);display:flex;align-items:flex-end;justify-content:center;padding:0;';
+
+            var panel = document.createElement('div');
+            panel.style.cssText = 'width:100%;max-width:520px;max-height:88vh;background:#F4F1EA;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;';
+
+            // Header
+            panel.innerHTML =
+                '<div style="padding:16px 20px 12px;background:#1A1614;border-bottom:2px solid #C41E3A;">' +
+                    '<div style="font-size:15px;font-weight:800;color:#FFFFFF;">🥋 Atribuir modalidade aos alunos</div>' +
+                    '<div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:3px;">Quem deve ter acesso a <strong style="color:#C41E3A;">' + escapeHtml(modNome) + '</strong>?</div>' +
+                '</div>' +
+                '<div id="atribModLoading" style="padding:32px;text-align:center;color:#6B5D52;font-size:13px;">Carregando alunos...</div>' +
+                '<div id="atribModListaWrap" style="flex:1;overflow-y:auto;padding:0;display:none;">' +
+                    '<div style="padding:10px 16px;background:#EDE9DF;border-bottom:1px solid rgba(26,22,18,0.08);display:flex;gap:8px;align-items:center;">' +
+                        '<button id="atribModBtnTodos" onclick="_atribSelectAll(true)" style="flex:1;padding:8px;background:#C41E3A;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">✅ Selecionar todos</button>' +
+                        '<button onclick="_atribSelectAll(false)" style="flex:1;padding:8px;background:transparent;color:#6B5D52;border:1px solid rgba(26,22,18,0.15);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">☐ Desmarcar todos</button>' +
+                    '</div>' +
+                    '<div id="atribModLista" style="padding:8px 16px;display:flex;flex-direction:column;gap:6px;"></div>' +
+                '</div>' +
+                '<div style="padding:12px 16px;background:#F4F1EA;border-top:1px solid rgba(26,22,18,0.08);display:flex;gap:10px;">' +
+                    '<button data-atrib-pular="1" style="flex:1;padding:11px;background:transparent;color:#6B5D52;border:1px solid rgba(26,22,18,0.15);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">Pular</button>' +
+                    '<button id="atribModBtnSalvar" data-atrib-salvar="' + escapeHtml(modId) + '" style="flex:2;padding:11px;background:#C41E3A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">💾 Atribuir aos selecionados</button>' +
+                '</div>';
+
+            overlay.appendChild(panel);
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+
+            // Buscar alunos
+            try {
+                var data = await secureFetch('getAlunosList', {
+                    ct: ctFiltro || '',
+                    page: 1,
+                    limit: 500
+                });
+                var alunos = (data && data.alunos) ? data.alunos : [];
+                var lista  = document.getElementById('atribModLista');
+                var load   = document.getElementById('atribModLoading');
+                var wrap   = document.getElementById('atribModListaWrap');
+
+                if (!alunos.length) {
+                    if(load) load.textContent = 'Nenhum aluno encontrado neste CT.';
+                    return;
+                }
+
+                if(load) load.style.display = 'none';
+                if(wrap) wrap.style.display = 'flex';
+
+                // Montar lista com checkboxes
+                alunos.forEach(function(a) {
+                    var jaTemMod = a.modalidades && a.modalidades.indexOf(modId) !== -1;
+                    var item = document.createElement('label');
+                    item.style.cssText = 'display:flex;align-items:center;gap:10px;padding:9px 12px;background:#FFFFFF;border:1.5px solid ' + (jaTemMod ? 'rgba(196,30,58,0.3)' : 'rgba(26,22,18,0.09)') + ';border-radius:10px;cursor:pointer;';
+                    item.innerHTML =
+                        '<input type="checkbox" data-email="' + escapeHtml(a.email) + '" ' + (jaTemMod ? 'disabled checked' : 'checked') + ' style="width:17px;height:17px;flex-shrink:0;accent-color:#C41E3A;cursor:pointer;">' +
+                        '<div style="flex:1;min-width:0;">' +
+                            '<div style="font-size:13px;font-weight:700;color:#1A1614;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(a.nome||a.email) + '</div>' +
+                            '<div style="font-size:10px;color:#8A7060;">🥋 ' + escapeHtml(a.faixa||'Branca') + (jaTemMod ? ' · <span style="color:#C41E3A;font-weight:700;">já tem esta modalidade</span>' : '') + '</div>' +
+                        '</div>';
+                    lista.appendChild(item);
+                });
+
+            } catch(e) {
+                var load2 = document.getElementById('atribModLoading');
+                if(load2) load2.textContent = '❌ Erro ao carregar alunos: ' + e.message;
+            }
+        }
+
+        function _atribSelectAll(sel) {
+            var cbs = document.querySelectorAll('#atribModLista input[type="checkbox"]:not(:disabled)');
+            cbs.forEach(function(cb){ cb.checked = sel; });
+        }
+
+        async function _salvarAtribuicaoModalidade(modId) {
+            var cbs = document.querySelectorAll('#atribModLista input[type="checkbox"]:checked:not(:disabled)');
+            if (!cbs.length) { document.getElementById('atribModOverlay').remove(); return; }
+            var btn = document.getElementById('atribModBtnSalvar');
+            if(btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+            var ok = 0, erros = 0;
+            for (var ii = 0; ii < cbs.length; ii++) {
+                var email = cbs[ii].getAttribute('data-email');
+                try {
+                    var res = await secureFetch('setModalidadesAluno', { targetEmail: email, modalidade: modId, action: 'add' });
+                    if (res && res.success) ok++; else erros++;
+                } catch(e2) { erros++; }
+            }
+            var overlay = document.getElementById('atribModOverlay');
+            if(overlay) {
+                overlay.innerHTML = '<div style="background:#F4F1EA;border-radius:20px;padding:32px 24px;text-align:center;">' +
+                    '<div style="font-size:48px;">' + (erros?'⚠️':'✅') + '</div>' +
+                    '<div style="font-size:15px;font-weight:800;color:#1A1614;margin:8px 0;">' + ok + ' aluno(s) atualizado(s)</div>' +
+                    '<button data-atrib-pular="1" style="padding:10px 28px;background:#C41E3A;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">OK</button>' +
+                    '</div>';
+            }
+        }
+        function abrirNovaModalidadeForm() {
+            var f = document.getElementById('novaModalidadeForm');
+            if (!f) return;
+            var isOpen = f.style.display !== 'none' && f.style.display !== '';
+            f.style.display = isOpen ? 'none' : 'block';
+            if (!isOpen) {
+                // Limpar campos
+                var sfx = document.getElementById('novaModSufixo');
+                var nom = document.getElementById('novaModNome');
+                var msg = document.getElementById('novaModMsg');
+                var prv = document.getElementById('novaModIdPreview');
+                if (sfx) sfx.value = '';
+                if (nom) nom.value = '';
+                if (msg) msg.textContent = '';
+                // Vincular preview
+                if (sfx && prv) {
+                    sfx.oninput = function() {
+                        var v = sfx.value.toLowerCase().replace(/[^a-z0-9]/g,'');
+                        sfx.value = v;
+                        var dojoB = typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan';
+                        prv.textContent = v ? (dojoB + '_' + v) : (dojoB + '_...');
+                        // Auto-sugerir nome se vazio
+                        var nomEl = document.getElementById('novaModNome');
+                        if (nomEl && !nomEl.value && v) {
+                            var catalog2 = window.MODALIDADES_CATALOG || [];
+                            var base = catalog2.find(function(m){ return m.id === dojoB; });
+                            var baseNome = base ? base.nome : 'Karatê';
+                            var label = v.charAt(0).toUpperCase() + v.slice(1);
+                            nomEl.value = baseNome + ' ' + label;
+                        }
+                    };
+                }
+                if (sfx) sfx.focus();
+            }
+        }
+
+        async function salvarNovaModalidade() {
+            var sufixo = ((document.getElementById('novaModSufixo') || {}).value || '').trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+            var nome   = ((document.getElementById('novaModNome')   || {}).value || '').trim();
+            var msg    = document.getElementById('novaModMsg');
+
+            // Detectar estilo real do dojo via catálogo (mais confiável que _dojoEstilo)
+            var _ESTILOS_D = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catD = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_D.indexOf(m.id) !== -1; });
+            var dojoBase = (_catD && _catD.id) || (typeof _dojoEstilo !== 'undefined' ? _dojoEstilo : 'karate_shotokan');
+            var id = sufixo ? (dojoBase + '_' + sufixo) : '';
+
+            // Atualizar hidden input
+            var hiddenId = document.getElementById('novaModId');
+            if (hiddenId) hiddenId.value = id;
+
+            if (!sufixo){ if(msg){ msg.style.color='#f87171'; msg.textContent='⚠️ Digite o sufixo (ex: kids, adulto)'; } return; }
+            if (!nome)  { if(msg){ msg.style.color='#f87171'; msg.textContent='⚠️ Digite o nome de exibição'; } return; }
+
+            // ID já validado com prefixo — pai é sempre o estilo base do dojo
+            var pai = dojoBase;
+            var paiMod = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id === pai; });
+            if(msg) msg.style.color='var(--adm-primary)',msg.textContent='Salvando...';
+            try {
+                var res = await secureFetch('saveModalidade', {
+                    id:       id,
+                    nome:     nome,
+                    icon:     paiMod ? paiMod.icon  : '🥋',
+                    cor:      paiMod ? paiMod.cor    : '#C9A23A',
+                    corRGB:   paiMod ? paiMod.corRGB : '201,162,58',
+                    gradTipo: paiMod ? paiMod.gradTipo : 'faixa_cintura',
+                    ativo:    true,
+                    parentId: pai
+                });
+                if (res && res.success) {
+                    if(msg) msg.style.color='#4ade80',msg.textContent='✅ ' + nome + ' criada!';
+                    // 1. Recarregar catálogo
+                    await _carregarCatalogModalidades();
+                    // 2. Adicionar ao CT ativo
+                    var ctAtivo = _ctAtivaNome || _ctSelecionado || '';
+                    if (ctAtivo) {
+                        var sel = _ctModsSelected[ctAtivo] || [];
+                        if (sel.indexOf(id) === -1) sel.push(id);
+                        _ctModsSelected[ctAtivo] = sel;
+                        _ctActiveModId[ctAtivo] = id;
+                    }
+                    // 3. Fechar modal CT e abrir painel de atribuição de alunos
+                    closeCTModModal();
+                    if (ctAtivo) await renderCTContent(ctAtivo);
+                    // 4. Perguntar quais alunos recebem a nova modalidade
+                    await _abrirPainelAtribuicaoModalidade(id, nome, ctAtivo);
+                } else {
+                    if(msg) msg.style.color='#f87171',msg.textContent='❌ ' + ((res&&res.message)||'Erro');
+                }
+            } catch(e) { if(msg) msg.style.color='#f87171',msg.textContent='Erro: '+e.message; }
+        }
+
+        function switchCronoCtTab(n) {
+            // Ao abrir aba de CTs, carregar módulo de modalidades
+            if (n === 2 && !_modCrudLoaded) {
+                _modCrudLoaded = true;
+                loadModCrud();
+            }
+            [1,2].forEach(function(i) {
+                var panel = document.getElementById('cronoCtTab' + i);
+                var btn   = document.getElementById('cronoCtTabBtn' + i);
+                if (panel) panel.style.display = (i === n) ? 'block' : 'none';
+                if (btn) {
+                    btn.classList.toggle('active', i === n);
+                    btn.style.background   = (i === n) ? 'rgba(201,162,58,0.08)' : 'transparent';
+                    btn.style.color        = (i === n) ? 'var(--adm-primary)' : 'var(--adm-text-3)';
+                    btn.style.fontWeight   = (i === n) ? '800' : '700';
+                    btn.style.borderBottom = (i === n) ? '2px solid var(--adm-primary)' : '2px solid transparent';
+                }
+            });
+            if (n === 1) { if (typeof loadAdminCronograma === 'function') loadAdminCronograma(); }
+            if (n === 2) { if (typeof loadCTScheduleAdmin === 'function') loadCTScheduleAdmin(); }
+        }
+
+        var _modCrudLoaded = false;
+        var _ctAtivaNome = ''; var _ctSelecionado = '';
+        var _modCrudData      = [];      // cache de modalidades
+        var _modCrudEditando  = null;    // modalidade sendo editada
+        var _modCrudTabAtiva  = 'geral'; // tab ativa do modal
+        var _modCrudGradList  = [];      // faixas em edição
+        var _modCrudHorarios  = {};      // horários em edição: { seg: ['19:00'], ter: [] ... }
+
+        var MOD_CORES = [
+            '#C41E3A','#E8600A','#1A6B3C','#1A5C9E','#7B2C9E',
+            '#0A6E6E','#6B3A1F','#1F4E6B','#5C4A00','#4A4A4A',
+            '#C97A06','#B8860B','#8B0000','#006400','#00008B'
+        ];
+        var MOD_ICONES = ['🥋','🥷','⚔️','🏅','🎌','⛩️','🏆','🔴','⚡','🔥',
+                          '💪','🧘','🤸','🏃','👊','🦵','🛡️','📖','⭐','🎯'];
+        var MOD_DIAS_LABELS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+        var MOD_DIAS_KEYS   = ['seg','ter','qua','qui','sex','sab','dom'];
+
+        // ── CARREGAR E RENDERIZAR CARDS ──────────────────────────────────────
+
+        async function loadModCrud() {
+            var grid = document.getElementById('modCrudGrid');
+            if (grid) grid.innerHTML = '<div class="mod-empty"><div class="mod-empty-icon">⏳</div><div class="mod-empty-title">Carregando...</div></div>';
+            try {
+                var res = await secureFetch('getModalidadesAdmin', {});
+                if (!res || !res.success) throw new Error((res && res.message) || 'Erro');
+                _modCrudData = res.modalidades || [];
+                _renderModCrudGrid();
+            } catch(e) {
+                if (grid) grid.innerHTML = '<div class="mod-empty"><div class="mod-empty-icon">⚠️</div><div class="mod-empty-title">Erro ao carregar</div><div class="mod-empty-sub">' + escapeHtml(e.message) + '</div></div>';
+            }
+        }
+
+        function _renderModCrudGrid() {
+            var grid = document.getElementById('modCrudGrid');
+            if (!grid) return;
+            if (!_modCrudData.length) {
+                grid.innerHTML = '<div class="mod-empty">' +
+                    '<div class="mod-empty-icon">🥋</div>' +
+                    '<div class="mod-empty-title">Nenhuma modalidade cadastrada</div>' +
+                    '<div class="mod-empty-sub">Clique em "+ Nova Modalidade" para começar.</div>' +
+                    '</div>';
+                return;
+            }
+            grid.innerHTML = _modCrudData.map(function(mod) {
+                var ativo = mod.ativo !== false;
+                var cor   = mod.cor || '#C41E3A';
+                var rgb   = mod.corRGB || '196,30,58';
+                return '<div class="mod-card' + (ativo ? '' : ' inactive') + '">' +
+                    '<div class="mod-card-stripe" style="background:' + cor + ';"></div>' +
+                    '<div class="mod-card-body">' +
+                        '<div class="mod-card-icon" style="background:rgba(' + rgb + ',0.12);">' + (mod.icon || '🥋') + '</div>' +
+                        '<div class="mod-card-info">' +
+                            '<div class="mod-card-name">' + escapeHtml(mod.nome) + '</div>' +
+                            '<div class="mod-card-id">' + escapeHtml(mod.id) + '</div>' +
+                            '<div class="mod-card-stats">' +
+                                '<span class="mod-card-badge ' + (ativo ? 'active' : 'inactive') + '">' + (ativo ? '● Ativa' : '● Inativa') + '</span>' +
+                                '<span class="mod-card-stat">👥 ' + (mod.totalAlunos || 0) + '</span>' +
+                                '<span class="mod-card-stat">🥋 ' + (mod.totalFaixas || 0) + ' faixas</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="mod-card-actions">' +
+                            '<button class="mod-card-btn edit" data-modid="' + escapeHtml(mod.id) + '" data-action="edit">✏️ Editar</button>' +
+                            '<button class="mod-card-btn del"  data-modid="' + escapeHtml(mod.id) + '" data-action="del">' + (ativo ? '🚫 Desativar' : '✅ Ativar') + '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // ── EVENT DELEGATION PARA CARDS ─────────────────────────────────────
+
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-action][data-modid]');
+            if (!btn) return;
+            var modId  = btn.getAttribute('data-modid');
+            var action = btn.getAttribute('data-action');
+            if (action === 'edit') {
+                var mod = _modCrudData.find(function(m){ return m.id === modId; });
+                if (mod) openModCrudModal(mod);
+            } else if (action === 'del') {
+                _toggleModAtivo(modId);
+            }
+        });
+
+        async function _toggleModAtivo(modId) {
+            var mod = _modCrudData.find(function(m){ return m.id === modId; });
+            if (!mod) return;
+            var novoStatus = !mod.ativo;
+            var label = novoStatus ? 'ativar' : 'desativar';
+            if (!confirm('Deseja ' + label + ' a modalidade "' + mod.nome + '"?\n\n' +
+                (novoStatus ? 'A modalidade voltará a aparecer no sistema.' : 'A modalidade será ocultada. Dados e histórico são preservados.'))) return;
+            try {
+                var res = await secureFetch('saveModalidadeCompleta', {
+                    id: mod.id, nome: mod.nome, icon: mod.icon, cor: mod.cor,
+                    corRGB: mod.corRGB, desc: mod.desc, gradTipo: mod.gradTipo,
+                    ativo: novoStatus, parentId: mod.parentId
+                });
+                if (res && res.success) {
+                    mod.ativo = novoStatus;
+                    _renderModCrudGrid();
+                    _showModToast(novoStatus ? '✅ Modalidade ativada!' : '🚫 Modalidade desativada.');
+                    await _carregarCatalogModalidades();
+                } else {
+                    alert('Erro: ' + ((res && res.message) || 'Tente novamente'));
+                }
+            } catch(e) { alert('Erro: ' + e.message); }
+        }
+
+        // ── MODAL CRUD ───────────────────────────────────────────────────────
+
+        function openModCrudModal(modOuNull) {
+            _modCrudEditando  = modOuNull;
+            _modCrudTabAtiva  = 'geral';
+            _modCrudGradList  = modOuNull && modOuNull.graduacaoJSON ? (Array.isArray(modOuNull.graduacaoJSON) ? modOuNull.graduacaoJSON : []) : [];
+            _modCrudHorarios  = modOuNull && modOuNull.horariosJSON  ? JSON.parse(JSON.stringify(modOuNull.horariosJSON)) : {};
+
+            // Inicializar horários com todos os dias
+            MOD_DIAS_KEYS.forEach(function(dk) { if (!_modCrudHorarios[dk]) _modCrudHorarios[dk] = []; });
+
+            var existing = document.getElementById('modCrudModalOverlay');
+            if (existing) existing.remove();
+
+            var overlay = document.createElement('div');
+            overlay.id = 'modCrudModalOverlay';
+            overlay.className = 'mod-modal-overlay';
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModCrudModal(); });
+
+            var isEdit = !!modOuNull;
+            var mod    = modOuNull || {};
+            var cor    = mod.cor   || MOD_CORES[0];
+            var icon   = mod.icon  || '🥋';
+
+            overlay.innerHTML =
+                '<div class="mod-modal" id="modCrudModal">' +
+                    '<div class="mod-modal-handle"></div>' +
+                    '<div class="mod-modal-header">' +
+                        '<div class="mod-modal-header-icon" id="modModalPreviewIcon" style="background:rgba(196,30,58,0.10);">' + icon + '</div>' +
+                        '<div class="mod-modal-title">' + (isEdit ? 'Editar Modalidade' : 'Nova Modalidade') + '</div>' +
+                        '<button class="mod-modal-close" onclick="closeModCrudModal()">✕</button>' +
+                    '</div>' +
+                    '<div class="mod-modal-tabs">' +
+                        '<button class="mod-modal-tab active" data-mtab="geral"   onclick="switchModTab(\'geral\')">⚙️ Geral</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="visual"  onclick="switchModTab(\'visual\')">🎨 Visual</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="horarios" onclick="switchModTab(\'horarios\')">📅 Horários</button>' +
+                        '<button class="mod-modal-tab"        data-mtab="grad"    onclick="switchModTab(\'grad\')">🏅 Graduação</button>' +
+                    '</div>' +
+                    '<div class="mod-modal-body">' +
+
+                        // ── Tab Geral ─────────────────────────────────────
+                        '<div class="mod-modal-panel active" id="modTab_geral">' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Nome da modalidade *</label>' +
+                                '<input class="mod-field-input" id="modFieldNome" type="text" placeholder="ex: Kyokushin Kids" value="' + escapeHtml(mod.nome || '') + '" oninput="_modAutoSlug()">' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">ID (slug) — gerado automaticamente</label>' +
+                                '<input class="mod-field-input" id="modFieldId" type="text" placeholder="ex: karate_kyokushin_kids" value="' + escapeHtml(mod.id || '') + '" ' + (isEdit ? 'readonly style="background:#F8F5F0;color:#8A7060;"' : 'oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,\'\')"') + '>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Descrição</label>' +
+                                '<textarea class="mod-field-input" id="modFieldDesc" rows="2" placeholder="Descreva a modalidade...">' + escapeHtml(mod.desc || '') + '</textarea>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Sistema de graduação</label>' +
+                                '<select class="mod-field-input" id="modFieldGradTipo">' +
+                                    ['faixa_cintura','corda','nivel','prajied','nenhum'].map(function(g) {
+                                        var labels = { faixa_cintura: '🥋 Faixas de cintura', corda: '🪢 Cordas', nivel: '⭐ Níveis', prajied: '🏅 Prajied (Thai)', nenhum: '⛔ Sem graduação' };
+                                        return '<option value="' + g + '"' + (mod.gradTipo === g ? ' selected' : '') + '>' + (labels[g]||g) + '</option>';
+                                    }).join('') +
+                                '</select>' +
+                            '</div>' +
+                            '<div style="background:#FFFFFF;border:1px solid rgba(26,22,18,0.10);border-radius:10px;padding:4px 12px;">' +
+                                ['ativo','permiteRanking','permitePresenca','permiteEvolucao','permiteCronograma','permiteExame','permiteCadastro'].map(function(key) {
+                                    var labels = { ativo:'Modalidade ativa', permiteRanking:'Permitir ranking', permitePresenca:'Permitir presença', permiteEvolucao:'Permitir evolução', permiteCronograma:'Permitir cronograma', permiteExame:'Permitir exame', permiteCadastro:'Exibir no cadastro de alunos' };
+                                    var descs  = { ativo:'Aparece no sistema e para os alunos', permiteRanking:'Gera ranking por faixa/graduação', permitePresenca:'Controle de frequência', permiteEvolucao:'Relatório de evolução do aluno', permiteCronograma:'Aulas aparecem no cronograma', permiteExame:'Exames de graduação habilitados', permiteCadastro:'Aparece no formulário de cadastro' };
+                                    var cfg    = (mod.configJSON || {});
+                                    var isOn   = key === 'ativo' ? mod.ativo !== false : (cfg[key] !== false);
+                                    return '<div class="mod-toggle-row">' +
+                                        '<div><div class="mod-toggle-label">' + (labels[key]||key) + '</div>' +
+                                        '<div class="mod-toggle-desc">' + (descs[key]||'') + '</div></div>' +
+                                        '<div class="mod-toggle' + (isOn ? ' on' : '') + '" data-toggle-key="' + key + '" onclick="_modToggle(this)"></div>' +
+                                    '</div>';
+                                }).join('') +
+                            '</div>' +
+                        '</div>' +
+
+                        // ── Tab Visual ─────────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_visual">' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Ícone</label>' +
+                                '<div class="mod-icon-grid" id="modIconGrid">' +
+                                    MOD_ICONES.map(function(ic) {
+                                        return '<button class="mod-icon-btn' + (ic === icon ? ' selected' : '') + '" data-icon="' + ic + '" onclick="_modPickIcon(this)">' + ic + '</button>';
+                                    }).join('') +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="mod-field">' +
+                                '<label class="mod-field-label">Cor</label>' +
+                                '<div class="mod-color-picker" id="modColorPicker">' +
+                                    MOD_CORES.map(function(c) {
+                                        return '<div class="mod-color-swatch' + (c === cor ? ' selected' : '') + '" data-cor="' + c + '" style="background:' + c + ';" onclick="_modPickColor(this)"></div>';
+                                    }).join('') +
+                                '</div>' +
+                                '<input class="mod-field-input" id="modFieldCor" type="text" value="' + escapeHtml(cor) + '" placeholder="#C41E3A" style="margin-top:8px;" oninput="_modCorManual(this.value)">' +
+                            '</div>' +
+                        '</div>' +
+
+                        // ── Tab Horários ───────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_horarios">' +
+                            '<div style="font-size:11px;color:#8A7060;margin-bottom:12px;line-height:1.5;">Configure os horários desta modalidade. Cada dia pode ter múltiplos horários.</div>' +
+                            '<div class="mod-horario-grid" id="modHorarioGrid"></div>' +
+                        '</div>' +
+
+                        // ── Tab Graduação ──────────────────────────────────
+                        '<div class="mod-modal-panel" id="modTab_grad">' +
+                            '<div style="font-size:11px;color:#8A7060;margin-bottom:12px;line-height:1.5;">Monte a sequência de graduação. Arraste para reordenar. As faixas serão sincronizadas automaticamente.</div>' +
+                            '<div class="mod-grad-list" id="modGradList"></div>' +
+                            '<div class="mod-grad-add-row" style="margin-top:10px;">' +
+                                '<input class="mod-field-input" id="modGradNome"  placeholder="Nome (ex: Amarela)" style="padding:8px;">' +
+                                '<input class="mod-field-input" id="modGradEmoji" placeholder="🥋" style="padding:8px;max-width:60px;">' +
+                                '<button onclick="_modGradAdd()" style="padding:8px 14px;background:#C41E3A;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;">+</button>' +
+                            '</div>' +
+                        '</div>' +
+
+                    '</div>' + // /body
+                    '<div id="modModalMsg" style="padding:0 16px 2px;font-size:11px;min-height:18px;"></div>' +
+                    '<div class="mod-modal-footer">' +
+                        '<button class="mod-btn-cancel" onclick="closeModCrudModal()">Cancelar</button>' +
+                        '<button class="mod-btn-save" id="modBtnSave" onclick="saveModCrud()">💾 Salvar</button>' +
+                    '</div>' +
+                '</div>';
+
+            document.body.appendChild(overlay);
+            _renderModHorarios();
+            _renderModGradList();
+            setTimeout(function() { var inp = document.getElementById('modFieldNome'); if (inp) inp.focus(); }, 100);
+        }
+
+        function closeModCrudModal() {
+            var el = document.getElementById('modCrudModalOverlay');
+            if (el) el.remove();
+        }
+
+        function switchModTab(tab) {
+            _modCrudTabAtiva = tab;
+            document.querySelectorAll('.mod-modal-tab').forEach(function(b) {
+                b.classList.toggle('active', b.getAttribute('data-mtab') === tab);
+            });
+            document.querySelectorAll('.mod-modal-panel').forEach(function(p) {
+                p.classList.toggle('active', p.id === 'modTab_' + tab);
+            });
+            if (tab === 'horarios') _renderModHorarios();
+            if (tab === 'grad')     _renderModGradList();
+        }
+
+        // ── HELPERS ─────────────────────────────────────────────────────────
+
+        function _modAutoSlug() {
+            if (_modCrudEditando) return; // não alterar slug em edição
+            var nome = (document.getElementById('modFieldNome') || {}).value || '';
+            var _ESTILOS_B = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                'karate_uechi_ryu','karate_personalizado'];
+            var _catB = (MODALIDADES_CATALOG||[]).find(function(m){ return _ESTILOS_B.indexOf(m.id) !== -1; });
+            var prefixo = (_catB && _catB.id) || _dojoEstilo || 'karate_shotokan';
+            var sufixo  = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_').replace(/^_|_$/g,'');
+            var idEl = document.getElementById('modFieldId');
+            if (idEl) idEl.value = prefixo + '_' + sufixo;
+        }
+
+        function _modToggle(el) {
+            el.classList.toggle('on');
+        }
+
+        function _modPickIcon(btn) {
+            document.querySelectorAll('.mod-icon-btn').forEach(function(b){ b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            var previewEl = document.getElementById('modModalPreviewIcon');
+            if (previewEl) previewEl.textContent = btn.getAttribute('data-icon');
+        }
+
+        function _modPickColor(swatch) {
+            document.querySelectorAll('.mod-color-swatch').forEach(function(s){ s.classList.remove('selected'); });
+            swatch.classList.add('selected');
+            var cor = swatch.getAttribute('data-cor');
+            var inp = document.getElementById('modFieldCor');
+            if (inp) inp.value = cor;
+            // Atualizar preview header
+            var previewEl = document.getElementById('modModalPreviewIcon');
+            if (previewEl) {
+                var rgb = _hexToRgb(cor);
+                previewEl.style.background = 'rgba(' + rgb + ',0.12)';
+            }
+        }
+
+        function _modCorManual(val) {
+            if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                document.querySelectorAll('.mod-color-swatch').forEach(function(s){
+                    s.classList.toggle('selected', s.getAttribute('data-cor') === val);
+                });
+            }
+        }
+
+        function _hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? parseInt(result[1],16) + ',' + parseInt(result[2],16) + ',' + parseInt(result[3],16) : '196,30,58';
+        }
+
+        // ── HORÁRIOS ────────────────────────────────────────────────────────
+
+        function _renderModHorarios() {
+            var grid = document.getElementById('modHorarioGrid');
+            if (!grid) return;
+            grid.innerHTML = MOD_DIAS_KEYS.map(function(dk, di) {
+                var horarios = _modCrudHorarios[dk] || [];
+                return '<div class="mod-horario-day">' +
+                    '<div class="mod-horario-day-header">' +
+                        '<span class="mod-horario-day-name">' + MOD_DIAS_LABELS[di] + '</span>' +
+                    '</div>' +
+                    '<div class="mod-horario-chips" id="modHorChips_' + dk + '">' +
+                        horarios.map(function(h) {
+                            return '<span class="mod-horario-chip">' + escapeHtml(h) +
+                                '<button class="mod-horario-chip-del" data-hor-dk="' + dk + '" data-hor-val="' + escapeHtml(h) + '" onclick="_modHorDel(this)">✕</button></span>';
+                        }).join('') +
+                    '</div>' +
+                    '<div class="mod-horario-add">' +
+                        '<input class="mod-horario-input" id="modHorInp_' + dk + '" type="text" placeholder="HH:MM" maxlength="5"' +
+                            ' oninput="_modHorFmt(this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();_modHorAdd(\'' + dk + '\')}">' +
+                        '<button class="mod-horario-add-btn" data-hor-add="' + dk + '" onclick="_modHorAdd(\'' + dk + '\')">+</button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        function _modHorFmt(inp) {
+            var v = inp.value.replace(/[^\d:]/g,'');
+            if (v.length === 2 && inp.value.length === 2 && v.indexOf(':') === -1) v = v + ':';
+            if (v.length > 5) v = v.slice(0,5);
+            inp.value = v;
+        }
+
+        function _modHorAdd(dk) {
+            var inp = document.getElementById('modHorInp_' + dk);
+            if (!inp) return;
+            var val = inp.value.trim();
+            if (!/^\d{1,2}:\d{2}$/.test(val)) { inp.style.borderColor = '#f87171'; setTimeout(function(){ inp.style.borderColor = ''; }, 1200); return; }
+            var parts = val.split(':');
+            var h = parseInt(parts[0]), m = parseInt(parts[1]);
+            if (h > 23 || m > 59) return;
+            var fmt = ('0'+h).slice(-2) + ':' + ('0'+m).slice(-2);
+            if (!_modCrudHorarios[dk]) _modCrudHorarios[dk] = [];
+            if (_modCrudHorarios[dk].indexOf(fmt) !== -1) { inp.value = ''; return; }
+            _modCrudHorarios[dk].push(fmt);
+            _modCrudHorarios[dk].sort();
+            inp.value = '';
+            _renderModHorarios();
+        }
+
+        function _modHorDel(btn) {
+            var dk  = btn.getAttribute('data-hor-dk');
+            var val = btn.getAttribute('data-hor-val');
+            _modCrudHorarios[dk] = (_modCrudHorarios[dk] || []).filter(function(h){ return h !== val; });
+            _renderModHorarios();
+        }
+
+        // ── GRADUAÇÃO ────────────────────────────────────────────────────────
+
+        function _renderModGradList() {
+            var list = document.getElementById('modGradList');
+            if (!list) return;
+            if (!_modCrudGradList.length) {
+                list.innerHTML = '<div style="text-align:center;padding:16px;color:#8A7060;font-size:12px;">Nenhuma faixa adicionada.<br>Use o campo abaixo para adicionar.</div>';
+                return;
+            }
+            list.innerHTML = _modCrudGradList.map(function(f, idx) {
+                return '<div class="mod-grad-item" draggable="true" data-grad-idx="' + idx + '">' +
+                    '<span class="mod-grad-drag">⠿⠿</span>' +
+                    '<span class="mod-grad-emoji">' + (f.emoji || '🥋') + '</span>' +
+                    '<div class="mod-grad-color" style="background:' + (f.cor||'#555') + ';"></div>' +
+                    '<span class="mod-grad-label">' + escapeHtml(f.label || f.nome || f.id || '') + '</span>' +
+                    '<span style="font-size:9px;color:#8A7060;">' + (idx+1) + 'º</span>' +
+                    '<button class="mod-grad-del" data-grad-idx="' + idx + '" onclick="_modGradDel(this)">✕</button>' +
+                '</div>';
+            }).join('');
+            _modGradDragDrop();
+        }
+
+        function _modGradAdd() {
+            var nomeEl  = document.getElementById('modGradNome');
+            var emojiEl = document.getElementById('modGradEmoji');
+            var nome    = (nomeEl && nomeEl.value.trim()) || '';
+            var emoji   = (emojiEl && emojiEl.value.trim()) || '🥋';
+            if (!nome) { if(nomeEl) { nomeEl.style.borderColor='#f87171'; setTimeout(function(){ nomeEl.style.borderColor=''; },1200); } return; }
+            var GRAD_CORES = ['#e8e8e8','#fdd835','#fb8c00','#2e7d32','#1565c0','#6a1b9a','#5d4037','#1a1a1a'];
+            var cor = GRAD_CORES[_modCrudGradList.length % GRAD_CORES.length] || '#666';
+            _modCrudGradList.push({
+                id:        nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'_'),
+                label:     nome,
+                emoji:     emoji,
+                cor:       cor,
+                corRGB:    _hexToRgb(cor),
+                ordem:     _modCrudGradList.length + 1,
+                min_meses: 0,
+                max_grau:  4,
+                ativo:     true
+            });
+            if (nomeEl)  nomeEl.value  = '';
+            if (emojiEl) emojiEl.value = '';
+            _renderModGradList();
+        }
+
+        function _modGradDel(btn) {
+            var idx = parseInt(btn.getAttribute('data-grad-idx'));
+            _modCrudGradList.splice(idx, 1);
+            _renderModGradList();
+        }
+
+        function _modGradDragDrop() {
+            var list  = document.getElementById('modGradList');
+            if (!list) return;
+            var items = list.querySelectorAll('.mod-grad-item');
+            var dragging = null;
+            items.forEach(function(item) {
+                item.addEventListener('dragstart', function() { dragging = item; item.style.opacity = '0.4'; });
+                item.addEventListener('dragend',   function() { item.style.opacity = '1'; dragging = null; _updateGradOrder(); });
+                item.addEventListener('dragover',  function(e) { e.preventDefault(); var rect = item.getBoundingClientRect(); var mid = rect.top + rect.height/2; if (dragging && dragging !== item) { if (e.clientY < mid) list.insertBefore(dragging, item); else list.insertBefore(dragging, item.nextSibling); } });
+            });
+        }
+
+        function _updateGradOrder() {
+            var list  = document.getElementById('modGradList');
+            if (!list) return;
+            var items = list.querySelectorAll('.mod-grad-item');
+            var newList = [];
+            items.forEach(function(item) {
+                var idx = parseInt(item.getAttribute('data-grad-idx'));
+                if (_modCrudGradList[idx]) newList.push(_modCrudGradList[idx]);
+            });
+            _modCrudGradList = newList;
+        }
+
+        // ── SALVAR ───────────────────────────────────────────────────────────
+
+        async function saveModCrud() {
+            var msg     = document.getElementById('modModalMsg');
+            var btn     = document.getElementById('modBtnSave');
+            var id      = (document.getElementById('modFieldId')       || {}).value.trim();
+            var nome    = (document.getElementById('modFieldNome')      || {}).value.trim();
+            var desc    = (document.getElementById('modFieldDesc')      || {}).value.trim();
+            var gradTipo= (document.getElementById('modFieldGradTipo')  || {}).value || 'faixa_cintura';
+            var cor     = (document.getElementById('modFieldCor')       || {}).value.trim() || MOD_CORES[0];
+
+            // Ícone selecionado
+            var iconSel = document.querySelector('.mod-icon-btn.selected');
+            var icon    = iconSel ? iconSel.getAttribute('data-icon') : '🥋';
+
+            // Toggles
+            var toggles = {};
+            document.querySelectorAll('.mod-toggle[data-toggle-key]').forEach(function(t) {
+                toggles[t.getAttribute('data-toggle-key')] = t.classList.contains('on');
+            });
+            var ativo = toggles.ativo !== false;
+            delete toggles.ativo;
+
+            if (!id)   { if(msg){ msg.style.color='#f87171'; msg.textContent='⚠️ ID obrigatório'; } return; }
+            if (!nome) { if(msg){ msg.style.color='#f87171'; msg.textContent='⚠️ Nome obrigatório'; switchModTab('geral'); } return; }
+
+            if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+            if (msg) { msg.style.color = '#8A7060'; msg.textContent = ''; }
+
+            try {
+                // 1. Salvar modalidade principal
+                var res = await secureFetch('saveModalidadeCompleta', {
+                    id: id, nome: nome, icon: icon, cor: cor,
+                    corRGB: _hexToRgb(cor), desc: desc, gradTipo: gradTipo,
+                    ativo: ativo, parentId: (_modCrudEditando && _modCrudEditando.parentId) || '',
+                    configJSON:    toggles,
+                    horariosJSON:  _modCrudHorarios,
+                    graduacaoJSON: _modCrudGradList
+                });
+                if (!res || !res.success) throw new Error((res && res.message) || 'Erro ao salvar');
+
+                // 2. Sincronizar faixas se há graduação
+                if (_modCrudGradList.length > 0) {
+                    await secureFetch('saveGraduacaoModalidade', { id: id, graduacao: _modCrudGradList });
+                }
+
+                // 3. Recarregar catálogo e grid
+                await _carregarCatalogModalidades();
+                await loadModCrud();
+                closeModCrudModal();
+                _showModToast('✅ Modalidade "' + nome + '" salva com sucesso!');
+
+                // 4. Se novo, abrir painel de atribuição a alunos
+                if (!_modCrudEditando) {
+                    var ctAtivo2 = _ctAtivaNome || _ctSelecionado || '';
+                    await _abrirPainelAtribuicaoModalidade(id, nome, ctAtivo2);
+                }
+
+            } catch(e) {
+                if (msg) { msg.style.color = '#f87171'; msg.textContent = '❌ ' + e.message; }
+            } finally {
+                if (btn) { btn.disabled = false; btn.textContent = '💾 Salvar'; }
+            }
+        }
+
+        // ── TOAST ───────────────────────────────────────────────────────────
+
+        function _showModToast(text) {
+            var t = document.createElement('div');
+            t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:99999;background:#1A1614;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,0.4);animation:modOverlayIn 0.2s ease;white-space:nowrap;';
+            t.textContent = text;
+            document.body.appendChild(t);
+            setTimeout(function() { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(function(){ t.remove(); }, 400); }, 2500);
+        }
+
+        // ── CARREGAR AO ABRIR A ABA ────────────────────────────────────────
+
+
+    </script>
 </body>
 </html>
