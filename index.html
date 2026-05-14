@@ -114,6 +114,17 @@
             touch-action: manipulation;
         }
 
+
+        /* ===== SELETOR DE ESTILO DE KARATE ===== */
+        .mod-estilo-wrap { padding: 0 16px 14px; }
+        .mod-estilo-label { font-size:9px;font-weight:800;letter-spacing:1.2px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px; }
+        .mod-estilo-chips { display:flex;flex-wrap:wrap;gap:6px; }
+        .mod-estilo-chip { padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid rgba(220,38,38,0.25);background:rgba(220,38,38,0.06);color:var(--text-2);transition:all 0.16s;-webkit-tap-highlight-color:transparent; }
+        .mod-estilo-chip:active { transform:scale(0.95); }
+        .mod-estilo-chip.active { background:rgba(220,38,38,0.18);border-color:#DC2626;color:#DC2626; }
+        .mod-estilo-chip.active::before { content:'✓ '; }
+        .mod-estilo-badge { display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:10px;font-size:9px;font-weight:800;letter-spacing:0.6px;background:rgba(220,38,38,0.14);color:#DC2626;border:1px solid rgba(220,38,38,0.25);margin-left:4px; }
+
         /* ===== REGISTRATION MODALITY CARDS ===== */
         #regModalidadesGrid label:active {
             transform: scale(0.97);
@@ -10351,7 +10362,7 @@ textarea:focus {
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby76UYQ3w310QnVsxrelc2s3jpQ4bEgMYMruPQBMs7V1UseE2tMbVSsNppee6c_ehsreA/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQ32mCTfFjgC8rCsCwYkBxkRbb78XSewSk9mDMlNsiBbMowgFbbmvqWvBFcwZpH7Hr/exec';
 
         const DOJO_ID = (new URLSearchParams(window.location.search).get('dojo') ||
                          localStorage.getItem('karate_dojoId') || '').toLowerCase().trim();
@@ -10515,59 +10526,24 @@ textarea:focus {
                 btnLabel: '\u2713 Confirmar Treino de Karat\u00ea', btnClass: 'mod-btn-karate',
                 cardBg: 'linear-gradient(145deg, rgba(220,38,38,0.12) 0%, rgba(127,29,29,0.06) 100%)',
                 tag: 'KARAT\u00ca', tagColor: '#DC2626'
-            },
-            {
-                id: 'karate_kyokushin', familia: 'karate',
-                icon: '🥋', nome: 'Karatê Kyokushin', desc: 'Karatê de Contato Pleno',
-                navIcon: '🥋', navLabel: 'Kyokushin',
-                cor: '#B91C1C', corDark: '#7F1D1D', corLight: '#FCA5A5',
-                corRGB: '185,28,28',
-                gradient: 'linear-gradient(135deg, #B91C1C 0%, #FCA5A5 55%, #7F1D1D 100%)',
-                gradientBg: 'radial-gradient(ellipse at 20% 10%, rgba(185,28,28,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(127,29,29,0.12) 0%, transparent 55%)',
-                btnLabel: '\u2713 Confirmar Treino de Kyokushin', btnClass: 'mod-btn-karate',
-                cardBg: 'linear-gradient(145deg, rgba(185,28,28,0.12) 0%, rgba(127,29,29,0.06) 100%)',
-                tag: 'KYOKUSHIN', tagColor: '#B91C1C'
-            },
-            {
-                id: 'karate_shotokan', familia: 'karate',
-                icon: '🥋', nome: 'Karatê Shotokan', desc: 'Estilo tradicional fundado por Gichin Funakoshi',
-                navIcon: '🥋', navLabel: 'Shotokan',
-                cor: '#1D4ED8', corDark: '#1E3A8A', corLight: '#93C5FD',
-                corRGB: '29,78,216',
-                gradient: 'linear-gradient(135deg, #1D4ED8 0%, #93C5FD 55%, #1E3A8A 100%)',
-                gradientBg: 'radial-gradient(ellipse at 20% 10%, rgba(29,78,216,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(30,58,138,0.12) 0%, transparent 55%)',
-                btnLabel: '\u2713 Confirmar Treino de Shotokan', btnClass: 'mod-btn-karate',
-                cardBg: 'linear-gradient(145deg, rgba(29,78,216,0.12) 0%, rgba(30,58,138,0.06) 100%)',
-                tag: 'SHOTOKAN', tagColor: '#1D4ED8'
-            },
-            {
-                id: 'karate_shito_ryu', familia: 'karate',
-                icon: '🥋', nome: 'Karatê Shito-Ryu', desc: 'Estilo com foco em kata e técnica refinada',
-                navIcon: '🥋', navLabel: 'Shito-Ryu',
-                cor: '#047857', corDark: '#064E3B', corLight: '#6EE7B7',
-                corRGB: '4,120,87',
-                gradient: 'linear-gradient(135deg, #047857 0%, #6EE7B7 55%, #064E3B 100%)',
-                gradientBg: 'radial-gradient(ellipse at 20% 10%, rgba(4,120,87,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(6,78,59,0.12) 0%, transparent 55%)',
-                btnLabel: '\u2713 Confirmar Treino de Shito-Ryu', btnClass: 'mod-btn-karate',
-                cardBg: 'linear-gradient(145deg, rgba(4,120,87,0.12) 0%, rgba(6,78,59,0.06) 100%)',
-                tag: 'SHITO-RYU', tagColor: '#047857'
-            },
-            {
-                id: 'karate_shorin_ryu', familia: 'karate',
-                icon: '🥋', nome: 'Karatê Shorin-Ryu', desc: 'Estilo de Okinawa — velocidade e agilidade',
-                navIcon: '🥋', navLabel: 'Shorin-Ryu',
-                cor: '#7C3AED', corDark: '#4C1D95', corLight: '#C4B5FD',
-                corRGB: '124,58,237',
-                gradient: 'linear-gradient(135deg, #7C3AED 0%, #C4B5FD 55%, #4C1D95 100%)',
-                gradientBg: 'radial-gradient(ellipse at 20% 10%, rgba(124,58,237,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(76,29,149,0.12) 0%, transparent 55%)',
-                btnLabel: '\u2713 Confirmar Treino de Shorin-Ryu', btnClass: 'mod-btn-karate',
-                cardBg: 'linear-gradient(145deg, rgba(124,58,237,0.12) 0%, rgba(76,29,149,0.06) 100%)',
-                tag: 'SHORIN-RYU', tagColor: '#7C3AED'
             }
         ];
 
+        // ── Estilos de Karatê ──────────────────────────────────────────────────
+        // O estilo é um sub-campo de 'karate'. A modalidade no backend sempre
+        // é gravada como 'karate'. O estilo seleciona o schema de faixas e a
+        // nomenclatura exibida: "Karatê" ou "Karatê Shotokan".
+        var KARATE_ESTILOS = [
+            { id: '',           nome: 'Geral',      label: 'Karatê',            desc: 'Sem estilo específico' },
+            { id: 'kyokushin',  nome: 'Kyokushin',  label: 'Karatê Kyokushin',  desc: 'Karatê de Contato Pleno' },
+            { id: 'shotokan',   nome: 'Shotokan',   label: 'Karatê Shotokan',   desc: 'Estilo tradicional — Funakoshi' },
+            { id: 'shito_ryu',  nome: 'Shito-Ryu',  label: 'Karatê Shito-Ryu',  desc: 'Foco em kata e técnica refinada' },
+            { id: 'shorin_ryu', nome: 'Shorin-Ryu', label: 'Karatê Shorin-Ryu', desc: 'Estilo de Okinawa — velocidade' },
+        ];
+
         // Estado ativo das modalidades
-        var activeModality = null;      // id da modalidade ativa
+        var activeModality = null;      // id da modalidade ativa ('karate')
+        var activeEstilo   = '';        // sub-campo estilo: 'shotokan' | 'kyokushin' | 'shito_ryu' | 'shorin_ryu' | ''
         var userModalidades = [];       // array de ids atribuídos ao usuário
         var _modalidadePrincipal = '';  // id da modalidade principal (localStorage)
 
@@ -10582,57 +10558,6 @@ textarea:focus {
             karate: {
                 id: 'karate',
                 graduacao: {
-                    tipo:          'faixa_cintura',
-                    hasGraduacao:  true,
-                    hasFaixa:      true,
-                    hasPrajied:    false,
-                    labelFaixa:    'Faixa / Kyu',
-                    labelGrau:     'Dan',
-                    labelGrauPlural: 'Dans',
-                    maxGrausPorFaixa: null,
-                    simbolo:       'kyu_dan',
-                    faixas: [
-                        { id:'Branca',   label:'Branca (10º Kyu)',  emoji:'⚪', cor:'#e8e8e8', cssClass:'branca',  next:'Amarela', kyu:10, ordemProgresso:1 },
-                        { id:'Amarela',  label:'Amarela (9º Kyu)',  emoji:'🟡', cor:'#fdd835', cssClass:'amarela', next:'Laranja', kyu:9,  ordemProgresso:2 },
-                        { id:'Laranja',  label:'Laranja (8º Kyu)',  emoji:'🟠', cor:'#f57c00', cssClass:'laranja', next:'Verde',   kyu:8,  ordemProgresso:3 },
-                        { id:'Verde',    label:'Verde (7º Kyu)',    emoji:'🟢', cor:'#2e7d32', cssClass:'verde',   next:'Azul',   kyu:7,  ordemProgresso:4 },
-                        { id:'Azul',     label:'Azul (6º Kyu)',     emoji:'🔵', cor:'#1565c0', cssClass:'azul',   next:'Roxa',   kyu:6,  ordemProgresso:5 },
-                        { id:'Roxa',     label:'Roxa (5º Kyu)',     emoji:'🟣', cor:'#6a1b9a', cssClass:'roxa',   next:'Marrom', kyu:5,  ordemProgresso:6 },
-                        { id:'Marrom',   label:'Marrom (4º Kyu)',   emoji:'🟤', cor:'#5d4037', cssClass:'marrom', next:'Preta',  kyu:4,  ordemProgresso:7 },
-                        { id:'Preta',    label:'Preta (1º-9º Dan)', emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',  next:'Vermelha', dan:'1-9', ordemProgresso:8 },
-                        { id:'Vermelha', label:'Vermelha (10º Dan)',emoji:'🔴', cor:'#c62828', cssClass:'vermelha',next:null, dan:'10', ordemProgresso:9 },
-                    ],
-                },
-                nomenclatura: {
-                    treino:        'Treino / Kumite',
-                    aula:          'Aula',
-                    professor:     'Sensei',
-                    aluno:         'Karateka',
-                    academia:      'Dojo',
-                    faixa:         'Faixa',
-                    faixas:        'Faixas',
-                    grau:          'Kyu / Dan',
-                    graus:         'Kyus / Dans',
-                    confirmarBtn:  '✓ Confirmar Treino de Karatê',
-                    evolucaoTitulo:'Minha Progressão',
-                    roadmapTitulo: '🥋 Sistema de Graduação — Karatê',
-                    roadmapSub:    'Do 10º Kyu ao 10º Dan',
-                },
-                ui: {
-                    mostrarFaixa:     true,
-                    mostrarGraus:     true,
-                    mostrarPrajied:   false,
-                    mostrarRoadmap:   true,
-                    mostrarFrequencia:true,
-                    mostrarCriterios: false,
-                    roadmapTipo:      'cintura',
-                    iconeEvo:         '🥋',
-                },
-            },
-
-            karate_kyokushin: {
-                id: 'karate_kyokushin',
-                graduacao: {
                     tipo:             'faixa_cintura',
                     hasGraduacao:     true,
                     hasFaixa:         true,
@@ -10642,19 +10567,8 @@ textarea:focus {
                     labelGrauPlural:  'Dans',
                     maxGrausPorFaixa: null,
                     simbolo:          'kyu_dan',
-                    faixas: [
-                        { id:'Laranja',             label:'Laranja (10º Kyu)',            emoji:'🟠', cor:'#f57c00', cssClass:'laranja',  next:'Laranja_AzulPonta', kyu:10, ordemProgresso:1  },
-                        { id:'Laranja_AzulPonta',   label:'Laranja Ponta Azul (9º Kyu)',  emoji:'🟠', cor:'#f57c00', cssClass:'laranja',  next:'Azul',              kyu:9,  ordemProgresso:2  },
-                        { id:'Azul',                label:'Azul (8º Kyu)',                emoji:'🔵', cor:'#1565c0', cssClass:'azul',     next:'Azul_AmarelaPonta', kyu:8,  ordemProgresso:3  },
-                        { id:'Azul_AmarelaPonta',   label:'Azul Ponta Amarela (7º Kyu)',  emoji:'🔵', cor:'#1565c0', cssClass:'azul',     next:'Amarela',           kyu:7,  ordemProgresso:4  },
-                        { id:'Amarela',             label:'Amarela (6º Kyu)',              emoji:'🟡', cor:'#fdd835', cssClass:'amarela',  next:'Amarela_VerdePonta',kyu:6,  ordemProgresso:5  },
-                        { id:'Amarela_VerdePonta',  label:'Amarela Ponta Verde (5º Kyu)', emoji:'🟡', cor:'#fdd835', cssClass:'amarela',  next:'Verde',             kyu:5,  ordemProgresso:6  },
-                        { id:'Verde',               label:'Verde (4º Kyu)',               emoji:'🟢', cor:'#2e7d32', cssClass:'verde',    next:'Verde_MarromPonta', kyu:4,  ordemProgresso:7  },
-                        { id:'Verde_MarromPonta',   label:'Verde Ponta Marrom (3º Kyu)',  emoji:'🟢', cor:'#2e7d32', cssClass:'verde',    next:'Marrom',            kyu:3,  ordemProgresso:8  },
-                        { id:'Marrom',              label:'Marrom (2º Kyu)',               emoji:'🟤', cor:'#5d4037', cssClass:'marrom',   next:'Marrom_PretaPonta', kyu:2,  ordemProgresso:9  },
-                        { id:'Marrom_PretaPonta',   label:'Marrom Ponta Preta (1º Kyu)',  emoji:'🟤', cor:'#5d4037', cssClass:'marrom',   next:'Preta',             kyu:1,  ordemProgresso:10 },
-                        { id:'Preta',               label:'Preta (1º-9º Dan)',             emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',    next:null, dan:'1-9',      ordemProgresso:11 },
-                    ],
+                    // Faixas carregadas dinamicamente via loadFaixasModalidade (sheet FaixasModalidade)
+                    faixas: [],
                 },
                 nomenclatura: {
                     treino:         'Treino / Kumite',
@@ -10666,10 +10580,10 @@ textarea:focus {
                     faixas:         'Faixas',
                     grau:           'Kyu / Dan',
                     graus:          'Kyus / Dans',
-                    confirmarBtn:   '✓ Confirmar Treino de Kyokushin',
+                    confirmarBtn:   '✓ Confirmar Treino de Karatê',
                     evolucaoTitulo: 'Minha Progressão',
-                    roadmapTitulo:  '🥋 Sistema de Graduação — Kyokushin',
-                    roadmapSub:     'Do 10º Kyu ao 9º Dan',
+                    roadmapTitulo:  '🥋 Sistema de Graduação — Karatê',
+                    roadmapSub:     'Do 10º Kyu ao 10º Dan',
                 },
                 ui: {
                     mostrarFaixa:      true,
@@ -10681,159 +10595,81 @@ textarea:focus {
                     roadmapTipo:       'cintura',
                     iconeEvo:          '🥋',
                 },
-            },
-
-            // ── Karatê Shotokan ────────────────────────────────────────────
-            karate_shotokan: {
-                id: 'karate_shotokan',
-                graduacao: {
-                    tipo:             'faixa_cintura',
-                    hasGraduacao:     true,
-                    hasFaixa:         true,
-                    hasPrajied:       false,
-                    labelFaixa:       'Faixa / Kyu',
-                    labelGrau:        'Dan',
-                    labelGrauPlural:  'Dans',
-                    maxGrausPorFaixa: null,
-                    simbolo:          'kyu_dan',
-                    faixas: [
-                        { id:'Branca',   label:'Branca (7º Kyu)',   emoji:'⚪', cor:'#e0e0e0', cssClass:'branca',   next:'Amarela',   kyu:7, ordemProgresso:1 },
-                        { id:'Amarela',  label:'Amarela (6º Kyu)',  emoji:'🟡', cor:'#FFD600', cssClass:'amarela',  next:'Vermelha',  kyu:6, ordemProgresso:2 },
-                        { id:'Vermelha', label:'Vermelha (5º Kyu)', emoji:'🔴', cor:'#C62828', cssClass:'vermelha', next:'Laranja',   kyu:5, ordemProgresso:3 },
-                        { id:'Laranja',  label:'Laranja (5º Kyu)',  emoji:'🟠', cor:'#FF6D00', cssClass:'laranja',  next:'Verde',     kyu:5, ordemProgresso:4 },
-                        { id:'Verde',    label:'Verde (3º Kyu)',    emoji:'🟢', cor:'#2E7D32', cssClass:'verde',    next:'Roxa',      kyu:3, ordemProgresso:5 },
-                        { id:'Roxa',     label:'Roxa (2º Kyu)',     emoji:'🟣', cor:'#6A1B9A', cssClass:'roxa',     next:'Marrom',    kyu:2, ordemProgresso:6 },
-                        { id:'Marrom',   label:'Marrom (1º Kyu)',   emoji:'🟤', cor:'#5D4037', cssClass:'marrom',   next:'Preta',     kyu:1, ordemProgresso:7 },
-                        { id:'Preta',    label:'Preta (1º-5º Dan)', emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',    next:null, dan:'1-5', ordemProgresso:8 },
-                    ],
-                },
-                nomenclatura: {
-                    treino:         'Treino',
-                    aula:           'Aula',
-                    professor:      'Sensei',
-                    aluno:          'Karateka',
-                    academia:       'Dojo',
-                    faixa:          'Faixa',
-                    faixas:         'Faixas',
-                    grau:           'Kyu / Dan',
-                    graus:          'Kyus / Dans',
-                    confirmarBtn:   '✓ Confirmar Treino de Shotokan',
-                    evolucaoTitulo: 'Minha Progressão — Shotokan',
-                    roadmapTitulo:  '🥋 Sistema de Graduação — Shotokan',
-                    roadmapSub:     'Branca → Amarela → Vermelha → Laranja → Verde → Roxa → Marrom → Preta',
-                },
-                ui: {
-                    mostrarFaixa:      true,
-                    mostrarGraus:      true,
-                    mostrarPrajied:    false,
-                    mostrarRoadmap:    true,
-                    mostrarFrequencia: true,
-                    mostrarCriterios:  false,
-                    roadmapTipo:       'cintura',
-                    iconeEvo:          '🥋',
-                },
-            },
-
-            // ── Karatê Shito-Ryu ───────────────────────────────────────────
-            karate_shito_ryu: {
-                id: 'karate_shito_ryu',
-                graduacao: {
-                    tipo:             'faixa_cintura',
-                    hasGraduacao:     true,
-                    hasFaixa:         true,
-                    hasPrajied:       false,
-                    labelFaixa:       'Faixa / Kyu',
-                    labelGrau:        'Dan',
-                    labelGrauPlural:  'Dans',
-                    maxGrausPorFaixa: null,
-                    simbolo:          'kyu_dan',
-                    faixas: [
-                        { id:'Branca',  label:'Branca (10º Kyu)', emoji:'⚪', cor:'#e0e0e0', cssClass:'branca',  next:'Amarela',  kyu:10, ordemProgresso:1 },
-                        { id:'Amarela', label:'Amarela (9º Kyu)', emoji:'🟡', cor:'#FFD600', cssClass:'amarela', next:'Laranja',  kyu:9,  ordemProgresso:2 },
-                        { id:'Laranja', label:'Laranja (8º Kyu)', emoji:'🟠', cor:'#FF6D00', cssClass:'laranja', next:'Verde',    kyu:8,  ordemProgresso:3 },
-                        { id:'Verde',   label:'Verde (7º Kyu)',   emoji:'🟢', cor:'#2E7D32', cssClass:'verde',   next:'Azul',     kyu:7,  ordemProgresso:4 },
-                        { id:'Azul',    label:'Azul (6º Kyu)',    emoji:'🔵', cor:'#1565C0', cssClass:'azul',    next:'Roxa',     kyu:6,  ordemProgresso:5 },
-                        { id:'Roxa',    label:'Roxa (5º Kyu)',    emoji:'🟣', cor:'#6A1B9A', cssClass:'roxa',    next:'Marrom',   kyu:5,  ordemProgresso:6 },
-                        { id:'Marrom',  label:'Marrom (4º Kyu)',  emoji:'🟤', cor:'#5D4037', cssClass:'marrom',  next:'Preta',    kyu:4,  ordemProgresso:7 },
-                        { id:'Preta',   label:'Preta (1º-9º Dan)',emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',   next:null, dan:'1-9', ordemProgresso:8 },
-                    ],
-                },
-                nomenclatura: {
-                    treino:         'Treino',
-                    aula:           'Aula',
-                    professor:      'Sensei',
-                    aluno:          'Karateka',
-                    academia:       'Dojo',
-                    faixa:          'Faixa',
-                    faixas:         'Faixas',
-                    grau:           'Kyu / Dan',
-                    graus:          'Kyus / Dans',
-                    confirmarBtn:   '✓ Confirmar Treino de Shito-Ryu',
-                    evolucaoTitulo: 'Minha Progressão — Shito-Ryu',
-                    roadmapTitulo:  '🥋 Sistema de Graduação — Shito-Ryu',
-                    roadmapSub:     'Do 10º Kyu ao 9º Dan',
-                },
-                ui: {
-                    mostrarFaixa:      true,
-                    mostrarGraus:      true,
-                    mostrarPrajied:    false,
-                    mostrarRoadmap:    true,
-                    mostrarFrequencia: true,
-                    mostrarCriterios:  false,
-                    roadmapTipo:       'cintura',
-                    iconeEvo:          '🥋',
-                },
-            },
-
-            // ── Karatê Shorin-Ryu ──────────────────────────────────────────
-            karate_shorin_ryu: {
-                id: 'karate_shorin_ryu',
-                graduacao: {
-                    tipo:             'faixa_cintura',
-                    hasGraduacao:     true,
-                    hasFaixa:         true,
-                    hasPrajied:       false,
-                    labelFaixa:       'Faixa / Kyu',
-                    labelGrau:        'Dan',
-                    labelGrauPlural:  'Dans',
-                    maxGrausPorFaixa: null,
-                    simbolo:          'kyu_dan',
-                    faixas: [
-                        { id:'Branca',  label:'Branca (10º Kyu)', emoji:'⚪', cor:'#e0e0e0', cssClass:'branca',  next:'Amarela',  kyu:10, ordemProgresso:1 },
-                        { id:'Amarela', label:'Amarela (9º Kyu)', emoji:'🟡', cor:'#FFD600', cssClass:'amarela', next:'Laranja',  kyu:9,  ordemProgresso:2 },
-                        { id:'Laranja', label:'Laranja (8º Kyu)', emoji:'🟠', cor:'#FF6D00', cssClass:'laranja', next:'Verde',    kyu:8,  ordemProgresso:3 },
-                        { id:'Verde',   label:'Verde (7º Kyu)',   emoji:'🟢', cor:'#2E7D32', cssClass:'verde',   next:'Azul',     kyu:7,  ordemProgresso:4 },
-                        { id:'Azul',    label:'Azul (6º Kyu)',    emoji:'🔵', cor:'#1565C0', cssClass:'azul',    next:'Roxa',     kyu:6,  ordemProgresso:5 },
-                        { id:'Roxa',    label:'Roxa (5º Kyu)',    emoji:'🟣', cor:'#6A1B9A', cssClass:'roxa',    next:'Marrom',   kyu:5,  ordemProgresso:6 },
-                        { id:'Marrom',  label:'Marrom (4º Kyu)',  emoji:'🟤', cor:'#5D4037', cssClass:'marrom',  next:'Preta',    kyu:4,  ordemProgresso:7 },
-                        { id:'Preta',   label:'Preta (1º-9º Dan)',emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',   next:null, dan:'1-9', ordemProgresso:8 },
-                    ],
-                },
-                nomenclatura: {
-                    treino:         'Treino',
-                    aula:           'Aula',
-                    professor:      'Sensei',
-                    aluno:          'Karateka',
-                    academia:       'Dojo',
-                    faixa:          'Faixa',
-                    faixas:         'Faixas',
-                    grau:           'Kyu / Dan',
-                    graus:          'Kyus / Dans',
-                    confirmarBtn:   '✓ Confirmar Treino de Shorin-Ryu',
-                    evolucaoTitulo: 'Minha Progressão — Shorin-Ryu',
-                    roadmapTitulo:  '🥋 Sistema de Graduação — Shorin-Ryu',
-                    roadmapSub:     'Do 10º Kyu ao 9º Dan · Estilo de Okinawa',
-                },
-                ui: {
-                    mostrarFaixa:      true,
-                    mostrarGraus:      true,
-                    mostrarPrajied:    false,
-                    mostrarRoadmap:    true,
-                    mostrarFrequencia: true,
-                    mostrarCriterios:  false,
-                    roadmapTipo:       'cintura',
-                    iconeEvo:          '🥋',
-                },
+                // ── Overrides por estilo — selecionado via activeEstilo ────────────
+                // Cada estilo sobrescreve apenas faixas e nomenclatura.
+                // O restante do schema (tipo, ui, hasFaixa, etc.) é herdado do base.
+                estilos: {
+                    kyokushin: {
+                        faixas: [
+                            { id:'Laranja',             label:'Laranja (10º Kyu)',            emoji:'🟠', cor:'#f57c00', cssClass:'laranja', next:'Laranja_AzulPonta', kyu:10, ordemProgresso:1  },
+                            { id:'Laranja_AzulPonta',   label:'Laranja Ponta Azul (9º Kyu)',  emoji:'🟠', cor:'#f57c00', cssClass:'laranja', next:'Azul',              kyu:9,  ordemProgresso:2  },
+                            { id:'Azul',                label:'Azul (8º Kyu)',                emoji:'🔵', cor:'#1565c0', cssClass:'azul',    next:'Azul_AmarelaPonta', kyu:8,  ordemProgresso:3  },
+                            { id:'Azul_AmarelaPonta',   label:'Azul Ponta Amarela (7º Kyu)',  emoji:'🔵', cor:'#1565c0', cssClass:'azul',    next:'Amarela',           kyu:7,  ordemProgresso:4  },
+                            { id:'Amarela',             label:'Amarela (6º Kyu)',              emoji:'🟡', cor:'#fdd835', cssClass:'amarela', next:'Amarela_VerdePonta',kyu:6,  ordemProgresso:5  },
+                            { id:'Amarela_VerdePonta',  label:'Amarela Ponta Verde (5º Kyu)', emoji:'🟡', cor:'#fdd835', cssClass:'amarela', next:'Verde',             kyu:5,  ordemProgresso:6  },
+                            { id:'Verde',               label:'Verde (4º Kyu)',               emoji:'🟢', cor:'#2e7d32', cssClass:'verde',   next:'Verde_MarromPonta', kyu:4,  ordemProgresso:7  },
+                            { id:'Verde_MarromPonta',   label:'Verde Ponta Marrom (3º Kyu)',  emoji:'🟢', cor:'#2e7d32', cssClass:'verde',   next:'Marrom',            kyu:3,  ordemProgresso:8  },
+                            { id:'Marrom',              label:'Marrom (2º Kyu)',               emoji:'🟤', cor:'#5d4037', cssClass:'marrom',  next:'Marrom_PretaPonta', kyu:2,  ordemProgresso:9  },
+                            { id:'Marrom_PretaPonta',   label:'Marrom Ponta Preta (1º Kyu)',  emoji:'🟤', cor:'#5d4037', cssClass:'marrom',  next:'Preta',             kyu:1,  ordemProgresso:10 },
+                            { id:'Preta',               label:'Preta (1º-9º Dan)',       emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',   next:null, dan:'1-9',     ordemProgresso:11 },
+                        ],
+                        nomenclatura: {
+                            confirmarBtn:  '✓ Confirmar Treino de Kyokushin',
+                            roadmapTitulo: '🥋 Graduação — Kyokushin',
+                            roadmapSub:    'Do 10º Kyu ao 9º Dan',
+                        }
+                    },
+                    shotokan: {
+                        faixas: [
+                            { id:'Branca',   label:'Branca (7º Kyu)',   emoji:'⚪', cor:'#e0e0e0', cssClass:'branca',   next:'Amarela',  kyu:7, ordemProgresso:1 },
+                            { id:'Amarela',  label:'Amarela (6º Kyu)',  emoji:'🟡', cor:'#FFD600', cssClass:'amarela',  next:'Vermelha', kyu:6, ordemProgresso:2 },
+                            { id:'Vermelha', label:'Vermelha (5º Kyu)', emoji:'🔴', cor:'#C62828', cssClass:'vermelha', next:'Laranja',  kyu:5, ordemProgresso:3 },
+                            { id:'Laranja',  label:'Laranja (4º Kyu)',  emoji:'🟠', cor:'#FF6D00', cssClass:'laranja',  next:'Verde',    kyu:4, ordemProgresso:4 },
+                            { id:'Verde',    label:'Verde (3º Kyu)',    emoji:'🟢', cor:'#2E7D32', cssClass:'verde',    next:'Marrom',   kyu:3, ordemProgresso:5 },
+                            { id:'Marrom',   label:'Marrom (2º Kyu)',   emoji:'🟤', cor:'#5D4037', cssClass:'marrom',   next:'Preta',    kyu:2, ordemProgresso:6 },
+                            { id:'Preta',    label:'Preta (1º-9º Dan)', emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',    next:null, dan:'1-9', ordemProgresso:7 },
+                        ],
+                        nomenclatura: {
+                            confirmarBtn:  '✓ Confirmar Treino de Shotokan',
+                            roadmapTitulo: '🥋 Graduação — Shotokan',
+                            roadmapSub:    'Do 7º Kyu ao 9º Dan',
+                        }
+                    },
+                    shito_ryu: {
+                        faixas: [
+                            { id:'Branca',  label:'Branca (10º Kyu)', emoji:'⚪', cor:'#e0e0e0', cssClass:'branca',  next:'Amarela', kyu:10, ordemProgresso:1 },
+                            { id:'Amarela', label:'Amarela (9º Kyu)', emoji:'🟡', cor:'#FFD600', cssClass:'amarela', next:'Laranja', kyu:9,  ordemProgresso:2 },
+                            { id:'Laranja', label:'Laranja (8º Kyu)', emoji:'🟠', cor:'#FF6D00', cssClass:'laranja', next:'Verde',   kyu:8,  ordemProgresso:3 },
+                            { id:'Verde',   label:'Verde (7º Kyu)',   emoji:'🟢', cor:'#2E7D32', cssClass:'verde',   next:'Azul',   kyu:7,  ordemProgresso:4 },
+                            { id:'Azul',    label:'Azul (6º Kyu)',    emoji:'🔵', cor:'#1565C0', cssClass:'azul',    next:'Roxa',   kyu:6,  ordemProgresso:5 },
+                            { id:'Roxa',    label:'Roxa (5º Kyu)',    emoji:'🟣', cor:'#6A1B9A', cssClass:'roxa',    next:'Marrom', kyu:5,  ordemProgresso:6 },
+                            { id:'Marrom',  label:'Marrom (4º Kyu)',  emoji:'🟤', cor:'#5D4037', cssClass:'marrom',  next:'Preta',  kyu:4,  ordemProgresso:7 },
+                            { id:'Preta',   label:'Preta (1º-9º Dan)', emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',   next:null, dan:'1-9', ordemProgresso:8 },
+                        ],
+                        nomenclatura: {
+                            confirmarBtn:  '✓ Confirmar Treino de Shito-Ryu',
+                            roadmapTitulo: '🥋 Graduação — Shito-Ryu',
+                            roadmapSub:    'Do 10º Kyu ao 9º Dan',
+                        }
+                    },
+                    shorin_ryu: {
+                        faixas: [
+                            { id:'Branca',  label:'Branca (10º Kyu)', emoji:'⚪', cor:'#e0e0e0', cssClass:'branca',  next:'Amarela', kyu:10, ordemProgresso:1 },
+                            { id:'Amarela', label:'Amarela (9º Kyu)', emoji:'🟡', cor:'#FFD600', cssClass:'amarela', next:'Laranja', kyu:9,  ordemProgresso:2 },
+                            { id:'Laranja', label:'Laranja (8º Kyu)', emoji:'🟠', cor:'#FF6D00', cssClass:'laranja', next:'Verde',   kyu:8,  ordemProgresso:3 },
+                            { id:'Verde',   label:'Verde (7º Kyu)',   emoji:'🟢', cor:'#2E7D32', cssClass:'verde',   next:'Azul',   kyu:7,  ordemProgresso:4 },
+                            { id:'Azul',    label:'Azul (6º Kyu)',    emoji:'🔵', cor:'#1565C0', cssClass:'azul',    next:'Roxa',   kyu:6,  ordemProgresso:5 },
+                            { id:'Roxa',    label:'Roxa (5º Kyu)',    emoji:'🟣', cor:'#6A1B9A', cssClass:'roxa',    next:'Marrom', kyu:5,  ordemProgresso:6 },
+                            { id:'Marrom',  label:'Marrom (4º Kyu)',  emoji:'🟤', cor:'#5D4037', cssClass:'marrom',  next:'Preta',  kyu:4,  ordemProgresso:7 },
+                            { id:'Preta',   label:'Preta (1º-9º Dan)', emoji:'⚫', cor:'#1a1a1a', cssClass:'preta',   next:null, dan:'1-9', ordemProgresso:8 },
+                        ],
+                        nomenclatura: {
+                            confirmarBtn:  '✓ Confirmar Treino de Shorin-Ryu',
+                            roadmapTitulo: '🥋 Graduação — Shorin-Ryu',
+                            roadmapSub:    'Do 10º Kyu ao 9º Dan · Okinawa',
+                        }
+                    }
+                }
             }
         };
 
@@ -10849,10 +10685,12 @@ textarea:focus {
              * Cobre variações de grafia, hífens, nomes alternativos e IDs antigos da sheet.
              */
             _ALIASES: {
-                // Karatê — Shotokan/WKF
+                // Karate base
                 'karate':               'karate',
                 'karate_adulto':        'karate',
-                // Karatê — Kyokushin
+                // Estilos de Karate — IDs completos no sistema, schema compartilha base karate.
+                // O ID do estilo (karate_shotokan) é usado em tudo: filtros, check-in, ranking.
+                // Para graduacao, usa o schema 'karate' como fallback (mesmas faixas padrao).
                 'karate_kyokushin':     'karate_kyokushin',
                 'kyokushin':            'karate_kyokushin',
                 'kyokushinkai':         'karate_kyokushin',
@@ -10884,60 +10722,31 @@ textarea:focus {
              *   3. Match após normalização (lowercase + hífens → underscore)
              * Retorna null (NUNCA um fallback genérico) se não encontrar.
              */
-            getSchema: function(modId) {
+            getSchema: function(modId, estilo) {
                 if (!modId) return null;
                 var normalized = this._normalize(modId);
-                // 1. Alias SEMPRE primeiro — previne schema dinâmico ruim de ganhar
-                var aliasTarget = this._ALIASES[normalized] || this._ALIASES[modId];
-                if (aliasTarget && MODALIDADES_SCHEMA[aliasTarget]) return MODALIDADES_SCHEMA[aliasTarget];
-                // 2. Match direto (IDs canônicos como bjj_adulto, karate, judo...)
-                if (MODALIDADES_SCHEMA[modId]) return MODALIDADES_SCHEMA[modId];
-                // 3. Match normalizado (cobre variações de case e hífen)
-                if (MODALIDADES_SCHEMA[normalized]) return MODALIDADES_SCHEMA[normalized];
-                return null;
-            },
-
-            /**
-             * Valida se a modalidade está configurada.
-             * Lança erro controlado se não estiver.
-             */
-            validate: function(modId) {
-                var schema = this.getSchema(modId);
-                if (!schema) {
-                    console.error('[ModalidadeGuard] Modalidade não mapeada: "' + modId + '". Renderização bloqueada.');
-                    return false;
+                // 1. Alias sempre primeiro
+                var aliasTarget = this._ALIASES[normalized] || this._ALIASES[modId] || normalized;
+                var base = MODALIDADES_SCHEMA[aliasTarget] || MODALIDADES_SCHEMA[modId] || null;
+                if (!base) return null;
+                // 2. Aplica override de estilo se disponível
+                var estiloKey = (estilo !== undefined ? estilo : activeEstilo || '').toLowerCase().replace(/-/g,'_').replace(/\s+/g,'_');
+                if (!estiloKey || !base.estilos || !base.estilos[estiloKey]) return base;
+                var estiloData = base.estilos[estiloKey];
+                // Merge: herda tudo do base, sobrescreve só faixas e nomenclatura
+                var merged = {};
+                for (var k in base) { if (k !== 'estilos') merged[k] = base[k]; }
+                merged.graduacao = {};
+                for (var gk in base.graduacao) merged.graduacao[gk] = base.graduacao[gk];
+                if (estiloData.faixas) merged.graduacao.faixas = estiloData.faixas;
+                merged.nomenclatura = {};
+                for (var nk in base.nomenclatura) merged.nomenclatura[nk] = base.nomenclatura[nk];
+                if (estiloData.nomenclatura) {
+                    for (var ek in estiloData.nomenclatura) merged.nomenclatura[ek] = estiloData.nomenclatura[ek];
                 }
-                return true;
+                return merged;
             },
 
-            /** Retorna true se a modalidade usa graduação formal */
-            hasGraduacao: function(modId) {
-                var s = this.getSchema(modId);
-                return s ? (s.graduacao.hasGraduacao === true) : false;
-            },
-
-            /** Retorna true APENAS se a modalidade usa faixa NA CINTURA */
-            hasFaixa: function(modId) {
-                var s = this.getSchema(modId);
-                if (!s) return false;
-                if (s.graduacao.hasFaixa !== true) return false;
-                if (s.graduacao.tipo !== 'faixa_cintura') return false;
-                return true;
-            },
-
-            /** Retorna true APENAS se a modalidade usa Prajied */
-            hasPrajied: function(modId) {
-                var s = this.getSchema(modId);
-                return false; // Karatê não usa Prajied
-            },
-
-            /** Retorna true APENAS se a modalidade usa sistema de Cordão (Capoeira) */
-            hasCorda: function(modId) {
-                var s = this.getSchema(modId);
-                return false; // Karatê não usa corda
-            },
-
-            /** Retorna a lista de faixas/níveis da modalidade */
             getFaixas: function(modId) {
                 var s = this.getSchema(modId);
                 if (!s || !s.graduacao.hasGraduacao) return [];
@@ -11292,6 +11101,86 @@ textarea:focus {
         }
 
         /**
+         * Retorna o nome exibível da modalidade + estilo.
+         * Ex: getModNomeExibivel('karate', 'shotokan') → 'Karatê Shotokan'
+         *     getModNomeExibivel('karate', '')         → 'Karatê'
+         */
+        function getModNomeExibivel(modId, estilo) {
+            modId  = modId  || (typeof activeModality !== 'undefined' ? activeModality : 'karate');
+            estilo = (estilo !== undefined) ? estilo : (typeof activeEstilo !== 'undefined' ? activeEstilo : '');
+            var estiloKey = (estilo || '').toLowerCase().replace(/-/g,'_');
+            if (estiloKey && typeof KARATE_ESTILOS !== 'undefined') {
+                var estiloObj = KARATE_ESTILOS.find(function(e){ return e.id === estiloKey; });
+                if (estiloObj && estiloObj.nome) return 'Karatê ' + estiloObj.nome;
+            }
+            var mod = getModalidadeById(modId);
+            return mod ? mod.nome : 'Karatê';
+        }
+
+        /**
+         * Define o estilo ativo e salva no perfil do aluno (modalidadesGrad.karate.estilo).
+         */
+        function setActiveEstilo(estiloId, persist) {
+            estiloId = (estiloId || '').toLowerCase().replace(/-/g,'_');
+            activeEstilo = estiloId;
+            if (persist && typeof currentUser !== 'undefined' && currentUser) {
+                if (!currentUser.modalidadesGrad) currentUser.modalidadesGrad = {};
+                if (!currentUser.modalidadesGrad.karate) currentUser.modalidadesGrad.karate = {};
+                currentUser.modalidadesGrad.karate.estilo = estiloId;
+            }
+        }
+
+        /**
+         * Toque num chip de estilo na home. Atualiza activeEstilo e persiste.
+         */
+        function selecionarEstiloKarate(estiloId) {
+            estiloId = (estiloId || '').toLowerCase().replace(/-/g,'_');
+            setActiveEstilo(estiloId, true);
+            document.querySelectorAll('.mod-estilo-chip').forEach(function(chip) {
+                var nome = chip.textContent.replace('✓ ','').trim();
+                var obj = (KARATE_ESTILOS||[]).find(function(e){ return e.nome===nome; });
+                chip.classList.toggle('active', !!(obj && obj.id === estiloId));
+            });
+            if (typeof renderPerfilPrincipalSection==='function') renderPerfilPrincipalSection();
+            if (typeof loadEvolution==='function') loadEvolution();
+            _salvarEstiloBackend(estiloId);
+            var obj2 = (KARATE_ESTILOS||[]).find(function(e){ return e.id===estiloId; });
+            var nome2 = obj2 ? obj2.nome : '';
+            _showMiniToast('?? Karatê ' + (nome2 || 'Geral') + ' selecionado!');
+        }
+
+        async function _salvarEstiloBackend(estiloId) {
+            if (!currentUser || !currentUser.email) return;
+            try {
+                if (!currentUser.modalidadesGrad) currentUser.modalidadesGrad = {};
+                if (!currentUser.modalidadesGrad.karate) currentUser.modalidadesGrad.karate = {};
+                currentUser.modalidadesGrad.karate.estilo = estiloId;
+                await secureFetch('saveEstiloKarate', {
+                    email:           currentUser.email,
+                    estiloId:        estiloId,
+                    modalidadesGrad: JSON.parse(JSON.stringify(currentUser.modalidadesGrad))
+                });
+            } catch(e) { console.warn('[estilo]', e); }
+        }
+
+        function _showMiniToast(msg) {
+            var t = document.createElement('div');
+            t.style.cssText = 'position:fixed;bottom:calc(72px + var(--safe-bottom,0px) + 10px);' +
+                'left:50%;transform:translateX(-50%) translateY(10px);background:rgba(6,6,7,0.92);' +
+                'border:1px solid rgba(220,38,38,0.4);color:#fff;padding:8px 18px;border-radius:20px;' +
+                'font-size:12px;font-weight:700;z-index:99999;white-space:nowrap;opacity:0;transition:all 0.22s ease;';
+            t.textContent = msg;
+            document.body.appendChild(t);
+            requestAnimationFrame(function(){ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+            setTimeout(function(){
+                t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(8px)';
+                setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 250);
+            }, 2200);
+        }
+
+
+
+        /**
          * Retorna { faixa, grau } para a modalidade informada (ou ativa).
          * Usa currentUser.modalidadesGrad se disponível; fallback para campos globais.
          */
@@ -11393,6 +11282,13 @@ textarea:focus {
                 }
             }
             if (userModalidades.length === 0) { userModalidades = ['karate']; }
+
+            // Restaura estilo salvo no perfil
+            var _savedEstilo = '';
+            if (currentUser && currentUser.modalidadesGrad && currentUser.modalidadesGrad.karate) {
+                _savedEstilo = currentUser.modalidadesGrad.karate.estilo || '';
+            }
+            activeEstilo = _savedEstilo;
             _modalidadePrincipal = loadPerfilPrincipal();
             if (!_modalidadePrincipal && currentUser && currentUser.modalidadePrincipal) {
                 _modalidadePrincipal = currentUser.modalidadePrincipal;
@@ -11471,6 +11367,23 @@ textarea:focus {
                       '</button>'
                     : '';
 
+                // Seletor de estilo (apenas karate)
+                var estiloHtml = '';
+                if (modId === 'karate' && typeof KARATE_ESTILOS !== 'undefined') {
+                    var _estiloAtivo = activeEstilo || '';
+                    var _eAtualObj = KARATE_ESTILOS.find(function(e){ return e.id === _estiloAtivo; });
+                    var _estiloBadge = _eAtualObj
+                        ? '<span class="mod-estilo-badge">' + _eAtualObj.nome + '</span>' : '';
+                    badgePrincipal = (isPrincipal ? '<span class="mod-home-card-badge-principal">⭐ Principal</span>' : '') + _estiloBadge;
+                    var _chips = KARATE_ESTILOS.map(function(e) {
+                        var _ia = _estiloAtivo === e.id;
+                        return '<button class="mod-estilo-chip' + (_ia ? ' active' : '') + '" ' +
+                            'onclick="event.stopPropagation();selecionarEstiloKarate(\'' + e.id + '\')">'
+                            + e.nome + '</button>';
+                    }).join('');
+                    estiloHtml = '<div class="mod-estilo-wrap"><div class="mod-estilo-label">Estilo</div>' +
+                        '<div class="mod-estilo-chips">' + _chips + '</div></div>';
+                }
                 card.innerHTML =
                     '<div class="mod-home-card-shine"></div>' +
                     '<div class="mod-home-card-stripe"></div>' +
@@ -11486,6 +11399,7 @@ textarea:focus {
                         '</div>' +
                         (!isSingle ? '<div class="mod-home-card-cta"><div class="mod-home-card-arrow">›</div></div>' : '') +
                     '</div>' +
+                    estiloHtml +
                     (isSingle ? '<div style="padding:0 16px 18px;">' + enterBtnHtml + '</div>' : '');
 
                 // Tap → entra na modalidade (para múltiplas, click direto no card)
@@ -11928,7 +11842,7 @@ textarea:focus {
             var gradData   = modalidadesGrad || {};
             // Filtra modalidades que são aliases de outra — evita duplicatas no grid
             // (ex: jiu_jitsu é alias de bjj_adulto, não deve aparecer como card separado)
-            var modsVisiveis = (MODALIDADES_CATALOG || []).filter(function(mod){ return mod.familia === 'karate' || mod.id === 'karate' || mod.id === 'karate_kyokushin'; });
+            var modsVisiveis = (MODALIDADES_CATALOG || []).filter(function(mod){ return mod.familia === 'karate'; });
             modsVisiveis.forEach(function(mod) {
                 var isChecked  = activeMods.indexOf(mod.id) !== -1;
                 var modGrad    = gradData[mod.id] || {};
@@ -12417,45 +12331,61 @@ textarea:focus {
         });
 
         // ── Popula o grid de modalidades no formulário de cadastro ──
+        // Dinâmico: lê MODALIDADES_CATALOG que é populado via loadCustomModalidades (sheet)
         function buildRegModalidadesGrid() {
-            // Single-mode: Karate only — grid is hidden, value is auto-set
             var grid = document.getElementById('regModalidadesGrid');
-            if (grid) {
-                grid.innerHTML = '<input type="checkbox" id="mod_karate" value="karate" checked style="display:none">' +
-                    '<div style="padding:10px 14px;background:rgba(220,38,38,0.10);border:1px solid rgba(220,38,38,0.25);border-radius:10px;display:flex;align-items:center;gap:10px;">' +
-                    '<span style="font-size:20px;">🥋</span>' +
-                    '<div><div style="font-size:13px;font-weight:700;color:var(--text-1);">Karatê</div>' +
-                    '<div style="font-size:11px;color:var(--text-3);">Arte Marcial Japonesa</div></div>' +
-                    '<span style="margin-left:auto;font-size:12px;color:#DC2626;font-weight:700;">✓ Selecionado</span>' +
-                    '</div>';
+            if (!grid) return;
+            // Aguarda o catalog ser carregado (loadCustomModalidades é async)
+            if (!MODALIDADES_CATALOG || MODALIDADES_CATALOG.length === 0) {
+                grid.innerHTML = '<div style="padding:12px;text-align:center;color:var(--text-3);font-size:12px;">Carregando modalidades...</div>';
+                return;
             }
-            return; // bypass original logic
-            /* ORIGINAL CODE BELOW — kept for reference */
-            var grid = document.getElementById('regModalidadesGrid');
-            if (!grid || !MODALIDADES_CATALOG) return;
             grid.innerHTML = '';
-            MODALIDADES_CATALOG.forEach(function(mod) {
+            var ativos = MODALIDADES_CATALOG.filter(function(m){ return m.ativo !== false; });
+            ativos.forEach(function(mod) {
                 var card = document.createElement('label');
-                card.style.cssText = 'display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.18s;font-size:13px;font-weight:600;color:var(--text-2);';
+                card.style.cssText = 'display:flex;align-items:center;gap:10px;padding:11px 14px;' +
+                    'background:var(--bg-elevated);border:1.5px solid var(--border);border-radius:10px;' +
+                    'cursor:pointer;transition:all 0.18s;';
                 card.innerHTML =
-                    '<input type="checkbox" name="regMod" value="' + mod.id + '" style="accent-color:' + (mod.cor||'#C9A23A') + ';width:16px;height:16px;flex-shrink:0;">' +
-                    '<span>' + mod.icon + ' ' + mod.nome + '</span>';
+                    '<input type="checkbox" name="regMod" value="' + mod.id + '" ' +
+                    'style="accent-color:' + (mod.cor||'#DC2626') + ';width:16px;height:16px;flex-shrink:0;">' +
+                    '<span style="font-size:18px">' + mod.icon + '</span>' +
+                    '<span style="flex:1">' +
+                        '<div style="font-size:13px;font-weight:700;color:var(--text-1)">' + mod.nome + '</div>' +
+                        '<div style="font-size:10px;color:var(--text-3)">' + (mod.desc||'') + '</div>' +
+                    '</span>';
                 var cb = card.querySelector('input');
                 cb.addEventListener('change', function() {
-                    card.style.borderColor   = cb.checked ? (mod.cor || '#C9A23A') : 'var(--border)';
-                    card.style.background    = cb.checked ? 'rgba(' + (mod.corRGB||'201,162,58') + ',0.10)' : 'var(--bg-elevated)';
-                    card.style.color         = cb.checked ? (mod.cor || '#C9A23A') : 'var(--text-2)';
+                    card.style.borderColor = cb.checked ? (mod.cor||'#DC2626') : 'var(--border)';
+                    card.style.background  = cb.checked ? 'rgba('+(mod.corRGB||'220,38,38')+',0.10)' : 'var(--bg-elevated)';
                     document.getElementById('regModalidadesError').style.display = 'none';
                 });
                 grid.appendChild(card);
             });
+            // Auto-seleciona se só tem uma modalidade disponível
+            if (ativos.length === 1) {
+                var cb1 = grid.querySelector('input[type="checkbox"]');
+                if (cb1) {
+                    cb1.checked = true;
+                    var lbl = cb1.closest('label');
+                    if (lbl) {
+                        lbl.style.borderColor = ativos[0].cor||'#DC2626';
+                        lbl.style.background  = 'rgba('+(ativos[0].corRGB||'220,38,38')+',0.10)';
+                    }
+                }
+            }
         }
 
         function getRegModalidadesSelecionadas() {
-            return ['karate']; // Single-mode: always Karate — retorna ARRAY (join() é chamado no submit)
-            /* ORIGINAL CODE BELOW */
+            // Lê checkboxes marcados no grid dinâmico
             var checks = document.querySelectorAll('#regModalidadesGrid input[name="regMod"]:checked');
-            return Array.from(checks).map(function(c){ return c.value; });
+            var selecionadas = Array.from(checks).map(function(c){ return c.value; }).filter(Boolean);
+            // Fallback: se grid não foi populado ainda, retorna primeira modalidade do catalog
+            if (selecionadas.length === 0 && MODALIDADES_CATALOG && MODALIDADES_CATALOG.length > 0) {
+                return [MODALIDADES_CATALOG[0].id];
+            }
+            return selecionadas;
         }
 
         // ============================================================
@@ -13324,20 +13254,21 @@ textarea:focus {
                     // 'jiu-jitsu' na sheet não crie uma chave quebrada no schema.
                     var id = idRaw.toString().trim().toLowerCase().replace(/[\s\-]+/g, '_');
 
-                    // IDs que NUNCA devem entrar no catálogo como entrada separada:
-                    // são aliases de modalidades estáticas já presentes (ex: jiu_jitsu → bjj_adulto).
-                    // Manter as duas causaria duplicata visual e config de graduação quebrada.
-                    // ── Karatê é a ÚNICA modalidade aceita ──────────────────────
-                    // Bloqueia QUALQUER modalidade que não seja karate/karate_adulto.
-                    var KARATE_IDS = { karate: true, karate_adulto: true };
-                    if (!KARATE_IDS[id]) return; // descarta todas as outras modalidades
-                    // Alias: karate_adulto → karate (evita tab duplicado)
+                    // Bloqueia apenas aliases legados que não devem virar card separado
                     var CATALOG_BLOCKED = { karate_adulto: true };
                     if (CATALOG_BLOCKED[id]) return;
+
+                    // Define familia para todos os estilos de Karate
+                    var familia = 'karate';
+                    if (id.indexOf('karate') !== 0) familia = id; // outra modalidade
 
                     // Se o ModalidadeGuard já resolve este ID via alias (ex: jiu_jitsu → bjj_adulto),
                     // NÃO cria schema dinâmico — o schema estático curado já é mais completo.
                     var jaResolvivel = typeof ModalidadeGuard !== 'undefined' && ModalidadeGuard.getSchema(id) !== null;
+
+                    // Herança: se a modalidade tem 'pai', propaga no catalog
+                    var modPai = mod.pai || '';
+                    var familia = 'karate'; // todas são karate neste sistema
 
                     // Pula modalidades que já estão no catalog estático (não sobrescreve)
                     var jaExiste = MODALIDADES_CATALOG && MODALIDADES_CATALOG.find(function(m){ return m.id === id || m.id === idRaw; });
@@ -13364,12 +13295,12 @@ textarea:focus {
                     // Injeta no CATALOG se não existe
                     if (!jaExiste && MODALIDADES_CATALOG) {
                         MODALIDADES_CATALOG.push({
-                            id: id, icon: icon, nome: nome, desc: mod.desc || nome,
+                            id: id, familia: familia, icon: icon, nome: nome, desc: mod.desc || nome,
                             navIcon: icon, navLabel: nome.split(' ')[0],
                             cor: cor, corDark: corDark, corLight: corLight, corRGB: corRGB,
                             gradient: 'linear-gradient(135deg,'+cor+' 0%,'+corLight+' 55%,'+corDark+' 100%)',
                             gradientBg: 'radial-gradient(ellipse at 20% 10%,rgba('+corRGB+',0.18) 0%,transparent 60%)',
-                            btnLabel: '✓ Confirmar Treino de '+nome,
+                            btnLabel: '\u2713 Confirmar Treino de '+nome,
                             cardBg: 'linear-gradient(145deg,rgba('+corRGB+',0.12) 0%,rgba('+corRGB+',0.05) 100%)',
                             tag: nome.toUpperCase(), tagColor: cor,
                             ativo: mod.ativo !== false
@@ -13408,13 +13339,93 @@ textarea:focus {
                     }
                 });
 
-                // Reconstrói grids que dependem do catalog (registro, chips de modalidade)
+                // Reconstrói grids que dependem do catalog
                 if (typeof buildRegModalidadesGrid === 'function') buildRegModalidadesGrid();
                 if (typeof renderModalidadeChips  === 'function') renderModalidadeChips();
 
-                Logger.log && Logger.log('[loadCustomModalidades] ' + data.modalidades.length + ' modalidades carregadas');
+                // Carrega faixas da sheet para cada modalidade do catalog
+                var idsParaFaixas = (MODALIDADES_CATALOG || []).map(function(m){ return m.id; });
+                if (idsParaFaixas.length > 0) {
+                    loadFaixasModalidade(idsParaFaixas);
+                }
+
+                console.log('[loadCustomModalidades] ' + data.modalidades.length + ' modalidades carregadas');
             } catch(e) {
                 console.warn('[loadCustomModalidades] erro:', e.message);
+            }
+        }
+
+        // ── loadFaixasModalidade ─────────────────────────────────────────
+        // Chama getFaixasModalidade no backend e popula MODALIDADES_SCHEMA[id].graduacao.faixas
+        // para cada modalidade do catalog. Chamado após loadCustomModalidades.
+        async function loadFaixasModalidade(modIds) {
+            if (!modIds || modIds.length === 0) return;
+            try {
+                var data = await secureFetch('getFaixasModalidade', {
+                    modIds: JSON.stringify(modIds)
+                });
+                if (!data.success || !data.faixas) return;
+
+                Object.keys(data.faixas).forEach(function(modId) {
+                    var faixasRaw = data.faixas[modId];
+                    if (!faixasRaw || !faixasRaw.length) return;
+
+                    // Converte formato sheet → formato MODALIDADES_SCHEMA.faixas
+                    var faixasSchema = faixasRaw.map(function(f) {
+                        return {
+                            id:            f.faixa_id,
+                            label:         f.label,
+                            emoji:         f.emoji || '',
+                            cor:           f.cor || '#DC2626',
+                            cssClass:      f.faixa_id.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+                            next:          f.next_faixa || null,
+                            min_meses:     f.min_meses || 0,
+                            max_grau:      f.max_grau  || 0,
+                            ordemProgresso:f.ordem     || 0,
+                            ativo:         f.ativo !== false,
+                            idade_min:     f.idade_min || 0,
+                            idade_max:     f.idade_max || 999,
+                            // Tipo de Dan:
+                            //   max_grau > 0 + next vazio  → Dan como stripe da faixa (Shotokan)
+                            //   max_grau = 0 + next preenchido → Dan como faixa separada (Kyokushin)
+                            danTipo: (f.max_grau > 0 && !f.next_faixa) ? 'stripe' :
+                                     (f.max_grau === 0 && f.next_faixa) ? 'faixa' : 'nenhum'
+                        };
+                    })
+                    // Filtra faixas inativas
+                    .filter(function(f){ return f.ativo; });
+
+                    // Garante que o schema existe para este modId
+                    if (typeof MODALIDADES_SCHEMA === 'undefined') return;
+                    if (!MODALIDADES_SCHEMA[modId]) {
+                        // Herda schema base do karate se nao existe
+                        var baseSchema = MODALIDADES_SCHEMA['karate'] || null;
+                        if (baseSchema) {
+                            MODALIDADES_SCHEMA[modId] = JSON.parse(JSON.stringify(baseSchema));
+                            MODALIDADES_SCHEMA[modId].id = modId;
+                        } else return;
+                    }
+
+                    // Injeta faixas vindas da sheet
+                    MODALIDADES_SCHEMA[modId].graduacao.faixas = faixasSchema;
+
+                    // Atualiza maxGrausPorFaixa: pega o max_grau mais alto das faixas
+                    var maxGrauGlobal = faixasSchema.reduce(function(acc, f) {
+                        return Math.max(acc, f.max_grau || 0);
+                    }, 0);
+                    MODALIDADES_SCHEMA[modId].graduacao.maxGrausPorFaixa = maxGrauGlobal || null;
+
+                    // hasGraduacao: true se tiver faixas com progressão
+                    MODALIDADES_SCHEMA[modId].graduacao.hasGraduacao = faixasSchema.length > 0;
+                    MODALIDADES_SCHEMA[modId].graduacao.hasFaixa     = faixasSchema.length > 0;
+                });
+
+                // Re-renderiza evolução/roadmap com faixas atualizadas
+                if (typeof renderPerfilPrincipalSection === 'function') renderPerfilPrincipalSection();
+
+                console.log('[loadFaixasModalidade] faixas carregadas para:', Object.keys(data.faixas));
+            } catch(e) {
+                console.warn('[loadFaixasModalidade] erro:', e.message);
             }
         }
 
@@ -14191,7 +14202,8 @@ textarea:focus {
             secureFetch('attendance', {
                 email: currentUser.email, name: currentUser.name,
                 faixa: currentUser.faixa, grau: currentUser.grau, ct: selectedCT,
-                modalidade: activeModality || 'karate'   // ← modalidade ativa (Karatê)
+                modalidade: activeModality || 'karate',   // ← modalidade ativa
+                estilo:     (typeof activeEstilo !== 'undefined' ? activeEstilo : '') // ← estilo ativo
             }).then(data => {
                 if (data.success) {
                     if (data.status === 'APROVADO') {
@@ -19292,7 +19304,7 @@ textarea:focus {
         // ─── initGradSistema ─────────────────────────────────────────────
         function initGradSistema() {
             // Karatê é a única modalidade — filtra o catálogo
-            var mods = (MODALIDADES_CATALOG || []).filter(function(mod){ return mod.familia === 'karate' || mod.id === 'karate' || mod.id === 'karate_kyokushin'; });
+            var mods = (MODALIDADES_CATALOG || []).filter(function(mod){ return mod.familia === 'karate'; });
             var tabsEl    = document.getElementById('gradModTabs');
             var container = document.getElementById('gradSystemList');
             if (!tabsEl || !container) return;
@@ -20224,10 +20236,17 @@ textarea:focus {
         // Aulas com modalidade vazia (legado) são sempre visíveis.
         function _getAulasFiltradas() {
             var mod = (activeModality || '').toLowerCase();
-            if (!mod) return _cronoAulas; // sem modalidade ativa: admin ou aluno legado
+            if (!mod) return _cronoAulas; // admin ou aluno legado: vê tudo
             return _cronoAulas.filter(function(a) {
                 var am = (a.modalidade || '').toLowerCase();
-                return !am || am === mod; // vazio = legado → sempre exibe
+                if (!am) return true;   // legado sem modalidade → sempre exibe
+                if (am === mod) return true;
+                // Aceita aulas cadastradas com id legado de estilo (ex: 'karate_shotokan' → 'karate')
+                var aObj = getModalidadeById(am);
+                var modObj = getModalidadeById(mod);
+                var aFam = aObj ? (aObj.familia || am) : am;
+                var mFam = modObj ? (modObj.familia || mod) : mod;
+                return aFam === mFam;
             });
         }
         // ───────────────────────────────────────────────────────────────────────
@@ -20639,7 +20658,7 @@ textarea:focus {
         function renderAdmModalidadeChips() {
             var el = document.getElementById('cronoAdmModalidadeChips');
             if (!el) return;
-            var catalog = (MODALIDADES_CATALOG || []).filter(function(m){ return m.familia === 'karate' || m.id === 'karate' || m.id === 'karate_kyokushin'; });
+            var catalog = (MODALIDADES_CATALOG || []).filter(function(m){ return m.familia === 'karate'; });
             if (catalog.length === 0) { el.innerHTML = '<span style="font-size:10px;color:var(--adm-text-3);">Nenhuma modalidade cadastrada</span>'; return; }
             el.innerHTML = '';
             catalog.filter(function(m){ return m.ativo !== false; }).forEach(function(mod) {
