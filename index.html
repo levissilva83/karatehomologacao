@@ -10362,9 +10362,11 @@ textarea:focus {
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQ32mCTfFjgC8rCsCwYkBxkRbb78XSewSk9mDMlNsiBbMowgFbbmvqWvBFcwZpH7Hr/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby76UYQ3w310QnVsxrelc2s3jpQ4bEgMYMruPQBMs7V1UseE2tMbVSsNppee6c_ehsreA/exec';
 
-        const DOJO_ID = (new URLSearchParams(window.location.search).get('dojo') ||
+        // Aceita ?dojo= ou ?ctm= (ambos funcionam — ?ctm= gerado pelo uitlizatios.gs)
+        const _urlParams = new URLSearchParams(window.location.search);
+        const DOJO_ID = (_urlParams.get('dojo') || _urlParams.get('ctm') || _urlParams.get('ctmId') ||
                          localStorage.getItem('karate_dojoId') || '').toLowerCase().trim();
         if (DOJO_ID) localStorage.setItem('karate_dojoId', DOJO_ID);
         const GAS_URL = SCRIPT_URL + (DOJO_ID ? '?dojo=' + encodeURIComponent(DOJO_ID) : '');
