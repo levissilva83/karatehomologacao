@@ -11453,7 +11453,7 @@
         var _ctmId = (function() {
             try { return localStorage.getItem('ctm_id') || 'matrix'; } catch(e) { return 'matrix'; }
         })();
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybKMZ9etKRlmmIvedUMqoVz8cpqIV5seYwPxoP-0sgi0Q_1g8Jwuey49bAM-c8wZNH/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeOXdlRclAIQIcPwn4P7gKGXSyaeg_6azg_2GBmAxdGaFVHPMlkUpZqT33jE9zhU_68w/exec';
                          + '?ctm=' + _ctmId;
 
         // ── Verifica se o cliente existe no registry ──────────────
@@ -11808,9 +11808,9 @@
               if (!MODALIDADES_SCHEMA[modId]) {
                 MODALIDADES_SCHEMA[modId] = {
                   id: modId,
-                  graduacao: { tipo: m.gradTipo || 'faixa_cintura', hasGraduacao: true, hasFaixa: true, hasPrajied: false, faixas: [], maxGrausPorFaixa: 4, labelFaixa: 'Faixa', labelGrau: 'Grau', labelGrauPlural: 'Graus', simbolo: 'stripe' },
-                  nomenclatura: { treino:'Treino', professor:'Professor', aluno:'Aluno', faixa:'Faixa', grau:'Grau', graus:'Graus', confirmarBtn:'🥋 Treinei', roadmapTitulo:'🥋 Sistema de Graduação', roadmapSub:'' },
-                  ui: { mostrarFaixa:true, mostrarGraus:true, mostrarPrajied:false, mostrarRoadmap:true, mostrarFrequencia:true, mostrarCriterios:true, roadmapTipo:'cintura', iconeEvo:'🥋' }
+                  graduacao: { tipo: m.gradTipo || 'faixa_cintura', hasGraduacao: true, hasFaixa: true, hasPrajied: false, faixas: [], maxGrausPorFaixa: 0, labelFaixa: 'Faixa', labelGrau: 'Grau', labelGrauPlural: 'Graus', simbolo: 'stripe' },
+                  nomenclatura: { treino:'Treino', professor:'Professor', aluno:'Aluno', faixa:'Faixa', grau:'Grau', graus:'Graus', confirmarBtn:'🥋 Treinei', roadmapTitulo:'🥋 Sistema de Graduação', roadmapSub:'10° Kyu → Preta (Dan)' },
+                  ui: { mostrarFaixa:true, mostrarGraus:false, mostrarPrajied:false, mostrarRoadmap:true, mostrarFrequencia:true, mostrarCriterios:true, roadmapTipo:'cintura', iconeEvo:'🥋' }
                 };
               }
               // Atualiza faixas com dados da planilha (sobrescreve hardcoded)
@@ -12129,7 +12129,29 @@ var MODALIDADES_SCHEMA = {
              */
             getSchema: function(modId) {
                 if (!modId) return null;
-                return MODALIDADES_SCHEMA[modId] || null;
+                // 1. Busca direta
+                if (MODALIDADES_SCHEMA[modId]) return MODALIDADES_SCHEMA[modId];
+                // 2. Herdar do pai para sub-modalidades (ex: karate_shotokan_kids → karate_shotokan)
+                var id = modId.toLowerCase();
+                var BASES = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                    'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                    'karate_uechi_ryu','karate_personalizado'];
+                // Tentar parent_id do catálogo
+                var catM = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===id; });
+                var pid  = (catM && catM.parentId) ? catM.parentId.toLowerCase() : null;
+                if (!pid) pid = BASES.find(function(b){ return id.indexOf(b+'_')===0; }) || null;
+                if (pid && MODALIDADES_SCHEMA[pid]) {
+                    var inherited = JSON.parse(JSON.stringify(MODALIDADES_SCHEMA[pid]));
+                    inherited.id   = modId;
+                    inherited.nome = (catM && catM.nome) || modId;
+                    MODALIDADES_SCHEMA[modId] = inherited;
+                    return inherited;
+                }
+                // 3. Fallback karate_*
+                if (id.indexOf('karate_') === 0) {
+                    return MODALIDADES_SCHEMA['karate_shotokan'] || MODALIDADES_SCHEMA['karate'] || null;
+                }
+                return null;
             },
 
             /**
@@ -12148,7 +12170,11 @@ var MODALIDADES_SCHEMA = {
             /** Retorna true se a modalidade usa graduação formal */
             hasGraduacao: function(modId) {
                 var s = this.getSchema(modId);
-                return s ? (s.graduacao.hasGraduacao === true) : false;
+                if (!s) return false;
+                if (s.graduacao && s.graduacao.hasGraduacao === true) return true;
+                // Sub-modalidade: considerar graduação válida se tem faixas
+                var fxs = this.getFaixas(modId);
+                return fxs && fxs.length > 0;
             },
 
             /** Retorna true APENAS se a modalidade usa faixa NA CINTURA */
@@ -12175,8 +12201,32 @@ var MODALIDADES_SCHEMA = {
             /** Retorna a lista de faixas/níveis da modalidade */
             getFaixas: function(modId) {
                 var s = this.getSchema(modId);
-                if (!s || !s.graduacao.hasGraduacao) return [];
-                return s.graduacao.faixas || [];
+                if (!s) return [];
+                // Se sub-modalidade não tem faixas próprias, tentar do catálogo (planilha)
+                var faixas = (s.graduacao && s.graduacao.faixas) || [];
+                if (faixas.length === 0) {
+                    // Tentar faixas do MODALIDADES_CATALOG (carregadas da planilha Faixas)
+                    var catMod2 = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===modId; });
+                    if (catMod2 && catMod2.faixas && catMod2.faixas.length) {
+                        return catMod2.faixas;
+                    }
+                    // Fallback: herdar faixas do pai
+                    var id2 = modId.toLowerCase();
+                    var BASES2 = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                        'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                        'karate_uechi_ryu','karate_personalizado'];
+                    var parentId2 = BASES2.find(function(b){ return id2.indexOf(b+'_')===0; });
+                    if (parentId2) {
+                        var parentSchema2 = MODALIDADES_SCHEMA[parentId2];
+                        if (parentSchema2 && parentSchema2.graduacao && parentSchema2.graduacao.faixas) {
+                            return parentSchema2.graduacao.faixas;
+                        }
+                        // Tentar catálogo do pai
+                        var parentCat = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===parentId2; });
+                        if (parentCat && parentCat.faixas && parentCat.faixas.length) return parentCat.faixas;
+                    }
+                }
+                return faixas;
             },
 
             /** Retorna um valor de nomenclatura — null se não configurado */
@@ -12487,7 +12537,9 @@ var MODALIDADES_SCHEMA = {
                 if (ModalidadeGuard.hasPrajied(modId)) return '🥷 Graus de Kruang Prajied';
                 if (ModalidadeGuard.hasCorda(modId))   return '🪢 Cordões de Capoeira';
                 var lGrau = ModalidadeUI.t('grau','Grau');
-                return '🏅 Selos de ' + lGrau;
+                // Karatê não usa selos de grau — sistema de faixas direto
+            if (activeModality && activeModality.indexOf('karate') === 0) return '🥋 Progressão de Faixas';
+            return '🏅 Selos de ' + lGrau;
             },
 
             /** Aplica todos os textos dinâmicos ao check-in screen */
@@ -14293,7 +14345,10 @@ var MODALIDADES_SCHEMA = {
             
             // Seals section (grau system) → adults only
             var seals = document.getElementById('evoSealsSection');
-            if (seals) seals.style.display = isKid ? 'none' : '';
+            if (seals) {
+                var hideSeals = isKid || (activeModality && activeModality.indexOf('karate') === 0);
+                seals.style.display = hideSeals ? 'none' : '';
+            }
             
             // Frequency tab → adults only
             var freqTab = document.getElementById('evoFreqTab');
@@ -16156,7 +16211,10 @@ var MODALIDADES_SCHEMA = {
             var row    = document.getElementById('evoSealsRow');
             var seals  = document.getElementById('evoSealsSection');
             if (!row || !seals) return;
-
+            // Karatê: ocultar selos de grau (não é parte do sistema Kyu/Dan)
+            if (activeModality && activeModality.indexOf('karate') === 0) {
+                seals.style.display = 'none'; return;
+            }
             seals.style.display = '';
             // Troca título da seção
             var title = seals.querySelector('.evo-seals-title');
@@ -46509,7 +46567,6 @@ ml>
         var _ctmId = (function() {
             try { return localStorage.getItem('ctm_id') || 'matrix'; } catch(e) { return 'matrix'; }
         })();
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWwOSEW2dw2EioooNWWd62VMDCmBl9A271jejNJTXeTfSt94_eyIttNJseDQvTW10u/exec'
                          + '?ctm=' + _ctmId;
 
         // ── Verifica se o cliente existe no registry ──────────────
@@ -46864,9 +46921,9 @@ ml>
               if (!MODALIDADES_SCHEMA[modId]) {
                 MODALIDADES_SCHEMA[modId] = {
                   id: modId,
-                  graduacao: { tipo: m.gradTipo || 'faixa_cintura', hasGraduacao: true, hasFaixa: true, hasPrajied: false, faixas: [], maxGrausPorFaixa: 4, labelFaixa: 'Faixa', labelGrau: 'Grau', labelGrauPlural: 'Graus', simbolo: 'stripe' },
-                  nomenclatura: { treino:'Treino', professor:'Professor', aluno:'Aluno', faixa:'Faixa', grau:'Grau', graus:'Graus', confirmarBtn:'🥋 Treinei', roadmapTitulo:'🥋 Sistema de Graduação', roadmapSub:'' },
-                  ui: { mostrarFaixa:true, mostrarGraus:true, mostrarPrajied:false, mostrarRoadmap:true, mostrarFrequencia:true, mostrarCriterios:true, roadmapTipo:'cintura', iconeEvo:'🥋' }
+                  graduacao: { tipo: m.gradTipo || 'faixa_cintura', hasGraduacao: true, hasFaixa: true, hasPrajied: false, faixas: [], maxGrausPorFaixa: 0, labelFaixa: 'Faixa', labelGrau: 'Grau', labelGrauPlural: 'Graus', simbolo: 'stripe' },
+                  nomenclatura: { treino:'Treino', professor:'Professor', aluno:'Aluno', faixa:'Faixa', grau:'Grau', graus:'Graus', confirmarBtn:'🥋 Treinei', roadmapTitulo:'🥋 Sistema de Graduação', roadmapSub:'10° Kyu → Preta (Dan)' },
+                  ui: { mostrarFaixa:true, mostrarGraus:false, mostrarPrajied:false, mostrarRoadmap:true, mostrarFrequencia:true, mostrarCriterios:true, roadmapTipo:'cintura', iconeEvo:'🥋' }
                 };
               }
               // Atualiza faixas com dados da planilha (sobrescreve hardcoded)
@@ -47169,7 +47226,29 @@ ml>
              */
             getSchema: function(modId) {
                 if (!modId) return null;
-                return MODALIDADES_SCHEMA[modId] || null;
+                // 1. Busca direta
+                if (MODALIDADES_SCHEMA[modId]) return MODALIDADES_SCHEMA[modId];
+                // 2. Herdar do pai para sub-modalidades (ex: karate_shotokan_kids → karate_shotokan)
+                var id = modId.toLowerCase();
+                var BASES = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                    'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                    'karate_uechi_ryu','karate_personalizado'];
+                // Tentar parent_id do catálogo
+                var catM = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===id; });
+                var pid  = (catM && catM.parentId) ? catM.parentId.toLowerCase() : null;
+                if (!pid) pid = BASES.find(function(b){ return id.indexOf(b+'_')===0; }) || null;
+                if (pid && MODALIDADES_SCHEMA[pid]) {
+                    var inherited = JSON.parse(JSON.stringify(MODALIDADES_SCHEMA[pid]));
+                    inherited.id   = modId;
+                    inherited.nome = (catM && catM.nome) || modId;
+                    MODALIDADES_SCHEMA[modId] = inherited;
+                    return inherited;
+                }
+                // 3. Fallback karate_*
+                if (id.indexOf('karate_') === 0) {
+                    return MODALIDADES_SCHEMA['karate_shotokan'] || MODALIDADES_SCHEMA['karate'] || null;
+                }
+                return null;
             },
 
             /**
@@ -47188,7 +47267,11 @@ ml>
             /** Retorna true se a modalidade usa graduação formal */
             hasGraduacao: function(modId) {
                 var s = this.getSchema(modId);
-                return s ? (s.graduacao.hasGraduacao === true) : false;
+                if (!s) return false;
+                if (s.graduacao && s.graduacao.hasGraduacao === true) return true;
+                // Sub-modalidade: considerar graduação válida se tem faixas
+                var fxs = this.getFaixas(modId);
+                return fxs && fxs.length > 0;
             },
 
             /** Retorna true APENAS se a modalidade usa faixa NA CINTURA */
@@ -47215,8 +47298,32 @@ ml>
             /** Retorna a lista de faixas/níveis da modalidade */
             getFaixas: function(modId) {
                 var s = this.getSchema(modId);
-                if (!s || !s.graduacao.hasGraduacao) return [];
-                return s.graduacao.faixas || [];
+                if (!s) return [];
+                // Se sub-modalidade não tem faixas próprias, tentar do catálogo (planilha)
+                var faixas = (s.graduacao && s.graduacao.faixas) || [];
+                if (faixas.length === 0) {
+                    // Tentar faixas do MODALIDADES_CATALOG (carregadas da planilha Faixas)
+                    var catMod2 = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===modId; });
+                    if (catMod2 && catMod2.faixas && catMod2.faixas.length) {
+                        return catMod2.faixas;
+                    }
+                    // Fallback: herdar faixas do pai
+                    var id2 = modId.toLowerCase();
+                    var BASES2 = ['karate_shotokan','karate_kyokushin','karate_goju_ryu','karate_wado_ryu',
+                        'karate_shito_ryu','karate_shorin_ryu','karate_shotokai','karate_kenpo',
+                        'karate_uechi_ryu','karate_personalizado'];
+                    var parentId2 = BASES2.find(function(b){ return id2.indexOf(b+'_')===0; });
+                    if (parentId2) {
+                        var parentSchema2 = MODALIDADES_SCHEMA[parentId2];
+                        if (parentSchema2 && parentSchema2.graduacao && parentSchema2.graduacao.faixas) {
+                            return parentSchema2.graduacao.faixas;
+                        }
+                        // Tentar catálogo do pai
+                        var parentCat = (MODALIDADES_CATALOG||[]).find(function(m){ return m.id===parentId2; });
+                        if (parentCat && parentCat.faixas && parentCat.faixas.length) return parentCat.faixas;
+                    }
+                }
+                return faixas;
             },
 
             /** Retorna um valor de nomenclatura — null se não configurado */
@@ -47499,7 +47606,9 @@ ml>
                 if (ModalidadeGuard.hasPrajied(modId)) return '🥷 Graus de Kruang Prajied';
                 if (ModalidadeGuard.hasCorda(modId))   return '🪢 Cordões de Capoeira';
                 var lGrau = ModalidadeUI.t('grau','Grau');
-                return '🏅 Selos de ' + lGrau;
+                // Karatê não usa selos de grau — sistema de faixas direto
+            if (activeModality && activeModality.indexOf('karate') === 0) return '🥋 Progressão de Faixas';
+            return '🏅 Selos de ' + lGrau;
             },
 
             /** Aplica todos os textos dinâmicos ao check-in screen */
@@ -49305,7 +49414,10 @@ ml>
             
             // Seals section (grau system) → adults only
             var seals = document.getElementById('evoSealsSection');
-            if (seals) seals.style.display = isKid ? 'none' : '';
+            if (seals) {
+                var hideSeals = isKid || (activeModality && activeModality.indexOf('karate') === 0);
+                seals.style.display = hideSeals ? 'none' : '';
+            }
             
             // Frequency tab → adults only
             var freqTab = document.getElementById('evoFreqTab');
@@ -51168,7 +51280,10 @@ ml>
             var row    = document.getElementById('evoSealsRow');
             var seals  = document.getElementById('evoSealsSection');
             if (!row || !seals) return;
-
+            // Karatê: ocultar selos de grau (não é parte do sistema Kyu/Dan)
+            if (activeModality && activeModality.indexOf('karate') === 0) {
+                seals.style.display = 'none'; return;
+            }
             seals.style.display = '';
             // Troca título da seção
             var title = seals.querySelector('.evo-seals-title');
@@ -70829,12 +70944,14 @@ ml>
             for (var d = 1; d <= daysInMonth; d++) {
                 var ds = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
                 var isHoje      = ds === hojeStr;
-                var isSel       = ds === _admCronoSelectedDate;
-                var hasAula     = aulasDoMes[ds];
-                var bg = isSel ? 'var(--adm-primary)' : 'transparent';
-                var color = isSel ? '#fff' : (isHoje ? 'var(--adm-primary)' : 'var(--adm-text-1)');
-                var border = isHoje && !isSel ? '2px solid var(--adm-primary)' : '2px solid transparent';
-                                html += '<button data-crono-day="' + ds + '" style="position:relative;width:100%;aspect-ratio:1;border-radius:8px;border:' + border + ';background:' + bg + ';color:' + color + ';font-size:12px;font-weight:' + (isHoje||isSel?'800':'600') + ';cursor:pointer;">';
+                var isSel   = _admCronoSelectedDates.indexOf(ds) !== -1;
+                var hasAula = !!aulasDoMes[ds];
+                var bg      = isSel ? '#C41E3A' : (isHoje ? 'rgba(196,30,58,0.06)' : 'transparent');
+                var color   = isSel ? '#fff' : (isHoje ? '#C41E3A' : 'var(--adm-text-1)');
+                var fw      = isSel ? '900' : (isHoje ? '800' : '600');
+                var border  = isSel ? '2px solid #9B1628' : (isHoje ? '2px solid #C41E3A' : '2px solid transparent');
+                var boxShadow = isSel ? '0 0 0 2px rgba(196,30,58,0.35)' : 'none';
+                                html += '<button data-crono-day="' + ds + '" style="position:relative;width:100%;aspect-ratio:1;border-radius:8px;border:' + border + ';background:' + bg + ';color:' + color + ';font-size:12px;font-weight:' + fw + ';cursor:pointer;transition:all .1s;box-shadow:' + boxShadow + ';">';
                 html += d;
                 if (hasAula) html += '<div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:' + (isSel?'#fff':'#C9A23A') + ';"></div>';
                 html += '</button>';
@@ -71156,6 +71273,261 @@ ml>
 
                 function admCronoFiltroCT(ct)  { _admCronoFiltroCT = ct;  renderAdmCronoCTChips();  renderAdmCronoCal(); if(_admCronoSelectedDate) renderCronoAgenda(_admCronoSelectedDate); }
         function admCronoFiltroMod(mod){ _admCronoFiltroMod = mod; renderAdmCronoModChips(); renderAdmCronoCal(); if(_admCronoSelectedDate) renderCronoAgenda(_admCronoSelectedDate); }
+
+    </script>
+
+    <script>
+
+        // ═══════════════════════════════════════════════════════════════
+        // CRONOGRAMA DO ALUNO — Estado e variáveis
+        // ═══════════════════════════════════════════════════════════════
+        var _cronoAulas          = [];
+        var _cronoCTAtivo        = '';
+        var _cronoAulasModalidade= '';
+        var _cronoView           = 'diario';
+        var _cronoCurrentDate    = new Date();
+        var _cronoCalMonth       = new Date().getMonth();
+        var _cronoCalYear        = new Date().getFullYear();
+        var _cronoCTsPermitidos  = [];
+        var _cronoPendingCT      = null;
+        var MESES_CRONO = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                           'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+
+        function _renderCronoKPIs() {
+            var el = document.getElementById('cronoKPIs');
+            if (!el) return;
+            var aulas = _getAulasFiltradas();
+            var today = _fmtDate(new Date());
+            var proximas = aulas.filter(function(a) { return a.data >= today; }).length;
+            var passadas  = aulas.filter(function(a) { return a.data < today; }).length;
+            el.innerHTML =
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + aulas.length + '</div><div class="crono-kpi-lbl">Aulas cadastradas</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + proximas + '</div><div class="crono-kpi-lbl">Próximas</div></div>' +
+                '<div class="crono-kpi"><div class="crono-kpi-val">' + passadas + '</div><div class="crono-kpi-lbl">Realizadas</div></div>';
+        }
+
+        function _fmtDate(d) {
+            return d.getFullYear() + '-' +
+                   String(d.getMonth()+1).padStart(2,'0') + '-' +
+                   String(d.getDate()).padStart(2,'0');
+        }
+
+        function _fmtDateBR(dateStr) {
+            if (!dateStr) return '';
+            var p = dateStr.split('-');
+            if (p.length !== 3) return dateStr;
+            return p[2] + '/' + p[1] + '/' + p[0];
+        }
+
+        function renderCronoDiario() {
+            var today   = _fmtDate(new Date());
+            var cur     = _fmtDate(_cronoCurrentDate);
+            var aulas   = _getAulasFiltradas();
+
+            // Atualizar título do dia
+            var titleEl = document.getElementById('cronoDayTitle');
+            if (titleEl) {
+                var opts = { weekday:'long', day:'numeric', month:'long' };
+                titleEl.textContent = _cronoCurrentDate.toLocaleDateString('pt-BR', opts);
+                if (cur === today) titleEl.textContent += ' · Hoje';
+            }
+
+            // Renderizar week strip (7 dias ao redor do dia atual)
+            var weekEl = document.getElementById('cronoWeekStrip');
+            if (weekEl) {
+                var strip = '';
+                for (var wi = -3; wi <= 3; wi++) {
+                    var wd = new Date(_cronoCurrentDate);
+                    wd.setDate(wd.getDate() + wi);
+                    var wds  = _fmtDate(wd);
+                    var isT  = wds === today;
+                    var isSel = wds === cur;
+                    var hasA = aulas.some(function(a){ return a.data === wds; });
+                    var dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+                    strip += '<div class="crono-week-day' + (isSel ? ' selected' : '') + (isT ? ' today' : '') + '" ' +
+                        'data-crono-day="' + wds + '" ' +
+                        'style="position:relative;">' +
+                        '<div style="font-size:10px;color:var(--text-3);">' + dayNames[wd.getDay()] + '</div>' +
+                        '<div style="font-size:14px;font-weight:700;">' + wd.getDate() + '</div>' +
+                        (hasA ? '<div style="width:5px;height:5px;border-radius:50%;background:var(--accent);margin:2px auto 0;"></div>' : '<div style="width:5px;height:5px;margin:2px auto 0;"></div>') +
+                        '</div>';
+                }
+                weekEl.innerHTML = strip;
+            }
+
+            // Aulas do dia selecionado
+            var contEl = document.getElementById('cronoDiarioContent');
+                if (!contEl) return;
+
+            var aulasHoje = aulas.filter(function(a){ return a.data === cur; });
+
+            if (!aulasHoje.length) {
+                var isWeekend = _cronoCurrentDate.getDay() === 0 || _cronoCurrentDate.getDay() === 6;
+                contEl.innerHTML = '<div style="text-align:center;padding:28px 16px;color:var(--text-3);">' +
+                    '<div style="font-size:32px;margin-bottom:8px;">🥋</div>' +
+                    '<div style="font-size:13px;font-weight:600;color:var(--text-2);">' +
+                    (isWeekend ? 'Descanso — sem aula cadastrada' : 'Nenhuma aula cadastrada para este dia') +
+                    '</div></div>';
+                return;
+            }
+
+            var html = '';
+            aulasHoje.forEach(function(a) {
+                var isPast = cur < today;
+                var isToday = cur === today;
+                var statusColor = a.status === 'presente_hoje' ? '#4ade80' : isPast ? '#f87171' : '#C41E3A';
+                var statusLabel = a.status === 'presente_hoje' ? '✅ Presente' : isPast ? '⚪ Não registrado' : isToday ? '📍 Hoje' : '📅 Agendada';
+
+                html += '<div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid ' + statusColor + ';border-radius:10px;padding:14px 16px;margin-bottom:10px;">' +
+                    '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;">' +
+                        '<div style="font-weight:800;font-size:14px;color:var(--text-1);">' + escapeHtml(a.tema || 'Aula de Karatê') + '</div>' +
+                        '<span style="font-size:10px;color:' + statusColor + ';font-weight:700;">' + statusLabel + '</span>' +
+                    '</div>';
+
+                if (a.horario) html += '<div style="font-size:12px;color:var(--text-3);margin-bottom:4px;">⏰ ' + escapeHtml(a.horario) + (a.ct ? ' · 📍 ' + escapeHtml(a.ct) : '') + '</div>';
+                if (a.descricao) html += '<div style="font-size:12px;color:var(--text-2);margin-bottom:6px;">' + escapeHtml(a.descricao) + '</div>';
+
+                if (a.tecnicas && a.tecnicas.length) {
+                    html += '<div style="display:flex;flex-wrap:wrap;gap:5px;">';
+                    a.tecnicas.forEach(function(t) {
+                        html += '<span style="background:var(--accent-dim);color:var(--accent);border:1px solid var(--border-accent);border-radius:12px;padding:2px 8px;font-size:10px;font-weight:600;">🥋 ' + escapeHtml(t) + '</span>';
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
+            });
+            contEl.innerHTML = html;
+        }
+
+        function _jumpCronoDay(dateStr) {
+            var p = dateStr.split('-');
+            _cronoCurrentDate = new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
+            renderCronoDiario();
+        }
+
+        function renderCronoMensal() {
+            var monthEl = document.getElementById('aulasCalMonth');
+            var gridEl  = document.getElementById('aulasCalGrid');
+            if (!gridEl) return;
+
+            if (monthEl) monthEl.textContent = MESES_CRONO[_cronoCalMonth] + ' ' + _cronoCalYear;
+
+            var aulas      = _getAulasFiltradas();
+            var today      = _fmtDate(new Date());
+            var firstDay   = new Date(_cronoCalYear, _cronoCalMonth, 1).getDay();
+            var daysInMonth = new Date(_cronoCalYear, _cronoCalMonth + 1, 0).getDate();
+
+            var aulaMap = {};
+            aulas.forEach(function(a) {
+                if (a.data) {
+                    if (!aulaMap[a.data]) aulaMap[a.data] = [];
+                    aulaMap[a.data].push(a);
+                }
+            });
+
+            var html = '';
+            // Empty cells before first day
+            for (var e = 0; e < firstDay; e++) html += '<div></div>';
+
+            for (var d = 1; d <= daysInMonth; d++) {
+                var ds  = _cronoCalYear + '-' + String(_cronoCalMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+                var isT = ds === today;
+                var hasA = !!aulaMap[ds];
+                var isP  = hasA && aulas.some(function(a){ return a.data === ds && a.status === 'presente_hoje'; });
+
+                var bg  = hasA ? (isP ? '#4ade80' : (ds < today ? '#f87171' : '#C41E3A')) : 'transparent';
+                var fc  = hasA ? '#fff' : (isT ? 'var(--accent)' : 'var(--text-1)');
+                var fw  = (isT || hasA) ? '800' : '400';
+                var border = isT && !hasA ? '1.5px solid var(--accent)' : '1.5px solid transparent';
+
+                html += '<div data-crono-cal="' + ds + '" ' +
+                    'style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;' +
+                    'border-radius:50%;background:' + bg + ';color:' + fc + ';font-weight:' + fw + ';' +
+                    'font-size:13px;cursor:pointer;border:' + border + ';">' + d + '</div>';
+            }
+            gridEl.innerHTML = html;
+
+            // Painel "Treino de hoje" no topo
+            var hojeEl = document.getElementById('cronoTreinoHoje');
+            if (hojeEl) {
+                var aulasHoje = aulaMap[today];
+                if (aulasHoje && aulasHoje.length) {
+                    hojeEl.innerHTML = '<div style="background:var(--accent-dim);border:1px solid var(--border-accent);border-radius:10px;padding:12px 14px;">' +
+                        '<div style="font-size:11px;color:var(--accent);font-weight:700;margin-bottom:4px;">📍 HOJE — ' + (aulasHoje[0].horario || '') + '</div>' +
+                        '<div style="font-size:14px;font-weight:800;color:var(--text-1);">' + escapeHtml(aulasHoje[0].tema || 'Aula de Karatê') + '</div>' +
+                        '</div>';
+                    hojeEl.style.display = 'block';
+                } else {
+                    hojeEl.style.display = 'none';
+                }
+            }
+        }
+
+        function cronoDayClick(dateStr) {
+            var aulas   = _getAulasFiltradas();
+            var aulasD  = aulas.filter(function(a){ return a.data === dateStr; });
+            var detEl   = document.getElementById('aulaDayDetail');
+            if (!detEl) return;
+
+            if (!aulasD.length) { detEl.style.display = 'none'; return; }
+
+            var html = '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;">';
+            html += '<div style="font-size:11px;color:var(--text-3);margin-bottom:10px;">' + _fmtDateBR(dateStr) + '</div>';
+            aulasD.forEach(function(a) {
+                html += '<div style="margin-bottom:8px;">' +
+                    '<div style="font-weight:800;font-size:13px;color:var(--text-1);">' + escapeHtml(a.tema || 'Aula') + '</div>' +
+                    (a.horario ? '<div style="font-size:11px;color:var(--text-3);">⏰ ' + escapeHtml(a.horario) + '</div>' : '') +
+                    (a.descricao ? '<div style="font-size:11px;color:var(--text-2);margin-top:3px;">' + escapeHtml(a.descricao) + '</div>' : '') +
+                '</div>';
+            });
+            html += '</div>';
+            detEl.innerHTML = html;
+            detEl.style.display = 'block';
+            detEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+
+        async function loadCronograma(ctOverride, visualizar) {
+            var container = document.getElementById('cronoDiarioContent');
+            var kpiBar    = document.getElementById('cronoKPIs');
+            if (container) container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-3);font-size:12px;">Carregando...</div>';
+
+            var ctName = ctOverride || (currentUser && currentUser.ct) || '';
+            if (ctOverride && ctOverride !== _cronoCTAtivo) {
+                _cronoAulas = [];
+                _cronoCTAtivo = ctOverride;
+            }
+
+            try {
+                // Usar cache se disponível para o mesmo CT
+                if (!_cronoAulas || _cronoAulas.length === 0) {
+                    var res = await secureFetch('getCronogramaAulas', {
+                        email: currentUser ? currentUser.email : '',
+                        ct:    ctName,
+                        modalidade: '' // karatê único — sem filtro
+                    });
+                    if (res && res.success) {
+                        _cronoAulas    = res.aulas || [];
+                        _cronoCTAtivo  = ctName;
+                        _cronoCTsPermitidos = res.todosPermitidos || [ctName];
+                    }
+                }
+            } catch(e) {
+                if (container) container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--coral);font-size:12px;">Erro ao carregar aulas</div>';
+                return;
+            }
+
+            // Renderizar KPIs
+            _renderCronoKPIs();
+
+            // Renderizar view atual
+            if (_cronoView === 'mensal') {
+                renderCronoMensal();
+            } else {
+                renderCronoDiario();
+            }
+        }
 
     </script>
 </body>
