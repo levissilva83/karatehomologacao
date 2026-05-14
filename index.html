@@ -21930,8 +21930,9 @@ var MODALIDADES_SCHEMA = {
 
         function cronoAgendaAddDay(dateStr) {
             _cronoNewAulaMode = true;
+            // Adicionar sem sobrescrever (multi-seleção)
             if (_admCronoSelectedDates.indexOf(dateStr) === -1) {
-                _admCronoSelectedDates = [dateStr];
+                _admCronoSelectedDates.push(dateStr);
             }
             renderAdmCronoCal();
             openCronoNewAulaPanel();
@@ -56941,8 +56942,9 @@ ml>
 
         function cronoAgendaAddDay(dateStr) {
             _cronoNewAulaMode = true;
+            // Adicionar sem sobrescrever (multi-seleção)
             if (_admCronoSelectedDates.indexOf(dateStr) === -1) {
-                _admCronoSelectedDates = [dateStr];
+                _admCronoSelectedDates.push(dateStr);
             }
             renderAdmCronoCal();
             openCronoNewAulaPanel();
@@ -70699,26 +70701,13 @@ ml>
         // ── Carregar CTs e Modalidades do backend ─────────────────────────
         async function _loadCronoMasterData() {
             try {
-                // CTs — usar allCTs já carregados no login (mais confiável para admin)
+                // CTs
                 if (!_admCronoCTsList.length) {
-                    // 1. Tentar allCTs (populado no login do admin)
-                    if (typeof allCTs !== 'undefined' && allCTs && allCTs.length) {
-                        _admCronoCTsList = allCTs.map(function(c) {
+                    var ctData = await secureFetch('getCTsList', {});
+                    if (ctData && ctData.success && ctData.cts) {
+                        _admCronoCTsList = ctData.cts.map(function(c) {
                             return typeof c === 'string' ? c : (c.name || c.nome || '');
                         }).filter(Boolean);
-                    }
-                    // 2. Fallback: buscar do backend
-                    if (!_admCronoCTsList.length) {
-                        var ctData = await secureFetch('getCTsList', {});
-                        if (ctData && ctData.success && ctData.cts) {
-                            _admCronoCTsList = ctData.cts.map(function(c) {
-                                return typeof c === 'string' ? c : (c.name || c.nome || '');
-                            }).filter(Boolean);
-                        }
-                    }
-                    // 3. Último fallback: currentUser.ct
-                    if (!_admCronoCTsList.length && currentUser && currentUser.ct) {
-                        _admCronoCTsList = [currentUser.ct];
                     }
                 }
             } catch(e) {}
@@ -70746,25 +70735,35 @@ ml>
 
 
 
+        function _getAulasFiltradas() {
+            var aulas = _admCronoAulas || [];
+            if (_admCronoFiltroCT)  aulas = aulas.filter(function(a){ return a.ct === _admCronoFiltroCT; });
+            if (_admCronoFiltroMod) aulas = aulas.filter(function(a){ return a.modalidade === _admCronoFiltroMod; });
+            return aulas;
+        }
+
         function renderAdmCronoCTChips() {
             var el = document.getElementById('cronoAdmCTChips');
             if (!el) return;
-
-            // Obter CTs: da lista carregada OU das aulas existentes
+            // Combinar CTs do backend + CTs já nas aulas
             var ctsSet = {};
-            _admCronoCTsList.forEach(function(ct) { ctsSet[ct] = 1; });
-            _admCronoAulas.forEach(function(a) { if (a.ct) ctsSet[a.ct] = 1; });
+            _admCronoCTsList.forEach(function(ct){ ctsSet[ct]=1; });
+            _admCronoAulas.forEach(function(a){ if(a.ct) ctsSet[a.ct]=1; });
             var keys = Object.keys(ctsSet);
-
             if (!keys.length) {
-                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT cadastrado — crie um CT primeiro</span>';
+                el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">⚠️ Nenhum CT — crie um CT primeiro</span>';
                 return;
             }
             var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
-            var html = '<button data-crono-ct-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroCT ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroCT ? '#fff' : 'var(--adm-text-2)') + ';">Todos</button>';
+            var html = '<button data-crono-ct-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroCT?'var(--adm-primary)':'transparent') + ';color:' + (!_admCronoFiltroCT?'#fff':'var(--adm-text-2)') + ';">Todos</button>';
+            keys.forEach(function(ct){
+                var active = _admCronoFiltroCT===ct;
+                html += '<button data-crono-ct="' + escapeHtml(ct) + '" style="' + stAll + 'background:' + (active?'var(--adm-primary)':'transparent') + ';color:' + (active?'#fff':'var(--adm-text-2)') + ';">📍 ' + escapeHtml(ct) + '</button>';
+            });
+            el.innerHTML = html;
             keys.forEach(function(ct) {
                 var active = _admCronoFiltroCT === ct;
-                html += '<button data-crono-ct="' + escapeHtml(ct) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
+                html += '<button data-crono-ct="' + escapeHtml(ct) + '" style="' + stAll + 'background:' + (active?'var(--adm-primary)':'transparent') + ';color:' + (active?'#fff':'var(--adm-text-2)') + ';">' + escapeHtml(ct) + '</button>';
             });
             el.innerHTML = html;
         }
@@ -70772,13 +70771,11 @@ ml>
         function renderAdmCronoModChips() {
             var el = document.getElementById('cronoAdmModalidadeChips');
             if (!el) return;
-
-            // Obter mods: da lista carregada OU das aulas existentes
+            // Combinar mods do backend + mods nas aulas existentes
             var modsMap = {};
-            _admCronoModsList.forEach(function(m) { modsMap[m.id] = m.nome; });
-            _admCronoAulas.forEach(function(a) { if (a.modalidade && !modsMap[a.modalidade]) modsMap[a.modalidade] = a.modalidade; });
+            _admCronoModsList.forEach(function(m){ modsMap[m.id] = m.nome; });
+            _admCronoAulas.forEach(function(a){ if(a.modalidade && !modsMap[a.modalidade]) modsMap[a.modalidade]=a.modalidade; });
             var keys = Object.keys(modsMap);
-
             if (!keys.length) {
                 el.innerHTML = '<span style="font-size:11px;color:var(--adm-text-3);">Carregando estilos...</span>';
                 return;
@@ -70786,12 +70783,12 @@ ml>
             var stAll = 'padding:4px 10px;border-radius:20px;border:1px solid var(--adm-border);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;';
             var html = '';
             if (keys.length > 1) {
-                html += '<button data-crono-mod-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroMod ? 'var(--adm-primary)' : 'transparent') + ';color:' + (!_admCronoFiltroMod ? '#fff' : 'var(--adm-text-2)') + ';">Todas</button>';
+                html += '<button data-crono-mod-all="1" style="' + stAll + 'background:' + (!_admCronoFiltroMod?'var(--adm-primary)':'transparent') + ';color:' + (!_admCronoFiltroMod?'#fff':'var(--adm-text-2)') + ';">Todas</button>';
             }
-            keys.forEach(function(id) {
-                var active = _admCronoFiltroMod === id;
-                var nome   = modsMap[id] || id;
-                html += '<button data-crono-mod="' + escapeHtml(id) + '" style="' + stAll + 'background:' + (active ? 'var(--adm-primary)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--adm-text-2)') + ';">🥋 ' + escapeHtml(nome) + '</button>';
+            keys.forEach(function(id){
+                var active = _admCronoFiltroMod===id;
+                var nome = modsMap[id] || id;
+                html += '<button data-crono-mod="' + escapeHtml(id) + '" style="' + stAll + 'background:' + (active?'var(--adm-primary)':'transparent') + ';color:' + (active?'#fff':'var(--adm-text-2)') + ';">🥋 ' + escapeHtml(nome) + '</button>';
             });
             el.innerHTML = html;
         }
@@ -70831,16 +70828,15 @@ ml>
             }
             for (var d = 1; d <= daysInMonth; d++) {
                 var ds = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-                var isHoje  = ds === hojeStr;
-                var isSel   = _admCronoSelectedDates.indexOf(ds) !== -1;
-                var isLast  = ds === _admCronoSelectedDate;
-                var hasAula = !!aulasDoMes[ds];
-                var bg      = isSel ? 'var(--adm-primary)' : (isHoje && !isSel ? 'rgba(201,162,58,0.08)' : 'transparent');
-                var color   = isSel ? '#fff' : (isHoje ? 'var(--adm-primary)' : 'var(--adm-text-1)');
-                var border  = isLast ? '2px solid #fff' : (isHoje && !isSel ? '2px solid var(--adm-primary)' : '2px solid transparent');
-                html += '<button data-crono-day="' + ds + '" style="position:relative;width:100%;aspect-ratio:1;border-radius:8px;border:' + border + ';background:' + bg + ';color:' + color + ';font-size:12px;font-weight:' + (isHoje||isSel?'800':'600') + ';cursor:pointer;">';
+                var isHoje      = ds === hojeStr;
+                var isSel       = ds === _admCronoSelectedDate;
+                var hasAula     = aulasDoMes[ds];
+                var bg = isSel ? 'var(--adm-primary)' : 'transparent';
+                var color = isSel ? '#fff' : (isHoje ? 'var(--adm-primary)' : 'var(--adm-text-1)');
+                var border = isHoje && !isSel ? '2px solid var(--adm-primary)' : '2px solid transparent';
+                                html += '<button data-crono-day="' + ds + '" style="position:relative;width:100%;aspect-ratio:1;border-radius:8px;border:' + border + ';background:' + bg + ';color:' + color + ';font-size:12px;font-weight:' + (isHoje||isSel?'800':'600') + ';cursor:pointer;">';
                 html += d;
-                if (hasAula) html += '<div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:' + (isSel?'rgba(255,255,255,0.7)':'#C9A23A') + ';"></div>';
+                if (hasAula) html += '<div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:' + (isSel?'#fff':'#C9A23A') + ';"></div>';
                 html += '</button>';
             }
             gridEl.innerHTML = html;
@@ -70902,13 +70898,23 @@ ml>
 
         async function loadAdminCronograma() {
             try {
-                // Carregar dados mestres (CTs + Modalidades) em paralelo com aulas
+                // Inicializar _admCronoCalDate se ainda não foi
+                if (!_admCronoCalDate || isNaN(_admCronoCalDate.getTime())) {
+                    _admCronoCalDate = new Date();
+                }
+                // Carregar dados mestres (CTs + Modalidades)
                 await _loadCronoMasterData();
                 var data = await secureFetch('getCronogramaAulas', {
                     email: currentUser ? currentUser.email : '',
                     admin: true
                 });
-                if (!data || !data.success) return;
+                if (!data || !data.success) {
+                    // Mesmo sem aulas, renderizar chips e calendário
+                    renderAdmCronoCTChips();
+                    renderAdmCronoModChips();
+                    renderAdmCronoCal();
+                    return;
+                }
                 _admCronoAulas = data.aulas || [];
                 renderAdmCronoCTChips();
                 renderAdmCronoModChips();
@@ -71051,6 +71057,16 @@ ml>
             var ctAll = e.target.closest('[data-crono-ct-all]');
             if (ctAll) { admCronoFiltroCT(''); return; }
             var ctChip = e.target.closest('[data-crono-ct]');
+            if (ctChip && !e.target.closest('[data-crono-ct-all]')) {
+                admCronoFiltroCT(ctChip.getAttribute('data-crono-ct')); return;
+            }
+            var modAll = e.target.closest('[data-crono-mod-all]');
+            if (modAll) { admCronoFiltroMod(''); return; }
+            var modChip = e.target.closest('[data-crono-mod]');
+            if (modChip && !e.target.closest('[data-crono-mod-all]')) {
+                admCronoFiltroMod(modChip.getAttribute('data-crono-mod')); return;
+            }
+            var ctChip = e.target.closest('[data-crono-ct]');
             if (ctChip) { admCronoFiltroCT(ctChip.getAttribute('data-crono-ct')); return; }
 
             // Dia do calendário admin — multi-seleção
@@ -71128,7 +71144,17 @@ ml>
 
 
 
-        function admCronoFiltroCT(ct)  { _admCronoFiltroCT = ct;  renderAdmCronoCTChips();  renderAdmCronoCal(); if(_admCronoSelectedDate) renderCronoAgenda(_admCronoSelectedDate); }
+
+        function admCronoCalNav(delta) {
+            _admCronoCalDate = new Date(
+                _admCronoCalDate.getFullYear(),
+                _admCronoCalDate.getMonth() + delta,
+                1
+            );
+            renderAdmCronoCal();
+        }
+
+                function admCronoFiltroCT(ct)  { _admCronoFiltroCT = ct;  renderAdmCronoCTChips();  renderAdmCronoCal(); if(_admCronoSelectedDate) renderCronoAgenda(_admCronoSelectedDate); }
         function admCronoFiltroMod(mod){ _admCronoFiltroMod = mod; renderAdmCronoModChips(); renderAdmCronoCal(); if(_admCronoSelectedDate) renderCronoAgenda(_admCronoSelectedDate); }
 
     </script>
