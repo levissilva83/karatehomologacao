@@ -5029,18 +5029,25 @@
             max-width: 460px;
             margin: 0 auto;
             min-height: 100vh;
-            background: var(--bg);
+            /* FORCE LIGHT THEME — independente do tema global */
+            background: #F4F1EA;
+            --bg:     #F4F1EA;
+            --bg-2:   #EDE9E0;
+            --text-1: #1A1614;
+            --text-2: #4A3F36;
+            --text-3: #8A7060;
+            --border: rgba(26,22,18,0.12);
             padding: 0;
         }
         .stu-modal-header {
             position: sticky;
             top: 0;
             z-index: 10;
-            background: rgba(10,10,15,0.97);
+            background: rgba(244,241,234,0.97);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: env(safe-area-inset-top, 8px) 12px 0 12px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(26,22,18,0.10);
         }
         .stu-modal-toprow {
             display: flex;
@@ -5049,20 +5056,20 @@
             padding: 10px 0 10px 0;
         }
         .stu-modal-back {
-            background: rgba(255,255,255,0.06); border: none;
-            color: var(--text-1); font-size: 16px; font-weight: 600;
-            cursor: pointer; padding: 8px 14px;
+            background: rgba(26,22,18,0.08) !important; border: 1px solid rgba(26,22,18,0.15) !important;
+            color: #1A1614 !important; font-size: 16px; font-weight: 700;
+            cursor: pointer; padding: 8px 16px;
             border-radius: 10px;
             display: flex; align-items: center; gap: 6px;
             font-family: 'Inter', sans-serif;
             transition: background 0.2s;
         }
-        .stu-modal-back:active { background: rgba(255,255,255,0.12); }
+        .stu-modal-back:active { background: rgba(26,22,18,0.12); }
         .stu-modal-title {
             font-family: 'Inter', sans-serif;
             font-size: 15px;
             font-weight: 700;
-            color: var(--text-1);
+            color: #1A1614;
             text-align: center;
             position: absolute; left: 50%; transform: translateX(-50%);
             pointer-events: none;
@@ -5123,7 +5130,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 12px;
             font-weight: 700;
-            color: var(--text-2);
+            color: #C41E3A;
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -5134,15 +5141,15 @@
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-3);
+            color: #8A7060;
             font-weight: 600;
             margin-bottom: 4px;
         }
         .stu-field input, .stu-field select, .stu-field textarea {
             width: 100%;
             box-sizing: border-box;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
+            background: #FFFFFF;
+            border: 1px solid rgba(26,22,18,0.14);
             border-radius: 8px;
             padding: 10px 12px;
             color: var(--text-1);
@@ -6360,9 +6367,8 @@
         .mod-home-card-nome {
             font-family: 'Sora', sans-serif;
             font-size: 18px; font-weight: 800;
-            color: var(--mod-card-text, #FFFFFF);
+            color: var(--mod-accent, #C41E3A);
             margin-bottom: 2px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .mod-home-card-desc {
             font-size: 12px;
@@ -6375,8 +6381,8 @@
         .mod-home-card-tag {
             font-size: 9px; font-weight: 800; letter-spacing: 0.8px;
             padding: 3px 9px; border-radius: 20px;
-            color: rgba(255,255,255,0.9);
-            background: rgba(255,255,255,196,30,58), 0.12);
+            color: var(--mod-accent, #C41E3A);
+            background: rgba(var(--mod-card-rgb,196,30,58),196,30,58), 0.12);
             border: 1px solid rgba(255,255,255,196,30,58), 0.30);
         }
         .mod-home-card-badge-principal {
@@ -12698,7 +12704,6 @@ var MODALIDADES_SCHEMA = {
             root.style.setProperty('--mod-accent-rgb', mod.corRGB || '201,162,58');
             root.style.setProperty('--mod-dark',       mod.corDark);
             root.style.setProperty('--mod-light',      mod.corLight);
-            root.style.setProperty('--mod-card-text',  '#FFFFFF');
             root.style.setProperty('--mod-dim',        'rgba(' + (mod.corRGB || '201,162,58') + ',0.10)');
             root.style.setProperty('--mod-glow',       'rgba(' + (mod.corRGB || '201,162,58') + ',0.20)');
             root.style.setProperty('--mod-gradient',   mod.gradient);
@@ -40217,18 +40222,25 @@ ml>
             max-width: 460px;
             margin: 0 auto;
             min-height: 100vh;
-            background: var(--bg);
+            /* FORCE LIGHT THEME — independente do tema global */
+            background: #F4F1EA;
+            --bg:     #F4F1EA;
+            --bg-2:   #EDE9E0;
+            --text-1: #1A1614;
+            --text-2: #4A3F36;
+            --text-3: #8A7060;
+            --border: rgba(26,22,18,0.12);
             padding: 0;
         }
         .stu-modal-header {
             position: sticky;
             top: 0;
             z-index: 10;
-            background: rgba(10,10,15,0.97);
+            background: rgba(244,241,234,0.97);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: env(safe-area-inset-top, 8px) 12px 0 12px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(26,22,18,0.10);
         }
         .stu-modal-toprow {
             display: flex;
@@ -40237,20 +40249,20 @@ ml>
             padding: 10px 0 10px 0;
         }
         .stu-modal-back {
-            background: rgba(255,255,255,0.06); border: none;
-            color: var(--text-1); font-size: 16px; font-weight: 600;
-            cursor: pointer; padding: 8px 14px;
+            background: rgba(26,22,18,0.08) !important; border: 1px solid rgba(26,22,18,0.15) !important;
+            color: #1A1614 !important; font-size: 16px; font-weight: 700;
+            cursor: pointer; padding: 8px 16px;
             border-radius: 10px;
             display: flex; align-items: center; gap: 6px;
             font-family: 'Inter', sans-serif;
             transition: background 0.2s;
         }
-        .stu-modal-back:active { background: rgba(255,255,255,0.12); }
+        .stu-modal-back:active { background: rgba(26,22,18,0.12); }
         .stu-modal-title {
             font-family: 'Inter', sans-serif;
             font-size: 15px;
             font-weight: 700;
-            color: var(--text-1);
+            color: #1A1614;
             text-align: center;
             position: absolute; left: 50%; transform: translateX(-50%);
             pointer-events: none;
@@ -40311,7 +40323,7 @@ ml>
             font-family: 'Inter', sans-serif;
             font-size: 12px;
             font-weight: 700;
-            color: var(--text-2);
+            color: #C41E3A;
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -40322,15 +40334,15 @@ ml>
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-3);
+            color: #8A7060;
             font-weight: 600;
             margin-bottom: 4px;
         }
         .stu-field input, .stu-field select, .stu-field textarea {
             width: 100%;
             box-sizing: border-box;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
+            background: #FFFFFF;
+            border: 1px solid rgba(26,22,18,0.14);
             border-radius: 8px;
             padding: 10px 12px;
             color: var(--text-1);
@@ -41548,9 +41560,8 @@ ml>
         .mod-home-card-nome {
             font-family: 'Sora', sans-serif;
             font-size: 18px; font-weight: 800;
-            color: var(--mod-card-text, #FFFFFF);
+            color: var(--mod-accent, #C41E3A);
             margin-bottom: 2px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .mod-home-card-desc {
             font-size: 12px;
@@ -47777,7 +47788,6 @@ ml>
             root.style.setProperty('--mod-accent-rgb', mod.corRGB || '201,162,58');
             root.style.setProperty('--mod-dark',       mod.corDark);
             root.style.setProperty('--mod-light',      mod.corLight);
-            root.style.setProperty('--mod-card-text',  '#FFFFFF');
             root.style.setProperty('--mod-dim',        'rgba(' + (mod.corRGB || '201,162,58') + ',0.10)');
             root.style.setProperty('--mod-glow',       'rgba(' + (mod.corRGB || '201,162,58') + ',0.20)');
             root.style.setProperty('--mod-gradient',   mod.gradient);
@@ -70827,11 +70837,14 @@ ml>
         // CRONOGRAMA ADMIN — CTs + Modalidades do backend
         // ═══════════════════════════════════════════════════════════════
 
-        var _admCronoFiltroCT  = '';
-        var _admCronoFiltroMod = '';
-        var _admCronoAulas     = [];
-        var _admCronoSelectedDates = [];
-        var _admCronoSelectedDate  = null;
+        var _admCronoFiltroCT   = '';
+        var _admCronoFiltroMod  = '';
+        var _admCronoAulas      = [];
+        var _admCronoSelectedDates = [];   // multi-seleção
+        var _admCronoSelectedDate  = null; // último dia clicado (para agenda)
+        var _admCronoCalDate    = new Date(); // mês visível no calendário
+        var _admCronoCalYear    = new Date().getFullYear();
+        var _admCronoCalMonth   = new Date().getMonth();
 
         var _admCronoCTsList   = [];   // lista de CTs carregada do backend
         var _admCronoModsList  = [];   // lista de modalidades carregada do backend
@@ -70974,15 +70987,16 @@ ml>
             }
             for (var d = 1; d <= daysInMonth; d++) {
                 var ds = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-                var isHoje      = ds === hojeStr;
-                var isSel       = ds === _admCronoSelectedDate;
-                var hasAula     = aulasDoMes[ds];
-                var bg = isSel ? 'var(--adm-primary)' : 'transparent';
-                var color = isSel ? '#fff' : (isHoje ? 'var(--adm-primary)' : 'var(--adm-text-1)');
-                var border = isHoje && !isSel ? '2px solid var(--adm-primary)' : '2px solid transparent';
-                                html += '<button data-crono-day="' + ds + '" style="position:relative;width:100%;aspect-ratio:1;border-radius:8px;border:' + border + ';background:' + bg + ';color:' + color + ';font-size:12px;font-weight:' + (isHoje||isSel?'800':'600') + ';cursor:pointer;">';
+                var isHoje  = ds === hojeStr;
+                var isSel   = _admCronoSelectedDates.indexOf(ds) !== -1;
+                var isLast  = ds === _admCronoSelectedDate;
+                var hasAula = !!aulasDoMes[ds];
+                var bg      = isSel ? 'var(--adm-primary)' : (isHoje && !isSel ? 'rgba(201,162,58,0.08)' : 'transparent');
+                var color   = isSel ? '#fff' : (isHoje ? 'var(--adm-primary)' : 'var(--adm-text-1)');
+                var border  = isLast ? '2px solid #fff' : (isHoje && !isSel ? '2px solid var(--adm-primary)' : '2px solid transparent');
+                html += '<button data-crono-day="' + ds + '" style="position:relative;width:100%;aspect-ratio:1;border-radius:8px;border:' + border + ';background:' + bg + ';color:' + color + ';font-size:12px;font-weight:' + (isHoje||isSel?'800':'600') + ';cursor:pointer;">';
                 html += d;
-                if (hasAula) html += '<div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:' + (isSel?'#fff':'#C9A23A') + ';"></div>';
+                if (hasAula) html += '<div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:' + (isSel?'rgba(255,255,255,0.7)':'#C9A23A') + ';"></div>';
                 html += '</button>';
             }
             gridEl.innerHTML = html;
@@ -71109,12 +71123,15 @@ ml>
             var datesEl = document.getElementById('cronoNewDatesChips');
             if (datesEl) {
                 if (_admCronoSelectedDates.length) {
-                    datesEl.textContent = _admCronoSelectedDates.map(function(d) {
-                        var p = d.split('-'); return p[2]+'/'+p[1]+'/'+p[0];
-                    }).join(', ');
+                    datesEl.style.color = 'var(--adm-primary)';
+                    datesEl.style.fontWeight = '700';
+                    datesEl.textContent = _admCronoSelectedDates.length + ' data(s): ' + _admCronoSelectedDates.map(function(d) {
+                        var p = d.split('-'); return p[2]+'/'+p[1];
+                    }).join(' · ');
                 } else {
-                    datesEl.textContent = 'Nenhuma data selecionada — clique no calendário';
                     datesEl.style.color = 'var(--adm-text-3)';
+                    datesEl.style.fontWeight = '400';
+                    datesEl.textContent = 'Nenhuma data — clique no calendário para selecionar';
                 }
             }
 
@@ -71191,6 +71208,40 @@ ml>
             if (ctAll) { admCronoFiltroCT(''); return; }
             var ctChip = e.target.closest('[data-crono-ct]');
             if (ctChip) { admCronoFiltroCT(ctChip.getAttribute('data-crono-ct')); return; }
+
+            // Dia do calendário admin — multi-seleção
+            var prevBtn = e.target.closest('[data-crono-prev]');
+            if (prevBtn) {
+                _admCronoCalDate = new Date(_admCronoCalDate.getFullYear(), _admCronoCalDate.getMonth() - 1, 1);
+                renderAdmCronoCal(); return;
+            }
+            var nextBtn = e.target.closest('[data-crono-next]');
+            if (nextBtn) {
+                _admCronoCalDate = new Date(_admCronoCalDate.getFullYear(), _admCronoCalDate.getMonth() + 1, 1);
+                renderAdmCronoCal(); return;
+            }
+            var calDayBtn = e.target.closest('[data-crono-day]');
+            if (calDayBtn) {
+                var ds = calDayBtn.getAttribute('data-crono-day');
+                var idx = _admCronoSelectedDates.indexOf(ds);
+                if (idx === -1) { _admCronoSelectedDates.push(ds); }
+                else            { _admCronoSelectedDates.splice(idx, 1); }
+                _admCronoSelectedDate = ds;
+                renderAdmCronoCal();
+                renderCronoAgenda(ds);
+                // Atualizar painel Nova Aula
+                var dEl = document.getElementById('cronoNewDatesChips');
+                if (dEl) {
+                    if (_admCronoSelectedDates.length) {
+                        dEl.style.color = 'var(--adm-primary)'; dEl.style.fontWeight = '700';
+                        dEl.textContent = _admCronoSelectedDates.length + ' data(s): ' + _admCronoSelectedDates.map(function(d){ var p=d.split('-'); return p[2]+'/'+p[1]; }).join(' · ');
+                    } else {
+                        dEl.style.color = 'var(--adm-text-3)'; dEl.style.fontWeight = '400';
+                        dEl.textContent = 'Nenhuma data — clique no calendário';
+                    }
+                }
+                return;
+            }
 
             // Mod chip no filtro
             var modAll = e.target.closest('[data-crono-mod-all]');
