@@ -11966,11 +11966,16 @@ textarea:focus {
             return { modalidades: checkedIds.join(','), modalidadePrincipal: principalSel ? principalSel.value : '', modalidadesGrad: modalidadesGrad };
         }
 
+        // Actions que não precisam de token (espelham _PUBLIC do GAS)
+        var _ACTIONS_PUBLICAS = ['login','requestAccount','getCTsList',
+            'requestPasswordReset','checkTrialStatus','whatsappCheckin',
+            'getModalidades','getFaixasModalidade'];
+
         async function secureFetch(action, payload) {
             var token = getSessionToken();
-            if (!token && ['login','requestAccount','getCTsList','requestPasswordReset'].indexOf(action) === -1) {
+            if (!token && _ACTIONS_PUBLICAS.indexOf(action) === -1) {
                 handleSessionExpired();
-                throw new Error('Sessão expirada');
+                throw new Error('Sess\u00e3o expirada');
             }
             var body = Object.assign({}, payload || {}, { action: action });
             if (token) body.token = token;
@@ -12049,10 +12054,22 @@ textarea:focus {
             } catch(e) {}
         }
 
+        var _sessionExpiredShown = false; // evita mostrar múltiplos alerts
         function handleSessionExpired() {
+            if (_sessionExpiredShown) return; // evita loop
+            _sessionExpiredShown = true;
             clearSession();
-            alert('Sua sessão expirou. Faça login novamente.');
-            location.reload();
+            // Volta para o login sem recarregar (reload causava loop)
+            if (typeof showLoginScreen === 'function') {
+                showLoginScreen();
+            } else {
+                document.getElementById('loginScreen') && (document.getElementById('loginScreen').style.display = '');
+                document.getElementById('appScreen')  && (document.getElementById('appScreen').style.display  = 'none');
+            }
+            setTimeout(function() {
+                _sessionExpiredShown = false;
+                alert('Sua sess\u00e3o expirou. Fa\u00e7a login novamente.');
+            }, 100);
         }
 
 
@@ -12252,9 +12269,8 @@ textarea:focus {
             if (regPw) regPw.addEventListener('input', checkPasswordMatch);
             if (regPwC) regPwC.addEventListener('input', checkPasswordMatch);
 
-            // Carrega modalidades imediatamente na inicialização.
-            // O DOJO_ID já está disponível via ?dojo= na URL.
-            // Quando o aluno abrir o cadastro, o catalog já estará pronto.
+            // Pré-carrega modalidades na inicialização (getModalidades é público no GAS).
+            // Não requer token — exibe modalidades corretas no cadastro sem delay.
             if (typeof loadCustomModalidades === 'function' && DOJO_ID) {
                 loadCustomModalidades();
             }
