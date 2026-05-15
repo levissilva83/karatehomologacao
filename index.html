@@ -125,6 +125,34 @@
         .mod-estilo-chip.active::before { content:'✓ '; }
         .mod-estilo-badge { display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:10px;font-size:9px;font-weight:800;letter-spacing:0.6px;background:rgba(220,38,38,0.14);color:#DC2626;border:1px solid rgba(220,38,38,0.25);margin-left:4px; }
 
+
+        /* ===== TRIAL BANNER ===== */
+        #trialBanner {
+            /* No app-screen: fixed abaixo do header */
+            position: fixed;
+            left: 0; right: 0;
+            z-index: 9500;
+            text-align: center;
+            padding: 7px 12px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            pointer-events: none;
+            /* Sombra para destacar sobre o conteúdo */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        /* Quando estamos na tela de login/registro:
+           o banner vira sticky dentro do scroll-wrap */
+        .login-scroll-wrap #trialBanner {
+            position: sticky !important;
+            top: 0 !important;
+            left: unset !important; right: unset !important;
+            width: calc(100% + 40px);   /* compensa padding do wrap */
+            margin: 0 -20px 12px;       /* sangria lateral */
+            border-radius: 0;
+            z-index: 100;
+        }
+
         /* ===== REGISTRATION MODALITY CARDS ===== */
         #regModalidadesGrid label:active {
             transform: scale(0.97);
@@ -12842,6 +12870,15 @@ textarea:focus {
         var _currentViewMode = 'admin'; // 'admin' or 'aluno'
 
         function showAppScreen() {
+            // Reposicionar trial banner: sai do login-scroll-wrap e vai para o body
+            var trialEl = document.getElementById('trialBanner');
+            if (trialEl && trialEl.parentElement && trialEl.parentElement.classList.contains('login-scroll-wrap')) {
+                trialEl.parentElement.removeChild(trialEl);
+                var appHeader = document.querySelector('.app-header');
+                var headerH   = appHeader ? appHeader.offsetHeight : 0;
+                trialEl.style.top = headerH + 'px';
+                document.body.appendChild(trialEl);
+            }
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('headerUser').style.display = 'flex';
             document.getElementById('headerUserName').textContent = currentUser.name.split(' ')[0];
@@ -13429,6 +13466,10 @@ textarea:focus {
 
                 // Re-renderiza evolução/roadmap com faixas atualizadas
                 if (typeof renderPerfilPrincipalSection === 'function') renderPerfilPrincipalSection();
+
+                // Re-renderiza filtros que dependem do catalog
+                if (typeof renderAdmModalidadeChips === 'function') renderAdmModalidadeChips();
+                if (typeof initGradSistema === 'function' && document.getElementById('gradModTabs')) initGradSistema();
 
                 console.log('[loadFaixasModalidade] faixas carregadas para:', Object.keys(data.faixas));
             } catch(e) {
@@ -20620,6 +20661,10 @@ textarea:focus {
             if (_btnNovaAula) _btnNovaAula.style.display = canDo('saveCronogramaAula') ? '' : 'none';
 
             renderAdmCTChips();
+            // Aguarda o catalog de modalidades estar carregado
+            if (!MODALIDADES_CATALOG || MODALIDADES_CATALOG.length === 0) {
+                await loadCustomModalidades();
+            }
             renderAdmModalidadeChips();
             if (!_admCronoCalYear) {
                 var now = new Date();
@@ -20665,8 +20710,17 @@ textarea:focus {
         function renderAdmModalidadeChips() {
             var el = document.getElementById('cronoAdmModalidadeChips');
             if (!el) return;
-            var catalog = (MODALIDADES_CATALOG || []).filter(function(m){ return m.familia === 'karate'; });
-            if (catalog.length === 0) { el.innerHTML = '<span style="font-size:10px;color:var(--adm-text-3);">Nenhuma modalidade cadastrada</span>'; return; }
+            var catalog = (MODALIDADES_CATALOG || []).filter(function(m){ return m.familia === 'karate' && m.ativo !== false; });
+            if (catalog.length === 0) {
+                // Catalog ainda vazio: tenta carregar e re-renderizar
+                if (typeof loadCustomModalidades === 'function') {
+                    el.innerHTML = '<span style="font-size:10px;color:var(--adm-text-3);">Carregando...</span>';
+                    loadCustomModalidades().then(function() { renderAdmModalidadeChips(); });
+                } else {
+                    el.innerHTML = '<span style="font-size:10px;color:var(--adm-text-3);">Nenhuma modalidade cadastrada</span>';
+                }
+                return;
+            }
             el.innerHTML = '';
             catalog.filter(function(m){ return m.ativo !== false; }).forEach(function(mod) {
                 var isSelected = _admCronoFilterModalidades.indexOf(mod.id) !== -1;
@@ -22905,14 +22959,33 @@ textarea:focus {
         function showTrialBanner(diasRestantes) {
             var existing = document.getElementById('trialBanner');
             if (existing) existing.remove();
-            var cor = diasRestantes <= 3 ? '#f87171' : diasRestantes <= 7 ? '#fbbf24' : '#C9A23A';
+
+            // Cor progressiva: dourado > 7d | amarelo 4-7d | vermelho 1-3d
+            var cor    = diasRestantes <= 3 ? '#ef4444' : diasRestantes <= 7 ? '#f59e0b' : '#C9A23A';
+            var txtCor = diasRestantes <= 3 ? '#fff' : '#000';
+            var label  = '\u23f3 Per\u00edodo de teste: ' + diasRestantes + ' dia' +
+                         (diasRestantes !== 1 ? 's' : '') + ' restante' +
+                         (diasRestantes !== 1 ? 's' : '');
+
             var banner = document.createElement('div');
             banner.id  = 'trialBanner';
-            // Usa variável CSS do header se disponível, fallback 56px
-            var headerH = (document.querySelector('.app-header') || {}).offsetHeight || 56;
-            banner.style.cssText = 'position:fixed;top:' + headerH + 'px;left:0;right:0;z-index:900;background:' + cor + ';color:#000;text-align:center;padding:5px 12px;font-size:11px;font-weight:800;';
-            banner.textContent = '⏳ Período de teste: ' + diasRestantes + ' dia' + (diasRestantes !== 1 ? 's' : '') + ' restante' + (diasRestantes !== 1 ? 's' : '');
-            document.body.prepend(banner);
+            banner.style.background = cor;
+            banner.style.color      = txtCor;
+            banner.textContent      = label;
+
+            // Detectar se estamos na tela de login/registro (scroll em container)
+            var scrollWrap = document.querySelector('.login-scroll-wrap');
+            var appHeader  = document.querySelector('.app-header');
+
+            if (scrollWrap && scrollWrap.offsetParent !== null) {
+                // Tela de login/registro: insere sticky no topo do scroll-wrap
+                scrollWrap.insertBefore(banner, scrollWrap.firstChild);
+            } else {
+                // App screen: insere fixed abaixo do header
+                var headerH = appHeader ? appHeader.offsetHeight : 0;
+                banner.style.top = headerH + 'px';
+                document.body.appendChild(banner);
+            }
         }
 
         async function loadSuperAdminTrialConfig() {
