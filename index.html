@@ -4368,120 +4368,6 @@
         }
 
         /* ── Gestão de Aulas por CT/Modalidade ── */
-        .ct-aulas-section {
-            margin-top: 18px;
-            border-top: 1px solid var(--adm-border);
-            padding-top: 16px;
-        }
-        .ct-aulas-header {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 12px;
-        }
-        .ct-aulas-title {
-            font-size: 13px; font-weight: 800; color: var(--adm-text-1);
-            display: flex; align-items: center; gap: 6px;
-        }
-        .ct-aulas-add-btn {
-            padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700;
-            background: rgba(201,162,58,0.12); color: var(--adm-primary);
-            border: 1px solid rgba(201,162,58,0.25); cursor: pointer;
-            transition: all 0.15s; white-space: nowrap;
-        }
-        .ct-aulas-add-btn:active { transform: scale(0.96); }
-        .ct-aula-form {
-            background: var(--adm-bg-elevated); border: 1px solid var(--adm-border);
-            border-radius: 12px; padding: 14px; margin-bottom: 12px;
-            display: none;
-        }
-        .ct-aula-form.visible { display: block; }
-        .ct-aula-form-title {
-            font-size: 12px; font-weight: 700; color: var(--adm-text-2);
-            margin-bottom: 10px; display: flex; align-items: center; gap: 5px;
-        }
-        .ct-aula-form-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;
-        }
-        .ct-aula-form-full { grid-column: 1 / -1; }
-        .ct-aula-field label {
-            font-size: 10px; color: var(--adm-text-3); font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.4px;
-            display: block; margin-bottom: 4px;
-        }
-        .ct-aula-field input, .ct-aula-field select {
-            width: 100%; box-sizing: border-box; padding: 9px 10px;
-            background: var(--adm-bg-card); color: var(--adm-text-1);
-            border: 1px solid var(--adm-border); border-radius: 8px;
-            font-size: 12px; font-family: inherit;
-        }
-        .ct-aula-field input:focus, .ct-aula-field select:focus {
-            outline: none; border-color: var(--adm-primary);
-        }
-        .ct-aula-dias-grid {
-            display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px;
-        }
-        .ct-aula-dia-chip {
-            padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;
-            border: 1.5px solid var(--adm-border); background: var(--adm-bg-card);
-            color: var(--adm-text-3); cursor: pointer; user-select: none;
-            transition: all 0.12s;
-        }
-        .ct-aula-dia-chip.selected {
-            background: rgba(201,162,58,0.15); border-color: var(--adm-primary);
-            color: var(--adm-primary);
-        }
-        .ct-aula-form-actions {
-            display: flex; gap: 8px; margin-top: 12px;
-        }
-        .ct-aula-save-btn {
-            flex: 1; padding: 10px; border-radius: 9px; font-size: 12px; font-weight: 800;
-            background: linear-gradient(135deg, var(--adm-primary), var(--adm-primary-bright));
-            color: #0a0a0a; border: none; cursor: pointer;
-        }
-        .ct-aula-cancel-btn {
-            padding: 10px 16px; border-radius: 9px; font-size: 12px; font-weight: 700;
-            background: transparent; color: var(--adm-text-3);
-            border: 1px solid var(--adm-border); cursor: pointer;
-        }
-        .ct-aula-msg {
-            font-size: 11px; margin-top: 6px; min-height: 14px;
-        }
-        /* Lista de aulas cadastradas */
-        .ct-aula-card {
-            background: var(--adm-bg-card); border: 1px solid var(--adm-border);
-            border-radius: 10px; padding: 11px 13px; margin-bottom: 7px;
-            display: flex; align-items: flex-start; gap: 10px;
-            transition: border-color 0.15s;
-        }
-        .ct-aula-card:hover { border-color: rgba(201,162,58,0.2); }
-        .ct-aula-card-icon {
-            font-size: 20px; flex-shrink: 0; margin-top: 1px;
-        }
-        .ct-aula-card-body { flex: 1; min-width: 0; }
-        .ct-aula-card-nome {
-            font-size: 13px; font-weight: 700; color: var(--adm-text-1); margin-bottom: 3px;
-        }
-        .ct-aula-card-meta {
-            font-size: 11px; color: var(--adm-text-3); line-height: 1.6;
-        }
-        .ct-aula-card-meta strong { color: var(--adm-text-2); }
-        .ct-aula-card-dias {
-            display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px;
-        }
-        .ct-aula-card-dia {
-            padding: 2px 7px; border-radius: 5px; font-size: 10px; font-weight: 700;
-            background: rgba(201,162,58,0.1); color: var(--adm-primary);
-            border: 1px solid rgba(201,162,58,0.2);
-        }
-        .ct-aula-card-del {
-            flex-shrink: 0; padding: 4px 8px; border-radius: 6px;
-            background: rgba(248,113,113,0.08); color: #f87171;
-            border: 1px solid rgba(248,113,113,0.2); font-size: 10px;
-            font-weight: 700; cursor: pointer;
-        }
-        .ct-aulas-empty {
-            text-align: center; padding: 16px 8px;
-            color: var(--adm-text-3); font-size: 12px;
-        }
         /* ── Grad info badge ── */
         .ct-grad-badge {
             display: inline-flex; align-items: center; gap: 5px;
@@ -9460,43 +9346,69 @@ textarea:focus {
                     <!-- 🏢 Centros de Treinamento movidos para Painel Admin → Cronograma tab -->
 
                     <!-- Modal: Cadastrar nova modalidade -->
+                    <!-- Modal: Nova Submodalidade (turma filha) -->
                     <div id="newModalidadeOverlay" onclick="if(event.target===this)closeNewModalidadeModal()" style="display:none;position:fixed;inset:0;z-index:10010;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:20px;">
                         <div style="background:var(--adm-bg-card);border:1px solid var(--adm-border);border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;">
-                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-                                <div style="font-size:15px;font-weight:800;color:var(--adm-text-1);">➕ Nova Modalidade</div>
+
+                            <!-- Header -->
+                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                                <div style="font-size:15px;font-weight:800;color:var(--adm-text-1);">➕ Nova Turma / Submodalidade</div>
                                 <button onclick="closeNewModalidadeModal()" style="background:none;border:none;color:var(--adm-text-3);font-size:20px;cursor:pointer;">✕</button>
                             </div>
-                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:14px;line-height:1.6;">O sistema reconhecerá automaticamente o sistema de graduação com base no tipo escolhido.</div>
-                            <div style="margin-bottom:10px;">
-                                <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">ID único (sem espaços)</label>
-                                <input type="text" id="newModId" placeholder="ex: kung_fu" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:16px;line-height:1.6;">
+                                Crie turmas específicas (Kids, Baby Class, Competidores...).<br>
+                                A turma herda automaticamente as faixas e graduação da modalidade pai.
                             </div>
-                            <div style="margin-bottom:10px;">
-                                <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Nome exibido</label>
-                                <input type="text" id="newModNome" placeholder="ex: Kung Fu" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
-                            </div>
-                            <div style="display:flex;gap:8px;margin-bottom:10px;">
-                                <div style="flex:1;">
-                                    <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Ícone (emoji)</label>
-                                    <input type="text" id="newModIcon" placeholder="🥋" maxlength="4" style="width:100%;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:20px;text-align:center;">
-                                </div>
-                                <div style="flex:1;">
-                                    <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:4px;">Cor principal</label>
-                                    <input type="color" id="newModCor" value="#8B5CF6" style="width:100%;height:42px;border:1px solid var(--adm-border);border-radius:8px;cursor:pointer;">
-                                </div>
-                            </div>
-                            <div style="margin-bottom:14px;">
-                                <label style="font-size:11px;color:var(--adm-text-3);display:block;margin-bottom:6px;">Sistema de Graduação</label>
-                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                                    <label onclick="updateNewModPreview('faixa_cintura')" style="display:flex;align-items:center;gap:6px;padding:9px 10px;background:var(--adm-bg-elevated);border:1.5px solid var(--accent,#C9A23A);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:var(--adm-text-1);" id="newModGrad_faixa">
-                                        <input type="radio" name="newModGrad" value="faixa_cintura" checked style="accent-color:var(--accent,#C9A23A);"> 🥋 Faixa Cintura
-                                    </label>
 
+                            <!-- Seleção do PAI -->
+                            <div style="margin-bottom:12px;">
+                                <label style="font-size:11px;font-weight:700;color:var(--adm-text-3);display:block;margin-bottom:6px;">MODALIDADE PAI</label>
+                                <select id="newModPai" onchange="onNewModPaiChange()" style="width:100%;box-sizing:border-box;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;font-weight:700;">
+                                    <option value="">Selecione a modalidade pai...</option>
+                                </select>
+                                <!-- Preview do pai -->
+                                <div id="newModPaiPreview" style="display:none;margin-top:8px;padding:10px 12px;border-radius:10px;border:1px solid;display:flex;align-items:center;gap:10px;">
+                                    <span id="newModPaiIcon" style="font-size:22px;"></span>
+                                    <div>
+                                        <div id="newModPaiNome" style="font-size:13px;font-weight:800;"></div>
+                                        <div id="newModPaiFaixas" style="font-size:10px;color:var(--adm-text-3);margin-top:2px;"></div>
+                                    </div>
                                 </div>
-                                <div id="newModGradPreview" style="margin-top:10px;padding:10px;background:rgba(255,255,255,0.04);border-radius:8px;font-size:11px;color:var(--adm-text-3);line-height:1.7;"></div>
                             </div>
-                            <div id="newModMsg" style="font-size:11px;margin-bottom:10px;min-height:16px;"></div>
-                            <button onclick="cadastrarNovaModalidade()" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">Cadastrar Modalidade</button>
+
+                            <!-- Nome da turma -->
+                            <div style="margin-bottom:12px;">
+                                <label style="font-size:11px;font-weight:700;color:var(--adm-text-3);display:block;margin-bottom:6px;">NOME DA TURMA</label>
+                                <input type="text" id="newModNomeTurma" placeholder="Ex: Kids, Baby Class, Competidores..."
+                                    oninput="onNewModNomeInput()"
+                                    style="width:100%;box-sizing:border-box;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
+                            </div>
+
+                            <!-- Preview do ID e nome final -->
+                            <div id="newModPreviewBox" style="display:none;margin-bottom:14px;padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
+                                <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:6px;">RESULTADO</div>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <span id="newModPreviewIcon" style="font-size:24px;"></span>
+                                    <div>
+                                        <div id="newModPreviewNome" style="font-size:14px;font-weight:800;color:var(--adm-text-1);"></div>
+                                        <div id="newModPreviewId" style="font-size:10px;color:var(--adm-text-3);margin-top:2px;font-family:monospace;"></div>
+                                        <div id="newModPreviewHeranca" style="font-size:10px;color:#4ade80;margin-top:2px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ícone customizado (opcional) -->
+                            <div style="margin-bottom:12px;">
+                                <label style="font-size:11px;font-weight:700;color:var(--adm-text-3);display:block;margin-bottom:4px;">ÍCONE (opcional — herda do pai)</label>
+                                <input type="text" id="newModIconTurma" placeholder="🥋" maxlength="4"
+                                    style="width:80px;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:20px;text-align:center;">
+                            </div>
+
+                            <div id="newModMsg" style="font-size:12px;margin-bottom:10px;min-height:16px;font-weight:700;"></div>
+                            <button onclick="cadastrarNovaSubmodalidade()"
+                                style="width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">
+                                ✓ Criar Turma
+                            </button>
                         </div>
                     </div>
 
@@ -25382,27 +25294,41 @@ textarea:focus {
             faixa_cintura: '🥋 Faixa na cintura\nFaixas: Branca → Colorida(s) → Preta\nExemplo: Karatê'
         };
 
-        function updateNewModPreview(tipo) {
-            var preview = document.getElementById('newModGradPreview');
-            if (!preview) return;
-            preview.textContent = _GRAD_PREVIEWS[tipo] || '';
-            // Atualiza visual das labels
-            ['faixa_cintura'].forEach(function(t) {
-                var key = t === 'faixa_cintura' ? 'faixa' : t;
-                var lbl = document.getElementById('newModGrad_' + key);
-                if (!lbl) return;
-                var isActive = t === tipo;
-                lbl.style.borderColor = isActive ? 'var(--accent,#C9A23A)' : 'var(--adm-border)';
-                lbl.style.color       = isActive ? 'var(--adm-text-1)' : 'var(--adm-text-2)';
-            });
-        }
+        // ═══════════════════════════════════════════════════════
+        // MODAL: NOVA SUBMODALIDADE (turma filha com herança)
+        // ═══════════════════════════════════════════════════════
 
         function openNewModalidadeModal() {
             var ov = document.getElementById('newModalidadeOverlay');
             if (!ov) return;
+
+            // Popular select de pais: apenas modalidades sem campo pai (bases)
+            var sel = document.getElementById('newModPai');
+            if (sel) {
+                sel.innerHTML = '<option value="">Selecione a modalidade pai...</option>';
+                var bases = (MODALIDADES_CATALOG || []).filter(function(m){
+                    return m.ativo !== false && !m.pai; // só bases (sem pai)
+                });
+                bases.forEach(function(m) {
+                    var opt = document.createElement('option');
+                    opt.value = m.id;
+                    opt.textContent = m.icon + ' ' + m.nome;
+                    sel.appendChild(opt);
+                });
+            }
+
+            // Limpar campos
+            ['newModNomeTurma','newModIconTurma'].forEach(function(id){
+                var el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            var msg = document.getElementById('newModMsg');
+            if (msg) msg.textContent = '';
+            _hideEl('newModPaiPreview');
+            _hideEl('newModPreviewBox');
+
             ov.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            updateNewModPreview('faixa_cintura');
         }
 
         function closeNewModalidadeModal() {
@@ -25411,121 +25337,170 @@ textarea:focus {
             document.body.style.overflow = '';
         }
 
-        function cadastrarNovaModalidade() {
-            var id    = (document.getElementById('newModId')   || {}).value.trim();
-            var nome  = (document.getElementById('newModNome') || {}).value.trim();
-            var icon  = (document.getElementById('newModIcon') || {}).value.trim() || '🏅';
-            var cor   = (document.getElementById('newModCor')  || {}).value || '#8B5CF6';
-            var grad  = document.querySelector('input[name="newModGrad"]:checked');
-            var tipo  = grad ? grad.value : 'faixa_cintura';
-            var msg   = document.getElementById('newModMsg');
-
-            if (!id)   { if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe um ID único';}  return; }
-            if (!nome) { if(msg){msg.style.color='#f87171';msg.textContent='⚠️ Informe o nome';}        return; }
-            if (MODALIDADES_CATALOG.find(function(m){return m.id===id;})) {
-                if(msg){msg.style.color='#f87171';msg.textContent='⚠️ ID já existe: '+id;} return;
-            }
-
-            // Hex → RGB
-            var r = parseInt(cor.slice(1,3),16), g = parseInt(cor.slice(3,5),16), b = parseInt(cor.slice(5,7),16);
-            var corRGB = r+','+g+','+b;
-            var corDark = '#' + [Math.max(0,r-60),Math.max(0,g-60),Math.max(0,b-60)].map(function(x){return ('0'+x.toString(16)).slice(-2);}).join('');
-
-            // Gera faixas padrão pelo tipo
-            var faixasPadrao = {
-                faixa_cintura: [
-                    {id:'Branca',label:'Branca',emoji:'⚪',cor:'#e8e8e8',cssClass:'branca',next:'Amarela',ordemProgresso:1},
-                    {id:'Amarela',label:'Amarela',emoji:'🟡',cor:'#fdd835',cssClass:'amarela',next:'Verde',ordemProgresso:2},
-                    {id:'Verde',label:'Verde',emoji:'🟢',cor:'#2e7d32',cssClass:'verde',next:'Azul',ordemProgresso:3},
-                    {id:'Azul',label:'Azul',emoji:'🔵',cor:'#1565c0',cssClass:'azul',next:'Vermelha',ordemProgresso:4},
-                    {id:'Vermelha',label:'Vermelha',emoji:'🔴',cor:'#c62828',cssClass:'vermelha',next:'Preta',ordemProgresso:5},
-                    {id:'Preta',label:'Preta',emoji:'⚫',cor:'#1a1a1a',cssClass:'preta',next:null,ordemProgresso:6}
-                ],
-
-                nenhum: []
-            };
-
-            var hasGrad  = tipo !== 'nenhum';
-            var hasFaixa = tipo === 'faixa_cintura';
-            var hasPraj  = false;
-            var labelF   = 'Faixa';
-            var labelG   = 'Grau';
-            var tipoLabel= tipo === 'nenhum' ? null : 'Faixa';
-
-            // Cria entrada no CATALOG
-            var novaMod = {
-                id: id, icon: icon, nome: nome, desc: nome,
-                navIcon: icon, navLabel: nome.split(' ')[0],
-                cor: cor, corDark: corDark, corLight: '#' + [Math.min(255,r+80),Math.min(255,g+80),Math.min(255,b+80)].map(function(x){return ('0'+x.toString(16)).slice(-2);}).join(''),
-                corRGB: corRGB,
-                gradient: 'linear-gradient(135deg, '+cor+' 0%, #'+[Math.min(255,r+80),Math.min(255,g+80),Math.min(255,b+80)].map(function(x){return ('0'+x.toString(16)).slice(-2);}).join('')+' 55%, '+corDark+' 100%)',
-                gradientBg: 'radial-gradient(ellipse at 20% 10%, rgba('+corRGB+',0.18) 0%, transparent 60%)',
-                btnLabel: '✓ Confirmar Treino de '+nome,
-                cardBg: 'linear-gradient(145deg, rgba('+corRGB+',0.12) 0%, rgba('+corRGB+',0.05) 100%)',
-                tag: nome.toUpperCase(), tagColor: cor
-            };
-            MODALIDADES_CATALOG.push(novaMod);
-
-            // Cria schema
-            MODALIDADES_SCHEMA[id] = {
-                id: id,
-                graduacao: {
-                    tipo: tipo, hasGraduacao: hasGrad,
-                    hasFaixa: hasFaixa, hasPrajied: hasPraj,
-                    labelFaixa: labelF, labelGrau: labelG, labelGrauPlural: labelG+'s',
-                    maxGrausPorFaixa: hasGrad ? 4 : null,
-                    simbolo: tipo,
-                    faixas: faixasPadrao[tipo] || []
-                },
-                nomenclatura: {
-                    treino: 'Treino', aula: 'Aula', professor: 'Professor',
-                    aluno: 'Atleta', academia: 'Academia',
-                    faixa: labelF, faixas: labelF+'s', grau: labelG, graus: labelG+'s',
-                    confirmarBtn: '✓ Confirmar Treino de '+nome,
-                    evolucaoTitulo: 'Minha Progressão',
-                    roadmapTitulo: icon+' Sistema de Graduação — '+nome,
-                    roadmapSub: 'Evolução em '+nome
-                },
-                ui: {
-                    mostrarFaixa: hasFaixa,
-                    mostrarGraus: hasGrad && !hasPraj,
-                    mostrarPrajied: hasPraj,
-                    mostrarRoadmap: hasGrad,
-                    mostrarFrequencia: true,
-                    mostrarCriterios: false,
-                    roadmapTipo: 'cintura',
-                    iconeEvo: icon
-                }
-            };
-
-            if(msg){ msg.style.color='#4ade80'; msg.textContent='✅ Modalidade "'+nome+'" cadastrada! Ela já aparece nos cards e cadastros.'; }
-
-            // Persiste no backend (planilha Modalidades)
-            var r2 = parseInt(cor.slice(1,3),16), g2 = parseInt(cor.slice(3,5),16), b2 = parseInt(cor.slice(5,7),16);
-            secureFetch('saveModalidade', {
-                id: id, nome: nome, icon: icon, cor: cor,
-                corRGB: r2+','+g2+','+b2,
-                desc: nome, gradTipo: tipo, ativo: true
-            }).then(function(res) {
-                if (res && res.success) {
-                    console.log('[saveModalidade] salvo no backend: ' + id);
-                } else {
-                    console.warn('[saveModalidade] falha:', res && res.message);
-                }
-            }).catch(function(e) {
-                console.warn('[saveModalidade] erro de conexão:', e);
-            });
-
-            setTimeout(function(){
-                closeNewModalidadeModal();
-                // Limpar campos
-                ['newModId','newModNome','newModIcon'].forEach(function(fid){ var el=document.getElementById(fid); if(el) el.value=''; });
-                // Rebuild grids
-                buildRegModalidadesGrid();
-                if (typeof loadCTScheduleAdmin === 'function') loadCTScheduleAdmin();
-            }, 1800);
+        function _hideEl(id) {
+            var el = document.getElementById(id);
+            if (el) el.style.display = 'none';
         }
 
+        function onNewModPaiChange() {
+            var paiId   = (document.getElementById('newModPai') || {}).value || '';
+            var preview = document.getElementById('newModPaiPreview');
+            if (!paiId || !preview) { _hideEl('newModPaiPreview'); _updateNewModPreviewBox(); return; }
+
+            var paiMod = (MODALIDADES_CATALOG || []).find(function(m){ return m.id === paiId; });
+            if (!paiMod) { _hideEl('newModPaiPreview'); return; }
+
+            // Mostrar preview do pai
+            preview.style.display = 'flex';
+            preview.style.borderColor = paiMod.cor || '#DC2626';
+            preview.style.background  = 'rgba(' + (paiMod.corRGB || '220,38,38') + ',0.08)';
+            var iconEl  = document.getElementById('newModPaiIcon');
+            var nomeEl  = document.getElementById('newModPaiNome');
+            var faixEl  = document.getElementById('newModPaiFaixas');
+            if (iconEl) iconEl.textContent = paiMod.icon || '';
+            if (nomeEl) { nomeEl.textContent = paiMod.nome; nomeEl.style.color = paiMod.cor || ''; }
+
+            // Mostrar resumo das faixas herdadas
+            var schema = (typeof MODALIDADES_SCHEMA !== 'undefined') && MODALIDADES_SCHEMA[paiId];
+            var faixasTxt = '';
+            if (schema && schema.graduacao && schema.graduacao.faixas && schema.graduacao.faixas.length) {
+                var fs = schema.graduacao.faixas;
+                faixasTxt = 'Herda ' + fs.length + ' faixas: ' +
+                    fs[0].emoji + ' ' + fs[0].label + ' → ' +
+                    fs[fs.length-1].emoji + ' ' + fs[fs.length-1].label;
+            } else {
+                faixasTxt = 'Faixas carregadas da planilha';
+            }
+            if (faixEl) faixEl.textContent = faixasTxt;
+
+            // Preencher ícone herdado se campo vazio
+            var iconInput = document.getElementById('newModIconTurma');
+            if (iconInput && !iconInput.value) iconInput.value = paiMod.icon || '';
+
+            _updateNewModPreviewBox();
+        }
+
+        function onNewModNomeInput() {
+            _updateNewModPreviewBox();
+        }
+
+        function _updateNewModPreviewBox() {
+            var paiId   = (document.getElementById('newModPai')       || {}).value || '';
+            var nomeTurma = ((document.getElementById('newModNomeTurma') || {}).value || '').trim();
+            var box       = document.getElementById('newModPreviewBox');
+            if (!box) return;
+
+            if (!paiId || !nomeTurma) { box.style.display = 'none'; return; }
+
+            var paiMod = (MODALIDADES_CATALOG || []).find(function(m){ return m.id === paiId; });
+            if (!paiMod) { box.style.display = 'none'; return; }
+
+            // Gerar ID: pai_id + _ + nome_normalizado
+            var sufixo = nomeTurma.toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g,'')  // remove acentos
+                .replace(/[^a-z0-9]/g,'_')
+                .replace(/_+/g,'_').replace(/^_|_$/g,'');
+            var novoId = paiId + '_' + sufixo;
+
+            // Nome completo: pai + turma
+            var nomeCompleto = paiMod.nome + ' ' + nomeTurma;
+
+            var icon = (document.getElementById('newModIconTurma') || {}).value || paiMod.icon || '';
+
+            var pIcon = document.getElementById('newModPreviewIcon');
+            var pNome = document.getElementById('newModPreviewNome');
+            var pId   = document.getElementById('newModPreviewId');
+            var pHer  = document.getElementById('newModPreviewHeranca');
+
+            if (pIcon) pIcon.textContent = icon;
+            if (pNome) { pNome.textContent = nomeCompleto; pNome.style.color = paiMod.cor || ''; }
+            if (pId)   pId.textContent = 'id: ' + novoId;
+            if (pHer)  pHer.textContent = '↑ Herda faixas de ' + paiMod.nome;
+
+            box.style.display = 'block';
+        }
+
+        async function cadastrarNovaSubmodalidade() {
+            var paiId     = (document.getElementById('newModPai')       || {}).value || '';
+            var nomeTurma = ((document.getElementById('newModNomeTurma') || {}).value || '').trim();
+            var iconCustom= ((document.getElementById('newModIconTurma') || {}).value || '').trim();
+            var msg       = document.getElementById('newModMsg');
+            function showMsg(txt, ok) {
+                if (!msg) return;
+                msg.textContent = txt;
+                msg.style.color = ok ? '#4ade80' : '#f87171';
+            }
+
+            if (!paiId)     { showMsg('⚠️ Selecione a modalidade pai.', false); return; }
+            if (!nomeTurma) { showMsg('⚠️ Informe o nome da turma.', false); return; }
+
+            var paiMod = (MODALIDADES_CATALOG || []).find(function(m){ return m.id === paiId; });
+            if (!paiMod) { showMsg('⚠️ Modalidade pai não encontrada.', false); return; }
+
+            // Gerar ID e nome final
+            var sufixo = nomeTurma.toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+                .replace(/[^a-z0-9]/g,'_')
+                .replace(/_+/g,'_').replace(/^_|_$/g,'');
+            var novoId      = paiId + '_' + sufixo;
+            var nomeCompleto= paiMod.nome + ' ' + nomeTurma;
+            var icon        = iconCustom || paiMod.icon || '🥋';
+
+            // Verificar duplicata
+            if ((MODALIDADES_CATALOG || []).find(function(m){ return m.id === novoId; })) {
+                showMsg('⚠️ Turma "' + novoId + '" já existe.', false); return;
+            }
+
+            showMsg('Salvando...', true);
+
+            // Salvar no backend (sheet Modalidades com campo pai)
+            try {
+                var res = await secureFetch('saveModalidade', {
+                    id:       novoId,
+                    nome:     nomeCompleto,
+                    icon:     icon,
+                    cor:      paiMod.cor     || '#DC2626',
+                    corRGB:   paiMod.corRGB  || '220,38,38',
+                    desc:     nomeTurma,
+                    gradTipo: '',           // herda do pai — backend preenche via _getModInfo
+                    ativo:    true,
+                    pai:      paiId          // campo chave da herança
+                });
+
+                if (res && res.success) {
+                    // Adicionar ao catalog local imediatamente
+                    var novaEntrada = Object.assign({}, paiMod, {
+                        id:   novoId,
+                        nome: nomeCompleto,
+                        icon: icon,
+                        pai:  paiId,
+                        desc: nomeTurma
+                    });
+                    MODALIDADES_CATALOG.push(novaEntrada);
+
+                    // Herdar schema do pai
+                    if (typeof MODALIDADES_SCHEMA !== 'undefined' && MODALIDADES_SCHEMA[paiId]) {
+                        MODALIDADES_SCHEMA[novoId] = JSON.parse(JSON.stringify(MODALIDADES_SCHEMA[paiId]));
+                        MODALIDADES_SCHEMA[novoId].id = novoId;
+                    }
+
+                    showMsg('✅ Turma "' + nomeCompleto + '" criada com sucesso!', true);
+
+                    setTimeout(function(){
+                        closeNewModalidadeModal();
+                        buildRegModalidadesGrid();
+                        renderAdmModalidadeChips();
+                        if (typeof loadCTScheduleAdmin === 'function') loadCTScheduleAdmin();
+                    }, 1200);
+                } else {
+                    showMsg('❌ Erro: ' + (res && res.message ? res.message : 'Falha ao salvar.'), false);
+                }
+            } catch(e) {
+                showMsg('❌ Erro de conexão: ' + e.message, false);
+            }
+        }
+
+        // ─── Render abas de CTs ───────────────────────────────────────
         // ─── Render abas de CTs ───────────────────────────────────────
 
         async function loadCTScheduleAdmin() {
@@ -25694,8 +25669,6 @@ textarea:focus {
                 html += '<div class="ct-mod-section-label">📅 Horários de funcionamento</div>';
                 html += _renderDayRows(ctName, mod.id, schedule, modHpd);
 
-                // ── Seção 2: Gestão de Turmas ──
-                html += _renderAulasSection(ctName, mod);
 
                 // ── Botão salvar horários ──
                 html += '<div style="margin-top:14px;">';
@@ -25868,198 +25841,7 @@ textarea:focus {
             return html;
         }
 
-        function _attachTimeListeners(ctName) {
-            var DAY_KEYS = ['seg','ter','qua','qui','sex','sab','dom'];
-            var mods = MODALIDADES_CATALOG || [];
-            mods.forEach(function(mod) {
-                DAY_KEYS.forEach(function(dk) {
-                    var inp = document.getElementById('ctNewTime2_'+encodeURIComponent(ctName)+'_'+mod.id+'_'+dk);
-                    if (!inp) return;
-                    inp.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter') { e.preventDefault(); addCTTime2(ctName, mod.id, dk); }
-                    });
-                    inp.addEventListener('input', function(e) {
-                        var v = e.target.value.replace(/[^\d:]/g,'');
-                        if (v.length === 2 && v.indexOf(':') === -1) v = v + ':';
-                        if (v.length > 5) v = v.substring(0, 5);
-                        e.target.value = v;
-                    });
-                });
-            });
-        }
 
-        /* ═══════════════════════════════════════════════════════
-           GESTÃO DE AULAS — CT / Modalidade
-           Estrutura: _aulasData[ctName][modId] = [ {id, nome, horario, professor, dias[], limiteAlunos} ]
-        ═══════════════════════════════════════════════════════ */
-        var _aulasData = {};
-
-        function _getAulas(ctName, modId) {
-            if (!_aulasData[ctName]) _aulasData[ctName] = {};
-            if (!_aulasData[ctName][modId]) _aulasData[ctName][modId] = [];
-            return _aulasData[ctName][modId];
-        }
-
-        function _renderAulasSection(ctName, mod) {
-            var safeKey = encodeURIComponent(ctName) + '_' + mod.id;
-            var html = '';
-            html += '<div class="ct-aulas-section" id="aulasSection_' + safeKey + '">';
-            html += '<div class="ct-aulas-header">';
-            html += '<div class="ct-aulas-title">📋 Gestão de Turmas <span style="font-size:10px;font-weight:500;color:var(--adm-text-3);">— ' + escapeHtml(mod.icon + ' ' + mod.nome) + '</span></div>';
-            html += '<button class="ct-aulas-add-btn" onclick="toggleAulaForm(\'' + safeKey + '\')">+ Nova Turma</button>';
-            html += '</div>';
-
-            // Formulário de cadastro (oculto por padrão)
-            var diasLabels = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
-            var diasKeys   = ['seg','ter','qua','qui','sex','sab','dom'];
-            html += '<div class="ct-aula-form" id="aulaForm_' + safeKey + '">';
-            html += '<div class="ct-aula-form-title">➕ Cadastrar Nova Turma</div>';
-            html += '<div class="ct-aula-form-grid">';
-            // Nome da aula
-            html += '<div class="ct-aula-field ct-aula-form-full">';
-            html += '<label>Nome da turma *</label>';
-            html += '<input type="text" id="aulaNome_' + safeKey + '" placeholder="Ex: Turma Avançada, Kids, Fundamentos...">';
-            html += '</div>';
-            // Horário + Professor
-            html += '<div class="ct-aula-field">';
-            html += '<label>Horário *</label>';
-            html += '<input type="time" id="aulaHorario_' + safeKey + '">';
-            html += '</div>';
-            html += '<div class="ct-aula-field">';
-            html += '<label>Professor</label>';
-            html += '<input type="text" id="aulaProfessor_' + safeKey + '" placeholder="Nome do professor">';
-            html += '</div>';
-            // Dias da semana
-            html += '<div class="ct-aula-field ct-aula-form-full">';
-            html += '<label>Dias da semana *</label>';
-            html += '<div class="ct-aula-dias-grid" id="aulaDias_' + safeKey + '">';
-            diasLabels.forEach(function(label, i) {
-                html += '<div class="ct-aula-dia-chip" data-dia="' + diasKeys[i] + '" onclick="toggleAulaDia(this)">' + label + '</div>';
-            });
-            html += '</div></div>';
-            // Limite de alunos
-            html += '<div class="ct-aula-field">';
-            html += '<label>Limite de alunos</label>';
-            html += '<input type="number" id="aulaLimite_' + safeKey + '" placeholder="Sem limite" min="1" max="999">';
-            html += '</div>';
-            html += '</div>'; // grid
-            html += '<div class="ct-aula-form-actions">';
-            html += '<button class="ct-aula-cancel-btn" onclick="toggleAulaForm(\'' + safeKey + '\')">Cancelar</button>';
-            html += '<button class="ct-aula-save-btn" onclick="salvarAula(\'' + escapeHtml(ctName).replace(/'/g,"\\'") + '\',\'' + mod.id + '\',\'' + safeKey + '\')">💾 Cadastrar Turma</button>';
-            html += '</div>';
-            html += '<div class="ct-aula-msg" id="aulaMsgForm_' + safeKey + '"></div>';
-            html += '</div>'; // form
-
-            // Lista de turmas já cadastradas
-            html += '<div id="aulasList_' + safeKey + '">';
-            html += _renderAulasList(ctName, mod.id);
-            html += '</div>';
-            html += '</div>'; // ct-aulas-section
-            return html;
-        }
-
-        function _renderAulasList(ctName, modId) {
-            var aulas = _getAulas(ctName, modId);
-            var diasLabels = { seg:'Seg', ter:'Ter', qua:'Qua', qui:'Qui', sex:'Sex', sab:'Sáb', dom:'Dom' };
-            if (aulas.length === 0) {
-                return '<div class="ct-aulas-empty">Nenhuma turma cadastrada ainda.<br><span style="font-size:11px;">Clique em "+ Nova Turma" para começar.</span></div>';
-            }
-            var html = '';
-            aulas.forEach(function(aula) {
-                html += '<div class="ct-aula-card" id="aulaCard_' + aula.id + '">';
-                html += '<div class="ct-aula-card-icon">🥋</div>';
-                html += '<div class="ct-aula-card-body">';
-                html += '<div class="ct-aula-card-nome">' + escapeHtml(aula.nome) + '</div>';
-                html += '<div class="ct-aula-card-meta">';
-                html += '⏰ <strong>' + escapeHtml(aula.horario) + '</strong>';
-                if (aula.professor) html += ' · 👨‍🏫 <strong>' + escapeHtml(aula.professor) + '</strong>';
-                if (aula.limiteAlunos) html += ' · 👥 Máx: <strong>' + aula.limiteAlunos + '</strong>';
-                html += '</div>';
-                if (aula.dias && aula.dias.length > 0) {
-                    html += '<div class="ct-aula-card-dias">';
-                    aula.dias.forEach(function(d) {
-                        html += '<span class="ct-aula-card-dia">' + (diasLabels[d] || d) + '</span>';
-                    });
-                    html += '</div>';
-                }
-                html += '</div>'; // body
-                var safeKey = encodeURIComponent(ctName) + '_' + modId;
-                html += '<button class="ct-aula-card-del" onclick="excluirAula(\'' + escapeHtml(ctName).replace(/'/g,"\\'") + '\',\'' + modId + '\',\'' + aula.id + '\',\'' + safeKey + '\')">🗑</button>';
-                html += '</div>'; // card
-            });
-            return html;
-        }
-
-        function toggleAulaForm(safeKey) {
-            var form = document.getElementById('aulaForm_' + safeKey);
-            if (!form) return;
-            var visible = form.classList.toggle('visible');
-            if (visible) {
-                // Reset form fields
-                var fields = ['aulaNome_', 'aulaHorario_', 'aulaProfessor_', 'aulaLimite_'];
-                fields.forEach(function(f) { var el = document.getElementById(f + safeKey); if (el) el.value = ''; });
-                var diasGrid = document.getElementById('aulaDias_' + safeKey);
-                if (diasGrid) diasGrid.querySelectorAll('.ct-aula-dia-chip').forEach(function(c){ c.classList.remove('selected'); });
-                var msg = document.getElementById('aulaMsgForm_' + safeKey);
-                if (msg) msg.textContent = '';
-            }
-        }
-
-        function toggleAulaDia(chip) {
-            chip.classList.toggle('selected');
-        }
-
-        function salvarAula(ctName, modId, safeKey) {
-            var nome     = (document.getElementById('aulaNome_' + safeKey) || {}).value || '';
-            var horario  = (document.getElementById('aulaHorario_' + safeKey) || {}).value || '';
-            var prof     = (document.getElementById('aulaProfessor_' + safeKey) || {}).value || '';
-            var limite   = (document.getElementById('aulaLimite_' + safeKey) || {}).value || '';
-            var diasGrid = document.getElementById('aulaDias_' + safeKey);
-            var dias     = [];
-            if (diasGrid) diasGrid.querySelectorAll('.ct-aula-dia-chip.selected').forEach(function(c){ dias.push(c.getAttribute('data-dia')); });
-
-            var msgEl = document.getElementById('aulaMsgForm_' + safeKey);
-            function showMsg(txt, ok) {
-                if (!msgEl) return;
-                msgEl.textContent = txt;
-                msgEl.style.color = ok ? 'var(--adm-green)' : '#f87171';
-            }
-
-            if (!nome.trim()) { showMsg('⚠️ Informe o nome da turma.', false); return; }
-            if (!horario)     { showMsg('⚠️ Informe o horário.', false); return; }
-            if (dias.length === 0) { showMsg('⚠️ Selecione ao menos um dia.', false); return; }
-
-            var aula = {
-                id:          'aula_' + Date.now(),
-                nome:        nome.trim(),
-                horario:     horario,
-                professor:   prof.trim(),
-                dias:        dias,
-                limiteAlunos: limite ? parseInt(limite) : null,
-                criadoEm:    new Date().toISOString()
-            };
-
-            _getAulas(ctName, modId).push(aula);
-
-            // Atualiza lista
-            var listEl = document.getElementById('aulasList_' + safeKey);
-            if (listEl) listEl.innerHTML = _renderAulasList(ctName, modId);
-
-            showMsg('✅ Turma cadastrada com sucesso!', true);
-            setTimeout(function() { toggleAulaForm(safeKey); }, 900);
-
-            // Opcional: integração futura com backend
-            // secureFetch('saveAula', { ct: ctName, modId: modId, aula: aula });
-        }
-
-        function excluirAula(ctName, modId, aulaId, safeKey) {
-            if (!confirm('Excluir esta turma?')) return;
-            var list = _getAulas(ctName, modId);
-            var idx  = list.findIndex(function(a){ return a.id === aulaId; });
-            if (idx !== -1) list.splice(idx, 1);
-            var listEl = document.getElementById('aulasList_' + safeKey);
-            if (listEl) listEl.innerHTML = _renderAulasList(ctName, modId);
-        }
 
         function switchCTModTab(ctName, modId) {
             // Compatibilidade: redireciona para v3
