@@ -9628,11 +9628,7 @@ textarea:focus {
                             Configure a graduação do aluno abaixo.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-                        <div style="margin-top:12px;">
-                            <label style="font-size:11px;color:var(--text-3);font-weight:600;display:block;margin-bottom:5px;">⭐ Modalidade Principal</label>
-                            <select id="stuModalidadePrincipal" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                            </select>
-                        </div>
+
                     </div>
                 </div>
 
@@ -9966,11 +9962,7 @@ textarea:focus {
                             Configure a graduação do aluno abaixo.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-                        <div style="margin-top:12px;">
-                            <label style="font-size:11px;color:var(--text-3);font-weight:600;display:block;margin-bottom:5px;">⭐ Modalidade Principal</label>
-                            <select id="stuModalidadePrincipal" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                            </select>
-                        </div>
+
                     </div>
                 </div>
 
@@ -11997,7 +11989,9 @@ textarea:focus {
                     modalidadesGrad[modId] = { nivel: nivelVal, faixa: nivelVal, grau: grauVal };
                 }
             });
-            return { modalidades: checkedIds.join(','), modalidadePrincipal: principalSel ? principalSel.value : '', modalidadesGrad: modalidadesGrad };
+            // Modalidade principal = primeira selecionada (definida no licenciamento)
+            var _principal = checkedIds[0] || '';
+            return { modalidades: checkedIds.join(','), modalidadePrincipal: _principal, modalidadesGrad: modalidadesGrad };
         }
 
         // Actions que não precisam de token (espelham _PUBLIC do GAS)
@@ -13419,19 +13413,7 @@ textarea:focus {
             fillSelect(document.getElementById('presListMod'), true, 'Todas');
 
             // Modalidade Principal do aluno (edição)
-            document.querySelectorAll('#stuModalidadePrincipal').forEach(function(el) {
-                fillSelect(el, false);
-                // Auto-seleciona a modalidade principal do aluno se houver
-                if (typeof principalMod !== 'undefined' && principalMod) {
-                    // Tenta o ID exato, depois o primeiro karate_* ativo
-                    var _opts = Array.from(el.options).map(function(o){ return o.value; });
-                    if (_opts.indexOf(principalMod) !== -1) {
-                        el.value = principalMod;
-                    } else if (_opts.length > 0) {
-                        el.value = _opts[0]; // fallback: primeira opção
-                    }
-                }
-            });
+            // ⭐ stuModalidadePrincipal removido — principal = primeira modalidade do contrato
 
             // Cronograma admin
             var cronMod = document.getElementById('cronoAdmModSelect') || document.getElementById('presAdmModSelect');
