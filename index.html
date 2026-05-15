@@ -11691,6 +11691,10 @@ textarea:focus {
          * chamado ao abrir o modal de edição de aluno — somente Karatê
          */
         function renderStuModalidadesGrid(currentMods, principalMod, modalidadesGrad) {
+            // Salvar parâmetros para re-renderização após faixas carregarem
+            window._lastStuMods      = currentMods;
+            window._lastStuPrincipal = principalMod;
+            window._lastStuGrad      = modalidadesGrad;
             var grid = document.getElementById('stuModalidadesGrid');
             var principalSel = document.getElementById('stuModalidadePrincipal');
             if (!grid) return;
@@ -11727,6 +11731,21 @@ textarea:focus {
                 var hasCorda  = schema && ModalidadeGuard.hasCorda(mod.id);
                 var hasGrad   = schema && ModalidadeGuard.hasGraduacao(mod.id);
                 var faixasArr = hasGrad ? ModalidadeGuard.getFaixas(mod.id) : [];
+
+                // Se faixas vazias e schema existe: schema ainda nao carregado da sheet
+                // Aguardar loadFaixasModalidade e re-renderizar
+                if (faixasArr.length === 0 && typeof loadFaixasModalidade === 'function') {
+                    var _modIds = modsVisiveis.map(function(m){ return m.id; });
+                    loadFaixasModalidade(_modIds).then(function() {
+                        // Re-chama com os mesmos parâmetros após faixas chegarem
+                        if (typeof renderStuModalidadesGrid === 'function') {
+                            renderStuModalidadesGrid(currentMods, principalMod, modalidadesGrad);
+                        }
+                    });
+                    // Mostra spinner enquanto carrega
+                    if (grid) grid.innerHTML = '<div style="padding:12px;color:var(--text-3);font-size:12px;">Carregando faixas...</div>';
+                    return;
+                }
                 var maxGraus  = (schema && schema.graduacao.maxGrausPorFaixa != null) ? schema.graduacao.maxGrausPorFaixa : 4;
                 var labelNivel= ModalidadeGuard.getNomenclatura(mod.id, 'faixa') || 'Faixa';
                 var labelGrau = ModalidadeGuard.getNomenclatura(mod.id, 'grau')  || 'Grau';
@@ -13409,6 +13428,17 @@ textarea:focus {
 
                 // Re-renderiza evolução/roadmap com faixas atualizadas
                 if (typeof renderPerfilPrincipalSection === 'function') renderPerfilPrincipalSection();
+                // Re-renderiza modal do aluno se estiver aberto (aguardava faixas)
+                if (typeof renderStuModalidadesGrid === 'function' && document.getElementById('stuModalidadesGrid')) {
+                    var _stuGrid = document.getElementById('stuModalidadesGrid');
+                    if (_stuGrid && _stuGrid.innerHTML.indexOf('Carregando faixas') !== -1) {
+                        renderStuModalidadesGrid(
+                            typeof _lastStuMods !== 'undefined' ? _lastStuMods : '',
+                            typeof _lastStuPrincipal !== 'undefined' ? _lastStuPrincipal : '',
+                            typeof _lastStuGrad !== 'undefined' ? _lastStuGrad : {}
+                        );
+                    }
+                }
 
                 // Re-renderiza filtros que dependem do catalog
                 if (typeof renderAdmModalidadeChips === 'function') renderAdmModalidadeChips();
