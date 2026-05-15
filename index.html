@@ -10605,6 +10605,24 @@ textarea:focus {
                 return merged;
             },
 
+            // Métodos de feature-check (lêem o schema da modalidade)
+            hasFaixa: function(modId) {
+                var s = this.getSchema(modId);
+                return !!(s && s.graduacao && s.graduacao.hasFaixa);
+            },
+            hasPrajied: function(modId) {
+                var s = this.getSchema(modId);
+                return !!(s && s.graduacao && s.graduacao.hasPrajied);
+            },
+            hasCorda: function(modId) {
+                var s = this.getSchema(modId);
+                return !!(s && s.graduacao && s.graduacao.hasCorda);
+            },
+            hasGraduacao: function(modId) {
+                var s = this.getSchema(modId);
+                return !!(s && s.graduacao && s.graduacao.hasGraduacao);
+            },
+
             getFaixas: function(modId) {
                 var s = this.getSchema(modId);
                 if (!s || !s.graduacao.hasGraduacao) return [];
@@ -11718,10 +11736,31 @@ textarea:focus {
                     ? nomesAtivos.join(', ') + '. Configure a graduação abaixo.'
                     : 'Configure a graduação do aluno abaixo.';
             }
+            // Verificar se faixas estão carregadas ANTES do forEach
+            var _primeiroMod = modsVisiveis[0];
+            var _primeiroSchema = _primeiroMod ? ModalidadeGuard.getSchema(_primeiroMod.id) : null;
+            var _primeirasFaixas = (_primeiroSchema && ModalidadeGuard.hasGraduacao(_primeiroMod.id))
+                ? ModalidadeGuard.getFaixas(_primeiroMod.id) : [];
+
+            if (_primeirasFaixas.length === 0 && modsVisiveis.length > 0) {
+                // Faixas não carregadas — buscar e re-renderizar
+                if (grid) grid.innerHTML = '<div style="padding:12px;color:var(--text-3);font-size:12px;">⏳ Carregando faixas...</div>';
+                var _ids = modsVisiveis.map(function(m){ return m.id; });
+                loadFaixasModalidade(_ids).then(function(){
+                    renderStuModalidadesGrid(currentMods, principalMod, modalidadesGrad);
+                });
+                return;
+            }
+
             modsVisiveis.forEach(function(mod) {
-                var isChecked  = activeMods.indexOf(mod.id) !== -1;
-                var modGrad    = gradData[mod.id] || {};
-                var nivelSalvo = modGrad.nivel || modGrad.faixa || ''; // v4.9: suporta 'nivel' e legado 'faixa'
+                // isChecked: verifica ID exato E aliases (ex: 'karate' → qualquer karate_*)
+                var isChecked = activeMods.indexOf(mod.id) !== -1;
+                // Fallback: se aluno tem 'karate' genérico e modal é karate_*, considera ativo
+                if (!isChecked && activeMods.indexOf('karate') !== -1 && mod.id.indexOf('karate') === 0 && !mod.pai) {
+                    isChecked = true;
+                }
+                var modGrad    = gradData[mod.id] || gradData['karate'] || {};
+                var nivelSalvo = modGrad.nivel || modGrad.faixa || '';
                 var grauSalvo  = parseInt(modGrad.grau) || 0;
 
                 // Schema da modalidade via ModalidadeGuard
@@ -11731,21 +11770,6 @@ textarea:focus {
                 var hasCorda  = schema && ModalidadeGuard.hasCorda(mod.id);
                 var hasGrad   = schema && ModalidadeGuard.hasGraduacao(mod.id);
                 var faixasArr = hasGrad ? ModalidadeGuard.getFaixas(mod.id) : [];
-
-                // Se faixas vazias e schema existe: schema ainda nao carregado da sheet
-                // Aguardar loadFaixasModalidade e re-renderizar
-                if (faixasArr.length === 0 && typeof loadFaixasModalidade === 'function') {
-                    var _modIds = modsVisiveis.map(function(m){ return m.id; });
-                    loadFaixasModalidade(_modIds).then(function() {
-                        // Re-chama com os mesmos parâmetros após faixas chegarem
-                        if (typeof renderStuModalidadesGrid === 'function') {
-                            renderStuModalidadesGrid(currentMods, principalMod, modalidadesGrad);
-                        }
-                    });
-                    // Mostra spinner enquanto carrega
-                    if (grid) grid.innerHTML = '<div style="padding:12px;color:var(--text-3);font-size:12px;">Carregando faixas...</div>';
-                    return;
-                }
                 var maxGraus  = (schema && schema.graduacao.maxGrausPorFaixa != null) ? schema.graduacao.maxGrausPorFaixa : 4;
                 var labelNivel= ModalidadeGuard.getNomenclatura(mod.id, 'faixa') || 'Faixa';
                 var labelGrau = ModalidadeGuard.getNomenclatura(mod.id, 'grau')  || 'Grau';
@@ -13354,6 +13378,16 @@ textarea:focus {
             // Modalidade Principal do aluno (edição)
             document.querySelectorAll('#stuModalidadePrincipal').forEach(function(el) {
                 fillSelect(el, false);
+                // Auto-seleciona a modalidade principal do aluno se houver
+                if (typeof principalMod !== 'undefined' && principalMod) {
+                    // Tenta o ID exato, depois o primeiro karate_* ativo
+                    var _opts = Array.from(el.options).map(function(o){ return o.value; });
+                    if (_opts.indexOf(principalMod) !== -1) {
+                        el.value = principalMod;
+                    } else if (_opts.length > 0) {
+                        el.value = _opts[0]; // fallback: primeira opção
+                    }
+                }
             });
 
             // Cronograma admin
