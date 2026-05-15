@@ -9347,70 +9347,7 @@ textarea:focus {
 
                     <!-- Modal: Cadastrar nova modalidade -->
                     <!-- Modal: Nova Submodalidade (turma filha) -->
-                    <div id="newModalidadeOverlay" onclick="if(event.target===this)closeNewModalidadeModal()" style="display:none;position:fixed;inset:0;z-index:10010;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:20px;">
-                        <div style="background:var(--adm-bg-card);border:1px solid var(--adm-border);border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;">
-
-                            <!-- Header -->
-                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-                                <div style="font-size:15px;font-weight:800;color:var(--adm-text-1);">➕ Nova Turma / Submodalidade</div>
-                                <button onclick="closeNewModalidadeModal()" style="background:none;border:none;color:var(--adm-text-3);font-size:20px;cursor:pointer;">✕</button>
-                            </div>
-                            <div style="font-size:11px;color:var(--adm-text-3);margin-bottom:16px;line-height:1.6;">
-                                Crie turmas específicas (Kids, Baby Class, Competidores...).<br>
-                                A turma herda automaticamente as faixas e graduação da modalidade pai.
-                            </div>
-
-                            <!-- Seleção do PAI -->
-                            <div style="margin-bottom:12px;">
-                                <label style="font-size:11px;font-weight:700;color:var(--adm-text-3);display:block;margin-bottom:6px;">MODALIDADE PAI</label>
-                                <select id="newModPai" onchange="onNewModPaiChange()" style="width:100%;box-sizing:border-box;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;font-weight:700;">
-                                    <option value="">Selecione a modalidade pai...</option>
-                                </select>
-                                <!-- Preview do pai -->
-                                <div id="newModPaiPreview" style="display:none;margin-top:8px;padding:10px 12px;border-radius:10px;border:1px solid;display:flex;align-items:center;gap:10px;">
-                                    <span id="newModPaiIcon" style="font-size:22px;"></span>
-                                    <div>
-                                        <div id="newModPaiNome" style="font-size:13px;font-weight:800;"></div>
-                                        <div id="newModPaiFaixas" style="font-size:10px;color:var(--adm-text-3);margin-top:2px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Nome da turma -->
-                            <div style="margin-bottom:12px;">
-                                <label style="font-size:11px;font-weight:700;color:var(--adm-text-3);display:block;margin-bottom:6px;">NOME DA TURMA</label>
-                                <input type="text" id="newModNomeTurma" placeholder="Ex: Kids, Baby Class, Competidores..."
-                                    oninput="onNewModNomeInput()"
-                                    style="width:100%;box-sizing:border-box;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:13px;">
-                            </div>
-
-                            <!-- Preview do ID e nome final -->
-                            <div id="newModPreviewBox" style="display:none;margin-bottom:14px;padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
-                                <div style="font-size:10px;color:var(--adm-text-3);margin-bottom:6px;">RESULTADO</div>
-                                <div style="display:flex;align-items:center;gap:10px;">
-                                    <span id="newModPreviewIcon" style="font-size:24px;"></span>
-                                    <div>
-                                        <div id="newModPreviewNome" style="font-size:14px;font-weight:800;color:var(--adm-text-1);"></div>
-                                        <div id="newModPreviewId" style="font-size:10px;color:var(--adm-text-3);margin-top:2px;font-family:monospace;"></div>
-                                        <div id="newModPreviewHeranca" style="font-size:10px;color:#4ade80;margin-top:2px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Ícone customizado (opcional) -->
-                            <div style="margin-bottom:12px;">
-                                <label style="font-size:11px;font-weight:700;color:var(--adm-text-3);display:block;margin-bottom:4px;">ÍCONE (opcional — herda do pai)</label>
-                                <input type="text" id="newModIconTurma" placeholder="🥋" maxlength="4"
-                                    style="width:80px;box-sizing:border-box;padding:9px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:20px;text-align:center;">
-                            </div>
-
-                            <div id="newModMsg" style="font-size:12px;margin-bottom:10px;min-height:16px;font-weight:700;"></div>
-                            <button onclick="cadastrarNovaSubmodalidade()"
-                                style="width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">
-                                ✓ Criar Turma
-                            </button>
-                        </div>
-                    </div>
+                    
 
                     <!-- Graduation Config per CT -->
                     <!-- Treinos Customizados -->
@@ -10300,7 +10237,7 @@ textarea:focus {
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby76UYQ3w310QnVsxrelc2s3jpQ4bEgMYMruPQBMs7V1UseE2tMbVSsNppee6c_ehsreA/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycY9IF4-Wuu5Pu-XJYJvZYgHE2LnXJaA1lhDxRzYYkkMgPx-N5JAG5frhJz__pnzhT-A/exec';
 
         // Aceita ?dojo= ou ?ctm= (ambos funcionam — ?ctm= gerado pelo uitlizatios.gs)
         const _urlParams = new URLSearchParams(window.location.search);
