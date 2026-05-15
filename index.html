@@ -9624,8 +9624,8 @@ textarea:focus {
                         <label style="display:flex;align-items:center;gap:6px;color:var(--text-1);font-weight:700;">
                             🎯 Modalidades Atribuídas
                         </label>
-                        <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
-                            Modalidade: Karatê. Configure a graduação do aluno abaixo.
+                        <div id="stuModAtribuidasDesc" style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
+                            Configure a graduação do aluno abaixo.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
                         <div style="margin-top:12px;">
@@ -9963,7 +9963,7 @@ textarea:focus {
                             🎯 Modalidades Atribuídas
                         </label>
                         <div style="font-size:11px;color:var(--text-3);margin-bottom:10px;line-height:1.5;">
-                            Modalidade: Karatê. Configure a graduação do aluno abaixo.
+                            Configure a graduação do aluno abaixo.
                         </div>
                         <div id="stuModalidadesGrid" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
                         <div style="margin-top:12px;">
@@ -11698,9 +11698,22 @@ textarea:focus {
             if (principalSel) principalSel.innerHTML = '<option value="">— Selecione a principal —</option>';
             var activeMods = (currentMods || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
             var gradData   = modalidadesGrad || {};
-            // Filtra modalidades que são aliases de outra — evita duplicatas no grid
-            // (ex: jiu_jitsu é alias de bjj_adulto, não deve aparecer como card separado)
-            var modsVisiveis = (MODALIDADES_CATALOG || []).filter(function(mod){ return mod.familia === 'karate'; });
+            // Apenas modalidades ativas do catalog (vem da sheet)
+            var modsVisiveis = (MODALIDADES_CATALOG || []).filter(function(mod){
+                return mod.familia === 'karate' && mod.ativo !== false;
+            });
+
+            // Atualizar o texto descritivo com o nome real das modalidades
+            var descEl = document.getElementById('stuModAtribuidasDesc');
+            if (descEl) {
+                var nomesAtivos = modsVisiveis
+                    .filter(function(m){ return activeMods.indexOf(m.id) !== -1; })
+                    .map(function(m){ return m.icon + ' ' + m.nome; });
+                if (nomesAtivos.length === 0) nomesAtivos = modsVisiveis.slice(0,1).map(function(m){ return m.icon + ' ' + m.nome; });
+                descEl.textContent = nomesAtivos.length
+                    ? nomesAtivos.join(', ') + '. Configure a graduação abaixo.'
+                    : 'Configure a graduação do aluno abaixo.';
+            }
             modsVisiveis.forEach(function(mod) {
                 var isChecked  = activeMods.indexOf(mod.id) !== -1;
                 var modGrad    = gradData[mod.id] || {};
@@ -15247,7 +15260,8 @@ textarea:focus {
         // v4.9 — adapta visibilidade dos campos por schema da modalidade
         function onGradTipoChange() {
             var tipo     = document.getElementById('gradTipo') ? document.getElementById('gradTipo').value : '';
-            var modId    = (typeof stuModalModality !== 'undefined' && stuModalModality) || activeModality || 'karate';
+            var _firstCatalogId = (MODALIDADES_CATALOG && MODALIDADES_CATALOG.filter(function(m){ return m.ativo !== false; })[0] || {}).id || 'karate';
+            var modId    = (typeof stuModalModality !== 'undefined' && stuModalModality) || activeModality || _firstCatalogId;
             var schema   = ModalidadeGuard.getSchema(modId);
             var isPrajied = false;
             var hasFaixa  = schema && ModalidadeGuard.hasFaixa(modId);
