@@ -13359,7 +13359,7 @@ textarea:focus {
             var ativos = (MODALIDADES_CATALOG || []).filter(function(m){ return m.ativo !== false; });
             if (!ativos.length) return;
 
-            // Helper: popula um select preservando seleção atual
+            // Helper: limpa e repopula um select preservando seleção atual
             function fillSelect(el, includeAll, allLabel) {
                 if (!el) return;
                 var current = el.value;
@@ -18442,7 +18442,13 @@ textarea:focus {
             if (tabName === 'adm-alunos') loadStudentsList();
             if (tabName === 'adm-feedbacks') loadFeedbacksTab();
             if (tabName === 'adm-graduacoes') { loadGradTab(); loadPendingGraduacoes(); initGradSistema(); }
-            if (tabName === 'adm-presenca') initPresencaList();
+            if (tabName === 'adm-presenca') {
+                // Resetar select para forçar re-população com modalidades ativas
+                var _pms = document.getElementById('presListMod');
+                if (_pms) { _pms.innerHTML = '<option value="">Todas</option>'; }
+                if (typeof populateModalidadeSelects === 'function') populateModalidadeSelects();
+                initPresencaList();
+            }
             if (tabName === 'adm-campeonato') initCampAdmin();
             if (tabName === 'adm-sistema') {
                 loadModulesConfig(); loadSystemHealth(); loadAdminProfile();
@@ -23503,9 +23509,9 @@ textarea:focus {
             var ct = document.getElementById('presListCT').value;
             var modSel = document.getElementById('presListMod');
             var mod = modSel ? modSel.value : '';
-            // Popula o select de modalidades na primeira chamada
+            // Popula o select de modalidades na primeira chamada — apenas ATIVAS
             if (modSel && modSel.options.length === 1 && typeof MODALIDADES_CATALOG !== 'undefined') {
-                MODALIDADES_CATALOG.forEach(function(m) {
+                (MODALIDADES_CATALOG || []).filter(function(m){ return m.ativo !== false; }).forEach(function(m) {
                     var opt = document.createElement('option');
                     opt.value = m.id;
                     opt.textContent = m.icon + ' ' + m.nome;
@@ -25655,10 +25661,17 @@ textarea:focus {
             var schedule = ctScheduleCache[ctName] || {};
             var hpd      = (typeof ctObj === 'object' && ctObj.horariosPorDia) ? ctObj.horariosPorDia : {};
             // ── Filtra catálogo pelas modalidades atribuídas ao usuário ──
-            var _allowedIds = (userModalidades && userModalidades.length > 0)
-                ? userModalidades
-                : (MODALIDADES_CATALOG || []).filter(function(m){ return m.ativo !== false; }).map(function(m){ return m.id; });
-            var catalog  = (MODALIDADES_CATALOG || []).filter(function(m){ return _allowedIds.indexOf(m.id) !== -1 && m.ativo !== false; });
+            // _allowedIds: usa userModalidades mas verifica se existe no catalog.
+            // Se userModalidades tem IDs obsoletos (ex: 'karate' genérico) que não
+            // existem no catalog novo (karate_shotokan), usa TODOS os ativos.
+            var _catalogAtivos = (MODALIDADES_CATALOG || []).filter(function(m){ return m.ativo !== false; });
+            var _catalogIds    = _catalogAtivos.map(function(m){ return m.id; });
+            var _rawAllowed    = (userModalidades && userModalidades.length > 0) ? userModalidades : _catalogIds;
+            // Filtra apenas IDs que existem no catalog atual (descarta obsoletos)
+            var _allowedIds    = _rawAllowed.filter(function(id){ return _catalogIds.indexOf(id) !== -1; });
+            // Se filtro eliminou tudo (IDs todos obsoletos), usa catalog inteiro
+            if (_allowedIds.length === 0) _allowedIds = _catalogIds;
+            var catalog  = _catalogAtivos.filter(function(m){ return _allowedIds.indexOf(m.id) !== -1; });
 
             // ── Determina quais modalidades este CT usa ──────────────────
             // Se já há seleção salva, usa ela. Caso contrário inicializa
