@@ -7115,7 +7115,7 @@ textarea:focus {
                                     </div>
 
                                     <!-- MODALIDADES -->
-                                    <div class="form-group">
+                                    <div class="form-group" id="regModalidadeSection">
                                         <label class="form-label">Modalidade</label>
                                         <p style="font-size:11px;color:rgba(255,255,255,0.52);margin-bottom:10px;line-height:1.5;">O professor confirmará após aprovação.</p>
                                         <div id="regModalidadesGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
@@ -12251,20 +12251,45 @@ textarea:focus {
             const regPwC = document.getElementById('regPasswordConfirm');
             if (regPw) regPw.addEventListener('input', checkPasswordMatch);
             if (regPwC) regPwC.addEventListener('input', checkPasswordMatch);
+
+            // Carrega modalidades imediatamente na inicialização.
+            // O DOJO_ID já está disponível via ?dojo= na URL.
+            // Quando o aluno abrir o cadastro, o catalog já estará pronto.
+            if (typeof loadCustomModalidades === 'function' && DOJO_ID) {
+                loadCustomModalidades();
+            }
         });
 
         // ── Popula o grid de modalidades no formulário de cadastro ──
-        // Dinâmico: lê MODALIDADES_CATALOG que é populado via loadCustomModalidades (sheet)
         function buildRegModalidadesGrid() {
-            var grid = document.getElementById('regModalidadesGrid');
+            var grid    = document.getElementById('regModalidadesGrid');
+            var section = document.getElementById('regModalidadeSection');
             if (!grid) return;
-            // Aguarda o catalog ser carregado (loadCustomModalidades é async)
-            if (!MODALIDADES_CATALOG || MODALIDADES_CATALOG.length === 0) {
-                grid.innerHTML = '<div style="padding:12px;text-align:center;color:var(--text-3);font-size:12px;">Carregando modalidades...</div>';
+
+            var ativos = (MODALIDADES_CATALOG || []).filter(function(m){ return m.ativo !== false; });
+
+            // Catalog ainda vazio: dispara carregamento e aguarda
+            if (ativos.length === 0) {
+                if (typeof loadCustomModalidades === 'function') {
+                    grid.innerHTML = '';
+                    loadCustomModalidades().then(buildRegModalidadesGrid);
+                }
                 return;
             }
+
+            // UMA ÚNICA MODALIDADE: setar silenciosamente e esconder a seção
+            if (ativos.length === 1) {
+                // Criar input hidden para o formulário continuar funcionando
+                grid.innerHTML = '<input type="checkbox" name="regMod" value="' +
+                    ativos[0].id + '" checked style="display:none">';
+                // Esconder a seção inteira de modalidade (não precisa escolher)
+                if (section) section.style.display = 'none';
+                return;
+            }
+
+            // MÚLTIPLAS MODALIDADES: mostrar seleção
+            if (section) section.style.display = '';
             grid.innerHTML = '';
-            var ativos = MODALIDADES_CATALOG.filter(function(m){ return m.ativo !== false; });
             ativos.forEach(function(mod) {
                 var card = document.createElement('label');
                 card.style.cssText = 'display:flex;align-items:center;gap:10px;padding:11px 14px;' +
@@ -12997,8 +13022,8 @@ textarea:focus {
         }
 
         function showRegister() {
-            // Build modalities grid when register tab opens
-            setTimeout(buildRegModalidadesGrid, 50);
+            // Catalog já carregado no DOMContentLoaded — basta renderizar
+            buildRegModalidadesGrid();
             document.getElementById('loginTab').style.display = 'none';
             document.getElementById('forgotTab').style.display = 'none';
             document.getElementById('registerTab').style.display = 'block';
