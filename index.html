@@ -11301,7 +11301,10 @@ textarea:focus {
 
                 // Tap → entra na modalidade (para múltiplas, click direto no card)
                 if (!isSingle) {
+                    // Clique no card só entra se não for single (single usa o botão)
+                if (!isSingle) {
                     card.addEventListener('click', function() { enterModalidade(modId); });
+                }
                 }
 
                 // Hover/touch preview — muda tema e avatar
@@ -11331,7 +11334,21 @@ textarea:focus {
          */
         function enterModalidade(modId) {
             var mod = getModalidadeById(modId);
-            if (!mod) return;
+
+            // Fallback 1: catalog pode não estar carregado — tenta o primeiro ativo
+            if (!mod && MODALIDADES_CATALOG && MODALIDADES_CATALOG.length > 0) {
+                mod = MODALIDADES_CATALOG.filter(function(m){ return m.ativo !== false; })[0] || null;
+                if (mod) modId = mod.id;
+            }
+
+            // Fallback 2: catalog vazio — aguarda carregar e tenta novamente
+            if (!mod) {
+                console.warn('[enterModalidade] mod não encontrado para:', modId, '— aguardando catalog');
+                if (typeof loadCustomModalidades === 'function') {
+                    loadCustomModalidades().then(function() { enterModalidade(modId); });
+                }
+                return;
+            }
 
             activeModality = modId;
             var _ga = getGradAtiva(modId);
@@ -11351,15 +11368,19 @@ textarea:focus {
 
             // Anima saída da home screen
             var home = document.getElementById('modalidadeHome');
-            home.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
-            home.style.opacity = '0';
-            home.style.transform = 'translateY(-16px) scale(0.98)';
+            if (home) {
+                home.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
+                home.style.opacity = '0';
+                home.style.transform = 'translateY(-16px) scale(0.98)';
+            }
 
             setTimeout(function() {
-                home.style.display = 'none';
-                home.style.opacity = '';
-                home.style.transform = '';
-                home.style.transition = '';
+                if (home) {
+                    home.style.display = 'none';
+                    home.style.opacity = '';
+                    home.style.transform = '';
+                    home.style.transition = '';
+                }
 
                 // Mostra app normal com animação de entrada
                 document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
