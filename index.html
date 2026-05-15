@@ -10362,7 +10362,7 @@ textarea:focus {
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby76UYQ3w310QnVsxrelc2s3jpQ4bEgMYMruPQBMs7V1UseE2tMbVSsNppee6c_ehsreA/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycY9IF4-Wuu5Pu-XJYJvZYgHE2LnXJaA1lhDxRzYYkkMgPx-N5JAG5frhJz__pnzhT-A/exec';
 
         // Aceita ?dojo= ou ?ctm= (ambos funcionam — ?ctm= gerado pelo uitlizatios.gs)
         const _urlParams = new URLSearchParams(window.location.search);
@@ -10516,32 +10516,13 @@ textarea:focus {
         // ═══════════════════════════════════════
 
         // Catálogo de modalidades disponíveis — pode ser expandido pelo admin
-        var MODALIDADES_CATALOG = [
-            {
-                id: 'karate', familia: 'karate',
-                icon: '🥋', nome: 'Karatê', desc: 'Arte Marcial Japonesa',
-                navIcon: '🥋', navLabel: 'Karatê',
-                cor: '#DC2626', corDark: '#7F1D1D', corLight: '#FCA5A5',
-                corRGB: '220,38,38',
-                gradient: 'linear-gradient(135deg, #DC2626 0%, #FCA5A5 55%, #7F1D1D 100%)',
-                gradientBg: 'radial-gradient(ellipse at 20% 10%, rgba(220,38,38,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(127,29,29,0.12) 0%, transparent 55%)',
-                btnLabel: '\u2713 Confirmar Treino de Karat\u00ea', btnClass: 'mod-btn-karate',
-                cardBg: 'linear-gradient(145deg, rgba(220,38,38,0.12) 0%, rgba(127,29,29,0.06) 100%)',
-                tag: 'KARAT\u00ca', tagColor: '#DC2626'
-            }
-        ];
+        // MODALIDADES_CATALOG — populado 100% pela sheet Modalidades via loadCustomModalidades.
+        var MODALIDADES_CATALOG = [];
 
         // ── Estilos de Karatê ──────────────────────────────────────────────────
         // O estilo é um sub-campo de 'karate'. A modalidade no backend sempre
-        // é gravada como 'karate'. O estilo seleciona o schema de faixas e a
-        // nomenclatura exibida: "Karatê" ou "Karatê Shotokan".
-        var KARATE_ESTILOS = [
-            { id: '',           nome: 'Geral',      label: 'Karatê',            desc: 'Sem estilo específico' },
-            { id: 'kyokushin',  nome: 'Kyokushin',  label: 'Karatê Kyokushin',  desc: 'Karatê de Contato Pleno' },
-            { id: 'shotokan',   nome: 'Shotokan',   label: 'Karatê Shotokan',   desc: 'Estilo tradicional — Funakoshi' },
-            { id: 'shito_ryu',  nome: 'Shito-Ryu',  label: 'Karatê Shito-Ryu',  desc: 'Foco em kata e técnica refinada' },
-            { id: 'shorin_ryu', nome: 'Shorin-Ryu', label: 'Karatê Shorin-Ryu', desc: 'Estilo de Okinawa — velocidade' },
-        ];
+        // KARATE_ESTILOS — populado pela sheet Modalidades via loadCustomModalidades.
+        var KARATE_ESTILOS = [];
 
         // Estado ativo das modalidades
         var activeModality = null;      // id da modalidade ativa ('karate')
@@ -13256,13 +13237,13 @@ textarea:focus {
                     // 'jiu-jitsu' na sheet não crie uma chave quebrada no schema.
                     var id = idRaw.toString().trim().toLowerCase().replace(/[\s\-]+/g, '_');
 
-                    // Bloqueia apenas aliases legados que não devem virar card separado
+                    // Bloqueia apenas aliases legados
                     var CATALOG_BLOCKED = { karate_adulto: true };
                     if (CATALOG_BLOCKED[id]) return;
 
-                    // Define familia para todos os estilos de Karate
+                    // Define familia
                     var familia = 'karate';
-                    if (id.indexOf('karate') !== 0) familia = id; // outra modalidade
+                    if (id.indexOf('karate') !== 0) familia = id;
 
                     // Se o ModalidadeGuard já resolve este ID via alias (ex: jiu_jitsu → bjj_adulto),
                     // NÃO cria schema dinâmico — o schema estático curado já é mais completo.
@@ -13272,10 +13253,11 @@ textarea:focus {
                     var modPai = mod.pai || '';
                     var familia = 'karate'; // todas são karate neste sistema
 
-                    // Pula modalidades que já estão no catalog estático (não sobrescreve)
-                    var jaExiste = MODALIDADES_CATALOG && MODALIDADES_CATALOG.find(function(m){ return m.id === id || m.id === idRaw; });
+                    // Se já existe no catalog com id idêntico, atualiza (não pula)
+                    var jaExiste = MODALIDADES_CATALOG && MODALIDADES_CATALOG.find(function(m){ return m.id === id; });
                     var jaTemSchema = (typeof MODALIDADES_SCHEMA !== 'undefined') && (MODALIDADES_SCHEMA[id] || MODALIDADES_SCHEMA[idRaw]);
-                    if ((jaExiste && jaTemSchema) || jaResolvivel) return;
+                    // Só pula se schema dinâmico já resolvível E catalog já tem entrada
+                    if (jaExiste && jaTemSchema && jaResolvivel) return;
 
                     var tipo    = mod.gradTipo || 'nenhum';
                     var hasGrad = tipo !== 'nenhum';
@@ -13341,9 +13323,32 @@ textarea:focus {
                     }
                 });
 
+                // Remove entradas genéricas ('karate') se o dojo usa estilos específicos
+                var _idsSheet = data.modalidades.map(function(m){ return m.id.toString().trim().toLowerCase(); });
+                if (_idsSheet.length > 0 && _idsSheet.indexOf('karate') === -1) {
+                    MODALIDADES_CATALOG = MODALIDADES_CATALOG.filter(function(m){
+                        return m.id !== 'karate';
+                    });
+                }
+
+                // Popular KARATE_ESTILOS com os estilos ativos do dojo
+                KARATE_ESTILOS = MODALIDADES_CATALOG
+                    .filter(function(m) { return m.familia === 'karate' && m.ativo !== false; })
+                    .map(function(m) {
+                        return {
+                            id:    m.id,
+                            nome:  m.nome,
+                            label: m.nome,
+                            desc:  m.desc || ''
+                        };
+                    });
+
                 // Reconstrói grids que dependem do catalog
                 if (typeof buildRegModalidadesGrid === 'function') buildRegModalidadesGrid();
                 if (typeof renderModalidadeChips  === 'function') renderModalidadeChips();
+
+                // Re-inicializa modalidades com o catalog atualizado
+                if (typeof initModalidades === 'function') initModalidades();
 
                 // Carrega faixas da sheet para cada modalidade do catalog
                 var idsParaFaixas = (MODALIDADES_CATALOG || []).map(function(m){ return m.id; });
@@ -21258,11 +21263,11 @@ textarea:focus {
         var _ibjjfUpdates   = [];
         var _ibjjfLastSeen  = ''; // ISO date da última vez que o aluno viu
 
-        async function loadIBJJFUpdates() {
+        async function loadComunicados() {
             var el = document.getElementById('ibjjfList');
             if (!el) return;
             try {
-                var data = await secureFetch('getIBJJFUpdates', {});
+                var data = await secureFetch('getComunicados', {});
                 if (!data.success) return;
                 _ibjjfUpdates = data.updates || [];
 
@@ -21272,11 +21277,11 @@ textarea:focus {
                 var badge = document.getElementById('ibjjfNewBadge');
                 if (badge) badge.style.display = hasNew ? 'inline-block' : 'none';
 
-                renderIBJJFUpdates();
+                renderComunicados();
             } catch(e) {}
         }
 
-        function renderIBJJFUpdates() {
+        function renderComunicados() {
             var el = document.getElementById('ibjjfList');
             if (!el) return;
 
@@ -22854,7 +22859,8 @@ textarea:focus {
         // ===== TRIAL / BLOQUEIO DE SISTEMA =====
         async function checkTrialStatus() {
             try {
-                var r = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: 'checkTrialStatus' }) });
+                // Envia ctmId no body (redundância — o GAS já lê do ?dojo= via _currentCtmId)
+                var r = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify({ action: 'checkTrialStatus', ctmId: DOJO_ID || '' }) });
                 var data = await r.json();
                 if (data.success && data.bloqueado) {
                     showTrialBlocked(data);
