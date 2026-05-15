@@ -11159,6 +11159,26 @@ textarea:focus {
             }
             if (userModalidades.length === 0) { userModalidades = ['karate']; }
 
+            // Resolver IDs obsoletos — 'karate' genérico → estilo real do dojo
+            // Se userModalidades tem 'karate' mas catalog tem 'karate_shorin_ryu',
+            // substitui automaticamente pelo estilo ativo do dojo
+            if (MODALIDADES_CATALOG && MODALIDADES_CATALOG.length > 0) {
+                var _catalogIds = MODALIDADES_CATALOG
+                    .filter(function(m){ return m.ativo !== false && !m.pai; })
+                    .map(function(m){ return m.id; });
+                var _resolved = userModalidades.map(function(id) {
+                    // ID existe no catalog? Mantém
+                    if (_catalogIds.indexOf(id) !== -1) return id;
+                    // ID obsoleto 'karate' → primeiro estilo ativo do catalog
+                    if (id === 'karate' && _catalogIds.length > 0) return _catalogIds[0];
+                    // Tenta prefix match: 'karate' → 'karate_shorin_ryu'
+                    var match = _catalogIds.find(function(cid){ return cid.indexOf(id) === 0; });
+                    return match || id;
+                }).filter(Boolean);
+                // Remove duplicatas
+                userModalidades = _resolved.filter(function(v,i,a){ return a.indexOf(v)===i; });
+            }
+
             // Restaura estilo salvo no perfil
             var _savedEstilo = '';
             if (currentUser && currentUser.modalidadesGrad && currentUser.modalidadesGrad.karate) {
@@ -11243,9 +11263,10 @@ textarea:focus {
                       '</button>'
                     : '';
 
-                // Seletor de estilo (apenas karate)
+                // Seletor de estilo — removido: o ID da modalidade JÁ é o estilo
+                // (ex: karate_shorin_ryu, karate_shotokan — não precisa de seletor)
                 var estiloHtml = '';
-                if (modId === 'karate' && typeof KARATE_ESTILOS !== 'undefined') {
+                if (false && modId === 'karate' && typeof KARATE_ESTILOS !== 'undefined') {
                     var _estiloAtivo = activeEstilo || '';
                     var _eAtualObj = KARATE_ESTILOS.find(function(e){ return e.id === _estiloAtivo; });
                     var _estiloBadge = _eAtualObj
@@ -11391,7 +11412,8 @@ textarea:focus {
          * Pula a seleção de modalidade (vai para o app com a modalidade ativa)
          */
         function skipModalidadeHome() {
-            var modId = activeModality || userModalidades[0] || 'karate';
+            var _firstCat = MODALIDADES_CATALOG && MODALIDADES_CATALOG.filter(function(m){ return m.ativo !== false && !m.pai; })[0];
+            var modId = activeModality || userModalidades[0] || (_firstCat && _firstCat.id) || 'karate';
             enterModalidade(modId);
         }
 
