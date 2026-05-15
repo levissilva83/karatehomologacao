@@ -8910,7 +8910,6 @@ textarea:focus {
                             </select>
                             <select id="presListMod" onchange="loadPresencaList()" style="flex:1;min-width:110px;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
                                 <option value="">Todas</option>
-                                <option value="karate" selected>🥋 Karatê</option>
                             </select>
                             <input type="date" id="presListDate" onchange="loadPresencaList()" style="flex:1;min-width:120px;padding:10px;background:var(--adm-bg-elevated);color:var(--adm-text-1);border:1px solid var(--adm-border);border-radius:8px;font-size:12px;">
                         </div>
@@ -9694,7 +9693,6 @@ textarea:focus {
                         <div style="margin-top:12px;">
                             <label style="font-size:11px;color:var(--text-3);font-weight:600;display:block;margin-bottom:5px;">⭐ Modalidade Principal</label>
                             <select id="stuModalidadePrincipal" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                                <option value="karate" selected>🥋 Karatê</option>
                             </select>
                         </div>
                     </div>
@@ -10033,7 +10031,6 @@ textarea:focus {
                         <div style="margin-top:12px;">
                             <label style="font-size:11px;color:var(--text-3);font-weight:600;display:block;margin-bottom:5px;">⭐ Modalidade Principal</label>
                             <select id="stuModalidadePrincipal" style="width:100%;padding:8px;background:var(--bg-elevated);color:var(--text-1);border:1px solid var(--border);border-radius:8px;font-size:12px;">
-                                <option value="karate" selected>🥋 Karatê</option>
                             </select>
                         </div>
                     </div>
@@ -12094,7 +12091,7 @@ textarea:focus {
                     showAppScreen();
                     loadAttendanceInfo();
                     loadCTs();
-                    loadCustomModalidades(); // carrega modalidades customizadas do backend
+                    loadCustomModalidades().then(function(){ populateModalidadeSelects(); }); // carrega modalidades customizadas
                     checkMotivation(currentUser);
                     // Verifica aniversariantes do dia (notifica todos os alunos)
                     checkAllBirthdaysToday();
@@ -13352,6 +13349,48 @@ textarea:focus {
             }
         }
 
+
+        /**
+         * Popula TODOS os selects de modalidade com dados do MODALIDADES_CATALOG.
+         * Chamada: após loadCustomModalidades() e após login.
+         * Selects afetados: presListMod, stuModalidadePrincipal, cronModFilter, etc.
+         */
+        function populateModalidadeSelects() {
+            var ativos = (MODALIDADES_CATALOG || []).filter(function(m){ return m.ativo !== false; });
+            if (!ativos.length) return;
+
+            // Helper: popula um select preservando seleção atual
+            function fillSelect(el, includeAll, allLabel) {
+                if (!el) return;
+                var current = el.value;
+                el.innerHTML = includeAll ? '<option value="">' + (allLabel || 'Todas') + '</option>' : '';
+                ativos.forEach(function(m) {
+                    var opt = document.createElement('option');
+                    opt.value = m.id;
+                    opt.textContent = m.icon + ' ' + m.nome;
+                    el.appendChild(opt);
+                });
+                // Restaurar seleção ou selecionar primeiro ativo
+                if (current && el.querySelector('option[value="' + current + '"]')) {
+                    el.value = current;
+                } else if (!includeAll && ativos.length) {
+                    el.value = ativos[0].id;
+                }
+            }
+
+            // Presença — admin
+            fillSelect(document.getElementById('presListMod'), true, 'Todas');
+
+            // Modalidade Principal do aluno (edição)
+            document.querySelectorAll('#stuModalidadePrincipal').forEach(function(el) {
+                fillSelect(el, false);
+            });
+
+            // Cronograma admin
+            var cronMod = document.getElementById('cronoAdmModSelect') || document.getElementById('presAdmModSelect');
+            if (cronMod) fillSelect(cronMod, true, 'Todas');
+        }
+
         // ── loadFaixasModalidade ─────────────────────────────────────────
         // Chama getFaixasModalidade no backend e popula MODALIDADES_SCHEMA[id].graduacao.faixas
         // para cada modalidade do catalog. Chamado após loadCustomModalidades.
@@ -13423,6 +13462,7 @@ textarea:focus {
                 // Re-renderiza filtros que dependem do catalog
                 if (typeof renderAdmModalidadeChips === 'function') renderAdmModalidadeChips();
                 if (typeof initGradSistema === 'function' && document.getElementById('gradModTabs')) initGradSistema();
+                if (typeof populateModalidadeSelects === 'function') populateModalidadeSelects();
 
                 console.log('[loadFaixasModalidade] faixas carregadas para:', Object.keys(data.faixas));
             } catch(e) {
@@ -19305,7 +19345,8 @@ textarea:focus {
         // ─── initGradSistema ─────────────────────────────────────────────
         function initGradSistema() {
             // Karatê é a única modalidade — filtra o catálogo
-            var mods = (MODALIDADES_CATALOG || []).filter(function(mod){ return mod.familia === 'karate'; });
+            // Mostra apenas modalidades ATIVAS do dojo (vem da sheet Modalidades)
+            var mods = (MODALIDADES_CATALOG || []).filter(function(mod){ return mod.familia === 'karate' && mod.ativo !== false; });
             var tabsEl    = document.getElementById('gradModTabs');
             var container = document.getElementById('gradSystemList');
             if (!tabsEl || !container) return;
@@ -23108,7 +23149,7 @@ textarea:focus {
             // PROFESSOR — plano intermediário
             { id: 'cronograma',  icon: '📚',  nome: 'Cronograma de Aulas', desc: 'Aulas planejadas com temas e técnicas',       plano: 'professor' },
             { id: 'evolucao',    icon: '📈',  nome: 'Evolução',            desc: 'Timeline de graduação e progresso de faixa',  plano: 'professor' },
-            { id: 'manual',      icon: '📖',  nome: 'Manual',              desc: 'Regras pesquisáveis do IBJJF',                plano: 'professor' },
+            // { id: 'manual' } — removido: referência ao IBJJF, não aplicável ao Karatê
             // ACADEMIA — plano premium
             { id: 'ranking',     icon: '🏆',  nome: 'Ranking',             desc: 'Ranking mensal e anual por CT',               plano: 'academia'  },
             { id: 'campeonato',  icon: '🏅',  nome: 'Campeonato',          desc: 'Inscrição e placar do campeonato interno',    plano: 'academia'  },
@@ -25616,8 +25657,8 @@ textarea:focus {
             // ── Filtra catálogo pelas modalidades atribuídas ao usuário ──
             var _allowedIds = (userModalidades && userModalidades.length > 0)
                 ? userModalidades
-                : (MODALIDADES_CATALOG || []).map(function(m){ return m.id; });
-            var catalog  = (MODALIDADES_CATALOG || []).filter(function(m){ return _allowedIds.indexOf(m.id) !== -1; });
+                : (MODALIDADES_CATALOG || []).filter(function(m){ return m.ativo !== false; }).map(function(m){ return m.id; });
+            var catalog  = (MODALIDADES_CATALOG || []).filter(function(m){ return _allowedIds.indexOf(m.id) !== -1 && m.ativo !== false; });
 
             // ── Determina quais modalidades este CT usa ──────────────────
             // Se já há seleção salva, usa ela. Caso contrário inicializa
