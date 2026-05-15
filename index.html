@@ -8536,7 +8536,7 @@ textarea:focus {
                                 <div class="admin-section-title">🏢 Centros de Treinamento</div>
                                 <div style="display:flex;gap:6px;">
                                     <button class="admin-refresh-btn" onclick="loadCTScheduleAdmin()" title="Atualizar">↻</button>
-                                    <button onclick="openNewModalidadeModal()" style="padding:4px 10px;background:rgba(22,163,74,0.15);border:1px solid rgba(22,163,74,0.3);border-radius:6px;color:#4ade80;font-size:10px;font-weight:700;cursor:pointer;">+ Modalidade</button>
+
                                 </div>
                             </div>
                             <div style="padding:0 12px 8px;">
@@ -10300,7 +10300,7 @@ textarea:focus {
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycY9IF4-Wuu5Pu-XJYJvZYgHE2LnXJaA1lhDxRzYYkkMgPx-N5JAG5frhJz__pnzhT-A/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby76UYQ3w310QnVsxrelc2s3jpQ4bEgMYMruPQBMs7V1UseE2tMbVSsNppee6c_ehsreA/exec';
 
         // Aceita ?dojo= ou ?ctm= (ambos funcionam — ?ctm= gerado pelo uitlizatios.gs)
         const _urlParams = new URLSearchParams(window.location.search);
@@ -25863,6 +25863,7 @@ textarea:focus {
             bodyHtml += '</div></div>';
 
             var footerHtml = '<div style="padding:12px 16px;border-top:1px solid var(--adm-border);flex-shrink:0;">';
+            footerHtml += '<button onclick="closeCTModModal();openNewModalidadeModal();" style="width:100%;padding:10px;background:rgba(74,222,128,0.08);border:1.5px dashed rgba(74,222,128,0.35);border-radius:10px;color:#4ade80;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:8px;">\u2795 Nova Turma / Submodalidade</button>';
             footerHtml += '<button onclick="applyCTModSelection(\''+ctName.replace(/'/g,"\\'")+'\');closeCTModModal();" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--adm-primary),var(--adm-primary-bright));color:#000;border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;">✓ Aplicar Seleção</button>';
             footerHtml += '</div>';
 
