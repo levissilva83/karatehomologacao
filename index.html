@@ -12679,7 +12679,11 @@ textarea:focus {
         async function secureFetch(action, payload) {
             var token = getSessionToken();
             if (!token && _ACTIONS_PUBLICAS.indexOf(action) === -1) {
-                handleSessionExpired();
+                // Só mostra alerta se o usuário estava logado (currentUser existe).
+                // Evita alert falso ao abrir a página com sessão já expirada.
+                if (typeof currentUser !== 'undefined' && currentUser) {
+                    handleSessionExpired();
+                }
                 throw new Error('Sess\u00e3o expirada');
             }
             var body = Object.assign({}, payload || {}, { action: action });
@@ -12764,17 +12768,29 @@ textarea:focus {
             if (_sessionExpiredShown) return; // evita loop
             _sessionExpiredShown = true;
             clearSession();
-            // Volta para o login sem recarregar (reload causava loop)
+
+            // Verificar se o usuário já estava na tela do app antes de mostrar alerta
+            var appScreen   = document.getElementById('appScreen');
+            var loginScreen = document.getElementById('loginScreen');
+            var estaNoApp   = appScreen && appScreen.style.display !== 'none' && appScreen.style.display !== '';
+
+            // Volta para o login
             if (typeof showLoginScreen === 'function') {
                 showLoginScreen();
             } else {
-                document.getElementById('loginScreen') && (document.getElementById('loginScreen').style.display = '');
-                document.getElementById('appScreen')  && (document.getElementById('appScreen').style.display  = 'none');
+                if (loginScreen) loginScreen.style.display = '';
+                if (appScreen)   appScreen.style.display   = 'none';
             }
-            setTimeout(function() {
+
+            // Só mostra alert se estava no app (não ao abrir a página com sessão expirada)
+            if (estaNoApp) {
+                setTimeout(function() {
+                    _sessionExpiredShown = false;
+                    alert('Sua sess\u00e3o expirou. Fa\u00e7a login novamente.');
+                }, 100);
+            } else {
                 _sessionExpiredShown = false;
-                alert('Sua sess\u00e3o expirou. Fa\u00e7a login novamente.');
-            }, 100);
+            }
         }
 
 
@@ -12794,7 +12810,15 @@ textarea:focus {
             const s = localStorage.getItem('bjjUser');
             if (s) {
                 try {
-                    if (!getSessionToken()) { clearSession(); return; }
+                    if (!getSessionToken()) {
+                        // Sessão expirada silenciosamente — limpa sem alert
+                        // (usuário verá a tela de login naturalmente)
+                        localStorage.removeItem('bjjUser');
+                        localStorage.removeItem('bjjSession');
+                        localStorage.removeItem('bjjProfile');
+                        currentUser = null;
+                        return;
+                    }
                     currentUser = JSON.parse(s);
                     showAppScreen();
                     loadAttendanceInfo();
